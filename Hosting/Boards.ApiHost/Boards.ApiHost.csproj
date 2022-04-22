@@ -1,0 +1,35 @@
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
+
+	<PropertyGroup>
+		<TargetFramework>net5.0</TargetFramework>
+	</PropertyGroup>
+
+	<ItemGroup>
+		<PackageReference Include="Autofac.Extensions.DependencyInjection" Version="7.2.0" />
+		<PackageReference Include="Microsoft.AspNetCore.Authentication.Cookies" Version="2.2.0" />
+		<PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="5.0.16" NoWarn="NU1605" />
+		<PackageReference Include="Microsoft.AspNetCore.Authentication.OpenIdConnect" Version="5.0.16" NoWarn="NU1605" />
+		<PackageReference Include="Microsoft.AspNetCore.Mvc.NewtonsoftJson" Version="5.0.2" />
+		<PackageReference Include="Microsoft.AspNetCore.Mvc.Versioning" Version="5.0.0" />
+		<PackageReference Include="Microsoft.Identity.Web" Version="1.23.1" />
+		<PackageReference Include="Serilog.AspNetCore" Version="3.4.0" />
+		<PackageReference Include="Swashbuckle.AspNetCore" Version="5.6.3" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<Folder Include="Controllers\" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <ProjectReference Include="..\..\Boards\Boards.Api\Boards.Api.csproj" />
+	  <ProjectReference Include="..\..\Boards\Boards.Domain\Boards.Domain.csproj" />
+	  <ProjectReference Include="..\..\Boards\Boards.Infrastructure\Boards.Infrastructure.csproj" />
+	  <ProjectReference Include="..\..\Boards\Boards.Services\Boards.Services.csproj" />
+	  <ProjectReference Include="..\..\Framework\DI.Common\DI.Common.csproj" />
+	  <ProjectReference Include="..\..\Framework\DI.Domain\DI.Domain.csproj" />
+	  <ProjectReference Include="..\..\Framework\DI.Infrastructure\DI.Infrastructure.csproj" />
+	  <ProjectReference Include="..\..\Framework\DI.Services\DI.Services.csproj" />
+	  <ProjectReference Include="..\..\Framework\DI.WebApi\DI.WebApi.csproj" />
+	</ItemGroup>
+
+</Project>

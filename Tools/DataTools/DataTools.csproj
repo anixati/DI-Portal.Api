@@ -1,0 +1,18 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>net5.0</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\Boards\Boards.Domain\Boards.Domain.csproj" />
+    <ProjectReference Include="..\..\Boards\Boards.Infrastructure\Boards.Infrastructure.csproj" />
+    <ProjectReference Include="..\..\Boards\Boards.Services\Boards.Services.csproj" />
+    <ProjectReference Include="..\..\Framework\DI.Common\DI.Common.csproj" />
+    <ProjectReference Include="..\..\Framework\DI.Domain\DI.Domain.csproj" />
+    <ProjectReference Include="..\..\Framework\DI.Infrastructure\DI.Infrastructure.csproj" />
+    <ProjectReference Include="..\..\Framework\DI.Services\DI.Services.csproj" />
+  </ItemGroup>
+
+</Project>

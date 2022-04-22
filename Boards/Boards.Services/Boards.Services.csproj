@@ -1,0 +1,17 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net5.0</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="MediatR" Version="10.0.1" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\Framework\DI.Common\DI.Common.csproj" />
+    <ProjectReference Include="..\..\Framework\DI.Services\DI.Services.csproj" />
+    <ProjectReference Include="..\Boards.Domain\Boards.Domain.csproj" />
+  </ItemGroup>
+
+</Project>
