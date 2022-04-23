@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations.Schema;
+﻿using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations.Schema;
 using DI.Domain.Core;
 
 namespace DI.Domain.Users
@@ -6,5 +7,8 @@ namespace DI.Domain.Users
     [Table("Teams", Schema = "ACL")]
     public class AppTeam : NamedBaseEntity
     {
+
+        public ICollection<TeamUser> TeamUsers { get; set; }
+        public ICollection<TeamRole> TeamRoles { get; set; }
     }
 }

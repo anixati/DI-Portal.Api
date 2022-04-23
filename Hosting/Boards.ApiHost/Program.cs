@@ -1,7 +1,7 @@
 using System;
 using System.Threading.Tasks;
 using Autofac.Extensions.DependencyInjection;
-using Boards.Infrastructure.DataSeed;
+using Boards.Infrastructure.Seeding;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;

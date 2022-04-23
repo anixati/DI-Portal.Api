@@ -173,7 +173,90 @@ namespace Boards.Infrastructure.Migrations
                     b.ToTable("Board");
                 });
 
-            modelBuilder.Entity("Boards.Domain.Boards.MinisterPortfolio", b =>
+            modelBuilder.Entity("Boards.Domain.Boards.Minister", b =>
+                {
+                    b.Property<long>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bigint")
+                        .UseIdentityColumn();
+
+                    b.Property<string>("CreatedBy")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
+
+                    b.Property<DateTime>("CreatedOn")
+                        .HasColumnType("datetime2");
+
+                    b.Property<bool>("Deleted")
+                        .HasColumnType("bit");
+
+                    b.Property<bool>("Disabled")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("Email1")
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
+
+                    b.Property<string>("Email2")
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
+
+                    b.Property<string>("FaxNumber")
+                        .HasMaxLength(10)
+                        .HasColumnType("nvarchar(10)");
+
+                    b.Property<string>("FirstName")
+                        .IsRequired()
+                        .HasMaxLength(255)
+                        .HasColumnType("nvarchar(255)");
+
+                    b.Property<int>("Gender")
+                        .HasColumnType("int");
+
+                    b.Property<string>("HomePhone")
+                        .HasMaxLength(10)
+                        .HasColumnType("nvarchar(10)");
+
+                    b.Property<string>("LastName")
+                        .IsRequired()
+                        .HasMaxLength(255)
+                        .HasColumnType("nvarchar(255)");
+
+                    b.Property<bool>("Locked")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("MiddleName")
+                        .HasMaxLength(255)
+                        .HasColumnType("nvarchar(255)");
+
+                    b.Property<string>("MobilePhone")
+                        .HasMaxLength(10)
+                        .HasColumnType("nvarchar(10)");
+
+                    b.Property<string>("ModifiedBy")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
+
+                    b.Property<DateTime>("ModifiedOn")
+                        .HasColumnType("datetime2");
+
+                    b.Property<byte[]>("Timestamp")
+                        .IsConcurrencyToken()
+                        .ValueGeneratedOnAddOrUpdate()
+                        .HasColumnType("rowversion");
+
+                    b.Property<string>("Title")
+                        .HasMaxLength(255)
+                        .HasColumnType("nvarchar(255)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Minister");
+                });
+
+            modelBuilder.Entity("Boards.Domain.Boards.MinisterTerm", b =>
                 {
                     b.Property<long>("Id")
                         .ValueGeneratedOnAdd()
@@ -212,7 +295,7 @@ namespace Boards.Infrastructure.Migrations
 
                     b.HasIndex("PortfolioId");
 
-                    b.ToTable("MinisterPortfolios");
+                    b.ToTable("MinisterTerms");
                 });
 
             modelBuilder.Entity("Boards.Domain.Boards.Portfolio", b =>
@@ -468,89 +551,6 @@ namespace Boards.Infrastructure.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Secretaries");
-                });
-
-            modelBuilder.Entity("Boards.Domain.Contacts.Minister", b =>
-                {
-                    b.Property<long>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("bigint")
-                        .UseIdentityColumn();
-
-                    b.Property<string>("CreatedBy")
-                        .IsRequired()
-                        .HasMaxLength(50)
-                        .HasColumnType("nvarchar(50)");
-
-                    b.Property<DateTime>("CreatedOn")
-                        .HasColumnType("datetime2");
-
-                    b.Property<bool>("Deleted")
-                        .HasColumnType("bit");
-
-                    b.Property<bool>("Disabled")
-                        .HasColumnType("bit");
-
-                    b.Property<string>("Email1")
-                        .HasMaxLength(50)
-                        .HasColumnType("nvarchar(50)");
-
-                    b.Property<string>("Email2")
-                        .HasMaxLength(50)
-                        .HasColumnType("nvarchar(50)");
-
-                    b.Property<string>("FaxNumber")
-                        .HasMaxLength(10)
-                        .HasColumnType("nvarchar(10)");
-
-                    b.Property<string>("FirstName")
-                        .IsRequired()
-                        .HasMaxLength(255)
-                        .HasColumnType("nvarchar(255)");
-
-                    b.Property<int>("Gender")
-                        .HasColumnType("int");
-
-                    b.Property<string>("HomePhone")
-                        .HasMaxLength(10)
-                        .HasColumnType("nvarchar(10)");
-
-                    b.Property<string>("LastName")
-                        .IsRequired()
-                        .HasMaxLength(255)
-                        .HasColumnType("nvarchar(255)");
-
-                    b.Property<bool>("Locked")
-                        .HasColumnType("bit");
-
-                    b.Property<string>("MiddleName")
-                        .HasMaxLength(255)
-                        .HasColumnType("nvarchar(255)");
-
-                    b.Property<string>("MobilePhone")
-                        .HasMaxLength(10)
-                        .HasColumnType("nvarchar(10)");
-
-                    b.Property<string>("ModifiedBy")
-                        .IsRequired()
-                        .HasMaxLength(50)
-                        .HasColumnType("nvarchar(50)");
-
-                    b.Property<DateTime>("ModifiedOn")
-                        .HasColumnType("datetime2");
-
-                    b.Property<byte[]>("Timestamp")
-                        .IsConcurrencyToken()
-                        .ValueGeneratedOnAddOrUpdate()
-                        .HasColumnType("rowversion");
-
-                    b.Property<string>("Title")
-                        .HasMaxLength(255)
-                        .HasColumnType("nvarchar(255)");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Minister");
                 });
 
             modelBuilder.Entity("Boards.Domain.Roles.BoardRole", b =>
@@ -981,7 +981,7 @@ namespace Boards.Infrastructure.Migrations
 
                     b.HasIndex("TermsServedId");
 
-                    b.ToTable("RoleEvents");
+                    b.ToTable("BoardRoleEvent");
                 });
 
             modelBuilder.Entity("DI.Domain.AutoNo.AutoNumberEntity", b =>
@@ -1236,6 +1236,169 @@ namespace Boards.Infrastructure.Migrations
                     b.ToTable("OptionSet");
                 });
 
+            modelBuilder.Entity("DI.Domain.Users.AppResource", b =>
+                {
+                    b.Property<long>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bigint")
+                        .UseIdentityColumn();
+
+                    b.Property<string>("CreatedBy")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
+
+                    b.Property<DateTime>("CreatedOn")
+                        .HasColumnType("datetime2");
+
+                    b.Property<bool>("Deleted")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("Description")
+                        .HasMaxLength(2000)
+                        .HasColumnType("nvarchar(2000)");
+
+                    b.Property<bool>("Disabled")
+                        .HasColumnType("bit");
+
+                    b.Property<bool>("Locked")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("ModifiedBy")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
+
+                    b.Property<DateTime>("ModifiedOn")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasMaxLength(255)
+                        .HasColumnType("nvarchar(255)");
+
+                    b.Property<byte[]>("Timestamp")
+                        .IsConcurrencyToken()
+                        .ValueGeneratedOnAddOrUpdate()
+                        .HasColumnType("rowversion");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Resources", "ACL");
+                });
+
+            modelBuilder.Entity("DI.Domain.Users.AppRole", b =>
+                {
+                    b.Property<long>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bigint")
+                        .UseIdentityColumn();
+
+                    b.Property<string>("Code")
+                        .IsRequired()
+                        .HasMaxLength(30)
+                        .HasColumnType("nvarchar(30)");
+
+                    b.Property<string>("CreatedBy")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
+
+                    b.Property<DateTime>("CreatedOn")
+                        .HasColumnType("datetime2");
+
+                    b.Property<bool>("Deleted")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("Description")
+                        .HasMaxLength(2000)
+                        .HasColumnType("nvarchar(2000)");
+
+                    b.Property<bool>("Disabled")
+                        .HasColumnType("bit");
+
+                    b.Property<bool>("Locked")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("ModifiedBy")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
+
+                    b.Property<DateTime>("ModifiedOn")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasMaxLength(255)
+                        .HasColumnType("nvarchar(255)");
+
+                    b.Property<byte[]>("Timestamp")
+                        .IsConcurrencyToken()
+                        .ValueGeneratedOnAddOrUpdate()
+                        .HasColumnType("rowversion");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Roles", "ACL");
+                });
+
+            modelBuilder.Entity("DI.Domain.Users.AppTeam", b =>
+                {
+                    b.Property<long>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bigint")
+                        .UseIdentityColumn();
+
+                    b.Property<long?>("AppRoleId")
+                        .HasColumnType("bigint");
+
+                    b.Property<string>("CreatedBy")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
+
+                    b.Property<DateTime>("CreatedOn")
+                        .HasColumnType("datetime2");
+
+                    b.Property<bool>("Deleted")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("Description")
+                        .HasMaxLength(2000)
+                        .HasColumnType("nvarchar(2000)");
+
+                    b.Property<bool>("Disabled")
+                        .HasColumnType("bit");
+
+                    b.Property<bool>("Locked")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("ModifiedBy")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
+
+                    b.Property<DateTime>("ModifiedOn")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasMaxLength(255)
+                        .HasColumnType("nvarchar(255)");
+
+                    b.Property<byte[]>("Timestamp")
+                        .IsConcurrencyToken()
+                        .ValueGeneratedOnAddOrUpdate()
+                        .HasColumnType("rowversion");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("AppRoleId");
+
+                    b.ToTable("Teams", "ACL");
+                });
+
             modelBuilder.Entity("DI.Domain.Users.AppUser", b =>
                 {
                     b.Property<long>("Id")
@@ -1324,6 +1487,129 @@ namespace Boards.Infrastructure.Migrations
                     b.ToTable("Users", "ACL");
                 });
 
+            modelBuilder.Entity("DI.Domain.Users.Permission", b =>
+                {
+                    b.Property<long>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bigint")
+                        .UseIdentityColumn();
+
+                    b.Property<long>("AppResourceId")
+                        .HasColumnType("bigint");
+
+                    b.Property<long>("AppRoleId")
+                        .HasColumnType("bigint");
+
+                    b.Property<bool>("Create")
+                        .HasColumnType("bit");
+
+                    b.Property<bool>("Delete")
+                        .HasColumnType("bit");
+
+                    b.Property<bool>("Deleted")
+                        .HasColumnType("bit");
+
+                    b.Property<bool>("Disabled")
+                        .HasColumnType("bit");
+
+                    b.Property<bool>("Locked")
+                        .HasColumnType("bit");
+
+                    b.Property<int>("Mask")
+                        .HasColumnType("int");
+
+                    b.Property<bool>("Read")
+                        .HasColumnType("bit");
+
+                    b.Property<byte[]>("Timestamp")
+                        .IsConcurrencyToken()
+                        .ValueGeneratedOnAddOrUpdate()
+                        .HasColumnType("rowversion");
+
+                    b.Property<bool>("Update")
+                        .HasColumnType("bit");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("AppResourceId");
+
+                    b.HasIndex("AppRoleId");
+
+                    b.ToTable("Permissions", "ACL");
+                });
+
+            modelBuilder.Entity("DI.Domain.Users.TeamRole", b =>
+                {
+                    b.Property<long>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bigint")
+                        .UseIdentityColumn();
+
+                    b.Property<long>("AppRoleId")
+                        .HasColumnType("bigint");
+
+                    b.Property<long>("AppTeamId")
+                        .HasColumnType("bigint");
+
+                    b.Property<bool>("Deleted")
+                        .HasColumnType("bit");
+
+                    b.Property<bool>("Disabled")
+                        .HasColumnType("bit");
+
+                    b.Property<bool>("Locked")
+                        .HasColumnType("bit");
+
+                    b.Property<byte[]>("Timestamp")
+                        .IsConcurrencyToken()
+                        .ValueGeneratedOnAddOrUpdate()
+                        .HasColumnType("rowversion");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("AppRoleId");
+
+                    b.HasIndex("AppTeamId");
+
+                    b.ToTable("TeamRoles", "ACL");
+                });
+
+            modelBuilder.Entity("DI.Domain.Users.TeamUser", b =>
+                {
+                    b.Property<long>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bigint")
+                        .UseIdentityColumn();
+
+                    b.Property<long>("AppTeamId")
+                        .HasColumnType("bigint");
+
+                    b.Property<long>("AppUserId")
+                        .HasColumnType("bigint");
+
+                    b.Property<bool>("Deleted")
+                        .HasColumnType("bit");
+
+                    b.Property<bool>("Disabled")
+                        .HasColumnType("bit");
+
+                    b.Property<bool>("Locked")
+                        .HasColumnType("bit");
+
+                    b.Property<byte[]>("Timestamp")
+                        .IsConcurrencyToken()
+                        .ValueGeneratedOnAddOrUpdate()
+                        .HasColumnType("rowversion");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("AppTeamId");
+
+                    b.HasIndex("AppUserId");
+
+                    b.ToTable("TeamUsers", "ACL");
+                });
+
             modelBuilder.Entity("Boards.Domain.Boards.Board", b =>
                 {
                     b.HasOne("DI.Domain.Users.AppUser", "Approved")
@@ -1370,16 +1656,89 @@ namespace Boards.Infrastructure.Migrations
                     b.Navigation("StatusColor");
                 });
 
-            modelBuilder.Entity("Boards.Domain.Boards.MinisterPortfolio", b =>
+            modelBuilder.Entity("Boards.Domain.Boards.Minister", b =>
                 {
-                    b.HasOne("Boards.Domain.Contacts.Minister", "Minister")
-                        .WithMany()
+                    b.OwnsOne("DI.Domain.Owned.AddressType", "PostalAddress", b1 =>
+                        {
+                            b1.Property<long>("MinisterId")
+                                .ValueGeneratedOnAdd()
+                                .HasColumnType("bigint")
+                                .UseIdentityColumn();
+
+                            b1.Property<string>("City")
+                                .HasColumnType("nvarchar(max)");
+
+                            b1.Property<string>("Country")
+                                .HasColumnType("nvarchar(max)");
+
+                            b1.Property<short>("Postcode")
+                                .HasColumnType("smallint");
+
+                            b1.Property<string>("State")
+                                .HasColumnType("nvarchar(max)");
+
+                            b1.Property<string>("Street")
+                                .HasColumnType("nvarchar(max)");
+
+                            b1.Property<string>("Unit")
+                                .HasColumnType("nvarchar(max)");
+
+                            b1.HasKey("MinisterId");
+
+                            b1.ToTable("Minister");
+
+                            b1.WithOwner()
+                                .HasForeignKey("MinisterId");
+                        });
+
+                    b.OwnsOne("DI.Domain.Owned.AddressType", "StreetAddress", b1 =>
+                        {
+                            b1.Property<long>("MinisterId")
+                                .ValueGeneratedOnAdd()
+                                .HasColumnType("bigint")
+                                .UseIdentityColumn();
+
+                            b1.Property<string>("City")
+                                .HasColumnType("nvarchar(max)");
+
+                            b1.Property<string>("Country")
+                                .HasColumnType("nvarchar(max)");
+
+                            b1.Property<short>("Postcode")
+                                .HasColumnType("smallint");
+
+                            b1.Property<string>("State")
+                                .HasColumnType("nvarchar(max)");
+
+                            b1.Property<string>("Street")
+                                .HasColumnType("nvarchar(max)");
+
+                            b1.Property<string>("Unit")
+                                .HasColumnType("nvarchar(max)");
+
+                            b1.HasKey("MinisterId");
+
+                            b1.ToTable("Minister");
+
+                            b1.WithOwner()
+                                .HasForeignKey("MinisterId");
+                        });
+
+                    b.Navigation("PostalAddress");
+
+                    b.Navigation("StreetAddress");
+                });
+
+            modelBuilder.Entity("Boards.Domain.Boards.MinisterTerm", b =>
+                {
+                    b.HasOne("Boards.Domain.Boards.Minister", "Minister")
+                        .WithMany("Terms")
                         .HasForeignKey("MinisterId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
                     b.HasOne("Boards.Domain.Boards.Portfolio", "Portfolio")
-                        .WithMany()
+                        .WithMany("Terms")
                         .HasForeignKey("PortfolioId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
@@ -1542,79 +1901,6 @@ namespace Boards.Infrastructure.Migrations
 
                             b1.WithOwner()
                                 .HasForeignKey("AssistantSecretaryId");
-                        });
-
-                    b.Navigation("PostalAddress");
-
-                    b.Navigation("StreetAddress");
-                });
-
-            modelBuilder.Entity("Boards.Domain.Contacts.Minister", b =>
-                {
-                    b.OwnsOne("DI.Domain.Owned.AddressType", "PostalAddress", b1 =>
-                        {
-                            b1.Property<long>("MinisterId")
-                                .ValueGeneratedOnAdd()
-                                .HasColumnType("bigint")
-                                .UseIdentityColumn();
-
-                            b1.Property<string>("City")
-                                .HasColumnType("nvarchar(max)");
-
-                            b1.Property<string>("Country")
-                                .HasColumnType("nvarchar(max)");
-
-                            b1.Property<short>("Postcode")
-                                .HasColumnType("smallint");
-
-                            b1.Property<string>("State")
-                                .HasColumnType("nvarchar(max)");
-
-                            b1.Property<string>("Street")
-                                .HasColumnType("nvarchar(max)");
-
-                            b1.Property<string>("Unit")
-                                .HasColumnType("nvarchar(max)");
-
-                            b1.HasKey("MinisterId");
-
-                            b1.ToTable("Minister");
-
-                            b1.WithOwner()
-                                .HasForeignKey("MinisterId");
-                        });
-
-                    b.OwnsOne("DI.Domain.Owned.AddressType", "StreetAddress", b1 =>
-                        {
-                            b1.Property<long>("MinisterId")
-                                .ValueGeneratedOnAdd()
-                                .HasColumnType("bigint")
-                                .UseIdentityColumn();
-
-                            b1.Property<string>("City")
-                                .HasColumnType("nvarchar(max)");
-
-                            b1.Property<string>("Country")
-                                .HasColumnType("nvarchar(max)");
-
-                            b1.Property<short>("Postcode")
-                                .HasColumnType("smallint");
-
-                            b1.Property<string>("State")
-                                .HasColumnType("nvarchar(max)");
-
-                            b1.Property<string>("Street")
-                                .HasColumnType("nvarchar(max)");
-
-                            b1.Property<string>("Unit")
-                                .HasColumnType("nvarchar(max)");
-
-                            b1.HasKey("MinisterId");
-
-                            b1.ToTable("Minister");
-
-                            b1.WithOwner()
-                                .HasForeignKey("MinisterId");
                         });
 
                     b.Navigation("PostalAddress");
@@ -1861,6 +2147,14 @@ namespace Boards.Infrastructure.Migrations
                     b.Navigation("OptionKey");
                 });
 
+            modelBuilder.Entity("DI.Domain.Users.AppTeam", b =>
+                {
+                    b.HasOne("DI.Domain.Users.AppRole", null)
+                        .WithMany("Teams")
+                        .HasForeignKey("AppRoleId")
+                        .OnDelete(DeleteBehavior.Restrict);
+                });
+
             modelBuilder.Entity("DI.Domain.Users.AppUser", b =>
                 {
                     b.OwnsOne("DI.Domain.Owned.AddressType", "PostalAddress", b1 =>
@@ -1934,14 +2228,78 @@ namespace Boards.Infrastructure.Migrations
                     b.Navigation("StreetAddress");
                 });
 
+            modelBuilder.Entity("DI.Domain.Users.Permission", b =>
+                {
+                    b.HasOne("DI.Domain.Users.AppResource", "AppResource")
+                        .WithMany("Permissions")
+                        .HasForeignKey("AppResourceId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.HasOne("DI.Domain.Users.AppRole", "AppRole")
+                        .WithMany("Permissions")
+                        .HasForeignKey("AppRoleId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.Navigation("AppResource");
+
+                    b.Navigation("AppRole");
+                });
+
+            modelBuilder.Entity("DI.Domain.Users.TeamRole", b =>
+                {
+                    b.HasOne("DI.Domain.Users.AppRole", "AppRole")
+                        .WithMany()
+                        .HasForeignKey("AppRoleId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.HasOne("DI.Domain.Users.AppTeam", "AppTeam")
+                        .WithMany("TeamRoles")
+                        .HasForeignKey("AppTeamId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.Navigation("AppRole");
+
+                    b.Navigation("AppTeam");
+                });
+
+            modelBuilder.Entity("DI.Domain.Users.TeamUser", b =>
+                {
+                    b.HasOne("DI.Domain.Users.AppTeam", "AppTeam")
+                        .WithMany("TeamUsers")
+                        .HasForeignKey("AppTeamId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.HasOne("DI.Domain.Users.AppUser", "AppUser")
+                        .WithMany("UserTeams")
+                        .HasForeignKey("AppUserId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.Navigation("AppTeam");
+
+                    b.Navigation("AppUser");
+                });
+
             modelBuilder.Entity("Boards.Domain.Boards.Board", b =>
                 {
                     b.Navigation("Roles");
                 });
 
+            modelBuilder.Entity("Boards.Domain.Boards.Minister", b =>
+                {
+                    b.Navigation("Terms");
+                });
+
             modelBuilder.Entity("Boards.Domain.Boards.Portfolio", b =>
                 {
                     b.Navigation("Boards");
+
+                    b.Navigation("Terms");
                 });
 
             modelBuilder.Entity("Boards.Domain.Contacts.Appointee", b =>
@@ -1957,6 +2315,30 @@ namespace Boards.Infrastructure.Migrations
             modelBuilder.Entity("DI.Domain.Options.OptionKey", b =>
                 {
                     b.Navigation("Values");
+                });
+
+            modelBuilder.Entity("DI.Domain.Users.AppResource", b =>
+                {
+                    b.Navigation("Permissions");
+                });
+
+            modelBuilder.Entity("DI.Domain.Users.AppRole", b =>
+                {
+                    b.Navigation("Permissions");
+
+                    b.Navigation("Teams");
+                });
+
+            modelBuilder.Entity("DI.Domain.Users.AppTeam", b =>
+                {
+                    b.Navigation("TeamRoles");
+
+                    b.Navigation("TeamUsers");
+                });
+
+            modelBuilder.Entity("DI.Domain.Users.AppUser", b =>
+                {
+                    b.Navigation("UserTeams");
                 });
 #pragma warning restore 612, 618
         }

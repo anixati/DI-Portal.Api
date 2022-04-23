@@ -37,6 +37,8 @@ namespace DI.Domain.Services
         public DbSet<AutoNumberEntity> AutoNumbers { get; set; }
         public DbSet<OptionKey> OptionKeys { get; set; }
         public DbSet<AppUser> Users { get; set; }
+        public DbSet<AppRole> Roles { get; set; }
+        public DbSet<AppResource> Resources { get; set; }
         protected override void OnModelCreating(ModelBuilder builder)
         {
             // builder.HasCollation(Collation, "en-u-ks-primary", "icu", false);

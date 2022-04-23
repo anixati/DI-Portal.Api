@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using DI.Domain.Contacts;
 
@@ -9,5 +10,8 @@ namespace DI.Domain.Users
     {
         [Required,MaxLength(255)]
         public string UserId { get; set; }
+
+
+        public ICollection<TeamUser> UserTeams { get; set; }
     }
 }

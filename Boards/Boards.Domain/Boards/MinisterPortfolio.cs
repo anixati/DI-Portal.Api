@@ -5,8 +5,8 @@ using DI.Domain.Core;
 
 namespace Boards.Domain.Boards
 {
-    [Table("MinisterPortfolios")]
-    public class MinisterPortfolio : IntersectBaseEntity
+    [Table("MinisterTerms")]
+    public class MinisterTerm: IntersectBaseEntity
     {
         public long MinisterId { get; set; }
         public Minister Minister { get; set; }

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using System.Threading.Tasks;
 using DI.Domain.Core;
 using DI.Domain.Services;
@@ -24,9 +25,20 @@ namespace DI.Domain.Seed
 
         public async Task Run()
         {
-            await Task.Delay(1);
-
-            await SetupDomainData();
+            try
+            {
+                await Store.BeginTransaction();
+                await SetupSecurity();
+                await SetupDomainData();
+                await Store.SaveAsync();
+                Store.Commit();
+            }
+            catch (Exception ex)
+            {
+                Store.Rollback();
+                Console.WriteLine($"ROLLING BACK ---{ex}");
+                throw;
+            }
 
         }
         protected IRepository<TK> GetRepo<TK>() where TK : class, IEntity
@@ -38,10 +50,15 @@ namespace DI.Domain.Seed
         protected async Task<TK> CreateIfNotExists<TK>(TK entity) where TK : class, INamedEntity
         {
             var repo= Store.Repo<TK>();
-            var op = await repo.FindAsync(x => EF.Functions.Contains(x.Name, entity.Name)) ?? await repo.CreateAsync(entity);
+            var op = await repo.FindAsync(x => EF.Functions.Like(x.Name, entity.Name)) ?? await repo.CreateAsync(entity);
             return op;
         }
-
+        protected async Task<TK> Create<TK>(TK entity) where TK : class, IEntity
+        {
+            var repo = Store.Repo<TK>();
+            var op = await repo.CreateAsync(entity);
+            return op;
+        }
 
         public async Task SetupSecurity()
         {
@@ -49,13 +66,17 @@ namespace DI.Domain.Seed
             foreach (ApplicationRoles role in Enum.GetValues(typeof(ApplicationRoles)))
             {
                 var entity = await CreateIfNotExists(new AppRole() { Name = $"{role}", Code = $"{role.ToString().ToCode()}", Description = role.ToDesc()});
+            }
 
-
+            var entitites = Store.Db.Model.GetEntityTypes().Select(x => x.ClrType).ToList();
+            foreach (var entity in entitites)
+            {
+                await CreateIfNotExists(new AppResource() { Name = $"{entity.Name}", Description = $"{entity.FullName}" });
             }
 
 
 
-            await Task.Delay(1);
+            await Store.SaveAsync();
         }
 
 

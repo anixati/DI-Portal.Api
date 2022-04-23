@@ -19,8 +19,6 @@ namespace Boards.Infrastructure.Domain
         }
 
         public DbSet<Portfolio> Portfolios { get; set; }
-        public DbSet<BoardRoleEvent> RoleEvents { get; set; }
-        public DbSet<MinisterPortfolio> MinisterEvents { get; set; }
 
 
         protected override void ConfigureModels(ModelBuilder builder)

@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using DI.Domain.Core;
 
@@ -10,5 +11,9 @@ namespace DI.Domain.Users
         [Required, MaxLength(30), Column(Order = 2)]
         public string Code { get; set; }
 
+
+        public ICollection<AppTeam> Teams { get; set; }
+
+        public ICollection<Permission> Permissions { get; set; }
     }
 }

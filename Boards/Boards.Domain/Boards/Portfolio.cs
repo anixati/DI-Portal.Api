@@ -8,6 +8,8 @@ namespace Boards.Domain.Boards
     public class Portfolio : NamedBaseEntity
     {
 
-        public List<Board> Boards { get; set; }
+        public ICollection<Board> Boards { get; set; }
+
+        public ICollection<MinisterTerm> Terms { get; set; }
     }
 }
