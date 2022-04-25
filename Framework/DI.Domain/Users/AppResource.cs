@@ -4,7 +4,7 @@ using DI.Domain.Core;
 
 namespace DI.Domain.Users
 {
-    [Table("Resources", Schema = "ACL")]
+    [Table("Resources", Schema = Constants.SecuritySchema)]
     public class AppResource : NamedBaseEntity
     {
 

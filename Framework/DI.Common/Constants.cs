@@ -6,6 +6,8 @@ namespace DI
     {
         //api/v{version:apiVersion}"
 
+        public const string SecuritySchema = "acl";
+
         public const string RoutePrefix = "api";
 
         public static class AdminTenant

@@ -9,11 +9,27 @@ namespace DI.Response
         {
         }
 
-        public EntityResponse(ResponseCode code, string message, T entity): base(code, message)
+        public EntityResponse(ResponseCode code, string message, T item) : base(code, message)
         {
-            Entity = entity;
+            Item = item;
         }
 
-        public T Entity { get; }
+        public T Item { get; }
+    }
+
+
+
+    public class ViewResponse<T> : DomainResponse where T : class, IViewModel
+    {
+        public ViewResponse(ResponseCode code, string message) : this(code, message, null)
+        {
+        }
+
+        public ViewResponse(ResponseCode code, string message, T item) : base(code, message)
+        {
+            Item = item;
+        }
+
+        public T Item { get; }
     }
 }

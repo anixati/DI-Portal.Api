@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
+using DI.Core;
 using DI.Domain.Core;
 using DI.Domain.Data;
 using DI.Domain.Queries;
@@ -33,6 +34,12 @@ namespace DI.Domain.Stores
         }
 
         public async Task<T> CreateAsync(T entity)
+        {
+            var entry = await Set.AddAsync(entity);
+            return entry.Entity;
+        }
+
+        public async Task<T> CreateAndSaveAsync(T entity)
         {
             var entry = await Set.AddAsync(entity);
             await Store.SaveAsync();

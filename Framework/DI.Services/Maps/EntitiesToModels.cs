@@ -20,7 +20,7 @@ namespace DI.Services.Maps
 
 
             CreateMap<OptionKey, OptionModel>();
-            CreateMap<OptionValue, OptionValue>();
+            CreateMap<OptionSet, OptionValue>();
         }
     }
 }

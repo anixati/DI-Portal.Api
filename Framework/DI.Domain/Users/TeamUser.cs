@@ -4,7 +4,7 @@ using DI.Domain.Core;
 
 namespace DI.Domain.Users
 {
-    [Table("TeamUsers", Schema = "ACL")]
+    [Table("TeamUsers", Schema = Constants.SecuritySchema)]
     public class TeamUser : IntersectBaseEntity
     {
         [Required]

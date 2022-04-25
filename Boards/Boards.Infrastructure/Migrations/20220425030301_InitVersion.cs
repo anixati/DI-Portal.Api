@@ -11,7 +11,7 @@ namespace Boards.Infrastructure.Migrations
                 name: "Dbo");
 
             migrationBuilder.EnsureSchema(
-                name: "ACL");
+                name: "acl");
 
             migrationBuilder.CreateTable(
                 name: "AuditHistory",
@@ -146,7 +146,7 @@ namespace Boards.Infrastructure.Migrations
 
             migrationBuilder.CreateTable(
                 name: "Resources",
-                schema: "ACL",
+                schema: "acl",
                 columns: table => new
                 {
                     Id = table.Column<long>(type: "bigint", nullable: false)
@@ -169,7 +169,7 @@ namespace Boards.Infrastructure.Migrations
 
             migrationBuilder.CreateTable(
                 name: "Roles",
-                schema: "ACL",
+                schema: "acl",
                 columns: table => new
                 {
                     Id = table.Column<long>(type: "bigint", nullable: false)
@@ -260,7 +260,7 @@ namespace Boards.Infrastructure.Migrations
 
             migrationBuilder.CreateTable(
                 name: "Users",
-                schema: "ACL",
+                schema: "acl",
                 columns: table => new
                 {
                     Id = table.Column<long>(type: "bigint", nullable: false)
@@ -372,7 +372,7 @@ namespace Boards.Infrastructure.Migrations
 
             migrationBuilder.CreateTable(
                 name: "Permissions",
-                schema: "ACL",
+                schema: "acl",
                 columns: table => new
                 {
                     Id = table.Column<long>(type: "bigint", nullable: false)
@@ -395,14 +395,14 @@ namespace Boards.Infrastructure.Migrations
                     table.ForeignKey(
                         name: "FK_Permissions_Resources_AppResourceId",
                         column: x => x.AppResourceId,
-                        principalSchema: "ACL",
+                        principalSchema: "acl",
                         principalTable: "Resources",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
                         name: "FK_Permissions_Roles_AppRoleId",
                         column: x => x.AppRoleId,
-                        principalSchema: "ACL",
+                        principalSchema: "acl",
                         principalTable: "Roles",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
@@ -410,7 +410,7 @@ namespace Boards.Infrastructure.Migrations
 
             migrationBuilder.CreateTable(
                 name: "Teams",
-                schema: "ACL",
+                schema: "acl",
                 columns: table => new
                 {
                     Id = table.Column<long>(type: "bigint", nullable: false)
@@ -433,7 +433,7 @@ namespace Boards.Infrastructure.Migrations
                     table.ForeignKey(
                         name: "FK_Teams_Roles_AppRoleId",
                         column: x => x.AppRoleId,
-                        principalSchema: "ACL",
+                        principalSchema: "acl",
                         principalTable: "Roles",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
@@ -591,7 +591,7 @@ namespace Boards.Infrastructure.Migrations
                     table.ForeignKey(
                         name: "FK_Board_Users_ApprovedId",
                         column: x => x.ApprovedId,
-                        principalSchema: "ACL",
+                        principalSchema: "acl",
                         principalTable: "Users",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
@@ -599,7 +599,7 @@ namespace Boards.Infrastructure.Migrations
 
             migrationBuilder.CreateTable(
                 name: "TeamRoles",
-                schema: "ACL",
+                schema: "acl",
                 columns: table => new
                 {
                     Id = table.Column<long>(type: "bigint", nullable: false)
@@ -617,14 +617,14 @@ namespace Boards.Infrastructure.Migrations
                     table.ForeignKey(
                         name: "FK_TeamRoles_Roles_AppRoleId",
                         column: x => x.AppRoleId,
-                        principalSchema: "ACL",
+                        principalSchema: "acl",
                         principalTable: "Roles",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
                         name: "FK_TeamRoles_Teams_AppTeamId",
                         column: x => x.AppTeamId,
-                        principalSchema: "ACL",
+                        principalSchema: "acl",
                         principalTable: "Teams",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
@@ -632,7 +632,7 @@ namespace Boards.Infrastructure.Migrations
 
             migrationBuilder.CreateTable(
                 name: "TeamUsers",
-                schema: "ACL",
+                schema: "acl",
                 columns: table => new
                 {
                     Id = table.Column<long>(type: "bigint", nullable: false)
@@ -650,14 +650,14 @@ namespace Boards.Infrastructure.Migrations
                     table.ForeignKey(
                         name: "FK_TeamUsers_Teams_AppTeamId",
                         column: x => x.AppTeamId,
-                        principalSchema: "ACL",
+                        principalSchema: "acl",
                         principalTable: "Teams",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
                         name: "FK_TeamUsers_Users_AppUserId",
                         column: x => x.AppUserId,
-                        principalSchema: "ACL",
+                        principalSchema: "acl",
                         principalTable: "Users",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
@@ -1275,43 +1275,43 @@ namespace Boards.Infrastructure.Migrations
 
             migrationBuilder.CreateIndex(
                 name: "IX_Permissions_AppResourceId",
-                schema: "ACL",
+                schema: "acl",
                 table: "Permissions",
                 column: "AppResourceId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Permissions_AppRoleId",
-                schema: "ACL",
+                schema: "acl",
                 table: "Permissions",
                 column: "AppRoleId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_TeamRoles_AppRoleId",
-                schema: "ACL",
+                schema: "acl",
                 table: "TeamRoles",
                 column: "AppRoleId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_TeamRoles_AppTeamId",
-                schema: "ACL",
+                schema: "acl",
                 table: "TeamRoles",
                 column: "AppTeamId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Teams_AppRoleId",
-                schema: "ACL",
+                schema: "acl",
                 table: "Teams",
                 column: "AppRoleId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_TeamUsers_AppTeamId",
-                schema: "ACL",
+                schema: "acl",
                 table: "TeamUsers",
                 column: "AppTeamId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_TeamUsers_AppUserId",
-                schema: "ACL",
+                schema: "acl",
                 table: "TeamUsers",
                 column: "AppUserId");
         }
@@ -1336,7 +1336,7 @@ namespace Boards.Infrastructure.Migrations
 
             migrationBuilder.DropTable(
                 name: "Permissions",
-                schema: "ACL");
+                schema: "acl");
 
             migrationBuilder.DropTable(
                 name: "Settings",
@@ -1344,11 +1344,11 @@ namespace Boards.Infrastructure.Migrations
 
             migrationBuilder.DropTable(
                 name: "TeamRoles",
-                schema: "ACL");
+                schema: "acl");
 
             migrationBuilder.DropTable(
                 name: "TeamUsers",
-                schema: "ACL");
+                schema: "acl");
 
             migrationBuilder.DropTable(
                 name: "BoardRole",
@@ -1360,11 +1360,11 @@ namespace Boards.Infrastructure.Migrations
 
             migrationBuilder.DropTable(
                 name: "Resources",
-                schema: "ACL");
+                schema: "acl");
 
             migrationBuilder.DropTable(
                 name: "Teams",
-                schema: "ACL");
+                schema: "acl");
 
             migrationBuilder.DropTable(
                 name: "Appointee",
@@ -1380,7 +1380,7 @@ namespace Boards.Infrastructure.Migrations
 
             migrationBuilder.DropTable(
                 name: "Roles",
-                schema: "ACL");
+                schema: "acl");
 
             migrationBuilder.DropTable(
                 name: "OptionSet",
@@ -1392,7 +1392,7 @@ namespace Boards.Infrastructure.Migrations
 
             migrationBuilder.DropTable(
                 name: "Users",
-                schema: "ACL");
+                schema: "acl");
 
             migrationBuilder.DropTable(
                 name: "OptionKeys",

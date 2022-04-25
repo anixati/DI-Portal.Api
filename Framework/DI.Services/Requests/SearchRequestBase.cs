@@ -1,18 +1,17 @@
-﻿namespace DI.Services.Requests
+﻿using DI.Core;
+using DI.Domain.Data;
+
+namespace DI.Services.Requests
 {
-    public abstract class SearchRequestBase
+    public abstract class SearchRequestBase: ISearchRequest
     {
-        protected SearchRequestBase() : this(null, null)
-        {
-        }
 
-        protected SearchRequestBase(int? size, int? index)
-        {
-            Size = size;
-            Index = index;
-        }
+        public int? Index { get; set; }
+        public int? Size { get; set; }
 
-        public int? Index { get; }
-        public int? Size { get; }
+        public PageCookie GetPageCookie()
+        {
+            return new PageCookie(Index ?? 1, Size??20);
+        }
     }
 }

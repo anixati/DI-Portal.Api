@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using DI.Core;
 
 namespace DI.Domain.Data
 {

@@ -27,11 +27,11 @@ namespace DI.Domain.Seed
         {
             try
             {
-                await Store.BeginTransaction();
+                //await Store.BeginTransaction();
                 await SetupSecurity();
                 await SetupDomainData();
                 await Store.SaveAsync();
-                Store.Commit();
+             //   Store.Commit();
             }
             catch (Exception ex)
             {

@@ -1,4 +1,4 @@
-﻿namespace DI.Domain.Data
+﻿namespace DI.Core
 {
     public class PageCookie
     {

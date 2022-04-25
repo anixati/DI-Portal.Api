@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Linq;
 using System.Linq.Expressions;
+using DI.Core;
 using DI.Domain.Core;
+using DI.Domain.Data;
 using Microsoft.EntityFrameworkCore.Query;
 
 namespace DI.Domain.Queries
@@ -19,7 +21,21 @@ namespace DI.Domain.Queries
             _spec.AddCondition(expression);
             return this;
         }
-
+        public QryBuilder<T> SetPaging(ISearchRequest request)
+        {
+            _spec.SetPaging(request.GetPageCookie());
+            return this;
+        }
+        public QryBuilder<T> SetPaging(int? skip, int? take)
+        {
+            _spec.SetPaging(skip,take);
+            return this;
+        }
+        public QryBuilder<T> SetPaging(PageCookie cookie)
+        {
+            _spec.SetPaging(cookie);
+            return this;
+        }
         public QryBuilder<T> AddIncludes(params string[] includes)
         {
             _spec.AddIncludes(includes);

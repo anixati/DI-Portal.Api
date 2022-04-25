@@ -1284,7 +1284,7 @@ namespace Boards.Infrastructure.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Resources", "ACL");
+                    b.ToTable("Resources", "acl");
                 });
 
             modelBuilder.Entity("DI.Domain.Users.AppRole", b =>
@@ -1340,7 +1340,7 @@ namespace Boards.Infrastructure.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Roles", "ACL");
+                    b.ToTable("Roles", "acl");
                 });
 
             modelBuilder.Entity("DI.Domain.Users.AppTeam", b =>
@@ -1396,7 +1396,7 @@ namespace Boards.Infrastructure.Migrations
 
                     b.HasIndex("AppRoleId");
 
-                    b.ToTable("Teams", "ACL");
+                    b.ToTable("Teams", "acl");
                 });
 
             modelBuilder.Entity("DI.Domain.Users.AppUser", b =>
@@ -1484,7 +1484,7 @@ namespace Boards.Infrastructure.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Users", "ACL");
+                    b.ToTable("Users", "acl");
                 });
 
             modelBuilder.Entity("DI.Domain.Users.Permission", b =>
@@ -1535,7 +1535,7 @@ namespace Boards.Infrastructure.Migrations
 
                     b.HasIndex("AppRoleId");
 
-                    b.ToTable("Permissions", "ACL");
+                    b.ToTable("Permissions", "acl");
                 });
 
             modelBuilder.Entity("DI.Domain.Users.TeamRole", b =>
@@ -1571,7 +1571,7 @@ namespace Boards.Infrastructure.Migrations
 
                     b.HasIndex("AppTeamId");
 
-                    b.ToTable("TeamRoles", "ACL");
+                    b.ToTable("TeamRoles", "acl");
                 });
 
             modelBuilder.Entity("DI.Domain.Users.TeamUser", b =>
@@ -1607,7 +1607,7 @@ namespace Boards.Infrastructure.Migrations
 
                     b.HasIndex("AppUserId");
 
-                    b.ToTable("TeamUsers", "ACL");
+                    b.ToTable("TeamUsers", "acl");
                 });
 
             modelBuilder.Entity("Boards.Domain.Boards.Board", b =>

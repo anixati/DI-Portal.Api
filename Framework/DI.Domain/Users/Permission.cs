@@ -4,7 +4,7 @@ using DI.Domain.Core;
 
 namespace DI.Domain.Users
 {
-    [Table("Permissions", Schema = "ACL")]
+    [Table("Permissions", Schema = Constants.SecuritySchema)]
     public class Permission : IntersectBaseEntity
     {
         [Required]

@@ -8,8 +8,11 @@ namespace DI.Services.Maps
     {
         public ModelsToEntities()
         {
-            CreateMap<BaseViewModel, BaseEntity>();
-            CreateMap<OptionModel, OptionKey>();
+            CreateMap<BaseViewModel, BaseEntity>()
+                .ForMember(x => x.Id, o => o.MapFrom(s => s.Id))
+                .IncludeAllDerived();
+
+            CreateMap<OptionModel, OptionKey>(MemberList.Source);
             CreateMap<OptionValue, OptionSet>();
         }
     }

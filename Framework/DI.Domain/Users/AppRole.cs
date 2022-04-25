@@ -5,7 +5,7 @@ using DI.Domain.Core;
 
 namespace DI.Domain.Users
 {
-    [Table("Roles", Schema = "ACL")]
+    [Table("Roles", Schema = Constants.SecuritySchema)]
     public class AppRole : NamedBaseEntity
     {
         [Required, MaxLength(30), Column(Order = 2)]

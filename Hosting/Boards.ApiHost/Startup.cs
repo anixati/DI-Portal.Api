@@ -1,4 +1,5 @@
 using System.Linq;
+using System.Text.Json.Serialization;
 using Autofac;
 using DI.WebApi;
 using Microsoft.AspNetCore.Builder;
@@ -21,7 +22,13 @@ namespace Boards.ApiHost
         {
             services.InitialiseHost();
             services.AddApiControllers(x => x.RoutePrefix = "brds")
-                .AddNewtonsoftJson()
+                .AddJsonOptions(options =>
+                {
+                    options.JsonSerializerOptions.PropertyNameCaseInsensitive = true;
+                    options.JsonSerializerOptions.PropertyNamingPolicy = null;
+                    options.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter());
+                }) 
+              //  .AddNewtonsoftJson()
                 .AddEndpoints(Modules.GetControllers);
                 //.AddFeatures(Modules.GetFeatures);
 

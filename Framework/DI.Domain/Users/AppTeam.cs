@@ -4,7 +4,7 @@ using DI.Domain.Core;
 
 namespace DI.Domain.Users
 {
-    [Table("Teams", Schema = "ACL")]
+    [Table("Teams", Schema = Constants.SecuritySchema)]
     public class AppTeam : NamedBaseEntity
     {
 

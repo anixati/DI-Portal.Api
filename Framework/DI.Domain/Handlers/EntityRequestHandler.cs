@@ -39,7 +39,7 @@ namespace DI.Domain.Handlers
         private async Task<EntityResponse<T>> CreateEntity(Entity.Request<T> request)
         {
             //    await OnPreEvent(CoreEvent.Create, request.Entity);
-            var result = await Repository.CreateAsync(request.Entity);
+            var result = await Repository.CreateAndSaveAsync(request.Entity);
               //  await OnPostEvent(CoreEvent.Create, result);
             if (request.Commit)
                 Commit();

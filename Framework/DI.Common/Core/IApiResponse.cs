@@ -2,6 +2,12 @@
 
 namespace DI.Core
 {
+
+    public interface ISearchRequest
+    {
+        PageCookie GetPageCookie();
+    }
+
     public interface IApiResponse
     {
         ResponseCode Reason { get; }

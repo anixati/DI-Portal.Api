@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
+using DI.Core;
 using DI.Domain.Core;
 using DI.Domain.Data;
 using Microsoft.EntityFrameworkCore;
@@ -31,6 +32,19 @@ namespace DI.Domain.Queries
         {
             return IsPaged ? new PageCookie(Skip.GetValueOrDefault(), Take.GetValueOrDefault()) : null;
         }
+
+
+        public void SetPaging(int? skip,int? take)
+        {
+            this.Skip = skip;
+            this.Take = take;
+        }
+        public void SetPaging(PageCookie cookie)
+        {
+            this.Skip = cookie.Index;
+            this.Take = cookie.Size;
+        }
+
         public IQueryable<T> Build(IQueryable<T> inputQry)
         {
             var query = inputQry;
