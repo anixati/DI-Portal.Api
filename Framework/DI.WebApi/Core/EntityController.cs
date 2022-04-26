@@ -7,10 +7,11 @@ using DI.Domain.Core;
 using DI.Domain.Requests;
 using DI.Services.Core;
 using DI.Services.Requests;
+using DI.WebApi.Controllers;
 using Microsoft.AspNetCore.JsonPatch;
 using Microsoft.Extensions.Logging;
 
-namespace DI.WebApi.Controllers
+namespace DI.WebApi.Core
 {
     public abstract class EntityController : ServiceController
     {

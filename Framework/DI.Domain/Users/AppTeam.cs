@@ -10,4 +10,8 @@ namespace DI.Domain.Users
         public ICollection<TeamUser> TeamUsers { get; set; }
         public ICollection<TeamRole> TeamRoles { get; set; }
     }
+
+    public class TeamViewModel : NamedViewModel
+    {
+    }
 }

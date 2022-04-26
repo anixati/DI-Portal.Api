@@ -6,7 +6,7 @@ using DI.Services.Core;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 
-namespace DI.WebApi.Controllers
+namespace DI.WebApi.Core
 {
     [ApiController]
     public abstract class ServiceController : ControllerBase

@@ -70,7 +70,7 @@ namespace DI.Domain.Seed
             foreach (ApplicationRoles role in Enum.GetValues(typeof(ApplicationRoles)))
             {
                 var entity = await CreateIfNotExists(new AppRole
-                    {Name = $"{role}", Code = $"{role.ToString().ToCode()}", Description = role.ToDesc()});
+                    {Name = $"{role}", Code = $"{role.ToString().ToCode()}", Description = role.ToDesc(),Locked=true });
             }
 
             var entitites = Store.Db.Model.GetEntityTypes().Select(x => x.ClrType).ToList();

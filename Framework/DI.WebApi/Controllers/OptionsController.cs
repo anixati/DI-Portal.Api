@@ -4,6 +4,7 @@ using DI.Actions;
 using DI.Domain.Options;
 using DI.Services.Core;
 using DI.Services.Requests;
+using DI.WebApi.Core;
 using DI.WebApi.Responses;
 using Microsoft.AspNetCore.JsonPatch;
 using Microsoft.AspNetCore.Mvc;
@@ -28,6 +29,35 @@ namespace DI.WebApi.Controllers
             return result.ToResponse();
         }
 
+        [HttpGet("value/{id}")]
+        public async Task<IActionResult> GetValueById(long Id)
+        {
+            var result = await GetEntityById<OptionSet, OptionValue>(Id);
+            return result.ToResponse();
+        }
+
+        [HttpPost("value")]
+        public async Task<IActionResult> CreateValue([FromBody] OptionValue model)
+        {
+            var result = await Create<OptionSet, OptionValue>(model);
+            return result.ToResponse();
+        }
+
+
+        [HttpPatch("value/{id}")]
+        public async Task<IActionResult> PatchValue(long Id, [FromBody] JsonPatchDocument patchRequest)
+        {
+            var result = await PatchEntity<OptionSet>(Id, patchRequest);
+            return result.ToResponse();
+        }
+
+        [HttpPost("value/change")]
+        public async Task<IActionResult> ChangeValue([FromBody] SetStatusAction action)
+        {
+            var result = await ChangeStatus<OptionSet>(action);
+            return result.ToResponse();
+        }
+
         #endregion
 
         #region Keys
@@ -46,11 +76,6 @@ namespace DI.WebApi.Controllers
             return result.ToResponse();
         }
 
-        /// <summary>
-        ///     CREATE
-        /// </summary>
-        /// <param name="model"></param>
-        /// <returns></returns>
         [HttpPost("key")]
         public async Task<IActionResult> CreateKey([FromBody] OptionModel model)
         {
@@ -59,12 +84,6 @@ namespace DI.WebApi.Controllers
         }
 
 
-        /// <summary>
-        ///     Patch
-        /// </summary>
-        /// <param name="Id"></param>
-        /// <param name="patchRequest"></param>
-        /// <returns></returns>
         [HttpPatch("key/{id}")]
         public async Task<IActionResult> PatchKey(long Id, [FromBody] JsonPatchDocument patchRequest)
         {
@@ -72,11 +91,6 @@ namespace DI.WebApi.Controllers
             return result.ToResponse();
         }
 
-        /// <summary>
-        ///     UPDATE
-        /// </summary>
-        /// <param name="model"></param>
-        /// <returns></returns>
         [HttpPost("key/change")]
         public async Task<IActionResult> ChangeKey([FromBody] SetStatusAction action)
         {
@@ -84,9 +98,7 @@ namespace DI.WebApi.Controllers
             return result.ToResponse();
         }
 
-
-        //status 
-
+        
         #endregion
     }
 }
