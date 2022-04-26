@@ -706,11 +706,6 @@ namespace Boards.Infrastructure.Migrations
                     CreatedBy = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
                     ModifiedOn = table.Column<DateTime>(type: "datetime2", nullable: false),
                     ModifiedBy = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
-                    PdAmount = table.Column<decimal>(type: "decimal(13,2)", nullable: true),
-                    PdRemuneration = table.Column<decimal>(type: "decimal(13,2)", nullable: true),
-                    ExchangeRate = table.Column<decimal>(type: "decimal(18,2)", nullable: true),
-                    PaAmount = table.Column<decimal>(type: "decimal(13,2)", nullable: true),
-                    PaRemuneration = table.Column<decimal>(type: "decimal(13,2)", nullable: true),
                     AppointmentSourceId = table.Column<long>(type: "bigint", nullable: true),
                     RemunerationPeriodId = table.Column<long>(type: "bigint", nullable: true),
                     ApproverTypeId = table.Column<long>(type: "bigint", nullable: true),
@@ -729,7 +724,12 @@ namespace Boards.Infrastructure.Migrations
                     TermLimit = table.Column<int>(type: "int", nullable: true),
                     LeadTimeMonths = table.Column<int>(type: "int", nullable: true),
                     TermYears = table.Column<int>(type: "int", nullable: true),
-                    MaxService = table.Column<int>(type: "int", nullable: true)
+                    MaxService = table.Column<int>(type: "int", nullable: true),
+                    PdAmount = table.Column<decimal>(type: "decimal(13,2)", nullable: true),
+                    PdRemuneration = table.Column<decimal>(type: "decimal(13,2)", nullable: true),
+                    ExchangeRate = table.Column<decimal>(type: "decimal(18,2)", nullable: true),
+                    PaAmount = table.Column<decimal>(type: "decimal(13,2)", nullable: true),
+                    PaRemuneration = table.Column<decimal>(type: "decimal(13,2)", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -886,11 +886,6 @@ namespace Boards.Infrastructure.Migrations
                     CreatedBy = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
                     ModifiedOn = table.Column<DateTime>(type: "datetime2", nullable: false),
                     ModifiedBy = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
-                    PdAmount = table.Column<decimal>(type: "decimal(13,2)", nullable: true),
-                    PdRemuneration = table.Column<decimal>(type: "decimal(13,2)", nullable: true),
-                    ExchangeRate = table.Column<decimal>(type: "decimal(18,2)", nullable: true),
-                    PaAmount = table.Column<decimal>(type: "decimal(13,2)", nullable: true),
-                    PaRemuneration = table.Column<decimal>(type: "decimal(13,2)", nullable: true),
                     AppointmentSourceId = table.Column<long>(type: "bigint", nullable: true),
                     RemunerationPeriodId = table.Column<long>(type: "bigint", nullable: true),
                     ApproverTypeId = table.Column<long>(type: "bigint", nullable: true),
@@ -909,7 +904,12 @@ namespace Boards.Infrastructure.Migrations
                     TermLimit = table.Column<int>(type: "int", nullable: true),
                     LeadTimeMonths = table.Column<int>(type: "int", nullable: true),
                     TermYears = table.Column<int>(type: "int", nullable: true),
-                    MaxService = table.Column<int>(type: "int", nullable: true)
+                    MaxService = table.Column<int>(type: "int", nullable: true),
+                    PdAmount = table.Column<decimal>(type: "decimal(13,2)", nullable: true),
+                    PdRemuneration = table.Column<decimal>(type: "decimal(13,2)", nullable: true),
+                    ExchangeRate = table.Column<decimal>(type: "decimal(18,2)", nullable: true),
+                    PaAmount = table.Column<decimal>(type: "decimal(13,2)", nullable: true),
+                    PaRemuneration = table.Column<decimal>(type: "decimal(13,2)", nullable: true)
                 },
                 constraints: table =>
                 {

@@ -19,7 +19,7 @@ namespace DI.Domain.Handlers.Generic
 
         public async Task<DomainResponse> Handle(PatchEntityRequest<T> request, CancellationToken cancellationToken)
         {
-            Ensure.That(() => request.Id <= 0, "id is required");
+            Ensure.That(() => request.Id > 0, "id is required");
             var entity = await Repository.GetById(request.Id);
             entity.ThrowIfNull("Record not found or deleted !");
 

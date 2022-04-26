@@ -33,6 +33,7 @@ namespace Boards.Infrastructure.Seeding
             var opr = GetRepo<OptionKey>();
             var op = await CreateIfNotExists(new OptionKey
                 {Name = "Selection Process", Code = "SELPROCESS", Description = "Selection Process"});
+            await Store.SaveAsync();
             if (op != null)
                 foreach (var ix in Enumerable.Range(1, rng.Next(2, 55)))
                 {
@@ -48,6 +49,7 @@ namespace Boards.Infrastructure.Seeding
                 }
 
             await Store.SaveAsync();
+
             await CreateIfNotExists(new OptionKey
                 {Name = "Share Options", Code = "SHAREOPTS", Description = "Share Options"});
         }

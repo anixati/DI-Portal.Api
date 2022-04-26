@@ -34,7 +34,9 @@ namespace DI.Domain.Handlers.Generic
         {
             Ensure.That(() => request.Id.HasValue, "id is null");
             var result = await Repository.GetById(request.Id.GetValueOrDefault());
-            return new EntityResponse<T>(ResponseCode.Default, "retrieved", result);
+            var rs = result == null ? ResponseCode.NotFound : ResponseCode.Retrieved;
+
+            return new EntityResponse<T>(rs, $"{rs}", result);
         }
 
         private async Task<EntityResponse<T>> CreateEntity(Entity.Request<T> request)

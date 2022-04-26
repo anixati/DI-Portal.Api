@@ -17,6 +17,7 @@
         ServerError = 12,
         TimedOut = 13,
         Duplicate = 14,
-        UnAuthorized = 15
+        UnAuthorized = 15,
+        Retrieved = 16
     }
 }
