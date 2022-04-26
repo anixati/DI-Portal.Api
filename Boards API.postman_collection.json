@@ -1,6 +1,6 @@
 {
 	"info": {
-		"_postman_id": "7648ed00-7bd2-4d91-83d9-a8bbe96d328f",
+		"_postman_id": "609947b0-5252-4ef6-a474-8e0fbf87d3a2",
 		"name": "Boards API",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
 	},
@@ -12,7 +12,21 @@
 					"name": "Get All",
 					"request": {
 						"method": "GET",
-						"header": []
+						"header": [],
+						"url": {
+							"raw": "https://localhost:44320/brds/v1/option/keys",
+							"protocol": "https",
+							"host": [
+								"localhost"
+							],
+							"port": "44320",
+							"path": [
+								"brds",
+								"v1",
+								"option",
+								"keys"
+							]
+						}
 					},
 					"response": []
 				},
@@ -22,7 +36,7 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "https://localhost:44320/brds/v1/option/key/1",
+							"raw": "https://localhost:44320/brds/v1/option/key/2",
 							"protocol": "https",
 							"host": [
 								"localhost"
@@ -33,7 +47,7 @@
 								"v1",
 								"option",
 								"key",
-								"1"
+								"2"
 							]
 						}
 					},
@@ -46,7 +60,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"KeyId\": 1,\r\n    \"Index\": 1,\r\n    \"Size\": 2\r\n}",
+							"raw": "{\r\n    \"Name\":\"Test option 224\",\r\n    \"Description\":\"DbUpdateException: An error occurred while updating the entries. See the inner exception for details\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -54,7 +68,7 @@
 							}
 						},
 						"url": {
-							"raw": "https://localhost:44320/brds/v1/option/values",
+							"raw": "https://localhost:44320/brds/v1/option/key",
 							"protocol": "https",
 							"host": [
 								"localhost"
@@ -64,7 +78,39 @@
 								"brds",
 								"v1",
 								"option",
-								"values"
+								"key"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Patch",
+					"request": {
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "[\r\n  {\r\n    \"op\": \"add\",\r\n    \"path\": \"/Name\",\r\n    \"value\": \"Barry\"\r\n  },\r\n   {\r\n    \"op\": \"add\",\r\n    \"path\": \"/Description\",\r\n    \"value\": \"Ishwarya \"\r\n  },\r\n   {\r\n    \"op\": \"add\",\r\n    \"path\": \"/Disabled\",\r\n    \"value\": true\r\n      }\r\n]",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://localhost:44320/brds/v1/option/key/5",
+							"protocol": "https",
+							"host": [
+								"localhost"
+							],
+							"port": "44320",
+							"path": [
+								"brds",
+								"v1",
+								"option",
+								"key",
+								"5"
 							]
 						}
 					},
@@ -77,7 +123,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"Id\": 2,\r\n    \"Action\": 4,\r\n    \"Reason\": \"dur to covid\"\r\n}",
+							"raw": "{\r\n    \"Name\":\"ch\",\r\n    \"Id\": 4,\r\n    \"Action\": 4,\r\n    \"Reason\": \"dur to covid\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -101,37 +147,6 @@
 						}
 					},
 					"response": []
-				},
-				{
-					"name": "Update",
-					"request": {
-						"method": "PUT",
-						"header": [],
-						"body": {
-							"mode": "raw",
-							"raw": "{\r\n\"Id\":1,\r\n  \"Name\": \"Option test 1\",\r\n  \"Description\": \"The company’s 11-member board met with Mr. Musk to discuss his offer to buy the social networking service and take it private. An agreement could come as soon as Monday\"\r\n}",
-							"options": {
-								"raw": {
-									"language": "json"
-								}
-							}
-						},
-						"url": {
-							"raw": "https://localhost:44320/brds/v1/option/key",
-							"protocol": "https",
-							"host": [
-								"localhost"
-							],
-							"port": "44320",
-							"path": [
-								"brds",
-								"v1",
-								"option",
-								"key"
-							]
-						}
-					},
-					"response": []
 				}
 			]
 		},
@@ -142,7 +157,10 @@
 					"name": "Get All",
 					"request": {
 						"method": "GET",
-						"header": []
+						"header": [],
+						"url": {
+							"raw": ""
+						}
 					},
 					"response": []
 				},
@@ -237,7 +255,10 @@
 			"name": "New Request",
 			"request": {
 				"method": "GET",
-				"header": []
+				"header": [],
+				"url": {
+					"raw": ""
+				}
 			},
 			"response": []
 		}
