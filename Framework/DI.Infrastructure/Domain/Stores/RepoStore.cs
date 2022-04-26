@@ -130,10 +130,11 @@ namespace DI.Domain.Stores
             if (!qrySpec.IsPaged)
                 return await AsPagedList(listQry);
             var total = await listQry.LongCountAsync();
-            var pagedQry = ApplyPaging(qrySpec,listQry);
+            var pagedQry = ApplyPaging(qrySpec, listQry);
             var pagedItems = await pagedQry.ToListAsync();
             return PagedList<T>.Create(pagedItems, total, qrySpec.GetPageCookie());
         }
+
         private static IQueryable<T> ApplyPaging(IQrySpec<T> spec, IQueryable<T> inputQry)
         {
             var query = inputQry;

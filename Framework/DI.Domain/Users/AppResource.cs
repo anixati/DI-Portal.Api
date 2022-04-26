@@ -7,7 +7,6 @@ namespace DI.Domain.Users
     [Table("Resources", Schema = Constants.SecuritySchema)]
     public class AppResource : NamedBaseEntity
     {
-
         public ICollection<Permission> Permissions { get; set; }
     }
 }

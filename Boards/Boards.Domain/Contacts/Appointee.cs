@@ -8,15 +8,13 @@ namespace Boards.Domain.Contacts
 {
     public class Appointee : ContactBaseEntity
     {
+        [MaxLength(2000)] public string Biography { get; set; }
 
-        [MaxLength(2000)]
-        public string Biography { get; set; }
-        [MaxLength(255)]
-        public string PostNominals { get; set; }
-        [MaxLength(255)]
-        public string ResumeLink { get; set; }
-        [MaxLength(255)]
-        public string LinkedInProfile { get; set; }
+        [MaxLength(255)] public string PostNominals { get; set; }
+
+        [MaxLength(255)] public string ResumeLink { get; set; }
+
+        [MaxLength(255)] public string LinkedInProfile { get; set; }
 
         public bool? IsRegional { get; set; }
         public bool? IsAboriginal { get; set; }

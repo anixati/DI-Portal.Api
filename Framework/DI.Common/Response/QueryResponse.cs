@@ -10,7 +10,8 @@ namespace DI.Response
         {
         }
 
-        public QueryResponse(ResponseCode changeCode, string message, IPagedList<T> pagedList) : base(changeCode, message)
+        public QueryResponse(ResponseCode changeCode, string message, IPagedList<T> pagedList) : base(changeCode,
+            message)
         {
             List = pagedList;
         }

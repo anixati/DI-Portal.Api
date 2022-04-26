@@ -1,10 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using DI.Core;
-using DI.Models;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -35,15 +31,17 @@ namespace DI.WebApi.Responses
                     case ResponseCode.NotFound:
                         return new NotFoundObjectResult(response.Messages);
                     case ResponseCode.BadRequest:
-                        return new ObjectResult(response.Messages) { StatusCode = StatusCodes.Status400BadRequest };
+                        return new ObjectResult(response.Messages) {StatusCode = StatusCodes.Status400BadRequest};
                     case ResponseCode.UnAuthorized:
                         return new UnauthorizedObjectResult(response.Messages);
                     case ResponseCode.ServerError:
-                        return new ObjectResult(response.Messages) { StatusCode = StatusCodes.Status500InternalServerError };
+                        return new ObjectResult(response.Messages)
+                            {StatusCode = StatusCodes.Status500InternalServerError};
                     case ResponseCode.TimedOut:
-                        return new ObjectResult(response.Result) { StatusCode = StatusCodes.Status500InternalServerError };
+                        return new ObjectResult(response.Result)
+                            {StatusCode = StatusCodes.Status500InternalServerError};
                     case ResponseCode.Duplicate:
-                        return new ObjectResult(response.Messages) { StatusCode = StatusCodes.Status400BadRequest };
+                        return new ObjectResult(response.Messages) {StatusCode = StatusCodes.Status400BadRequest};
                     case ResponseCode.Updated:
                     case ResponseCode.Disabled:
                     case ResponseCode.Enabled:

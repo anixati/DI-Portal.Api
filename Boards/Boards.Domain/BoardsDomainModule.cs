@@ -1,6 +1,5 @@
 ﻿using System;
 using Autofac;
-using DI;
 
 namespace Boards.Domain
 {

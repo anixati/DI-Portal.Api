@@ -35,10 +35,12 @@ namespace DI.Domain.Data
             var count = data.Count;
             return new PagedList<TK>(data, count, 1, 20);
         }
-        public static PagedList<TK> Create<TK>(List<TK> data, long total, int index,int size) where TK : class
+
+        public static PagedList<TK> Create<TK>(List<TK> data, long total, int index, int size) where TK : class
         {
             return new PagedList<TK>(data, total, index, size);
         }
+
         public static PagedList<TK> Create<TK>(List<TK> data, long total, PageCookie cookie) where TK : class
         {
             return new PagedList<TK>(data, total, cookie.Index, cookie.Size);

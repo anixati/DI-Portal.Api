@@ -47,7 +47,7 @@ namespace DI.WebApi
             return services.AddControllers(mo =>
                 {
                     //mo.ModelBinderProviders.Insert(0, new EntityBinderProvider());
-                     mo.UseRoutePrefix(config.RoutePrefix + "/v{version:apiVersion}");
+                    mo.UseRoutePrefix(config.RoutePrefix + "/v{version:apiVersion}");
                     mo.AddConventions();
                 })
                 .AddFluentValidation(fv => config.Validation(fv));

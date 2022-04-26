@@ -70,6 +70,5 @@ namespace DI.Services.Core
                 .As<IMapper>()
                 .InstancePerLifetimeScope();
         }
-
     }
 }

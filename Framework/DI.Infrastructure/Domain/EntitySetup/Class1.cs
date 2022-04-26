@@ -1,4 +1,3 @@
 ﻿namespace DI.Domain.EntitySetup
 {
-   
 }

@@ -1,6 +1,5 @@
 ﻿using System.Linq;
 using Boards.Domain.Boards;
-using Boards.Domain.Roles;
 using DI.Domain.Services;
 using DI.Security;
 using Microsoft.EntityFrameworkCore;
@@ -24,10 +23,7 @@ namespace Boards.Infrastructure.Domain
         protected override void ConfigureModels(ModelBuilder builder)
         {
             foreach (var relationship in builder.Model.GetEntityTypes().SelectMany(e => e.GetForeignKeys()))
-            {
                 relationship.DeleteBehavior = DeleteBehavior.Restrict; //disable cascade deletes
-            }
-
         }
     }
 }

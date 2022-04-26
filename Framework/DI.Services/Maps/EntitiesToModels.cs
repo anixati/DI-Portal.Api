@@ -9,7 +9,7 @@ namespace DI.Services.Maps
         public EntitiesToModels()
         {
             CreateMap<BaseEntity, BaseViewModel>()
-                .ForMember(x => x.IsDisabled, o => o.MapFrom(s=>s.Disabled))
+                .ForMember(x => x.IsDisabled, o => o.MapFrom(s => s.Disabled))
                 .ForMember(x => x.IsLocked, o => o.MapFrom(s => s.Locked))
                 .IncludeAllDerived();
 

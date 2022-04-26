@@ -8,6 +8,7 @@ namespace DI.Response
         {
             Id = id;
         }
+
         public ActionResponse(ResponseCode code, string message)
         {
             ChangeCode = code;

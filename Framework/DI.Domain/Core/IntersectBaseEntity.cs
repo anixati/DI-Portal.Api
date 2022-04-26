@@ -2,8 +2,5 @@
 {
     public abstract class IntersectBaseEntity : BaseEntity
     {
-
-
-
     }
 }

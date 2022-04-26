@@ -4,11 +4,10 @@ namespace ConsoleTester
 {
     internal class Program
     {
-        static void Main(string[] args)
+        private static void Main(string[] args)
         {
             Console.WriteLine("Console tester");
             TestDIDomain();
-
 
 
             Console.WriteLine("Done");
@@ -17,10 +16,6 @@ namespace ConsoleTester
 
         private static void TestDIDomain()
         {
-            
-
-
-
         }
     }
 }

@@ -1,5 +1,4 @@
-﻿using System.ComponentModel.DataAnnotations.Schema;
-using DI.Domain.Core;
+﻿using DI.Domain.Core;
 
 namespace DI.Domain.Options
 {
@@ -11,6 +10,5 @@ namespace DI.Domain.Options
         }
 
         public string Code { get; }
-
     }
 }

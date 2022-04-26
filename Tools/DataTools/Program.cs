@@ -5,14 +5,13 @@ namespace DataTools
 {
     internal class Program
     {
-        static void Main(string[] args)
+        private static void Main(string[] args)
         {
             try
             {
                 IMigrationTask task = new OptionSetTask();
 
                 task.Execute();
-
 
 
                 Console.WriteLine("Done!");

@@ -30,7 +30,7 @@ namespace DI.Domain.Services
         Task<long> CountAsync(Expression<Func<T, bool>> expression);
 
         Task<T> CreateAsync(T entity);
-        Task<T>  CreateAndSaveAsync(T entity);
+        Task<T> CreateAndSaveAsync(T entity);
         Task CreateAsync(params T[] entities);
 
         Task DeleteAsync(long id);

@@ -9,49 +9,37 @@ namespace Boards.Domain.Boards
 {
     public class Board : NamedBaseEntity
     {
-        [Required]
-        public long PortfolioId { get; set; }
+        [Required] public long PortfolioId { get; set; }
+
         public Portfolio Portfolio { get; set; }
 
-        [MaxLength(2000)]
-        public string Summary { get; set; }
+        [MaxLength(2000)] public string Summary { get; set; }
 
-        [MaxLength(2000)]
-        public string PendingAction { get; set; }
+        [MaxLength(2000)] public string PendingAction { get; set; }
 
-        [MaxLength(2000)]
-        public string EstablishedByUnderText{ get; set; }
+        [MaxLength(2000)] public string EstablishedByUnderText { get; set; }
 
 
-        [MaxLength(255)]
-        public string AssistantSecretory { get; set; }
-        
-        [MaxLength(50)]
-        public string AssistantSecretoryPhone { get; set; }
+        [MaxLength(255)] public string AssistantSecretory { get; set; }
 
-        [MaxLength(255)]
-        public string NominationCommittee { get; set; }
+        [MaxLength(50)] public string AssistantSecretoryPhone { get; set; }
 
-        [MaxLength(255)]
-        public string OwnerDivision { get; set; }
+        [MaxLength(255)] public string NominationCommittee { get; set; }
 
-        [MaxLength(255)]
-        public string OwnerPosition { get; set; }
+        [MaxLength(255)] public string OwnerDivision { get; set; }
+
+        [MaxLength(255)] public string OwnerPosition { get; set; }
 
         //[MaxLength(255)]
         //public string BoardStatus { get; set; }
 
-        [MaxLength(255)]
-        public string LegislationReference { get; set; }
+        [MaxLength(255)] public string LegislationReference { get; set; }
 
-        [MaxLength(255)]
-        public string Constitution { get; set; }
+        [MaxLength(255)] public string Constitution { get; set; }
 
-        [MaxLength(255)]
-        public string ResponsibleOfficer { get; set; }
+        [MaxLength(255)] public string ResponsibleOfficer { get; set; }
 
-        [MaxLength(255)]
-        public string QuorumRequiredText { get; set; }
+        [MaxLength(255)] public string QuorumRequiredText { get; set; }
 
         public int? OptimumMembers { get; set; }
         public int? MaximumTerms { get; set; }
@@ -60,7 +48,7 @@ namespace Boards.Domain.Boards
         public int QuorumRequired { get; set; }
 
         public bool ReportingApproved { get; set; }
-        
+
         public bool ExcludeFromGenderBalance { get; set; }
 
         public OptionSet Status { get; set; }

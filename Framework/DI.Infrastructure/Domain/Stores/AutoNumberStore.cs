@@ -19,7 +19,7 @@ namespace DI.Domain.Stores
             var entity = await ActiveQuery.Where(x => x.Name == key).FirstOrDefaultAsync();
             if (entity == null)
             {
-                entity = new AutoNumberEntity { Name = key, Number = index};
+                entity = new AutoNumberEntity {Name = key, Number = index};
                 await Set.AddAsync(entity);
             }
             else

@@ -14,7 +14,7 @@ namespace Boards.Domain.Roles
         [Required] public long AppointeeId { get; set; }
         public Appointee Appointee { get; set; }
 
-        
+
         public DateTime? AppointmentDate { get; set; }
         public DateTime InitialStartDate { get; set; }
         public DateTime StartDate { get; set; }
@@ -28,14 +28,12 @@ namespace Boards.Domain.Roles
         public OptionSet TermsServed { get; set; }
         public OptionSet AppointmentStatus { get; set; }
 
-       
+
         public bool? EndDateUnknown { get; set; }
         public bool? IsProposed { get; set; }
         public bool? IsCurrentAppointment { get; set; }
         public bool? IsActing { get; set; }
         public int? AppointedDays { get; set; }
         public int? AppointmentDays { get; set; }
-       
-
     }
 }

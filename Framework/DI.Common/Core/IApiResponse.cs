@@ -2,7 +2,6 @@
 
 namespace DI.Core
 {
-
     public interface ISearchRequest
     {
         PageCookie GetPageCookie();

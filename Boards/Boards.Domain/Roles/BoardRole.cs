@@ -10,28 +10,28 @@ namespace Boards.Domain.Roles
 {
     public class BoardRole : BoardRoleBase
     {
-
-        [Required, MaxLength(255), Column(Order = 1)]
+        [Required]
+        [MaxLength(255)]
+        [Column(Order = 1)]
         public string Name { get; set; }
 
-        [MaxLength(2000)]
-        public string Description { get; set; }
+        [MaxLength(2000)] public string Description { get; set; }
 
-        [Required]
-        public long BoardId { get; set; }
+        [Required] public long BoardId { get; set; }
+
         public Board Board { get; set; }
 
 
-        [Required]
-        public long IncumbentId { get; set; }
+        [Required] public long IncumbentId { get; set; }
+
         public Appointee Incumbent { get; set; }
 
 
-        [Required]
-        public long? AssistantSecretaryId { get; set; }
+        [Required] public long? AssistantSecretaryId { get; set; }
+
         public AssistantSecretary AssistantSecretary { get; set; }
 
-        
+
         public DateTime? MinisterLetterDate { get; set; }
         public DateTime? MinisterSubDate { get; set; }
         public DateTime? MinisterActionDate { get; set; }
@@ -41,15 +41,14 @@ namespace Boards.Domain.Roles
         public DateTime? VacantFromDate { get; set; }
         public DateTime? NotifyLetterDate { get; set; }
 
-        [MaxLength(2000)]
-        public string ProcessStatus { get; set; }
-        [MaxLength(2000)]
-        public string Responsibilities { get; set; }
-        [MaxLength(2000)]
-        public string Requirements { get; set; }
-        [MaxLength(2000)]
-        public string NextSteps { get; set; }
-       
+        [MaxLength(2000)] public string ProcessStatus { get; set; }
+
+        [MaxLength(2000)] public string Responsibilities { get; set; }
+
+        [MaxLength(2000)] public string Requirements { get; set; }
+
+        [MaxLength(2000)] public string NextSteps { get; set; }
+
         public DateStateEnum MinLetterDateType { get; set; }
         public DateStateEnum NotLetterDateType { get; set; }
         public DateStateEnum ExCoDateType { get; set; }
@@ -62,6 +61,5 @@ namespace Boards.Domain.Roles
         public OptionSet ReasonForGenderExclude { get; set; }
         public OptionSet EstablishedByUnder { get; set; }
         public OptionSet MinSubLocation { get; set; }
-
     }
 }

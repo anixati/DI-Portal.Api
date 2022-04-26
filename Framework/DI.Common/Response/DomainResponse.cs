@@ -2,15 +2,15 @@
 
 namespace DI.Response
 {
-    public class DomainResponse 
+    public class DomainResponse
     {
         public DomainResponse(ResponseCode code, string message)
         {
-            ChangeCode = code;
+            ResponseCode = code;
             Message = message;
         }
 
-        public ResponseCode ChangeCode { get; }
+        public ResponseCode ResponseCode { get; }
         public string Message { get; }
     }
 }

@@ -39,6 +39,7 @@ namespace DI.Domain.Services
         public DbSet<AppUser> Users { get; set; }
         public DbSet<AppRole> Roles { get; set; }
         public DbSet<AppResource> Resources { get; set; }
+
         protected override void OnModelCreating(ModelBuilder builder)
         {
             // builder.HasCollation(Collation, "en-u-ks-primary", "icu", false);
@@ -66,6 +67,7 @@ namespace DI.Domain.Services
                 await OnPostSave(auditEvents);
             return result;
         }
+
         private void SetAuditFields(IEnumerable<EntityEntry> entries)
         {
             foreach (var entry in entries)

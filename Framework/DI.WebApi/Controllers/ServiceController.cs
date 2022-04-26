@@ -1,22 +1,18 @@
 ﻿using System;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using DI.Core;
 using DI.Response;
 using DI.Services.Core;
-using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 
 namespace DI.WebApi.Controllers
 {
-
     [ApiController]
-    
     public abstract class ServiceController : ControllerBase
     {
         private readonly IServiceContext _serviceContext;
+
         protected ServiceController(ILoggerFactory loggerFactory, IServiceContext serviceContext)
         {
             Log = loggerFactory.CreateLogger(GetType().Name);
@@ -29,6 +25,7 @@ namespace DI.WebApi.Controllers
         {
             Log.LogDebug(msg);
         }
+
         protected int GetVersion()
         {
             if (!RouteData.Values.TryGetValue("version", out var verStr)) return 1;

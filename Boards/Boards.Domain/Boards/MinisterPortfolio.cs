@@ -1,12 +1,11 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations.Schema;
-using Boards.Domain.Contacts;
 using DI.Domain.Core;
 
 namespace Boards.Domain.Boards
 {
     [Table("MinisterTerms")]
-    public class MinisterTerm: IntersectBaseEntity
+    public class MinisterTerm : IntersectBaseEntity
     {
         public long MinisterId { get; set; }
         public Minister Minister { get; set; }

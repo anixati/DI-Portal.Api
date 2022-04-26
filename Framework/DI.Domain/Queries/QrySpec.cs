@@ -4,18 +4,18 @@ using System.Linq;
 using System.Linq.Expressions;
 using DI.Core;
 using DI.Domain.Core;
-using DI.Domain.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Query;
 
 namespace DI.Domain.Queries
 {
-    public class QrySpec<T>: IQrySpec<T> where T : class, IEntity
+    public class QrySpec<T> : IQrySpec<T> where T : class, IEntity
     {
-        private readonly List<Expression<Func<T, bool>>> _conditions = new List<Expression<Func<T, bool>>>();
+        private readonly List<Expression<Func<T, bool>>> _conditions = new();
         private Func<IQueryable<T>, IIncludableQueryable<T, object>> _incFunc;
         private List<string> _incStrs;
         private Func<IQueryable<T>, IOrderedQueryable<T>> _orderBy;
+
         public QrySpec(bool tracking)
         {
             Tracking = tracking;
@@ -33,18 +33,6 @@ namespace DI.Domain.Queries
             return IsPaged ? new PageCookie(Skip.GetValueOrDefault(), Take.GetValueOrDefault()) : null;
         }
 
-
-        public void SetPaging(int? skip,int? take)
-        {
-            this.Skip = skip;
-            this.Take = take;
-        }
-        public void SetPaging(PageCookie cookie)
-        {
-            this.Skip = cookie.Index;
-            this.Take = cookie.Size;
-        }
-
         public IQueryable<T> Build(IQueryable<T> inputQry)
         {
             var query = inputQry;
@@ -58,6 +46,19 @@ namespace DI.Domain.Queries
             if (_orderBy != null)
                 query = _orderBy(query);
             return query;
+        }
+
+
+        public void SetPaging(int? skip, int? take)
+        {
+            Skip = skip;
+            Take = take;
+        }
+
+        public void SetPaging(PageCookie cookie)
+        {
+            Skip = cookie.Index;
+            Take = cookie.Size;
         }
 
         internal void AddCondition(Expression<Func<T, bool>> expression)
@@ -77,10 +78,10 @@ namespace DI.Domain.Queries
         {
             _orderBy = orderBy;
         }
+
         public void SetInclude(Func<IQueryable<T>, IIncludableQueryable<T, object>> func)
         {
             _incFunc = func;
         }
-
     }
 }

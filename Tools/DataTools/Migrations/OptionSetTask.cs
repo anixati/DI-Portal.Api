@@ -1,24 +1,18 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Reflection;
-using System.Text;
-using System.Threading.Tasks;
 using Boards.Domain;
 using DI.Domain.Core;
 using DI.Domain.Options;
 
 namespace DataTools.Migrations
 {
-    public class OptionSetTask: IMigrationTask
+    public class OptionSetTask : IMigrationTask
     {
         public void Execute()
         {
             var lst = GetAllOptionKeys();
-            foreach (var p in lst.OrderBy(x=>x))
-            {
-                Console.WriteLine($" --{p}--");
-            }
+            foreach (var p in lst.OrderBy(x => x)) Console.WriteLine($" --{p}--");
         }
 
         private static HashSet<string> GetAllOptionKeys()
@@ -35,12 +29,8 @@ namespace DataTools.Migrations
                 var osProps = tp.GetProperties().Where(x => x.PropertyType == typeof(OptionSet)).ToList();
 
                 if (osProps.Any())
-                {
                     foreach (var p in osProps)
-                    {
                         list.Add(p.Name);
-                    }
-                }
             }
 
             return list;

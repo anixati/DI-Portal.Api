@@ -6,20 +6,6 @@ namespace Boards.Domain.Roles
 {
     public abstract class BoardRoleBase : AuditBaseEntity
     {
-        #region Remuneration
-        [Column(TypeName = "decimal(13, 2)")]
-        public decimal? PdAmount { get; set; }
-
-        [Column(TypeName = "decimal(13, 2)")]
-        public decimal? PdRemuneration { get; set; }
-        public decimal? ExchangeRate { get; set; }
-
-        [Column(TypeName = "decimal(13, 2)")]
-        public decimal? PaAmount { get; set; }
-
-        [Column(TypeName = "decimal(13, 2)")]
-        public decimal? PaRemuneration { get; set; } 
-        #endregion
         public OptionSet AppointmentSource { get; set; }
         public OptionSet RemunerationPeriod { get; set; }
         public OptionSet ApproverType { get; set; }
@@ -42,5 +28,19 @@ namespace Boards.Domain.Roles
         public int? TermYears { get; set; }
 
         public int? MaxService { get; set; }
+
+        #region Remuneration
+
+        [Column(TypeName = "decimal(13, 2)")] public decimal? PdAmount { get; set; }
+
+        [Column(TypeName = "decimal(13, 2)")] public decimal? PdRemuneration { get; set; }
+
+        public decimal? ExchangeRate { get; set; }
+
+        [Column(TypeName = "decimal(13, 2)")] public decimal? PaAmount { get; set; }
+
+        [Column(TypeName = "decimal(13, 2)")] public decimal? PaRemuneration { get; set; }
+
+        #endregion
     }
 }

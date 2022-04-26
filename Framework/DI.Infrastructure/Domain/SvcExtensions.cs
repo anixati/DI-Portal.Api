@@ -45,10 +45,5 @@ namespace DI.Domain
                 .As<IStore<T>>()
                 .InstancePerLifetimeScope();
         }
-
-
-
-
-
     }
 }

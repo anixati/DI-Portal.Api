@@ -1,7 +1,6 @@
 ﻿using System.Linq;
 using DI.Core;
 using DI.Domain.Core;
-using DI.Domain.Data;
 
 namespace DI.Domain.Queries
 {

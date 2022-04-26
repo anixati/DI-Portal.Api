@@ -2,8 +2,8 @@
 {
     public abstract class BaseViewModel : IViewModel
     {
-        public long Id { get; set; }
-        public bool IsLocked { get;}
+        public bool IsLocked { get; }
         public bool IsDisabled { get; }
+        public long Id { get; set; }
     }
 }

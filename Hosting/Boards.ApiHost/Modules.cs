@@ -1,4 +1,6 @@
 using System;
+using System.Collections.Generic;
+using System.Reflection;
 using Autofac;
 using Boards.Api;
 using Boards.Domain;
@@ -8,8 +10,6 @@ using DI;
 using DI.Services;
 using DI.WebApi;
 using Microsoft.AspNetCore.Mvc.ApplicationParts;
-using System.Collections.Generic;
-using System.Reflection;
 
 namespace Boards.ApiHost
 {
@@ -51,7 +51,5 @@ namespace Boards.ApiHost
         //{
         //    yield return new ModelControllersFeature<SasiServiceModule>();
         //}
-
-
     }
 }

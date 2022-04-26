@@ -8,8 +8,7 @@ namespace DI.Domain.Users
     [Table("Users", Schema = Constants.SecuritySchema)]
     public class AppUser : ContactBaseEntity
     {
-        [Required,MaxLength(255)]
-        public string UserId { get; set; }
+        [Required] [MaxLength(255)] public string UserId { get; set; }
 
 
         public ICollection<TeamUser> UserTeams { get; set; }

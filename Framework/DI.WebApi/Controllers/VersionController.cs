@@ -1,18 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Linq;
+﻿using System.Collections.Generic;
 using DI.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Logging;
 
 namespace DI.WebApi.Controllers
 {
     [AllowAnonymous]
     [ApiVersionNeutral]
     [Route("version")]
-    public  class VersionController : ControllerBase
+    public class VersionController : ControllerBase
     {
         private readonly IEnumerable<IVersionInfo> _versions;
 

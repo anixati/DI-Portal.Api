@@ -1,12 +1,13 @@
 ﻿using System;
+using System.Threading.Tasks;
+using DI.Actions;
 using DI.Domain.Options;
 using DI.Services.Core;
 using DI.Services.Requests;
 using DI.WebApi.Responses;
+using Microsoft.AspNetCore.JsonPatch;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
-using System.Threading.Tasks;
-using DI.Actions;
 
 namespace DI.WebApi.Controllers
 {
@@ -14,12 +15,23 @@ namespace DI.WebApi.Controllers
     [Route("option")]
     public class OptionsController : EntityController
     {
-        public OptionsController(ILoggerFactory factory,IServiceContext context) : base(factory, context)
+        public OptionsController(ILoggerFactory factory, IServiceContext context) : base(factory, context)
         {
         }
 
+        #region Values
+
+        [HttpPost("values")]
+        public async Task<IActionResult> GetValues([FromBody] ListRequest request)
+        {
+            var result = await GetList<OptionSet, OptionValue>(request, o => o.OptionKeyId == request.KeyId);
+            return result.ToResponse();
+        }
+
+        #endregion
+
         #region Keys
-        
+
         [HttpGet("keys")]
         public async Task<IActionResult> GetKeys()
         {
@@ -35,62 +47,46 @@ namespace DI.WebApi.Controllers
         }
 
         /// <summary>
-        /// CREATE
+        ///     CREATE
         /// </summary>
         /// <param name="model"></param>
         /// <returns></returns>
-        [HttpPost("keys")]
+        [HttpPost("key")]
         public async Task<IActionResult> CreateKey([FromBody] OptionModel model)
         {
-            var result = await Create<OptionKey, OptionModel>(model, e =>
-            {
-                e.Code = e.Name.ToCode();
-            });
+            var result = await Create<OptionKey, OptionModel>(model, e => { e.Code = e.Name.ToCode(); });
             return result.ToResponse();
         }
 
+
         /// <summary>
-        /// UPDATE
+        ///     Patch
         /// </summary>
-        /// <param name="model"></param>
+        /// <param name="Id"></param>
+        /// <param name="patchRequest"></param>
         /// <returns></returns>
-        [HttpPut("keys")]
-        public async Task<IActionResult> UpdateKey([FromBody] OptionModel model)
+        [HttpPatch("key/{id}")]
+        public async Task<IActionResult> PatchKey(long Id, [FromBody] JsonPatchDocument patchRequest)
         {
-            var result = await Update<OptionKey, OptionModel>(model);
+            var result = await PatchEntity<OptionKey>(Id, patchRequest);
             return result.ToResponse();
         }
 
         /// <summary>
-        /// UPDATE
+        ///     UPDATE
         /// </summary>
         /// <param name="model"></param>
         /// <returns></returns>
-        [HttpPost("keys/change")]
+        [HttpPost("key/change")]
         public async Task<IActionResult> ChangeKey([FromBody] SetStatusAction action)
         {
             var result = await ChangeStatus<OptionKey>(action);
             return result.ToResponse();
         }
 
-        
+
         //status 
 
         #endregion
-
-        #region Values
-
-        [HttpPost("values")]
-        public async Task<IActionResult> GetValues([FromBody] ListRequest request)
-        {
-
-            var result = await GetList<OptionSet, OptionValue>(request,o => o.OptionKeyId== request.KeyId);
-            return result.ToResponse();
-        } 
-
-
-        #endregion
-
-
     }
 }

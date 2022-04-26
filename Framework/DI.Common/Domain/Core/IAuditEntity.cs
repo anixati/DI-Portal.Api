@@ -10,10 +10,9 @@ namespace DI.Domain.Core
         string ModifiedBy { get; set; }
     }
 
-    public interface INamedEntity: IAuditEntity
+    public interface INamedEntity : IAuditEntity
     {
         string Name { get; set; }
         string Description { get; set; }
     }
-
 }

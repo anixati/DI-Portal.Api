@@ -8,9 +8,6 @@ namespace Boards.Infrastructure.Domain.Config
     {
         public void Configure(EntityTypeBuilder<BoardRole> builder)
         {
-
-        
-
         }
     }
 }
