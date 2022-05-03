@@ -15,7 +15,8 @@ namespace DI.WebApi.Core
 {
     public abstract class GenericController<T,TK> : EntityController where T : class, IEntity where TK : class, IViewModel
     {
-        protected Expression<Func<T, bool>> GetItemFilter = null;
+        protected Action<ListRequest> SetFilter = null;
+        protected Expression<Func<T, bool>> ItemFilter = null;
         protected Action<T,TK> OnCreateAction = null;
         protected GenericController(ILoggerFactory loggerFactory, IServiceContext serviceContext) : base(loggerFactory, serviceContext)
         {
@@ -23,7 +24,8 @@ namespace DI.WebApi.Core
         [HttpPost]
         public virtual async  Task<IActionResult> GetItems([FromBody] ListRequest request)
         {
-            var result = await GetList<T, TK>(request, GetItemFilter);
+            SetFilter?.Invoke(request);
+            var result = await GetList<T, TK>(request, ItemFilter);
             return result.ToResponse();
         }
 

@@ -22,6 +22,18 @@ namespace Boards.ApiHost
         public void ConfigureServices(IServiceCollection services)
         {
             services.InitialiseHost();
+
+            services.AddCors(options =>
+            {
+                options.AddDefaultPolicy(
+                    policy =>
+                    {
+                        policy.AllowAnyOrigin()
+                            .AllowAnyMethod()
+                            .AllowAnyHeader();
+                    });
+            });
+
             services.AddApiControllers(x => x.RoutePrefix = "brds")
                 //.AddJsonOptions(options =>
                 //{

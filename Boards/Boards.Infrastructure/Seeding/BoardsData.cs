@@ -31,27 +31,33 @@ namespace Boards.Infrastructure.Seeding
         {
             var rng = new Random();
             var opr = GetRepo<OptionKey>();
-            var op = await CreateIfNotExists(new OptionKey
-                {Name = "Selection Process", Code = "SELPROCESS", Description = "Selection Process"});
-            await Store.SaveAsync();
-            if (op != null)
-                foreach (var ix in Enumerable.Range(1, rng.Next(2, 55)))
-                {
-                    var ov = Create(new OptionSet
+
+
+            foreach (var jx in Enumerable.Range(1, rng.Next(30, 60)))
+            {
+
+                var op = await CreateIfNotExists(new OptionKey
+                    {Name = $"Option Key {jx}", Code = $"OPCODE{jx}", Description = "well-crafted Git commit message is the best way to communicate context about a change to fellow developers" });
+                await Store.SaveAsync();
+                if (op != null)
+                    foreach (var ix in Enumerable.Range(1, rng.Next(3, 5)))
                     {
-                        OptionKeyId = op.Id,
-                        Label = $"Random option {rng.Next(3000, 4000)}",
-                        Value = rng.Next(1000, 8000),
-                        Order = ix,
-                        Description =
-                            "Apple has discontinued macOS Server. Existing macOS Server customers can continue to download and use the app with macOS Monterey"
-                    });
-                }
+                        var ov = Create(new OptionSet
+                        {
+                            OptionKeyId = op.Id,
+                            Label = $"Random option {rng.Next(3000, 4000)}",
+                            Value = rng.Next(1000, 8000),
+                            Order = ix,
+                            Description =
+                                "Apple has discontinued macOS Server. Existing macOS Server customers can continue to download and use the app with macOS Monterey"
+                        });
+                    }
+            }
 
             await Store.SaveAsync();
 
-            await CreateIfNotExists(new OptionKey
-                {Name = "Share Options", Code = "SHAREOPTS", Description = "Share Options"});
+            //await CreateIfNotExists(new OptionKey
+              //  {Name = "Share Options", Code = "SHAREOPTS", Description = "Share Options"});
         }
     }
 }

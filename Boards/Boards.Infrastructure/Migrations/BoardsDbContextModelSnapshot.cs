@@ -1340,6 +1340,9 @@ namespace Boards.Infrastructure.Migrations
 
                     b.HasKey("Id");
 
+                    b.HasIndex("Code")
+                        .IsUnique();
+
                     b.ToTable("Roles", "acl");
                 });
 
@@ -1483,6 +1486,9 @@ namespace Boards.Infrastructure.Migrations
                         .HasColumnType("nvarchar(255)");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("UserId")
+                        .IsUnique();
 
                     b.ToTable("Users", "acl");
                 });

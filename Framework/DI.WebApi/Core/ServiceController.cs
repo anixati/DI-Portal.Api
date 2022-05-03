@@ -50,7 +50,7 @@ namespace DI.WebApi.Core
             catch (Exception ex)
             {
                 Log.LogError(ex, "Execute Async");
-                return ApiResponse.Error(ex.Message);
+                return ApiResponse.Error(ex);
             }
         }
     }

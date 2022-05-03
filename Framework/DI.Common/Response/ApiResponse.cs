@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using DI.Core;
 using Newtonsoft.Json;
@@ -29,6 +30,15 @@ namespace DI.Response
         {
             return new ApiResponse(ResponseCode.Default, result);
         }
+
+
+
+        public static IApiResponse Error(Exception exception, ResponseCode status = ResponseCode.ServerError)
+        {
+
+            return Error(exception.ToExceptionMessages(), status);
+        }
+
 
         public static IApiResponse Error(string message, ResponseCode status = ResponseCode.ServerError)
         {

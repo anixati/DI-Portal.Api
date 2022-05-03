@@ -1286,6 +1286,13 @@ namespace Boards.Infrastructure.Migrations
                 column: "AppRoleId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_Roles_Code",
+                schema: "acl",
+                table: "Roles",
+                column: "Code",
+                unique: true);
+
+            migrationBuilder.CreateIndex(
                 name: "IX_TeamRoles_AppRoleId",
                 schema: "acl",
                 table: "TeamRoles",
@@ -1314,6 +1321,13 @@ namespace Boards.Infrastructure.Migrations
                 schema: "acl",
                 table: "TeamUsers",
                 column: "AppUserId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Users_UserId",
+                schema: "acl",
+                table: "Users",
+                column: "UserId",
+                unique: true);
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)

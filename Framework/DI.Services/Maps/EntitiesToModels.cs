@@ -23,7 +23,8 @@ namespace DI.Services.Maps
             CreateMap<ContactBaseEntity, ContactViewModel>()
                 .IncludeAllDerived();
             CreateMap<OptionKey, OptionModel>();
-            CreateMap<OptionSet, OptionValue>();
+            CreateMap<OptionSet, OptionValue>()
+                .ForMember(x => x.OptionId, o => o.MapFrom(s => s.Id));
 
 
             CreateMap<AppUser, UserViewModel>();

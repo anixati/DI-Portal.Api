@@ -105,6 +105,8 @@ namespace DI.WebApi
             appBuilder.UseHttpsRedirection();
             appBuilder.UseAuthentication();
             appBuilder.UseRouting();
+            appBuilder.UseCors();
+
             appBuilder.UseAuthorization();
             appBuilder.UseEndpoints(endpoints =>
             {

@@ -23,25 +23,25 @@ namespace DI.WebApi.Responses
                 switch (response.Reason)
                 {
                     case ResponseCode.Default:
-                        return new OkObjectResult(response.Result);
+                        return new OkObjectResult(response);
                     case ResponseCode.Created:
-                        return new CreatedResult("", response.Result);
+                        return new CreatedResult("", response);
                     case ResponseCode.Deleted:
                         break;
                     case ResponseCode.NotFound:
-                        return new NotFoundObjectResult(response.Messages);
+                        return new NotFoundObjectResult(response);
                     case ResponseCode.BadRequest:
                         return new ObjectResult(response.Messages) {StatusCode = StatusCodes.Status400BadRequest};
                     case ResponseCode.UnAuthorized:
-                        return new UnauthorizedObjectResult(response.Messages);
+                        return new UnauthorizedObjectResult(response);
                     case ResponseCode.ServerError:
-                        return new ObjectResult(response.Messages)
+                        return new ObjectResult(response)
                             {StatusCode = StatusCodes.Status500InternalServerError};
                     case ResponseCode.TimedOut:
-                        return new ObjectResult(response.Result)
+                        return new ObjectResult(response)
                             {StatusCode = StatusCodes.Status500InternalServerError};
                     case ResponseCode.Duplicate:
-                        return new ObjectResult(response.Messages) {StatusCode = StatusCodes.Status400BadRequest};
+                        return new ObjectResult(response) {StatusCode = StatusCodes.Status400BadRequest};
                     case ResponseCode.Updated:
                     case ResponseCode.Disabled:
                     case ResponseCode.Enabled:

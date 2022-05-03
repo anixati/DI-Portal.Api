@@ -1,4 +1,6 @@
-﻿using System.Reflection;
+﻿using System.Collections.Generic;
+using System.Linq;
+using System.Reflection;
 using System.Text.RegularExpressions;
 using Autofac;
 using DI.Models;
@@ -59,5 +61,29 @@ namespace System
         {
             builder.Register(x => assembly.GetVersion()).As<IVersionInfo>().SingleInstance();
         }
+
+
+        public static List<string> ToExceptionMessages(this Exception ex)
+        {
+            var exs = ex.GetInnerExceptions();
+            var exceptions = exs as Exception[] ?? exs.ToArray();
+            return exceptions.Any() ? exceptions.Select(x => x.Message).ToList() : new List<string>();
+        }
+
+        public static IEnumerable<Exception> GetInnerExceptions(this Exception ex)
+        {
+            if (ex == null)
+                throw new ArgumentNullException("ex");
+
+            var innerException = ex;
+            do
+            {
+                yield return innerException;
+                innerException = innerException.InnerException;
+            }
+            while (innerException != null);
+        }
+
+
     }
 }

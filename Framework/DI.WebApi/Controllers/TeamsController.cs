@@ -12,7 +12,6 @@ namespace DI.WebApi.Controllers
     {
         public TeamsController(ILoggerFactory factory, IServiceContext context) : base(factory, context)
         {
-           // this.GetItemFilter = r => r.Locked == true;
         }
     }
 }

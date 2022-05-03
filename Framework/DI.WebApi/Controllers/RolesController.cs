@@ -13,7 +13,6 @@ namespace DI.WebApi.Controllers
     {
         public RolesController(ILoggerFactory factory, IServiceContext context) : base(factory, context)
         {
-           // this.GetItemFilter = r => r.Locked == true;
            this.OnCreateAction = (e, v) =>
            {
                e.Code = v.Name.ToCode();
