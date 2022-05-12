@@ -138,10 +138,14 @@ namespace DI.Domain.Stores
         private static IQueryable<T> ApplyPaging(IQrySpec<T> spec, IQueryable<T> inputQry)
         {
             var query = inputQry;
-            if (spec.Skip.HasValue)
-                query = query.Skip(spec.Skip.GetValueOrDefault());
-            if (spec.Take.HasValue)
-                query = query.Take(spec.Take.GetValueOrDefault());
+            if (spec.Skip.HasValue && spec.Take.HasValue)
+            {
+                var page = spec.Skip.GetValueOrDefault();
+                var pageSize = spec.Take.GetValueOrDefault();
+
+                var totalSkip = (page) * pageSize; 
+                query = query.Skip(totalSkip<0?0:totalSkip ).Take(pageSize);
+            }
             return query;
         }
 

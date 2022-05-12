@@ -8,7 +8,7 @@ namespace DI.WebApi.Controllers
 {
     [ApiVersionNeutral]
     [Route("teams")]
-    public class TeamsController : GenericController<AppTeam, RoleViewModel>
+    public class TeamsController : GenericController<AppTeam, TeamViewModel>
     {
         public TeamsController(ILoggerFactory factory, IServiceContext context) : base(factory, context)
         {

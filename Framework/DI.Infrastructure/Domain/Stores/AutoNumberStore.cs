@@ -1,6 +1,6 @@
 ﻿using System.Linq;
 using System.Threading.Tasks;
-using DI.Domain.AutoNo;
+using DI.Domain.App;
 using DI.Domain.Core;
 using DI.Domain.Services;
 using Microsoft.EntityFrameworkCore;

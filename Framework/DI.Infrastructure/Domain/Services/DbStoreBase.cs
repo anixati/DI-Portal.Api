@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Reflection;
 using System.Threading.Tasks;
 using DI.Core;
-using DI.Domain.AutoNo;
+using DI.Domain.App;
 using DI.Domain.Config;
 using DI.Domain.Core;
 using DI.Domain.Stores;

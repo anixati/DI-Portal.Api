@@ -4,7 +4,7 @@ using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
-using DI.Domain.AutoNo;
+using DI.Domain.App;
 using DI.Domain.Config;
 using DI.Domain.Core;
 using DI.Domain.Options;

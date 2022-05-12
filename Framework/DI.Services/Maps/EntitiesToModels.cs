@@ -3,6 +3,8 @@ using DI.Domain.Contacts;
 using DI.Domain.Core;
 using DI.Domain.Options;
 using DI.Domain.Users;
+using DI.Domain.App;
+using System.Linq;
 
 namespace DI.Services.Maps
 {
@@ -22,6 +24,8 @@ namespace DI.Services.Maps
                 .IncludeAllDerived();
             CreateMap<ContactBaseEntity, ContactViewModel>()
                 .IncludeAllDerived();
+
+
             CreateMap<OptionKey, OptionModel>();
             CreateMap<OptionSet, OptionValue>()
                 .ForMember(x => x.OptionId, o => o.MapFrom(s => s.Id));
@@ -30,6 +34,9 @@ namespace DI.Services.Maps
             CreateMap<AppUser, UserViewModel>();
             CreateMap<AppRole, RoleViewModel>();
             CreateMap<AppTeam, TeamViewModel>();
+
+            CreateMap<AuditHistory, AuditModel>()
+                .ForMember(x => x.Data, o => o.MapFrom(s => s.Data.ToList()));
 
         }
     }

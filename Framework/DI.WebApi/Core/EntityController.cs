@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
 using DI.Actions;
@@ -71,6 +72,10 @@ namespace DI.WebApi.Core
             {
                 return await x.GetListByQry<T, TK>(qb =>
                 {
+
+                    //var qry = Enumerable.Empty<T>().AsQueryable();
+                    qb.SetOrderBy(m=> m.OrderBy(x=>x.Id));
+                
                     qb.SetPaging(request.GetPageCookie());
                     if (expression != null)
                         qb.Where(expression);

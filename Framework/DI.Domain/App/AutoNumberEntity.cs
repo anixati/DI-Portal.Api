@@ -2,7 +2,7 @@
 using System.ComponentModel.DataAnnotations;
 using DI.Domain.Core;
 
-namespace DI.Domain.AutoNo
+namespace DI.Domain.App
 {
     public class AutoNumberEntity : BaseEntity
     {
