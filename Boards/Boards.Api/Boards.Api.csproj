@@ -12,6 +12,9 @@
 
 	<ItemGroup>
 		<ProjectReference Include="..\..\Framework\DI.Common\DI.Common.csproj" />
+		<ProjectReference Include="..\..\Framework\DI.Domain\DI.Domain.csproj" />
+		<ProjectReference Include="..\..\Framework\DI.WebApi\DI.WebApi.csproj" />
+		<ProjectReference Include="..\Boards.Domain\Boards.Domain.csproj" />
 	</ItemGroup>
 
 </Project>

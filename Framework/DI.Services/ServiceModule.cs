@@ -1,5 +1,6 @@
 ﻿using System;
 using Autofac;
+using Di.Qry;
 using DI.Services.Core;
 
 namespace DI.Services
@@ -19,6 +20,7 @@ namespace DI.Services
             builder.AddMappingCore();
             builder.AddMappings(moduleType);
 
+            
 
             builder.RegisterAssemblyTypes(moduleAssembly)
                 .AsImplementedInterfaces();

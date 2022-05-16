@@ -11,4 +11,8 @@ namespace Boards.Domain.Boards
 
         public ICollection<MinisterTerm> Terms { get; set; }
     }
+
+    public class PortfolioViewModel : NamedViewModel
+    {
+    }
 }

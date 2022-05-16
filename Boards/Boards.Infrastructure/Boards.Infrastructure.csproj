@@ -15,6 +15,7 @@
   <ItemGroup>
     <ProjectReference Include="..\..\Framework\DI.Common\DI.Common.csproj" />
     <ProjectReference Include="..\..\Framework\DI.Infrastructure\DI.Infrastructure.csproj" />
+    <ProjectReference Include="..\..\Framework\Di.Queries\Di.Queries.csproj" />
     <ProjectReference Include="..\Boards.Domain\Boards.Domain.csproj" />
   </ItemGroup>
 

@@ -1,9 +1,11 @@
 ﻿using System;
 using Autofac;
+using Boards.Domain.Boards;
 using Boards.Infrastructure.Design;
 using Boards.Infrastructure.Domain;
 using DI.Domain;
 using DI.Domain.Core;
+using Di.Qry;
 using DI.Security;
 
 namespace Boards.Infrastructure
@@ -23,7 +25,8 @@ namespace Boards.Infrastructure
 
             builder.RegisterType<MockUserIdentityProvider>().As<IIdentityProvider>();
             builder.AddDbContext<BoardsDbContext>();
-            builder.RegisterEntityHandlers<BoardsDbContext>(typeof(BaseEntity).Assembly);
+            builder.AddQryProviders<BoardsDbContext>();
+            builder.RegisterEntityHandlers<BoardsDbContext>(typeof(BaseEntity).Assembly, typeof(Board).Assembly);
             // builder.AddMappings(moduleType);
             // builder.AddEntityServices(moduleAssembly);
         }

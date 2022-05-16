@@ -27,10 +27,11 @@ namespace DI.Domain
             };
 
 
-        public static void RegisterEntityHandlers<T>(this ContainerBuilder builder, Assembly assembly)
+        public static void RegisterEntityHandlers<T>(this ContainerBuilder builder, params Assembly[] Assemblylist)
             where T : DbContext
         {
-            builder.RegisterEntityHandlers<T>(assembly, TypeList);
+            foreach (var assembly in Assemblylist)
+                builder.RegisterEntityHandlers<T>(assembly, TypeList);
         }
 
 

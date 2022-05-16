@@ -22,7 +22,7 @@ namespace DI.WebApi.Core
         {
         }
         [HttpPost]
-        public  async virtual Task<IActionResult> GetItems([FromBody] ListRequest request)
+        public  virtual async Task<IActionResult> GetItems([FromBody] ListRequest request)
         {
             SetFilter?.Invoke(request);
             var result = await GetList<T, TK>(request, ItemFilter);
@@ -30,14 +30,14 @@ namespace DI.WebApi.Core
         }
 
         [HttpGet("{id}")]
-        public async virtual Task<IActionResult> GetIItemById(long Id)
+        public virtual async Task<IActionResult> GetIItemById(long Id)
         {
             var result = await GetEntityById<T, TK>(Id);
             return result.ToResponse();
         }
 
         [HttpPost("create")]
-        public async virtual Task<IActionResult> CreateItem([FromBody] TK model)
+        public virtual async Task<IActionResult> CreateItem([FromBody] TK model)
         {
             var result = await Create<T, TK>(model, e=> OnCreateAction?.Invoke(e,model));
             return result.ToResponse();
@@ -45,14 +45,14 @@ namespace DI.WebApi.Core
 
 
         [HttpPatch("{id}")]
-        public async  virtual Task<IActionResult> PatchItem(long Id, [FromBody] JsonPatchDocument patchRequest)
+        public virtual  async Task<IActionResult> PatchItem(long Id, [FromBody] JsonPatchDocument patchRequest)
         {
             var result = await PatchEntity<T>(Id, patchRequest);
             return result.ToResponse();
         }
 
         [HttpPost("change")]
-        public async virtual Task<IActionResult> ChangeItem([FromBody] SetStatusAction action)
+        public virtual async Task<IActionResult> ChangeItem([FromBody] SetStatusAction action)
         {
             var result = await ChangeStatus<T>(action);
             return result.ToResponse();

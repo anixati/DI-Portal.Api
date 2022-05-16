@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Threading;
 using System.Threading.Tasks;
 using DI.Actions;
 using DI.Domain.Core;
@@ -6,6 +7,7 @@ using DI.Domain.Data;
 using DI.Domain.Queries;
 using DI.Domain.Requests;
 using DI.Response;
+using MediatR;
 
 namespace DI.Services.Core
 {
@@ -31,5 +33,8 @@ namespace DI.Services.Core
 
         Task<IPagedList<TK>> GetList<T, TK>(IQrySpec<T> spec)
             where T : class, IEntity where TK : class, IViewModel;
+
+        Task<TResponse> Send<TResponse>(IRequest<TResponse> request,
+            CancellationToken cancellationToken = default);
     }
 }
