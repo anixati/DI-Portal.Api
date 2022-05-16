@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace Di.Qry.Contracts
+namespace Di.Qry.Core
 {
     public interface IQryFilter
     {
@@ -10,7 +10,10 @@ namespace Di.Qry.Contracts
         object Value { get; }
         IEnumerable<IQryFilter> Rules { get; }
         bool IsOr { get; }
-        bool IsRuleset { get; }
+        bool IsRuleSet { get; }
         bool HasChildRules { get; }
+        bool HasOperator { get; }
+        bool IsInRule { get; }
+        bool IsEmptyFilter();
     }
 }

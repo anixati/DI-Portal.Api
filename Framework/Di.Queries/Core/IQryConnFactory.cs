@@ -1,7 +1,7 @@
 ﻿using System.Data;
 using System.Threading.Tasks;
 
-namespace Di.Qry.Contracts
+namespace Di.Qry.Core
 {
     public interface IQryConnFactory
     {

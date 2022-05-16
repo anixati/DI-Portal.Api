@@ -1,4 +1,4 @@
-﻿namespace Di.Qry.Core
+﻿namespace Di.Qry.Schema.Types
 {
     public enum FieldType
     {
@@ -6,6 +6,8 @@
         Numeric,
         Date,
         Bool,
-        OptionSet
+        OptionSet,
+        Status,
+        Search
     }
 }

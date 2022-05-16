@@ -21,7 +21,7 @@ namespace Boards.ApiHost
                 var hostBuilder = CreateHostBuilder(args);
                 var host = hostBuilder.Build();
                 Log.Information("Started");
-                await RunHostStartUp(host);
+               // await RunHostStartUp(host);
                 await host.RunAsync();
             }
             catch (Exception ex)

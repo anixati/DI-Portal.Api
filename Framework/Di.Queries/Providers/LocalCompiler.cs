@@ -1,6 +1,6 @@
 ﻿using SqlKata.Compilers;
 
-namespace Di.Qry.Schema
+namespace Di.Qry.Providers
 {
     internal class LocalCompiler : SqlServerCompiler
     {

@@ -19,7 +19,7 @@ namespace Boards.Services
 
              builder.AddMappings(moduleType);
 
-             builder.AddQueries(moduleAssembly);
+           //  builder.AddQueries(moduleAssembly);
 
 
             // builder.AddEntityServices(moduleAssembly);

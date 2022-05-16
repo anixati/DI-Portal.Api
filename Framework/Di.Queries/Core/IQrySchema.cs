@@ -1,9 +1,9 @@
-﻿namespace Di.Qry.Contracts
+﻿namespace Di.Qry.Core
 {
     public interface IQrySchema
     {
         string SchemaName { get; }
-        bool RefData { get; }
+        SchemaType SchemaType { get; }
         IQryState Create();
     }
 }

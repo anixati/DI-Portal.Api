@@ -1,10 +1,11 @@
 ﻿using System.Collections.Generic;
 
-namespace Di.Qry.Contracts
+namespace Di.Qry.Core
 {
     public interface IQryContext
     {
-        string SqlString { get; }
+        string DataSetName { get; }
+        string QueryString { get; }
         Dictionary<string, object> Parameters { get; }
     }
 }

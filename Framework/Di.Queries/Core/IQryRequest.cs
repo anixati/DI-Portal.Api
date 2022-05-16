@@ -1,7 +1,6 @@
 ﻿using System.Collections.Generic;
-using Di.Qry.Core;
 
-namespace Di.Qry.Contracts
+namespace Di.Qry.Core
 {
     public interface IQryRequest
     {

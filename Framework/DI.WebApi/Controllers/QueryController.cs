@@ -25,7 +25,12 @@ namespace DI.WebApi.Controllers
             var result = await ExecuteTask(async x => await x.Send(new ConfigRequest()));
             return result.ToResponse();
         }
+        [HttpGet("schema/{name}")]
+        public async Task<IActionResult> GetSchema(string name)
+        {
+            var result = await ExecuteTask(async x => await x.Send(new ConfigRequest{ SchemaName = name}));
+            return result.ToResponse();
+        }
 
-      
     }
 }

@@ -1,6 +1,6 @@
 ﻿using System.Data;
 using System.Threading.Tasks;
-using Di.Qry.Contracts;
+using Di.Qry.Core;
 using Microsoft.Data.SqlClient;
 
 namespace Di.Qry.Providers
