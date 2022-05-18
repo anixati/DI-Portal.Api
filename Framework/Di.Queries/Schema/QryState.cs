@@ -100,11 +100,11 @@ namespace Di.Qry.Schema
         }
 
 
-        #region Compile Paged Query 
+        #region Compile Paged Query
 
-        public IPagedContext Compile(IQryFilter filter, PageInfo pageInfo)
+        public IPagedContext Compile(IQryRequest request)
         {
-            var rv = new PagedContext { PageInfo = pageInfo };
+            var rv = new PagedContext {PageInfo = request.PageInfo};
             var compiler = new LocalCompiler();
 
             if (!_fds.Any())
@@ -112,20 +112,25 @@ namespace Di.Qry.Schema
 
             var exQuery = _query.Clone();
 
-            if (filter is {HasChildRules: true})
-            {
-                exQuery.Where(x => AddClause(filter, filter.IsOr, x));
-            }
+            if (request.Filter != null && request.Filter.HasChildRules)
+                exQuery.Where(x => AddClause(request.Filter, request.Filter.IsOr, x));
 
             var countQuery = exQuery.Clone();
-            var qry = countQuery.AsCount(new[] {$"DISTINCT {Entity.PrimaryKey}"});
-            rv.CountQry = QryContext.Create("Default", compiler.Compile(qry));
+            var qry = countQuery.AsCount(new[] {$"{Entity.PrimaryKey}"});
+            rv.CountQry = QryContext.Create("Count", compiler.Compile(qry));
 
-            var cpIdx = pageInfo.CurrentPage < 1 ? 1 : pageInfo.CurrentPage - 1;
-            var offset = pageInfo.PageSize * cpIdx;
+            var sortList = Entity.SortColumns;
+            if (request.SortInfos.Any())
+                sortList = request.SortInfos;
 
-            var cplQuery = exQuery.OrderBy(Entity.SortColumns.FirstOrDefault())
-                .Limit(pageInfo.PageSize).Offset(offset);
+            var cplQuery = exQuery;
+            foreach (var si in sortList)
+                cplQuery = si.Desc ? exQuery.OrderByDesc(si.Name) : exQuery.OrderBy(si.Name);
+
+            var pageSize = request.PageInfo.PageSize;
+            var page = request.PageInfo.CurrentPage < 1 ? 0 : request.PageInfo.CurrentPage;
+            var totalSkip = (page) * pageSize;
+            cplQuery.Skip(totalSkip < 0 ? 0 : totalSkip).Take(pageSize);
 
             rv.DataQry = QryContext.Create("Default", compiler.Compile(cplQuery));
             return rv;

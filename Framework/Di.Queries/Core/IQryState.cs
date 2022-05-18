@@ -7,7 +7,7 @@ namespace Di.Qry.Core
     {
         List<GridColumn> GetQryColumns();
         Dictionary<string, IQryField> GetQryFields();
-        IPagedContext Compile(IQryFilter filter, PageInfo pageInfo);
+        IPagedContext Compile(IQryRequest request);
         IQryContext Compile();
     }
 }

@@ -37,14 +37,15 @@ namespace Di.Qry.Providers
             var refData = await dbConn.QueryAsync<T>(qContext.QueryString, qContext.Parameters);
             return refData.ToList();
         }
+
         public async Task<IHandlerResponse> ExecuteQuery(IQryContext qContext)
         {
 
             using var dbConn = await _connFactory.CreateConnection();
             var rsp = new HandlerResponse(qContext.DataSetName);
-                var refData = await dbConn.QueryAsync(qContext.QueryString, qContext.Parameters);
-                rsp.SetResult(0, refData?.Cast<IDictionary<string, object>>());
-                return rsp;
+            var refData = await dbConn.QueryAsync(qContext.QueryString, qContext.Parameters);
+            rsp.SetResult(0, refData?.Cast<IDictionary<string, object>>());
+            return rsp;
         }
 
     }

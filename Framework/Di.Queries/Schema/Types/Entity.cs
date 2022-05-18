@@ -16,11 +16,11 @@ namespace Di.Qry.Schema.Types
         }
 
         public string Name { get; }
-        public string TableName => $"[{Schema}].[{Name}] AS {Alias}";
+        public string TableName => $"{Schema}.{Name} AS {Alias}";
         public string Alias { get; }
         public string Schema { get; }
         public string PrimaryKey => $"{Alias}.{_primaryKey}";
-        public List<string> SortColumns { get; set; } = new List<string>();
+        public List<SortInfo> SortColumns { get; set; } = new List<SortInfo>();
         public List<GridColumn> Columns { get; set; } = new List<GridColumn>();
         public List<Field> Fields { get; set; } = new List<Field>();
         public Dictionary<string, Link> Links { get; set; } = new Dictionary<string, Link>();
@@ -29,7 +29,7 @@ namespace Di.Qry.Schema.Types
         public static Entity Create(string name, string alias, string primaryKey = "", string schemaName = "dbo")
         {
             var entity = new Entity(name, alias, primaryKey, schemaName);
-            entity.Columns.Add(new GridColumn("Id"));
+            entity.Column("Id");
             return entity;
         }
     }

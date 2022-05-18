@@ -28,7 +28,7 @@ namespace System
         }
         public static string ToSentence(this string input)
         {
-            return new string(input.SelectMany((c, i) => i > 0 && char.IsUpper(c) ? new[] { ' ', c } : new[] { c }).ToArray());
+            return string.Concat(input.Select(x => char.IsUpper(x) ? " " + x : x.ToString())).TrimStart(' ');
         }
 
         public static bool IsNull(this string input)

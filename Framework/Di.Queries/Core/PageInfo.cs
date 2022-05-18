@@ -2,14 +2,16 @@
 {
     public class PageInfo
     {
-        public PageInfo()
+        public PageInfo():this(1,20)
         {
-            CurrentPage = 1;
-            PageSize = 100;
         }
-
+        public PageInfo(int page,int pageSize)
+        {
+            CurrentPage = page;
+            PageSize = pageSize;
+        }
         public int Total { get; set; }
-        public int CurrentPage { get; set; }
-        public int PageSize { get; set; }
+        public int CurrentPage { get;  }
+        public int PageSize { get;  }
     }
 }

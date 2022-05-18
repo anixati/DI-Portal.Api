@@ -1,10 +1,13 @@
-﻿using Di.Qry.Requests;
+﻿using System.ComponentModel.DataAnnotations;
+using Di.Qry.Requests;
 using DI.Services.Core;
 using DI.WebApi.Core;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using System.Threading.Tasks;
+using Di.Qry.Core;
+using DI.Requests;
 using DI.WebApi.Responses;
 
 namespace DI.WebApi.Controllers
@@ -29,6 +32,17 @@ namespace DI.WebApi.Controllers
         public async Task<IActionResult> GetSchema(string name)
         {
             var result = await ExecuteTask(async x => await x.Send(new SchemaRequest(){ Name = name}));
+            return result.ToResponse();
+        }
+
+        [HttpPost("schema/{name}")]
+        public virtual async Task<IActionResult> GetItems([Required]string name,[FromBody] QueryRequest request)
+        {
+            var qryReq = new QryRequest(name)
+            {
+                PageInfo = new PageInfo(request.Index.GetValueOrDefault(),request.Size.GetValueOrDefault())
+            };
+            var result = await ExecuteTask(async x => await x.Send(qryReq));
             return result.ToResponse();
         }
 

@@ -1,6 +1,6 @@
 ﻿using DI.Core;
 
-namespace DI.Services.Requests
+namespace DI.Requests
 {
     public abstract class SearchRequestBase : ISearchRequest
     {

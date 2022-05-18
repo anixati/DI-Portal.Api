@@ -1,4 +1,4 @@
-﻿namespace DI.Services.Requests
+﻿namespace DI.Requests
 {
     public class ListRequest : SearchRequestBase
     {

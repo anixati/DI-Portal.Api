@@ -11,7 +11,7 @@ namespace Di.Qry.Core
 
         public GridColumn(string colName, string accessor = "",string header="")
         {
-            ColName = !string.IsNullOrEmpty(accessor) ? $"{colName} AS [{accessor}]" : $"{colName}";
+            ColName = !string.IsNullOrEmpty(accessor) ? $"{colName} AS {accessor}" : $"{colName}";
             Accessor = !string.IsNullOrEmpty(accessor) ? $"{accessor}" : $"{SanitizeCol(colName)}";
             Header = !string.IsNullOrEmpty(header) ? $"{header}" : $"{Accessor.ToSentence()}";
         }

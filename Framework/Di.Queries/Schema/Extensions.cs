@@ -12,32 +12,32 @@ namespace Di.Qry.Schema
             return entity;
         }
 
-        public static Entity AddCols(this Entity entity, params string[] cols)
+        public static Entity Select(this Entity entity, params string[] cols)
         {
             if (cols == null) return entity;
             foreach (var colName in cols)
                 if (colName.Contains("|"))
                 {
                     var cs = colName.Split(new[] {"|"}, StringSplitOptions.RemoveEmptyEntries);
-                    entity.AddCol(cs[0], cs[1]);
+                    entity.Column(cs[0], cs[1]);
                 }
                 else
                 {
-                    entity.AddCol(colName);
+                    entity.Column(colName);
                 }
 
             return entity;
         }
 
-        public static Entity AddCol(this Entity entity, string colName, string accessor="",string header="" )
+        public static Entity Column(this Entity entity, string colName, string accessor="",string header="" )
         {
-            entity.Columns.Add(new GridColumn($"{entity.Alias}.[{colName}]", accessor, header));
+            entity.Columns.Add(new GridColumn($"{entity.Alias}.{colName}", accessor, header));
             return entity;
         }
 
-        public static Entity AddSortCol(this Entity entity, string colName)
+        public static Entity AddSortCol(this Entity entity, string colName,bool desc= false )
         {
-            entity.SortColumns.Add($"{entity.Alias}.{colName}");
+            entity.SortColumns.Add(new SortInfo($"{entity.Alias}.{colName}", desc));
             return entity;
         }
 
@@ -83,6 +83,20 @@ namespace Di.Qry.Schema
                 LinkType = linkType
             };
             return entity;
+        }
+
+        public static Entity Join(this Entity entity, string name, string alias, string from)
+        {
+            var link = new Entity(name, alias);
+            var key = $"{entity.Name}_{link.Name}";
+            entity.Links[key] = new Link(key)
+            {
+                Entity = link,
+                From = $"{link.Alias}.{from}",
+                To = $"{entity.PrimaryKey}",
+                LinkType = LinkType.Default
+            };
+            return link;
         }
     }
 }

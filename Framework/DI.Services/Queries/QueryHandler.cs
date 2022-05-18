@@ -25,7 +25,7 @@ namespace DI.Services.Queries
         public async Task<QryResponse> Handle(QryRequest request, CancellationToken cancellationToken)
         {
             var schema = _provider.GetSchemaList()
-                .FirstOrDefault(x => string.Compare(x.SchemaName, request.SchemaName, StringComparison.OrdinalIgnoreCase) == 0);
+                .FirstOrDefault(x => string.Compare(x.SchemaName, request.Schema, StringComparison.OrdinalIgnoreCase) == 0);
 
             if (schema == null)
                 throw new Exception($"Unknown schema requested !");
@@ -42,12 +42,13 @@ namespace DI.Services.Queries
 
         private async Task<QryResponse> RetrieveSqlData(QryRequest request)
         {
-            var queryState = _provider.GetQryState<QryState>(request.SchemaName);
+            var queryState = _provider.GetQryState<QryState>(request.Schema);
             if (queryState == null)
                 throw new Exception("Unable to get query state");
 
             var response = new QryResponse(request.PageInfo);
-            var pagedContext = queryState.Compile(request.Filter, request.PageInfo);
+            var pagedContext = queryState.Compile(request);
+
             var dbResult = await _dataSource.ExecuteQuery(pagedContext);
             if (dbResult != null && queryState.HasSubQueries)
                 foreach (var sQry in queryState.SubQueries())

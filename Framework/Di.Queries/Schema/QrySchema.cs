@@ -1,4 +1,5 @@
-﻿using Di.Qry.Core;
+﻿using System.Collections.Generic;
+using Di.Qry.Core;
 using Di.Qry.Schema.Types;
 
 namespace Di.Qry.Schema
@@ -11,6 +12,8 @@ namespace Di.Qry.Schema
         public virtual IQryState Create()
         {
             var entity = CreateEntity();
+            var (name, desc) = GetDefaultSort();
+            entity.AddSortCol(name, desc);
             var qs = QryState.Create(entity);
             ConfigureQry(qs);
             qs.FinaliseCreate();
@@ -20,7 +23,7 @@ namespace Di.Qry.Schema
         protected virtual void ConfigureQry(QryState qs)
         {
         }
-
         protected abstract Entity CreateEntity();
+        protected abstract (string,bool) GetDefaultSort();
     }
 }
