@@ -8,7 +8,7 @@ namespace Di.Qry.Schema
         public abstract string SchemaName { get; }
         public virtual SchemaType SchemaType => SchemaType.DataQuery;
 
-        public IQryState Create()
+        public virtual IQryState Create()
         {
             var entity = CreateEntity();
             var qs = QryState.Create(entity);

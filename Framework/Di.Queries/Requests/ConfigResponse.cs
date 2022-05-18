@@ -1,14 +1,11 @@
-﻿using Newtonsoft.Json.Linq;
+﻿using Di.Qry.Core;
+using Newtonsoft.Json.Linq;
 
 namespace Di.Qry.Requests
 {
-    public class ConfigResponse
+    public class SchemaResponse
     {
-        public ConfigResponse(JObject data)
-        {
-            Data = data;
-        }
 
-        public JObject Data { get; }
+        public SchemaDef Schema{ get; set; }
     }
 }

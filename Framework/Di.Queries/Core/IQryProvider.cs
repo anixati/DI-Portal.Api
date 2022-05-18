@@ -6,8 +6,8 @@ namespace Di.Qry.Core
     public interface IQryProvider
     {
         IEnumerable<IQrySchema> GetSchemaList();
-        JObject GetSchemas();
-        JObject GetConfig(string schemaKey);
+        List<SchemaName> GetSchemas();
+        SchemaDef GetSchemaDef(string schemaKey);
         T GetQryState<T>(string qryStateKey) where T : class, IQryState;
         List<QryOption> GetQryOptions(string refDataKey);
     }

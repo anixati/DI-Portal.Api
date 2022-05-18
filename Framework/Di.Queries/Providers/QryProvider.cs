@@ -3,6 +3,7 @@ using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using DI;
 using Di.Qry.Core;
 using Di.Qry.Schema;
 using Microsoft.Extensions.Logging;
@@ -28,20 +29,32 @@ namespace Di.Qry.Providers
             }
         }
 
-        public JObject GetConfig(string schemaKey)
+        //public JObject GetConfig(string schemaKey)
+        //{
+        //    var qs = GetQryState(schemaKey);
+        //    var cols = qs.GetQryColumns();
+        //    //var qryFds = qs.GetQryFields();
+
+        //    //var def = new JObject();
+        //    //foreach (var qf in fds.Values)
+        //      //  def[qf.QueryKey] = qf.GetConfig(this);
+        //    var queryConfig = new JObject
+        //    {
+        //        ["cols"] = cols,
+        //        //["filters"] = def
+        //    };
+        //    return queryConfig;
+        //}
+
+        public SchemaDef GetSchemaDef(string schemaKey)
         {
+            schemaKey.ThrowIfEmpty($"schema name cannot be empty");
             var qs = GetQryState(schemaKey);
-            var fds = qs.GetQryFields();
-            var cols = qs.GetQryFields();
-            var def = new JObject();
-            foreach (var qf in fds.Values)
-                def[qf.QueryKey] = qf.GetConfig(this);
-            var queryConfig = new JObject
+            qs.ThrowIfNull();
+           return  new SchemaDef
             {
-                ["cols"] = def,
-                ["filters"] = def
+                Columns = qs.GetQryColumns()
             };
-            return queryConfig;
         }
 
         public T GetQryState<T>(string qryStateKey) where T : class, IQryState
@@ -66,10 +79,15 @@ namespace Di.Qry.Providers
                    Enumerable.Empty<IQrySchema>();
         }
 
-        public JObject GetSchemas()
+        public List<SchemaName> GetSchemas()
         {
-            return new JObject { { "schemas", JToken.FromObject(GetSchemaList().ToArray()) } };
+            return GetSchemaList().Select(x=> new SchemaName(x.SchemaName)).ToList();
         }
+
+        //public JObject GetSchemas()
+        //{
+        //    return new JObject { { "schemas", JToken.FromObject(GetSchemaList().ToArray()) } };
+        //}
 
         public List<QryOption> GetQryOptions(string refDataKey)
         {

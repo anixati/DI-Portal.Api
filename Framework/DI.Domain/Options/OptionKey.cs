@@ -10,7 +10,7 @@ namespace DI.Domain.Options
     public class OptionKey : NamedBaseEntity
     {
         [Required]
-        [MaxLength(30)]
+        [MaxLength(100)]
         [Column(Order = 2)]
         public string Code { get; set; }
 

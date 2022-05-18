@@ -2,8 +2,13 @@
 
 namespace Di.Qry.Requests
 {
-    public class ConfigRequest : IRequest<ConfigResponse>
+    public class SchemaRequest : IRequest<SchemaResponse>
     {
-        public string SchemaName { get; set; }
+        public string Name { get; set; }
+    }
+
+
+    public class SchemaListRequest : IRequest<SchemaListResponse>
+    {
     }
 }

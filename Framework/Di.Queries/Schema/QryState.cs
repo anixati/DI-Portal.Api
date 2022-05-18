@@ -14,10 +14,11 @@ namespace Di.Qry.Schema
         private readonly Query _query;
         private readonly Dictionary<string, Field> _fds;
         private readonly List<SuQryState> _subQueries;
-
+        private List<GridColumn> _cols;
         public QryState(Entity entity)
         {
             Entity = entity;
+            _cols = new List<GridColumn>();
             _fds = new Dictionary<string, Field>();
             _query = new Query(Entity.TableName);
             _subQueries = new List<SuQryState>();
@@ -111,7 +112,7 @@ namespace Di.Qry.Schema
 
             var exQuery = _query.Clone();
 
-            if (filter != null && filter.HasChildRules)
+            if (filter is {HasChildRules: true})
             {
                 exQuery.Where(x => AddClause(filter, filter.IsOr, x));
             }
@@ -238,6 +239,22 @@ namespace Di.Qry.Schema
 
 
         #region Query Configuration
+
+        public List<GridColumn> GetQryColumns()
+        {
+            SetUpColumns(Entity);
+            return _cols;
+        }
+
+        private void SetUpColumns(Entity entity)
+        {
+            foreach (var qf in entity.Columns)
+                _cols.Add(qf);
+            if (!entity.Links.Any()) return;
+            foreach (var ql in entity.Links.Values)
+                SetUpColumns(ql.Entity);
+        }
+
         public Dictionary<string, IQryField> GetQryFields()
         {
             SetUpQryFields(Entity);

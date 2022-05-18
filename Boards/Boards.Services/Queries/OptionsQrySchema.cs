@@ -1,11 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Di.Qry;
-using Di.Qry.Core;
-using Di.Qry.Schema;
+﻿using Di.Qry.Schema;
 using Di.Qry.Schema.Types;
 
 namespace Boards.Services.Queries
@@ -16,9 +9,14 @@ namespace Boards.Services.Queries
 
         protected override Entity CreateEntity()
         {
-            return new Entity("OptionKeys", "oks")
-                .AddCols("Name", "Description")
-                .AddSortCol("Name");
+            var ok = Entity.Create("OptionKeys", "ok");
+            ok.AddCol("Name","GroupName");
+
+            var os = Entity.Create("OptionSet", "os");
+            os.AddCols("Id|OptionId", "Order","Label","Value");
+
+            ok.Join(os, "OptionKeyId", "Id");
+            return ok;
         }
     }
 

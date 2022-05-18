@@ -26,6 +26,10 @@ namespace System
                 return char.ToUpperInvariant(input[0]) + input[1..];
             return input;
         }
+        public static string ToSentence(this string input)
+        {
+            return new string(input.SelectMany((c, i) => i > 0 && char.IsUpper(c) ? new[] { ' ', c } : new[] { c }).ToArray());
+        }
 
         public static bool IsNull(this string input)
         {

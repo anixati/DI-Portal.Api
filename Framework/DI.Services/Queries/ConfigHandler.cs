@@ -13,22 +13,24 @@ using Newtonsoft.Json.Linq;
 
 namespace DI.Services.Queries
 {
-    public class ConfigHandler : ServiceBase, IRequestHandler<ConfigRequest, ConfigResponse>
+    public class SchemaHandler : ServiceBase, IRequestHandler<SchemaRequest, SchemaResponse>
     {
         private readonly IQryProvider _provider;
 
-        public ConfigHandler(IQryProvider provider, ILoggerFactory loggerFactory)
+        public SchemaHandler(IQryProvider provider, ILoggerFactory loggerFactory)
             : base(loggerFactory)
         {
             _provider = provider;
         }
 
-        public async Task<ConfigResponse> Handle(ConfigRequest request, CancellationToken cancellationToken)
+        public async Task<SchemaResponse> Handle(SchemaRequest request, CancellationToken cancellationToken)
         {
             await Task.Delay(0);
-            return string.IsNullOrEmpty(request.SchemaName)
-                ? new ConfigResponse(_provider.GetSchemas())
-                : new ConfigResponse(_provider.GetConfig(request.SchemaName));
+            return new SchemaResponse
+            {
+                Schema = _provider.GetSchemaDef(request.Name)
+            };
+
         }
     }
 

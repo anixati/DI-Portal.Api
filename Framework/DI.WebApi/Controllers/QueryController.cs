@@ -22,13 +22,13 @@ namespace DI.WebApi.Controllers
         [HttpGet("schemas")]
         public async Task<IActionResult> GetSchemas()
         {
-            var result = await ExecuteTask(async x => await x.Send(new ConfigRequest()));
+            var result = await ExecuteTask(async x => await x.Send(new SchemaListRequest()));
             return result.ToResponse();
         }
         [HttpGet("schema/{name}")]
         public async Task<IActionResult> GetSchema(string name)
         {
-            var result = await ExecuteTask(async x => await x.Send(new ConfigRequest{ SchemaName = name}));
+            var result = await ExecuteTask(async x => await x.Send(new SchemaRequest(){ Name = name}));
             return result.ToResponse();
         }
 
