@@ -8,18 +8,15 @@ namespace DI.Domain.Core
         {
             var rval = new List<PropModel>();
             foreach (var itm in this)
-            {
                 rval.Add(new PropModel
                 {
                     Key = itm.Key,
                     OldValue = itm.OldValue == null ? "" : itm.OldValue.ToString(),
-                    NewValue = itm.NewValue == null ? "" : itm.NewValue.ToString(),
+                    NewValue = itm.NewValue == null ? "" : itm.NewValue.ToString()
                 });
-            }
             return rval;
         }
     }
-
 
 
     public class PropModel

@@ -16,7 +16,6 @@ namespace Di.Qry.Schema.Types
         public string To { get; set; }
 
         public string JoinType => LinkType == LinkType.Default ? "inner join" : "left outer join";
-        public List<string> Clauses { get; set; } = new List<string>();
-
+        public List<string> Clauses { get; set; } = new();
     }
 }

@@ -10,14 +10,15 @@ namespace Di.Qry.Schema
     {
         public string DataSetName { get; set; }
         public string QueryString { get; set; }
-        public Dictionary<string, object> Parameters { get; set; } = new Dictionary<string, object>();
+        public Dictionary<string, object> Parameters { get; set; } = new();
+
         public override string ToString()
         {
             var sbr = new StringBuilder();
             sbr.AppendLine($"DataSet Name :{DataSetName}");
-            sbr.AppendLine($"Query String :");
+            sbr.AppendLine("Query String :");
             sbr.AppendLine($"{QueryString}");
-            sbr.AppendLine($"Parameters :");
+            sbr.AppendLine("Parameters :");
             foreach (var sq in Parameters)
                 sbr.AppendLine($"{sq.Key} - {sq.Value}");
             return sbr.ToString();

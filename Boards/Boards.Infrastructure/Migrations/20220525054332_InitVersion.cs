@@ -522,6 +522,7 @@ namespace Boards.Infrastructure.Migrations
                     NominationCommittee = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: true),
                     OwnerDivision = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: true),
                     OwnerPosition = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: true),
+                    Acronym = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: true),
                     LegislationReference = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: true),
                     Constitution = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: true),
                     ResponsibleOfficer = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: true),

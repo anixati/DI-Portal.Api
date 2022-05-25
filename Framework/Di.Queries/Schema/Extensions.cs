@@ -28,13 +28,14 @@ namespace Di.Qry.Schema
 
             return entity;
         }
+
         public static Entity SelectSearchCols(this Entity entity, params string[] cols)
         {
             if (cols == null) return entity;
             foreach (var colName in cols)
                 if (colName.Contains("|"))
                 {
-                    var cs = colName.Split(new[] { "|" }, StringSplitOptions.RemoveEmptyEntries);
+                    var cs = colName.Split(new[] {"|"}, StringSplitOptions.RemoveEmptyEntries);
                     entity.SearchCol(cs[0], cs[1]);
                 }
                 else
@@ -44,18 +45,22 @@ namespace Di.Qry.Schema
 
             return entity;
         }
-        public static Entity SearchCol(this Entity entity, string colName,string accessor= "")
+
+        public static Entity SearchCol(this Entity entity, string colName, string accessor = "")
         {
             entity.Column(colName, accessor, string.Empty, true, true);
             return entity;
         }
-        public static Entity Column(this Entity entity, string colName, string accessor="",string header="",bool searchable=false,bool sortable=false )
+
+        public static Entity Column(this Entity entity, string colName, string accessor = "", string header = "",
+            bool searchable = false, bool sortable = false)
         {
-            entity.Columns.Add(new GridColumn($"{entity.Alias}.{colName}", accessor, header){Searchable = searchable,Sortable = sortable});
+            entity.Columns.Add(new GridColumn($"{entity.Alias}.{colName}", accessor, header)
+                {Searchable = searchable, Sortable = sortable});
             return entity;
         }
 
-        public static Entity AddSortCol(this Entity entity, string colName,bool desc= false )
+        public static Entity AddSortCol(this Entity entity, string colName, bool desc = false)
         {
             entity.SortColumns.Add(new SortInfo($"{entity.Alias}.{colName}", desc));
             return entity;

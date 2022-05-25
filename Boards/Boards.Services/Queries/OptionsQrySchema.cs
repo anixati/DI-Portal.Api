@@ -1,5 +1,4 @@
-﻿using Di.Qry.Core;
-using Di.Qry.Schema;
+﻿using Di.Qry.Schema;
 using Di.Qry.Schema.Types;
 
 namespace Boards.Services.Queries
@@ -12,21 +11,17 @@ namespace Boards.Services.Queries
         protected override Entity CreateEntity()
         {
             var ok = Entity.Create("OptionKeys", "ok");
-            ok.SearchCol("Name","GroupName");
+            ok.SearchCol("Name", "GroupName");
 
-            var link= ok.Join("OptionSet", "os", "OptionKeyId");
-            link.Select("Id|OptionId", "Order","Value");
+            var link = ok.Join("OptionSet", "os", "OptionKeyId");
+            link.Select("Id|OptionId", "Order", "Value");
             link.SelectSearchCols("Label");
             return ok;
         }
 
         protected override (string, bool) GetDefaultSort()
         {
-            return ("Name",false);
+            return ("Name", false);
         }
     }
-
-
-
-
 }

@@ -2,7 +2,7 @@
 
 namespace Di.Qry.Core
 {
-    public class PagedContext: IPagedContext
+    public class PagedContext : IPagedContext
     {
         public PageInfo PageInfo { get; set; }
         public IQryContext CountQry { get; set; }
@@ -13,11 +13,11 @@ namespace Di.Qry.Core
         public override string ToString()
         {
             var sbr = new StringBuilder();
-            sbr.AppendLine($"Paging Info :");
+            sbr.AppendLine("Paging Info :");
             sbr.AppendLine($"{PageInfo}");
-            sbr.AppendLine($"Count Query :");
+            sbr.AppendLine("Count Query :");
             sbr.AppendLine($"{CountQry}");
-            sbr.AppendLine($"Data Query :");
+            sbr.AppendLine("Data Query :");
             sbr.AppendLine($"{DataQry}");
             return sbr.ToString();
         }

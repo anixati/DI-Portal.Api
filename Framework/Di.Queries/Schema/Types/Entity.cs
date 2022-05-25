@@ -20,12 +20,15 @@ namespace Di.Qry.Schema.Types
         public string Alias { get; }
         public string Schema { get; }
         public string PrimaryKey => $"{Alias}.{_primaryKey}";
-        public List<SortInfo> SortColumns { get; set; } = new List<SortInfo>();
-        public List<GridColumn> Columns { get; set; } = new List<GridColumn>();
-        public List<Field> Fields { get; set; } = new List<Field>();
-        public Dictionary<string, Link> Links { get; set; } = new Dictionary<string, Link>();
+        public List<SortInfo> SortColumns { get; set; } = new();
+        public List<GridColumn> Columns { get; set; } = new();
+        public List<Field> Fields { get; set; } = new();
+
+        public Dictionary<string, Link> Links { get; set; } = new();
+
         // public Dictionary<string, SubQryEntity> SubQueries { get; set; } = new Dictionary<string, SubQryEntity>();
-        public List<string> Clauses { get; set; } = new List<string>();
+        public List<string> Clauses { get; set; } = new();
+
         public static Entity Create(string name, string alias, string primaryKey = "", string schemaName = "dbo")
         {
             var entity = new Entity(name, alias, primaryKey, schemaName);

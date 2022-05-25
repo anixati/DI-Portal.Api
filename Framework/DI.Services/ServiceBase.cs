@@ -8,7 +8,7 @@ namespace DI.Services
 
         protected ServiceBase(ILoggerFactory logFactory)
         {
-            Logger = logFactory.CreateLogger(this.GetType().Name);
+            Logger = logFactory.CreateLogger(GetType().Name);
         }
 
         protected void Trace(string message)

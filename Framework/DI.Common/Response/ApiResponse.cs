@@ -32,10 +32,8 @@ namespace DI.Response
         }
 
 
-
         public static IApiResponse Error(Exception exception, ResponseCode status = ResponseCode.ServerError)
         {
-
             return Error(exception.ToExceptionMessages(), status);
         }
 

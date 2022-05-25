@@ -14,6 +14,7 @@ namespace DI.Domain.Users
         [MaxLength(30)]
         [Column(Order = 2)]
         public string Code { get; set; }
+
         public ICollection<AppTeam> Teams { get; set; }
         public ICollection<Permission> Permissions { get; set; }
     }

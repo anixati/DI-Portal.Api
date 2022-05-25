@@ -5,14 +5,6 @@ namespace Di.Qry.Requests
 {
     public class QryResponse
     {
-
-        public int PageIndex { get;}
-        public int PageSize { get; }
-        public int PageCount { get; private set; }
-        public long Total { get; private set; }
-        public object Items { get; private set; }
-        public bool HasPrevious { get; private set; }
-        public bool HasNext { get; private set; }
         public QryResponse(PageInfo pageInfo)
         {
             PageIndex = pageInfo.CurrentPage;
@@ -20,12 +12,20 @@ namespace Di.Qry.Requests
             HasPrevious = PageIndex > 1;
         }
 
+        public int PageIndex { get; }
+        public int PageSize { get; }
+        public int PageCount { get; private set; }
+        public long Total { get; private set; }
+        public object Items { get; private set; }
+        public bool HasPrevious { get; }
+        public bool HasNext { get; private set; }
+
         public void SetResult(IHandlerResponse response)
         {
             if (response == null) return;
             Total = response.Count;
-            PageCount = PageSize > 0?(int)Math.Ceiling(Total / (double)PageSize):1;
-            HasNext = PageIndex < PageCount-1;
+            PageCount = PageSize > 0 ? (int) Math.Ceiling(Total / (double) PageSize) : 1;
+            HasNext = PageIndex < PageCount - 1;
             Items = response.Data;
         }
     }

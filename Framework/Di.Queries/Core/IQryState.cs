@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using Di.Qry.Schema.Types;
 
 namespace Di.Qry.Core
 {

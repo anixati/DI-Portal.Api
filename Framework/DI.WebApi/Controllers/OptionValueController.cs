@@ -12,10 +12,7 @@ namespace DI.WebApi.Controllers
     {
         public OptionValueController(ILoggerFactory factory, IServiceContext context) : base(factory, context)
         {
-            SetFilter = (r) =>
-            {
-                this.ItemFilter = e => e.OptionKeyId == r.KeyId;
-            };
+            SetFilter = r => { ItemFilter = e => e.OptionKeyId == r.KeyId; };
         }
     }
 }

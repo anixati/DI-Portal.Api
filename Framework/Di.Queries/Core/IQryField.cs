@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using Di.Qry.Schema;
 using Newtonsoft.Json.Linq;
 
 namespace Di.Qry.Core

@@ -11,15 +11,18 @@ namespace Di.Qry.Requests
             Schema = schema;
         }
 
-        public string Schema { get;  }
+        public string Schema { get; }
 
         public string SearchStr { get; set; }
-        public bool CanSearch() {
+
+        public bool CanSearch()
+        {
             return !string.IsNullOrEmpty(SearchStr);
         }
+
         public IQryFilter Filter { get; set; } = new QryFilter();
 
-        public PageInfo PageInfo { get; set; } = new PageInfo();
-        public List<SortInfo> SortInfos { get; set; } = new List<SortInfo>();
+        public PageInfo PageInfo { get; set; } = new();
+        public List<SortInfo> SortInfos { get; set; } = new();
     }
 }

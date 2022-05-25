@@ -26,6 +26,7 @@ namespace System
                 return char.ToUpperInvariant(input[0]) + input[1..];
             return input;
         }
+
         public static string ToSentence(this string input)
         {
             return string.Concat(input.Select(x => char.IsUpper(x) ? " " + x : x.ToString())).TrimStart(' ');
@@ -84,10 +85,7 @@ namespace System
             {
                 yield return innerException;
                 innerException = innerException.InnerException;
-            }
-            while (innerException != null);
+            } while (innerException != null);
         }
-
-
     }
 }

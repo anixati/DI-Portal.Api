@@ -5,6 +5,7 @@ using Boards.Infrastructure.Design;
 using Boards.Infrastructure.Domain;
 using DI.Domain;
 using DI.Domain.Core;
+using DI.Forms;
 using Di.Qry;
 using DI.Security;
 
@@ -26,6 +27,7 @@ namespace Boards.Infrastructure
             builder.RegisterType<MockUserIdentityProvider>().As<IIdentityProvider>();
             builder.AddDbContext<BoardsDbContext>();
             builder.AddQryProviders<BoardsDbContext>();
+            builder.AddFormProviders();
             builder.RegisterEntityHandlers<BoardsDbContext>(typeof(BaseEntity).Assembly, typeof(Board).Assembly);
             // builder.AddMappings(moduleType);
             // builder.AddEntityServices(moduleAssembly);

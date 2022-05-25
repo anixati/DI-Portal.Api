@@ -19,7 +19,6 @@ namespace Boards.Domain.Boards
 
         [MaxLength(2000)] public string EstablishedByUnderText { get; set; }
 
-
         [MaxLength(255)] public string AssistantSecretory { get; set; }
 
         [MaxLength(50)] public string AssistantSecretoryPhone { get; set; }
@@ -29,6 +28,8 @@ namespace Boards.Domain.Boards
         [MaxLength(255)] public string OwnerDivision { get; set; }
 
         [MaxLength(255)] public string OwnerPosition { get; set; }
+
+        [MaxLength(255)] public string Acronym { get; set; }
 
         //[MaxLength(255)]
         //public string BoardStatus { get; set; }

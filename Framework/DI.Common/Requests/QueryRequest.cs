@@ -1,9 +1,7 @@
 ﻿using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
 
 namespace DI.Requests
 {
-
     public class SortVal
     {
         public string Id { get; set; }
@@ -12,8 +10,7 @@ namespace DI.Requests
 
     public class QueryRequest : SearchRequestBase
     {
-
         public string SearchStr { get; set; }
-        public List<SortVal> SortBy { get; set; } = new List<SortVal>();
+        public List<SortVal> SortBy { get; set; } = new();
     }
 }

@@ -8,7 +8,6 @@ using DI.Domain.Core;
 using DI.Domain.Requests;
 using DI.Requests;
 using DI.Services.Core;
-using DI.WebApi.Controllers;
 using Microsoft.AspNetCore.JsonPatch;
 using Microsoft.Extensions.Logging;
 
@@ -72,10 +71,9 @@ namespace DI.WebApi.Core
             {
                 return await x.GetListByQry<T, TK>(qb =>
                 {
-
                     //var qry = Enumerable.Empty<T>().AsQueryable();
-                    qb.SetOrderBy(m=> m.OrderBy(x=>x.Id));
-                
+                    qb.SetOrderBy(m => m.OrderBy(x => x.Id));
+
                     qb.SetPaging(request.GetPageCookie());
                     if (expression != null)
                         qb.Where(expression);

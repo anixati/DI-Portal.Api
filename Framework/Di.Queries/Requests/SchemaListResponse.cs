@@ -3,7 +3,7 @@ using Di.Qry.Core;
 
 namespace Di.Qry.Requests
 {
-    public class SchemaListResponse 
+    public class SchemaListResponse
     {
         public List<SchemaName> Schemas { get; set; }
     }

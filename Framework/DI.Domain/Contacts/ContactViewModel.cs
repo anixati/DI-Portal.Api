@@ -8,8 +8,8 @@ namespace DI.Domain.Contacts
     public abstract class ContactViewModel : AuditViewModel
     {
         [MaxLength(255)] public string Title { get; set; }
-        [Required][MaxLength(255)] public string FirstName { get; set; }
-        [Required][MaxLength(255)] public string LastName { get; set; }
+        [Required] [MaxLength(255)] public string FirstName { get; set; }
+        [Required] [MaxLength(255)] public string LastName { get; set; }
         [MaxLength(255)] public string MiddleName { get; set; }
         public GenderEnum Gender { get; set; }
         [MaxLength(10)] public string HomePhone { get; set; }

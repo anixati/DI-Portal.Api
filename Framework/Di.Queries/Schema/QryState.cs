@@ -12,49 +12,50 @@ namespace Di.Qry.Schema
 {
     public class QryState : IQryState
     {
-        private readonly Query _query;
         private readonly Dictionary<string, Field> _fds;
         private readonly List<SuQryState> _subQueries;
         private List<GridColumn> _cols;
+
         public QryState(Entity entity)
         {
             Entity = entity;
             _cols = new List<GridColumn>();
             _fds = new Dictionary<string, Field>();
-            _query = new Query(Entity.TableName);
+            Query = new Query(Entity.TableName);
             _subQueries = new List<SuQryState>();
         }
 
-        public string Title { get; set; }
         public Entity Entity { get; }
 
         public string Key => $"{Entity.Name}_Query";
 
         public bool HasSubQueries => _subQueries.Any();
 
+        public string Title { get; set; }
+
         public IQryContext Compile()
         {
             return QryContext.Create("Default", new LocalCompiler()
-                .Compile(_query));
+                .Compile(Query));
         }
 
         public IQryState OrderBy(string column, bool desc = false)
         {
             _ = desc
-                ? _query.OrderByDesc(column)
-                : _query.OrderBy(column);
+                ? Query.OrderByDesc(column)
+                : Query.OrderBy(column);
             return this;
         }
 
         public IQryState Page(int limit, int offset)
         {
-            _query.Limit(limit).Offset(offset);
+            Query.Limit(limit).Offset(offset);
             return this;
         }
 
         public IQryState Where(string column, object value)
         {
-            _query.WhereRaw(column, value);
+            Query.WhereRaw(column, value);
             return this;
         }
 
@@ -80,10 +81,8 @@ namespace Di.Qry.Schema
             {
                 x.On(link.From, link.To);
                 if (link.Clauses != null)
-                {
                     foreach (var craw in link.Clauses)
                         x.WhereRaw(craw);
-                }
                 return x;
             }, link.JoinType);
         }
@@ -111,7 +110,7 @@ namespace Di.Qry.Schema
             if (!_fds.Any())
                 SetUpQryFields(Entity);
 
-            var exQuery = _query.Clone();
+            var exQuery = Query.Clone();
 
             if (request.Filter != null && request.Filter.HasChildRules)
                 exQuery.Where(x => AddClause(request.Filter, request.Filter.IsOr, x));
@@ -124,14 +123,15 @@ namespace Di.Qry.Schema
             var cols = GetQryColumns();
 
             if (request.CanSearch())
-                exQuery = cols.Where(x => x.Searchable).Aggregate(exQuery, (current, col) => current.OrWhereLike(col.SortCol, $"%{request.SearchStr}%"));
+                exQuery = cols.Where(x => x.Searchable).Aggregate(exQuery,
+                    (current, col) => current.OrWhereLike(col.SortCol, $"%{request.SearchStr}%"));
 
-            foreach (var si in GetSortColumns(request,cols))
+            foreach (var si in GetSortColumns(request, cols))
                 exQuery = si.Desc ? exQuery.OrderByDesc(si.Id) : exQuery.OrderBy(si.Id);
 
             var pageSize = request.PageInfo.PageSize;
             var page = request.PageInfo.CurrentPage < 1 ? 0 : request.PageInfo.CurrentPage;
-            var totalSkip = (page) * pageSize;
+            var totalSkip = page * pageSize;
             exQuery.Skip(totalSkip < 0 ? 0 : totalSkip).Take(pageSize);
 
             rv.DataQry = QryContext.Create("Default", compiler.Compile(exQuery));
@@ -183,7 +183,7 @@ namespace Di.Qry.Schema
             //check is it a subquery
             if (qfd.IsSubQry)
             {
-                var queryOnField = qfd.EntityField;// Entity.PrimaryKey;
+                var queryOnField = qfd.EntityField; // Entity.PrimaryKey;
                 var subQuery = BuildSubQuery(qfd, rule, queryOnField);
 
                 if (isOr)
@@ -192,6 +192,7 @@ namespace Di.Qry.Schema
                     query.WhereIn(queryOnField, subQuery);
                 return;
             }
+
             // is in rule
             if (rule.IsInRule)
             {
@@ -202,6 +203,7 @@ namespace Di.Qry.Schema
                     query.WhereIn(qfd.QueryKey, values);
                 return;
             }
+
             if (isOr)
                 query.OrWhere(qfd.QueryKey, clause.Operator, clause.Value);
             else
@@ -218,12 +220,12 @@ namespace Di.Qry.Schema
             return rl;
         }
 
-
         #endregion
 
 
         #region Create Query State
-        private Query Query => _query;
+
+        private Query Query { get; }
 
         public static QryState Create(Entity qryEntity)
         {
@@ -256,8 +258,9 @@ namespace Di.Qry.Schema
                     AddJoin(subQuery, link);
                 subQryState.SetQuery(subQuery);
             }
-            if (!_query.Clauses.Any())
-                _query.WhereRaw("1=?", 1);
+
+            if (!Query.Clauses.Any())
+                Query.WhereRaw("1=?", 1);
         }
 
         #endregion
@@ -284,7 +287,7 @@ namespace Di.Qry.Schema
         public Dictionary<string, IQryField> GetQryFields()
         {
             SetUpQryFields(Entity);
-            return _fds.ToDictionary(x => x.Key, y => (IQryField)y.Value);
+            return _fds.ToDictionary(x => x.Key, y => (IQryField) y.Value);
         }
 
         private void SetUpQryFields(Entity entity)

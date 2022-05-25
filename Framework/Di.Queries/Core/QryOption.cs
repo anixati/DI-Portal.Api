@@ -4,9 +4,11 @@ namespace Di.Qry.Core
 {
     public class QryOption
     {
-        public QryOption() { }
+        public QryOption()
+        {
+        }
 
-        public QryOption(string code,string name)
+        public QryOption(string code, string name)
         {
             Name = name;
             Code = code;

@@ -10,7 +10,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Boards.Infrastructure.Migrations
 {
     [DbContext(typeof(BoardsDbContext))]
-    [Migration("20220517054158_InitVersion")]
+    [Migration("20220525054332_InitVersion")]
     partial class InitVersion
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -28,6 +28,10 @@ namespace Boards.Infrastructure.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("bigint")
                         .UseIdentityColumn();
+
+                    b.Property<string>("Acronym")
+                        .HasMaxLength(255)
+                        .HasColumnType("nvarchar(255)");
 
                     b.Property<int?>("ApprovedAppUserId")
                         .HasColumnType("int");

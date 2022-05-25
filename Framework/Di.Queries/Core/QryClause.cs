@@ -7,6 +7,7 @@
             Operator = opKey;
             Value = opValue;
         }
+
         public string Operator { get; }
         public object Value { get; }
     }

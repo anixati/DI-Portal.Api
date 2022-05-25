@@ -1,5 +1,4 @@
-﻿using System.Collections.Generic;
-using Di.Qry.Core;
+﻿using Di.Qry.Core;
 using Di.Qry.Schema.Types;
 
 namespace Di.Qry.Schema
@@ -25,7 +24,8 @@ namespace Di.Qry.Schema
         protected virtual void ConfigureQry(QryState qs)
         {
         }
+
         protected abstract Entity CreateEntity();
-        protected abstract (string,bool) GetDefaultSort();
+        protected abstract (string, bool) GetDefaultSort();
     }
 }

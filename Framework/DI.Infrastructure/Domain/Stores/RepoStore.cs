@@ -143,9 +143,10 @@ namespace DI.Domain.Stores
                 var page = spec.Skip.GetValueOrDefault();
                 var pageSize = spec.Take.GetValueOrDefault();
 
-                var totalSkip = (page) * pageSize; 
-                query = query.Skip(totalSkip<0?0:totalSkip ).Take(pageSize);
+                var totalSkip = page * pageSize;
+                query = query.Skip(totalSkip < 0 ? 0 : totalSkip).Take(pageSize);
             }
+
             return query;
         }
 

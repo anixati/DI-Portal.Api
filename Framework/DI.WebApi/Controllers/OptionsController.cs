@@ -13,10 +13,7 @@ namespace DI.WebApi.Controllers
     {
         public OptionsController(ILoggerFactory factory, IServiceContext context) : base(factory, context)
         {
-            this.OnCreateAction = (e, v) =>
-            {
-                e.Code = v.Name.ToCode();
-            };
+            OnCreateAction = (e, v) => { e.Code = v.Name.ToCode(); };
         }
     }
 }

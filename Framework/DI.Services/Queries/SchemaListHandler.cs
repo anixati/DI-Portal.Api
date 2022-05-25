@@ -20,7 +20,7 @@ namespace DI.Services.Queries
         public async Task<SchemaListResponse> Handle(SchemaListRequest request, CancellationToken cancellationToken)
         {
             await Task.Delay(0);
-            return new SchemaListResponse()
+            return new SchemaListResponse
             {
                 Schemas = _provider.GetSchemas()
             };

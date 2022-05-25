@@ -4,7 +4,6 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using Di.Qry.Core;
-using Di.Qry.Providers;
 using Di.Qry.Requests;
 using Di.Qry.Schema;
 using MediatR;
@@ -14,21 +13,24 @@ namespace DI.Services.Queries
 {
     public class QueryHandler : ServiceBase, IRequestHandler<QryRequest, QryResponse>
     {
-        private readonly IQryProvider _provider;
         private readonly IQryDataSource _dataSource;
+        private readonly IQryProvider _provider;
+
         public QueryHandler(IQryProvider provider, IQryDataSource handler, ILoggerFactory loggerFactory)
             : base(loggerFactory)
         {
             _provider = provider;
             _dataSource = handler;
         }
+
         public async Task<QryResponse> Handle(QryRequest request, CancellationToken cancellationToken)
         {
             var schema = _provider.GetSchemaList()
-                .FirstOrDefault(x => string.Compare(x.SchemaName, request.Schema, StringComparison.OrdinalIgnoreCase) == 0);
+                .FirstOrDefault(x =>
+                    string.Compare(x.SchemaName, request.Schema, StringComparison.OrdinalIgnoreCase) == 0);
 
             if (schema == null)
-                throw new Exception($"Unknown schema requested !");
+                throw new Exception("Unknown schema requested !");
 
             return schema.SchemaType switch
             {
@@ -43,7 +45,7 @@ namespace DI.Services.Queries
             var qs = _provider.GetQryState<QryState>(request.Schema);
             if (qs == null)
                 throw new Exception("Unable to get query state");
-            
+
             var pagedContext = qs.Compile(request);
             Trace(pagedContext.DataQry.QueryString);
 
@@ -89,7 +91,4 @@ namespace DI.Services.Queries
             public IEnumerable<IDictionary<string, object>> Data { get; }
         }
     }
-
-
-
 }

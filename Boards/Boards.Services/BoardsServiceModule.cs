@@ -1,6 +1,5 @@
 ﻿using System;
 using Autofac;
-using Di.Qry;
 using DI.Services.Core;
 
 namespace Boards.Services
@@ -17,9 +16,9 @@ namespace Boards.Services
             builder.RegisterAssemblyTypes(moduleAssembly)
                 .AsImplementedInterfaces();
 
-             builder.AddMappings(moduleType);
+            builder.AddMappings(moduleType);
 
-           //  builder.AddQueries(moduleAssembly);
+            //  builder.AddQueries(moduleAssembly);
 
 
             // builder.AddEntityServices(moduleAssembly);

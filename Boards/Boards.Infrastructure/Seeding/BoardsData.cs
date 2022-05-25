@@ -35,9 +35,12 @@ namespace Boards.Infrastructure.Seeding
 
             foreach (var jx in Enumerable.Range(1, rng.Next(30, 60)))
             {
-
                 var op = await CreateIfNotExists(new OptionKey
-                    {Name = $"Option Key {jx}", Code = $"OPCODE{jx}", Description = "well-crafted Git commit message is the best way to communicate context about a change to fellow developers" });
+                {
+                    Name = $"Option Key {jx}", Code = $"OPCODE{jx}",
+                    Description =
+                        "well-crafted Git commit message is the best way to communicate context about a change to fellow developers"
+                });
                 await Store.SaveAsync();
                 if (op != null)
                     foreach (var ix in Enumerable.Range(1, rng.Next(3, 5)))
@@ -57,7 +60,7 @@ namespace Boards.Infrastructure.Seeding
             await Store.SaveAsync();
 
             //await CreateIfNotExists(new OptionKey
-              //  {Name = "Share Options", Code = "SHAREOPTS", Description = "Share Options"});
+            //  {Name = "Share Options", Code = "SHAREOPTS", Description = "Share Options"});
         }
     }
 }

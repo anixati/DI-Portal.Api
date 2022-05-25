@@ -27,6 +27,10 @@ namespace Boards.Infrastructure.Migrations
                         .HasColumnType("bigint")
                         .UseIdentityColumn();
 
+                    b.Property<string>("Acronym")
+                        .HasMaxLength(255)
+                        .HasColumnType("nvarchar(255)");
+
                     b.Property<int?>("ApprovedAppUserId")
                         .HasColumnType("int");
 

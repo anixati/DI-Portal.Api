@@ -1,10 +1,9 @@
 ﻿using AutoMapper;
+using DI.Domain.App;
 using DI.Domain.Contacts;
 using DI.Domain.Core;
 using DI.Domain.Options;
 using DI.Domain.Users;
-using DI.Domain.App;
-using System.Linq;
 
 namespace DI.Services.Maps
 {
@@ -37,7 +36,6 @@ namespace DI.Services.Maps
 
             CreateMap<AuditHistory, AuditModel>()
                 .ForMember(x => x.Data, o => o.MapFrom(s => s.Data.ToList()));
-
         }
     }
 }

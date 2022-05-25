@@ -6,7 +6,7 @@ using Newtonsoft.Json.Linq;
 
 namespace Di.Qry.Schema.Types
 {
-    public class Field: IQryField
+    public class Field : IQryField
     {
         public Field(string alias, string fieldName, FieldType fieldType, string name = "")
         {
@@ -15,6 +15,7 @@ namespace Di.Qry.Schema.Types
             Name = string.IsNullOrEmpty(name) ? fieldName : name;
             FieldType = fieldType;
         }
+
         public Field(string fieldName, FieldType fieldType, string name = "")
         {
             FieldName = fieldName;
@@ -22,13 +23,18 @@ namespace Di.Qry.Schema.Types
             FieldType = fieldType;
         }
 
+        public FieldType FieldType { get; set; }
+        public Entity Entity { get; set; }
+        public string EntityField { get; set; }
+
         public string Alias { get; }
         public string FieldName { get; }
-        public string QueryKey => string.IsNullOrEmpty(Alias)?
-            $"{FieldName}".ToLower():$"{Alias}.{FieldName}".ToLower();
+
+        public string QueryKey =>
+            string.IsNullOrEmpty(Alias) ? $"{FieldName}".ToLower() : $"{Alias}.{FieldName}".ToLower();
+
         public string Name { get; set; }
         public bool Nullable { get; set; }
-        public FieldType FieldType { get; set; }
         public string ReferenceSchema { get; set; }
         public List<QryOption> Options { get; set; }
         public string[] Operators { get; set; }
@@ -37,18 +43,16 @@ namespace Di.Qry.Schema.Types
                                   !string.IsNullOrEmpty(ReferenceSchema);
 
         public bool IsSubQry => Entity != null;
-        public Entity Entity { get; set; }
-        public string EntityField { get; set; }
-        
+
 
         #region Config
 
         public JObject GetConfig(IQryProvider provider)
         {
-            var qryConfig = JObject.FromObject(new {name = Name, type = GetTypeStr(this.FieldType), nullable = Nullable});
-            Operators = GetOperators(this.FieldType);
+            var qryConfig = JObject.FromObject(new {name = Name, type = GetTypeStr(FieldType), nullable = Nullable});
+            Operators = GetOperators(FieldType);
             if (IsMetaData)
-               Options = provider.GetQryOptions(ReferenceSchema);
+                Options = provider.GetQryOptions(ReferenceSchema);
             if (Options != null && Options.Any())
             {
                 var qryOptions = new JArray();
@@ -56,12 +60,13 @@ namespace Di.Qry.Schema.Types
                     qryOptions.Add(qop.GetConfig());
                 qryConfig["options"] = qryOptions;
             }
+
             if (FieldType == FieldType.Status)
             {
                 var qryOptions = new JArray
                 {
-                    new QryOption("0","Active").GetConfig(),
-                    new QryOption("1","InActive").GetConfig()
+                    new QryOption("0", "Active").GetConfig(),
+                    new QryOption("1", "InActive").GetConfig()
                 };
                 qryConfig["options"] = qryOptions;
             }
@@ -74,19 +79,20 @@ namespace Di.Qry.Schema.Types
                     jopList.Add(op);
                 qryConfig["operators"] = jopList;
             }
+
             return qryConfig;
         }
+
         public QryClause Transalate(IQryFilter filter)
         {
             if (!filter.HasOperator)
-                throw new Exception($"Invalid filter! Operator cannot be null");
+                throw new Exception("Invalid filter! Operator cannot be null");
 
             if (!Utils.SqlOperatorMap.TryGetValue(filter.Operator, out var opKey))
                 throw new Exception($"Operator :{filter.Operator} not allowed!");
 
             var OpVal = filter.Value;
-            if (this.FieldType == FieldType.Text)
-            {
+            if (FieldType == FieldType.Text)
                 OpVal = filter.Operator switch
                 {
                     "contains" => $"%{filter.Value}%",
@@ -94,10 +100,9 @@ namespace Di.Qry.Schema.Types
                     "ends with" => $"%{filter.Value}",
                     _ => OpVal
                 };
-            }
             return new QryClause(opKey, OpVal);
         }
-       
+
 
         private static string GetTypeStr(FieldType fieldType)
         {
@@ -136,10 +141,6 @@ namespace Di.Qry.Schema.Types
             };
         }
 
-
         #endregion Config
-
-
-
     }
 }
