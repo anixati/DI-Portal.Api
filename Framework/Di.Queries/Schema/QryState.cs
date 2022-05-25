@@ -6,6 +6,7 @@ using Di.Qry.Core;
 using Di.Qry.Providers;
 using Di.Qry.Schema.Types;
 using SqlKata;
+using static System.String;
 
 namespace Di.Qry.Schema
 {
@@ -24,7 +25,7 @@ namespace Di.Qry.Schema
             _subQueries = new List<SuQryState>();
         }
 
-
+        public string Title { get; set; }
         public Entity Entity { get; }
 
         public string Key => $"{Entity.Name}_Query";
@@ -119,20 +120,39 @@ namespace Di.Qry.Schema
             var qry = countQuery.AsCount(new[] {$"{Entity.PrimaryKey}"});
             rv.CountQry = QryContext.Create("Count", compiler.Compile(qry));
 
-            var sortList = Entity.SortColumns;
-            if (request.SortInfos.Any())
-                sortList = request.SortInfos;
 
-            var cplQuery = exQuery;
-            foreach (var si in sortList)
-                cplQuery = si.Desc ? exQuery.OrderByDesc(si.Name) : exQuery.OrderBy(si.Name);
+            var cols = GetQryColumns();
+
+            if (request.CanSearch())
+                exQuery = cols.Where(x => x.Searchable).Aggregate(exQuery, (current, col) => current.OrWhereLike(col.SortCol, $"%{request.SearchStr}%"));
+
+            foreach (var si in GetSortColumns(request,cols))
+                exQuery = si.Desc ? exQuery.OrderByDesc(si.Id) : exQuery.OrderBy(si.Id);
 
             var pageSize = request.PageInfo.PageSize;
             var page = request.PageInfo.CurrentPage < 1 ? 0 : request.PageInfo.CurrentPage;
             var totalSkip = (page) * pageSize;
-            cplQuery.Skip(totalSkip < 0 ? 0 : totalSkip).Take(pageSize);
+            exQuery.Skip(totalSkip < 0 ? 0 : totalSkip).Take(pageSize);
 
-            rv.DataQry = QryContext.Create("Default", compiler.Compile(cplQuery));
+            rv.DataQry = QryContext.Create("Default", compiler.Compile(exQuery));
+            return rv;
+        }
+
+        private List<SortInfo> GetSortColumns(IQryRequest request, List<GridColumn> cols)
+        {
+            var sortList = Entity.SortColumns;
+            if (request.SortInfos.Any())
+                sortList = request.SortInfos;
+
+            var rv = new List<SortInfo>();
+            foreach (var si in sortList)
+            {
+                var col = cols.FirstOrDefault(x =>
+                    Compare(x.Accessor, si.Id, StringComparison.OrdinalIgnoreCase) == 0);
+                if (col != null)
+                    rv.Add(new SortInfo(col.SortCol, si.Desc));
+            }
+
             return rv;
         }
 
@@ -247,6 +267,7 @@ namespace Di.Qry.Schema
 
         public List<GridColumn> GetQryColumns()
         {
+            _cols = new List<GridColumn>();
             SetUpColumns(Entity);
             return _cols;
         }

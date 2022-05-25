@@ -30,28 +30,26 @@ namespace DI.Services.Queries
             if (schema == null)
                 throw new Exception($"Unknown schema requested !");
 
-            switch (schema.SchemaType)
+            return schema.SchemaType switch
             {
-                case SchemaType.DataQuery:
-                    return await RetrieveSqlData(request);
-                default:
-                    throw new Exception("Schema type not handled");
-            }
-
+                SchemaType.DataQuery => await RetrieveSqlData(request),
+                _ => throw new Exception("Schema type not handled")
+            };
         }
 
         private async Task<QryResponse> RetrieveSqlData(QryRequest request)
         {
-            var queryState = _provider.GetQryState<QryState>(request.Schema);
-            if (queryState == null)
-                throw new Exception("Unable to get query state");
-
             var response = new QryResponse(request.PageInfo);
-            var pagedContext = queryState.Compile(request);
+            var qs = _provider.GetQryState<QryState>(request.Schema);
+            if (qs == null)
+                throw new Exception("Unable to get query state");
+            
+            var pagedContext = qs.Compile(request);
+            Trace(pagedContext.DataQry.QueryString);
 
             var dbResult = await _dataSource.ExecuteQuery(pagedContext);
-            if (dbResult != null && queryState.HasSubQueries)
-                foreach (var sQry in queryState.SubQueries())
+            if (dbResult != null && qs.HasSubQueries)
+                foreach (var sQry in qs.SubQueries())
                 {
                     var keIds = dbResult.Data.Where(x => x.Keys.Any(r => r == sQry.ToKey)).Select(x => x.Values.First())
                         .ToList();

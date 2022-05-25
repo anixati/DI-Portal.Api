@@ -25,21 +25,6 @@ namespace Di.Qry.Providers
                 QryStates[$"{schema.SchemaName.ToLower().Trim()}"] = new Lazy<IQryState>(() => schema.Create());
             }
         }
-        //public JObject GetConfig(string schemaKey)
-        //{
-        //    var qs = GetQryState(schemaKey);
-        //    var cols = qs.GetQryColumns();
-        //    //var qryFds = qs.GetQryFields();
-        //    //var def = new JObject();
-        //    //foreach (var qf in fds.Values)
-        //      //  def[qf.QueryKey] = qf.GetConfig(this);
-        //    var queryConfig = new JObject
-        //    {
-        //        ["cols"] = cols,
-        //        //["filters"] = def
-        //    };
-        //    return queryConfig;
-        //}
         public SchemaDef GetSchemaDef(string schemaKey)
         {
             schemaKey.ThrowIfEmpty($"schema name cannot be empty");
@@ -47,6 +32,7 @@ namespace Di.Qry.Providers
             qs.ThrowIfNull();
             return new SchemaDef
             {
+                Title = qs.Title,
                 Columns = qs.GetQryColumns()
             };
         }
@@ -72,10 +58,6 @@ namespace Di.Qry.Providers
         {
             return GetSchemaList().Select(x=> new SchemaName(x.SchemaName)).ToList();
         }
-        //public JObject GetSchemas()
-        //{
-        //    return new JObject { { "schemas", JToken.FromObject(GetSchemaList().ToArray()) } };
-        //}
         public List<QryOption> GetQryOptions(string refDataKey)
         {
             var qState = GetQryState<QryState>(refDataKey);

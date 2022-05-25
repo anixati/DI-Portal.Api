@@ -10,5 +10,10 @@ namespace DI.Services
         {
             Logger = logFactory.CreateLogger(this.GetType().Name);
         }
+
+        protected void Trace(string message)
+        {
+            Logger.LogDebug($"{message}");
+        }
     }
 }

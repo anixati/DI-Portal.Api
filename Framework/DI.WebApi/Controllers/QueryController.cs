@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using System.Linq;
 using Di.Qry.Requests;
 using DI.Services.Core;
 using DI.WebApi.Core;
@@ -40,7 +41,9 @@ namespace DI.WebApi.Controllers
         {
             var qryReq = new QryRequest(name)
             {
-                PageInfo = new PageInfo(request.Index.GetValueOrDefault(),request.Size.GetValueOrDefault())
+                SearchStr = request.SearchStr,
+                PageInfo = new PageInfo(request.Index.GetValueOrDefault(),request.Size.GetValueOrDefault()),
+                SortInfos = request.SortBy.Select(x=> new SortInfo(x.Id,x.Desc)).ToList()
             };
             var result = await ExecuteTask(async x => await x.Send(qryReq));
             return result.ToResponse();

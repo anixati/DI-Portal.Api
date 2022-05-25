@@ -29,7 +29,7 @@ namespace Di.Qry.Schema.Types
         public static Entity Create(string name, string alias, string primaryKey = "", string schemaName = "dbo")
         {
             var entity = new Entity(name, alias, primaryKey, schemaName);
-            entity.Column("Id");
+            entity.Column("id");
             return entity;
         }
     }

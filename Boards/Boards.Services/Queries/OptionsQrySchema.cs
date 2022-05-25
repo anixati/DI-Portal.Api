@@ -7,14 +7,16 @@ namespace Boards.Services.Queries
     public class OptionsQrySchema : QrySchema
     {
         public override string SchemaName => "OptionSets";
+        public override string Title => "Vacant Pos";
 
         protected override Entity CreateEntity()
         {
             var ok = Entity.Create("OptionKeys", "ok");
-            ok.Column("Name","GroupName");
+            ok.SearchCol("Name","GroupName");
 
             var link= ok.Join("OptionSet", "os", "OptionKeyId");
-            link.Select("Id|OptionId", "Order","Label","Value");
+            link.Select("Id|OptionId", "Order","Value");
+            link.SelectSearchCols("Label");
             return ok;
         }
 

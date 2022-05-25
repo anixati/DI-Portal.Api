@@ -4,11 +4,11 @@
     {
         public SortInfo(string name, bool desc =false)
         {
-            Name = name;
+            Id = name;
             Desc = desc;
         }
 
-        public string Name { get;  }
+        public string Id { get;  }
         public bool Desc { get; }
     }
 }

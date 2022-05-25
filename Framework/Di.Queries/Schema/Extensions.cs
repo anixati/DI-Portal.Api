@@ -28,10 +28,30 @@ namespace Di.Qry.Schema
 
             return entity;
         }
-
-        public static Entity Column(this Entity entity, string colName, string accessor="",string header="" )
+        public static Entity SelectSearchCols(this Entity entity, params string[] cols)
         {
-            entity.Columns.Add(new GridColumn($"{entity.Alias}.{colName}", accessor, header));
+            if (cols == null) return entity;
+            foreach (var colName in cols)
+                if (colName.Contains("|"))
+                {
+                    var cs = colName.Split(new[] { "|" }, StringSplitOptions.RemoveEmptyEntries);
+                    entity.SearchCol(cs[0], cs[1]);
+                }
+                else
+                {
+                    entity.SearchCol(colName);
+                }
+
+            return entity;
+        }
+        public static Entity SearchCol(this Entity entity, string colName,string accessor= "")
+        {
+            entity.Column(colName, accessor, string.Empty, true, true);
+            return entity;
+        }
+        public static Entity Column(this Entity entity, string colName, string accessor="",string header="",bool searchable=false,bool sortable=false )
+        {
+            entity.Columns.Add(new GridColumn($"{entity.Alias}.{colName}", accessor, header){Searchable = searchable,Sortable = sortable});
             return entity;
         }
 

@@ -7,6 +7,7 @@ namespace Di.Qry.Schema
     public abstract class QrySchema : IQrySchema
     {
         public abstract string SchemaName { get; }
+        public abstract string Title { get; }
         public virtual SchemaType SchemaType => SchemaType.DataQuery;
 
         public virtual IQryState Create()
@@ -17,6 +18,7 @@ namespace Di.Qry.Schema
             var qs = QryState.Create(entity);
             ConfigureQry(qs);
             qs.FinaliseCreate();
+            qs.Title = Title;
             return qs;
         }
 

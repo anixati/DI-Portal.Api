@@ -11,6 +11,7 @@ namespace Di.Qry.Core
 
         public GridColumn(string colName, string accessor = "",string header="")
         {
+            SortCol = colName;
             ColName = !string.IsNullOrEmpty(accessor) ? $"{colName} AS {accessor}" : $"{colName}";
             Accessor = !string.IsNullOrEmpty(accessor) ? $"{accessor}" : $"{SanitizeCol(colName)}";
             Header = !string.IsNullOrEmpty(header) ? $"{header}" : $"{Accessor.ToSentence()}";
@@ -21,9 +22,13 @@ namespace Di.Qry.Core
             return colName.Contains(".") ? colName[(colName.LastIndexOf('.') + 1)..] : colName;
         }
         [JsonIgnore]
+        public string SortCol { get; }
+        public bool Sortable { get; set; }
+        [JsonIgnore]
+        public bool Searchable { get;  set; }
+        [JsonIgnore]
         public string ColName { get; }
         public string Accessor { get; }
-
         [JsonProperty("Header")]
         public string Header { get; }
         public int Width { get; set; }

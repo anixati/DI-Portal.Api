@@ -13,6 +13,10 @@ namespace Di.Qry.Requests
 
         public string Schema { get;  }
 
+        public string SearchStr { get; set; }
+        public bool CanSearch() {
+            return !string.IsNullOrEmpty(SearchStr);
+        }
         public IQryFilter Filter { get; set; } = new QryFilter();
 
         public PageInfo PageInfo { get; set; } = new PageInfo();
