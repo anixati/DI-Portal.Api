@@ -6,16 +6,19 @@ namespace DI.Forms.Builders
 {
     public class FormState : IFormState
     {
-        private FormSchema _schema;
+        private readonly FormSchema _schema;
 
-        public FormState()
+        public FormState(string name)
         {
-            _schema = new FormSchema();
+            _schema = new FormSchema(name);
         }
+
+        public FormSchema Schema =>_schema;
 
         public FormSchema Build()
         {
-            throw new NotImplementedException();
+
+            return _schema;
         }
     }
 }

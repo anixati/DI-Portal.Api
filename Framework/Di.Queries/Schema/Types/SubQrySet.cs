@@ -1,10 +1,10 @@
 ﻿namespace Di.Qry.Schema.Types
 {
-    public class SubEntity : Entity
+    public class SubTable : Table
     {
         private readonly string _fromKey;
 
-        public SubEntity(string name, string alias, string fromKey,
+        public SubTable(string name, string alias, string fromKey,
             string schemaName = "dbo")
             : base(name, alias, schemaName)
         {

@@ -8,9 +8,9 @@ namespace Boards.Services.Queries
         public override string SchemaName => "OptionSets";
         public override string Title => "Vacant Pos";
 
-        protected override Entity CreateEntity()
+        protected override Table CreateEntity()
         {
-            var ok = Entity.Create("OptionKeys", "ok");
+            var ok = Table.Create("OptionKeys", "ok");
             ok.SearchCol("Name", "GroupName");
 
             var link = ok.Join("OptionSet", "os", "OptionKeyId");

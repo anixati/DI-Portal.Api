@@ -10,7 +10,7 @@ namespace Di.Qry.Schema.Types
         }
 
         public string Name { get; }
-        public Entity Entity { get; set; }
+        public Table Table { get; set; }
         public LinkType LinkType { get; set; } = LinkType.Default;
         public string From { get; set; }
         public string To { get; set; }

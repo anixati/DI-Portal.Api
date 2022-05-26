@@ -25,7 +25,7 @@ namespace Di.Qry.Schema
         {
         }
 
-        protected abstract Entity CreateEntity();
+        protected abstract Table CreateEntity();
         protected abstract (string, bool) GetDefaultSort();
     }
 }

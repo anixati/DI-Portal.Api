@@ -34,5 +34,10 @@ namespace DI.Domain.Core
         {
             return GetType().Name.ToLower();
         }
+
+        public virtual string GetKey()
+        {
+            return $"{Id}";
+        }
     }
 }

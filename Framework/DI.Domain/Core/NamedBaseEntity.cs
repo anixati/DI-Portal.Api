@@ -11,5 +11,10 @@ namespace DI.Domain.Core
         public string Name { get; set; }
 
         [MaxLength(2000)] public string Description { get; set; }
+
+        public override string GetKey()
+        {
+            return Name;
+        }
     }
 }

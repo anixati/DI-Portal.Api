@@ -9,5 +9,6 @@
         bool IsTransient { get; }
         byte[] Timestamp { get; set; }
         string GetName();
+        string GetKey();
     }
 }

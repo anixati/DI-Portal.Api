@@ -3,11 +3,11 @@ using Di.Qry.Core;
 
 namespace Di.Qry.Schema.Types
 {
-    public class Entity
+    public class Table
     {
         private readonly string _primaryKey;
 
-        public Entity(string name, string alias, string primaryKey = "", string schemaName = "dbo")
+        public Table(string name, string alias, string primaryKey = "", string schemaName = "dbo")
         {
             _primaryKey = string.IsNullOrEmpty(primaryKey) ? "Id" : primaryKey;
             Name = name;
@@ -29,11 +29,28 @@ namespace Di.Qry.Schema.Types
         // public Dictionary<string, SubQryEntity> SubQueries { get; set; } = new Dictionary<string, SubQryEntity>();
         public List<string> Clauses { get; set; } = new();
 
-        public static Entity Create(string name, string alias, string primaryKey = "", string schemaName = "dbo")
+        public static Table Create(string name, string alias, string primaryKey = "", string schemaName = "dbo")
         {
-            var entity = new Entity(name, alias, primaryKey, schemaName);
-            entity.Column("id");
+            var entity = new Table(name, alias, primaryKey, schemaName);
+            entity.Column("id","id","Id");
             return entity;
         }
+
+        public static Table Create(TableKey key)
+        {
+            return Table.Create(key.Name,key.Alias);
+        }
+    }
+
+    public class TableKey
+    {
+        public TableKey(string name, string @alias)
+        {
+            Name = name;
+            Alias = alias;
+        }
+
+        public string Name { get; }
+        public string Alias { get; }
     }
 }

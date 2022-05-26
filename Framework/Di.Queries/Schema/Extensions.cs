@@ -6,119 +6,119 @@ namespace Di.Qry.Schema
 {
     public static class Extensions
     {
-        public static Entity AddColExp(this Entity entity, string colExpression, string alias)
+        public static Table AddColExp(this Table table, string colExpression, string alias)
         {
-            entity.Columns.Add(new GridColumn(colExpression, alias));
-            return entity;
+            table.Columns.Add(new GridColumn(colExpression, alias));
+            return table;
         }
 
-        public static Entity Select(this Entity entity, params string[] cols)
+        public static Table Select(this Table table, params string[] cols)
         {
-            if (cols == null) return entity;
+            if (cols == null) return table;
             foreach (var colName in cols)
                 if (colName.Contains("|"))
                 {
                     var cs = colName.Split(new[] {"|"}, StringSplitOptions.RemoveEmptyEntries);
-                    entity.Column(cs[0], cs[1]);
+                    table.Column(cs[0], cs[1]);
                 }
                 else
                 {
-                    entity.Column(colName);
+                    table.Column(colName);
                 }
 
-            return entity;
+            return table;
         }
 
-        public static Entity SelectSearchCols(this Entity entity, params string[] cols)
+        public static Table SelectSearchCols(this Table table, params string[] cols)
         {
-            if (cols == null) return entity;
+            if (cols == null) return table;
             foreach (var colName in cols)
                 if (colName.Contains("|"))
                 {
                     var cs = colName.Split(new[] {"|"}, StringSplitOptions.RemoveEmptyEntries);
-                    entity.SearchCol(cs[0], cs[1]);
+                    table.SearchCol(cs[0], cs[1]);
                 }
                 else
                 {
-                    entity.SearchCol(colName);
+                    table.SearchCol(colName);
                 }
 
-            return entity;
+            return table;
         }
 
-        public static Entity SearchCol(this Entity entity, string colName, string accessor = "")
+        public static Table SearchCol(this Table table, string colName, string accessor = "")
         {
-            entity.Column(colName, accessor, string.Empty, true, true);
-            return entity;
+            table.Column(colName, accessor, string.Empty, true, true);
+            return table;
         }
 
-        public static Entity Column(this Entity entity, string colName, string accessor = "", string header = "",
+        public static Table Column(this Table table, string colName, string accessor = "", string header = "",
             bool searchable = false, bool sortable = false)
         {
-            entity.Columns.Add(new GridColumn($"{entity.Alias}.{colName}", accessor, header)
+            table.Columns.Add(new GridColumn($"{table.Alias}.{colName}", accessor, header)
                 {Searchable = searchable, Sortable = sortable});
-            return entity;
+            return table;
         }
 
-        public static Entity AddSortCol(this Entity entity, string colName, bool desc = false)
+        public static Table AddSortCol(this Table table, string colName, bool desc = false)
         {
-            entity.SortColumns.Add(new SortInfo($"{entity.Alias}.{colName}", desc));
-            return entity;
+            table.SortColumns.Add(new SortInfo($"{table.Alias}.{colName}", desc));
+            return table;
         }
 
-        public static Entity AddQry(this Entity entity, string key, string name, string refDataId)
+        public static Table AddQry(this Table table, string key, string name, string refDataId)
         {
-            return entity.AddQry(key, FieldType.OptionSet, name, x => x.ReferenceSchema = refDataId);
+            return table.AddQry(key, FieldType.OptionSet, name, x => x.ReferenceSchema = refDataId);
         }
 
-        public static Entity AddQry(this Entity entity, string key, FieldType fieldType, string name = "",
+        public static Table AddQry(this Table table, string key, FieldType fieldType, string name = "",
             Action<Field> configure = null)
         {
-            var mf = new Field(entity.Alias, key, fieldType, name);
+            var mf = new Field(table.Alias, key, fieldType, name);
             configure?.Invoke(mf);
-            entity.Fields.Add(mf);
-            return entity;
+            table.Fields.Add(mf);
+            return table;
         }
 
-        public static Entity InnerJoin(this Entity entity, string name, string alias, string from, string to,
-            Action<Entity> configure = null)
+        public static Table InnerJoin(this Table table, string name, string alias, string from, string to,
+            Action<Table> configure = null)
         {
-            var qe = new Entity(name, alias);
+            var qe = new Table(name, alias);
             configure?.Invoke(qe);
-            return entity.Join(qe, from, to);
+            return table.Join(qe, from, to);
         }
 
-        public static Entity OuterJoin(this Entity entity, string name, string alias, string from, string to,
-            Action<Entity> configure = null)
+        public static Table OuterJoin(this Table table, string name, string alias, string from, string to,
+            Action<Table> configure = null)
         {
-            var qe = new Entity(name, alias);
+            var qe = new Table(name, alias);
             configure?.Invoke(qe);
-            return entity.Join(qe, from, to, LinkType.Outer);
+            return table.Join(qe, from, to, LinkType.Outer);
         }
 
-        public static Entity Join(this Entity entity, Entity lnkEntity, string from, string to,
+        public static Table Join(this Table table, Table lnkTable, string from, string to,
             LinkType linkType = LinkType.Default)
         {
-            var key = $"{entity.Name}_{lnkEntity.Name}";
-            entity.Links[key] = new Link(key)
+            var key = $"{table.Name}_{lnkTable.Name}";
+            table.Links[key] = new Link(key)
             {
-                Entity = lnkEntity,
-                From = $"{lnkEntity.Alias}.{from}",
-                To = $"{entity.Alias}.{to}",
+                Table = lnkTable,
+                From = $"{lnkTable.Alias}.{from}",
+                To = $"{table.Alias}.{to}",
                 LinkType = linkType
             };
-            return entity;
+            return table;
         }
 
-        public static Entity Join(this Entity entity, string name, string alias, string from)
+        public static Table Join(this Table table, string name, string alias, string from)
         {
-            var link = new Entity(name, alias);
-            var key = $"{entity.Name}_{link.Name}";
-            entity.Links[key] = new Link(key)
+            var link = new Table(name, alias);
+            var key = $"{table.Name}_{link.Name}";
+            table.Links[key] = new Link(key)
             {
-                Entity = link,
+                Table = link,
                 From = $"{link.Alias}.{from}",
-                To = $"{entity.PrimaryKey}",
+                To = $"{table.PrimaryKey}",
                 LinkType = LinkType.Default
             };
             return link;

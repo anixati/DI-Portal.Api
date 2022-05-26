@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Linq;
 using System.Threading.Tasks;
+using DI.Domain.Contacts;
 using DI.Domain.Core;
 using DI.Domain.Services;
 using DI.Domain.Users;
@@ -56,6 +57,7 @@ namespace DI.Domain.Seed
                      await repo.CreateAsync(entity);
             return op;
         }
+     
 
         protected async Task<TK> Create<TK>(TK entity) where TK : class, IEntity
         {

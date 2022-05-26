@@ -4,6 +4,12 @@ namespace DI.Forms.Types
 {
     public class FormSchema
     {
-        public List<Section> Sections { get; set; } = new();
+        public FormSchema(string name)
+        {
+            Name = name;
+        }
+
+        public string Name{ get;  }
+        public List<FormField> Fields { get; set; } = new();
     }
 }

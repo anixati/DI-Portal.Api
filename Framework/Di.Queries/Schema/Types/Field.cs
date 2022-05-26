@@ -24,7 +24,7 @@ namespace Di.Qry.Schema.Types
         }
 
         public FieldType FieldType { get; set; }
-        public Entity Entity { get; set; }
+        public Table Table { get; set; }
         public string EntityField { get; set; }
 
         public string Alias { get; }
@@ -42,7 +42,7 @@ namespace Di.Qry.Schema.Types
         public bool IsMetaData => FieldType == FieldType.OptionSet &&
                                   !string.IsNullOrEmpty(ReferenceSchema);
 
-        public bool IsSubQry => Entity != null;
+        public bool IsSubQry => Table != null;
 
 
         #region Config

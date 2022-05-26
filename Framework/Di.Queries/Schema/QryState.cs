@@ -16,18 +16,18 @@ namespace Di.Qry.Schema
         private readonly List<SuQryState> _subQueries;
         private List<GridColumn> _cols;
 
-        public QryState(Entity entity)
+        public QryState(Table table)
         {
-            Entity = entity;
+            Table = table;
             _cols = new List<GridColumn>();
             _fds = new Dictionary<string, Field>();
-            Query = new Query(Entity.TableName);
+            Query = new Query(Table.TableName);
             _subQueries = new List<SuQryState>();
         }
 
-        public Entity Entity { get; }
+        public Table Table { get; }
 
-        public string Key => $"{Entity.Name}_Query";
+        public string Key => $"{Table.Name}_Query";
 
         public bool HasSubQueries => _subQueries.Any();
 
@@ -52,14 +52,18 @@ namespace Di.Qry.Schema
             Query.Limit(limit).Offset(offset);
             return this;
         }
-
+        public IQryState Where(string column,string op, object value)
+        {
+            Query.Where(column,op, value);
+            return this;
+        }
         public IQryState Where(string column, object value)
         {
             Query.WhereRaw(column, value);
             return this;
         }
 
-        public void AddSubQry(string key, string fromKey, string toKey, Func<Entity> entityFunc)
+        public void AddSubQry(string key, string fromKey, string toKey, Func<Table> entityFunc)
         {
             _subQueries.Add(new SuQryState(key, fromKey, toKey, entityFunc));
         }
@@ -73,11 +77,11 @@ namespace Di.Qry.Schema
         private static void AddJoin(Query query, Link link)
         {
             //if (link.LinkType == LinkType.Outer)
-            //    query.LeftJoin(link.Entity.TableName, link.From, link.To);
+            //    query.LeftJoin(link.Table.TableName, link.From, link.To);
             //else
-            //    query.Join(link.Entity.TableName, link.From, link.To);
+            //    query.Join(link.Table.TableName, link.From, link.To);
 
-            query.Join(link.Entity.TableName, x =>
+            query.Join(link.Table.TableName, x =>
             {
                 x.On(link.From, link.To);
                 if (link.Clauses != null)
@@ -90,9 +94,9 @@ namespace Di.Qry.Schema
 
         private Query BuildSubQuery(Field qfd, IQryFilter rule, string queryOnField)
         {
-            var subQuery = new Query(qfd.Entity.TableName)
+            var subQuery = new Query(qfd.Table.TableName)
                 .Select(queryOnField);
-            foreach (var (_, link) in qfd.Entity.Links)
+            foreach (var (_, link) in qfd.Table.Links)
                 AddJoin(subQuery, link);
             var sqlFilter = qfd.Transalate(rule);
             subQuery.Where(qfd.QueryKey, sqlFilter.Operator, sqlFilter.Value);
@@ -106,25 +110,31 @@ namespace Di.Qry.Schema
         {
             var rv = new PagedContext {PageInfo = request.PageInfo};
             var compiler = new LocalCompiler();
-
+            var cols = GetQryColumns();
             if (!_fds.Any())
-                SetUpQryFields(Entity);
+                SetUpQryFields(Table);
 
             var exQuery = Query.Clone();
 
             if (request.Filter != null && request.Filter.HasChildRules)
                 exQuery.Where(x => AddClause(request.Filter, request.Filter.IsOr, x));
+            if (request.CanSearch())
+            {
+                exQuery.Where(q =>
+                    {
+                        foreach (var col in cols.Where(x => x.Searchable))
+                            q.OrWhereLike(col.SortCol, $"%{request.SearchStr}%");
+                        return q;
+                    }
+                );
+                //  exQuery = cols.Where(x => x.Searchable).Aggregate(exQuery,
+                // (current, col) => current.OrWhereLike(col.SortCol, $"%{request.SearchStr}%"));
+            }
+
 
             var countQuery = exQuery.Clone();
-            var qry = countQuery.AsCount(new[] {$"{Entity.PrimaryKey}"});
+            var qry = countQuery.AsCount(new[] {$"{Table.PrimaryKey}"});
             rv.CountQry = QryContext.Create("Count", compiler.Compile(qry));
-
-
-            var cols = GetQryColumns();
-
-            if (request.CanSearch())
-                exQuery = cols.Where(x => x.Searchable).Aggregate(exQuery,
-                    (current, col) => current.OrWhereLike(col.SortCol, $"%{request.SearchStr}%"));
 
             foreach (var si in GetSortColumns(request, cols))
                 exQuery = si.Desc ? exQuery.OrderByDesc(si.Id) : exQuery.OrderBy(si.Id);
@@ -140,7 +150,7 @@ namespace Di.Qry.Schema
 
         private List<SortInfo> GetSortColumns(IQryRequest request, List<GridColumn> cols)
         {
-            var sortList = Entity.SortColumns;
+            var sortList = Table.SortColumns;
             if (request.SortInfos.Any())
                 sortList = request.SortInfos;
 
@@ -183,7 +193,7 @@ namespace Di.Qry.Schema
             //check is it a subquery
             if (qfd.IsSubQry)
             {
-                var queryOnField = qfd.EntityField; // Entity.PrimaryKey;
+                var queryOnField = qfd.EntityField; // Table.PrimaryKey;
                 var subQuery = BuildSubQuery(qfd, rule, queryOnField);
 
                 if (isOr)
@@ -227,22 +237,22 @@ namespace Di.Qry.Schema
 
         private Query Query { get; }
 
-        public static QryState Create(Entity qryEntity)
+        public static QryState Create(Table qryTable)
         {
-            var qs = new QryState(qryEntity);
-            SetupQuery(qryEntity, qs.Query);
+            var qs = new QryState(qryTable);
+            SetupQuery(qryTable, qs.Query);
             return qs;
         }
 
-        private static void SetupQuery(Entity entity, Query sqlQry)
+        private static void SetupQuery(Table table, Query sqlQry)
         {
-            foreach (var qc in entity.Columns)
+            foreach (var qc in table.Columns)
                 sqlQry.Select(qc.ColName);
-            if (!entity.Links.Any()) return;
-            foreach (var (_, link) in entity.Links)
+            if (!table.Links.Any()) return;
+            foreach (var (_, link) in table.Links)
             {
                 AddJoin(sqlQry, link);
-                SetupQuery(link.Entity, sqlQry);
+                SetupQuery(link.Table, sqlQry);
             }
         }
 
@@ -271,32 +281,32 @@ namespace Di.Qry.Schema
         public List<GridColumn> GetQryColumns()
         {
             _cols = new List<GridColumn>();
-            SetUpColumns(Entity);
+            SetUpColumns(Table);
             return _cols;
         }
 
-        private void SetUpColumns(Entity entity)
+        private void SetUpColumns(Table table)
         {
-            foreach (var qf in entity.Columns)
+            foreach (var qf in table.Columns)
                 _cols.Add(qf);
-            if (!entity.Links.Any()) return;
-            foreach (var ql in entity.Links.Values)
-                SetUpColumns(ql.Entity);
+            if (!table.Links.Any()) return;
+            foreach (var ql in table.Links.Values)
+                SetUpColumns(ql.Table);
         }
 
         public Dictionary<string, IQryField> GetQryFields()
         {
-            SetUpQryFields(Entity);
+            SetUpQryFields(Table);
             return _fds.ToDictionary(x => x.Key, y => (IQryField) y.Value);
         }
 
-        private void SetUpQryFields(Entity entity)
+        private void SetUpQryFields(Table table)
         {
-            foreach (var qf in entity.Fields)
+            foreach (var qf in table.Fields)
                 _fds[qf.QueryKey] = qf;
-            if (!entity.Links.Any()) return;
-            foreach (var ql in entity.Links.Values)
-                SetUpQryFields(ql.Entity);
+            if (!table.Links.Any()) return;
+            foreach (var ql in table.Links.Values)
+                SetUpQryFields(ql.Table);
         }
 
         #endregion
@@ -306,7 +316,7 @@ namespace Di.Qry.Schema
     {
         private Query _query;
 
-        public SuQryState(string key, string fromKey, string toKey, Func<Entity> entityFunc)
+        public SuQryState(string key, string fromKey, string toKey, Func<Table> entityFunc)
         {
             SchemaKey = key;
             FromKey = fromKey;
@@ -317,7 +327,7 @@ namespace Di.Qry.Schema
         public string SchemaKey { get; }
         public string FromKey { get; }
         public string ToKey { get; }
-        public Func<Entity> EntFunc { get; }
+        public Func<Table> EntFunc { get; }
 
 
         public void SetQuery(Query query)

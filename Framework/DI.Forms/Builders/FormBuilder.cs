@@ -1,5 +1,6 @@
 ﻿using System;
 using DI.Forms.Core;
+using DI.Forms.Types;
 
 namespace DI.Forms.Builders
 {
@@ -9,7 +10,13 @@ namespace DI.Forms.Builders
 
         public IFormState Create()
         {
-            throw new NotImplementedException();
+            var fs = new FormState(FormName);
+            CreateSchema(fs.Schema);
+            return fs;
+        }
+
+        protected virtual void CreateSchema(FormSchema fsSchema)
+        {
         }
     }
 }

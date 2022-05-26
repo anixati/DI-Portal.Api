@@ -82,9 +82,9 @@ namespace DI.Services.Handlers
             where T : class, IEntity where TK : class, IViewModel
         {
             var response = await _mediator.Send(new Entity.Query<T>(spec));
-            response.ThrowIfNull($"Entity list response for {typeof(T).Name}");
-            response.List.ThrowIfNull("Entity list response");
-            response.List.Items.ThrowIfNull("Entity list response");
+            response.ThrowIfNull($"Table list response for {typeof(T).Name}");
+            response.List.ThrowIfNull("Table list response");
+            response.List.Items.ThrowIfNull("Table list response");
             var pgList = response.List;
             if (pgList == null) return new PagedList<TK>();
             var rl = _mapper.Map<List<T>, List<TK>>(pgList.Items);
@@ -103,7 +103,7 @@ namespace DI.Services.Handlers
         private ViewResponse<TK> ConvertTo<T, TK>(EntityResponse<T> response)
             where T : class, IEntity where TK : class, IViewModel
         {
-            response.ThrowIfNull($"Entity response for {typeof(T).Name}");
+            response.ThrowIfNull($"Table response for {typeof(T).Name}");
             if (response.Item == null) return new ViewResponse<TK>(response.ResponseCode, response.Message, null);
             var model = _mapper.Map<T, TK>(response.Item);
             return new ViewResponse<TK>(response.ResponseCode, response.Message, model);

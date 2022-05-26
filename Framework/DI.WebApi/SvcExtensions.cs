@@ -65,7 +65,7 @@ namespace DI.WebApi
 
         public static void AddConventions(this MvcOptions opts)
         {
-            //entity Routes
+            //table Routes
             //opts.Conventions.Add(new EntityRouteConvention());
 
             //add auth Policies
