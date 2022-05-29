@@ -66,7 +66,6 @@ namespace Di.Qry.Schema
         public static Table Column(this Table table, string colName, string accessor, string header,
             Action<GridColumn> configure = null)
         {
-
             var col = new GridColumn($"{table.Alias}.{colName}", accessor, header);
             configure?.Invoke(col);
             table.Columns.Add(col);

@@ -21,6 +21,7 @@ namespace DI.Forms.Types
         public object Options { get; set; }
         public object Value { get; set; }
         public int Width { get; set; }
+
         public bool Required
         {
             get

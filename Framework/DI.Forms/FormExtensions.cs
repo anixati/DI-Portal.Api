@@ -1,6 +1,7 @@
 ﻿using System.Reflection;
 using Autofac;
 using DI.Forms.Core;
+using DI.Forms.Handlers;
 
 namespace DI.Forms
 {

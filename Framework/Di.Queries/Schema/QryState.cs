@@ -52,11 +52,13 @@ namespace Di.Qry.Schema
             Query.Limit(limit).Offset(offset);
             return this;
         }
-        public IQryState Where(string column,string op, object value)
+
+        public IQryState Where(string column, string op, object value)
         {
-            Query.Where(column,op, value);
+            Query.Where(column, op, value);
             return this;
         }
+
         public IQryState Where(string column, object value)
         {
             Query.WhereRaw(column, value);
@@ -119,7 +121,6 @@ namespace Di.Qry.Schema
             if (request.Filter != null && request.Filter.HasChildRules)
                 exQuery.Where(x => AddClause(request.Filter, request.Filter.IsOr, x));
             if (request.CanSearch())
-            {
                 exQuery.Where(q =>
                     {
                         foreach (var col in cols.Where(x => x.Searchable))
@@ -127,9 +128,8 @@ namespace Di.Qry.Schema
                         return q;
                     }
                 );
-                //  exQuery = cols.Where(x => x.Searchable).Aggregate(exQuery,
-                // (current, col) => current.OrWhereLike(col.SortCol, $"%{request.SearchStr}%"));
-            }
+            //  exQuery = cols.Where(x => x.Searchable).Aggregate(exQuery,
+            // (current, col) => current.OrWhereLike(col.SortCol, $"%{request.SearchStr}%"));
 
 
             var countQuery = exQuery.Clone();

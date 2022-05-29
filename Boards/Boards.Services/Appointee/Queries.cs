@@ -36,7 +36,7 @@ namespace Boards.Services.Appointee
 
         protected override void ConfigureQry(QryState qs)
         {
-            qs.Where("Disabled","=", "0");
+            qs.Where("Disabled", "=", "0");
         }
 
 
@@ -61,7 +61,7 @@ namespace Boards.Services.Appointee
                 x.Type = ColumnType.HyperLink;
             });
             pt.SearchCol("Gender");
-           
+
             pt.SearchCol("City");
             pt.SearchCol("State");
             pt.SearchCol("Aboriginal");

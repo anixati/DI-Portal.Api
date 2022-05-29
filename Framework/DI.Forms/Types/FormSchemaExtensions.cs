@@ -41,7 +41,6 @@ namespace DI.Forms.Types
 
                 if (required)
                     x.AddRequired($"{title} is required");
-
             });
             return fd;
         }

@@ -9,7 +9,7 @@ namespace DI.Forms.Types
             Name = name;
         }
 
-        public string Name{ get;  }
+        public string Name { get; }
         public List<FormField> Fields { get; set; } = new();
     }
 }

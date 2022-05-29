@@ -1,8 +1,7 @@
-﻿using System;
-using DI.Forms.Core;
+﻿using DI.Forms.Core;
 using DI.Forms.Types;
 
-namespace DI.Forms.Builders
+namespace DI.Forms.Handlers
 {
     public abstract class FormBuilder : IFormBuilder
     {
@@ -19,4 +18,6 @@ namespace DI.Forms.Builders
         {
         }
     }
+
+
 }

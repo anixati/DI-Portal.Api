@@ -2,10 +2,11 @@
 using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
+using DI.Forms.Core;
 using DI.Forms.Types;
 using Microsoft.Extensions.Logging;
 
-namespace DI.Forms.Core
+namespace DI.Forms.Handlers
 {
     public class FormProvider : FormServiceBase, IFormProvider
     {

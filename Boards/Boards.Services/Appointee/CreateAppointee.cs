@@ -1,4 +1,4 @@
-﻿using DI.Forms.Builders;
+﻿using DI.Forms.Handlers;
 using DI.Forms.Types;
 
 namespace Boards.Services.Appointee
@@ -17,33 +17,25 @@ namespace Boards.Services.Appointee
 
         private void AddPersonDetails(FormField field)
         {
-          
             field.AddFieldGroup(f =>
             {
                 f.AddInput("Title", "Title");
                 f.AddInput("FirstName", "First Name", true);
-                
             });
             field.AddFieldGroup(f =>
             {
-
                 f.AddInput("MiddleName", "Middle Name");
                 f.AddInput("LastName", "Last Name", true);
-
-
             });
             field.AddInput("Gender", "Gender", true);
-           
         }
 
         private void AddContactDetails(FormField field)
         {
-
             field.AddFieldGroup(f =>
             {
-                f.AddInput("Email1", "Primary Email",true);
+                f.AddInput("Email1", "Primary Email", true);
                 f.AddInput("Email2", "other Email");
-
             });
             field.AddFieldGroup(f =>
             {
@@ -51,15 +43,14 @@ namespace Boards.Services.Appointee
                 f.AddInput("HomePhone", "Phone Number");
             });
             field.AddInput("FaxNumber", "Fax Number");
-
         }
 
         private void AddProfessionalDetails(FormField field)
         {
             field.AddInput("Biography", "Biography", x =>
             {
-                x.AddRequired($"Biography is required");
-                x.AddRule(ValRule.Min(100,"Minimum 100 chars required"));
+                x.AddRequired("Biography is required");
+                x.AddRule(ValRule.Min(100, "Minimum 100 chars required"));
                 x.FieldType = FormFieldType.Note;
             });
             field.AddInput("PostNominals", "PostNominals");

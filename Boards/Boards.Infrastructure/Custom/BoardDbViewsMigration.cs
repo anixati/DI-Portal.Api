@@ -41,7 +41,6 @@ namespace EFCustomMigrations.Db.Migrations
             migrationBuilder.Sql(@"
                         drop view AppointeesView;
                         ");
-
         }
     }
 }

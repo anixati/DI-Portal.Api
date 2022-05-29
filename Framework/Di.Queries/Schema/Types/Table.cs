@@ -33,19 +33,19 @@ namespace Di.Qry.Schema.Types
         {
             var entity = new Table(name, alias, primaryKey, schemaName);
             entity.Columns.Add(new GridColumn($"{entity.Alias}.Id", "Id", "Id")
-                { Searchable = false, Sortable = false,Type = ColumnType.Hidden});
+                {Searchable = false, Sortable = false, Type = ColumnType.Hidden});
             return entity;
         }
 
         public static Table Create(TableKey key)
         {
-            return Table.Create(key.Name,key.Alias);
+            return Create(key.Name, key.Alias);
         }
     }
 
     public class TableKey
     {
-        public TableKey(string name, string @alias)
+        public TableKey(string name, string alias)
         {
             Name = name;
             Alias = alias;

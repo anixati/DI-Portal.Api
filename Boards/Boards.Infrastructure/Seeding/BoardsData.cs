@@ -27,14 +27,13 @@ namespace Boards.Infrastructure.Seeding
             catch (Exception ex)
             {
                 Console.WriteLine($"FAILED: {ex}");
-               // throw new Exception($"Failed to setup - {ex}");
+                // throw new Exception($"Failed to setup - {ex}");
             }
         }
 
 
         protected override async Task SetupDomainData()
         {
-            
             await CreateDummyAppointees();
 
             await Store.SaveAsync();
@@ -53,34 +52,31 @@ namespace Boards.Infrastructure.Seeding
 
 
                 var app = await opr.FindAsync(x => EF.Functions.Like(x.FirstName, name));
-if(app != null) continue;
+                if (app != null) continue;
 
                 var op = await opr.CreateAsync(new Appointee
                 {
                     Title = "Mr",
                     FirstName = $"First{jx}",
                     LastName = $"Last{jx}",
-                    MiddleName=$"Sake",
+                    MiddleName = "Sake",
                     HomePhone = "0262426242",
                     FaxNumber = "0236598956",
                     MobilePhone = "0401642369",
                     Email1 = $"teste{jx}@gmail.com",
-                    Email2 = $"teste{jx*6}@gmail.com",
+                    Email2 = $"teste{jx * 6}@gmail.com",
                     StreetAddress = CreateAddress(),
                     PostalAddress = CreateAddress(),
-                    Biography= "well-crafted Git commit message is the best way to communicate context about a change to fellow developers",
-                    ResumeLink="https://google.com",
-                    Disabled = (jx%2 ==0)?true :false,
-                    Gender = (jx % 2 == 0) ? GenderEnum.Male : GenderEnum.Female,
-                    IsAboriginal = (jx % 2 == 0) ? true : false,
-                    IsDisabled = (jx % 2 == 0) ? true : false,
-                    IsRegional = (jx % 2 == 0) ? true : false,
-                    ExecutiveSearch = (jx % 2 == 0) ? true : false,
-
+                    Biography =
+                        "well-crafted Git commit message is the best way to communicate context about a change to fellow developers",
+                    ResumeLink = "https://google.com",
+                    Disabled = jx % 2 == 0 ? true : false,
+                    Gender = jx % 2 == 0 ? GenderEnum.Male : GenderEnum.Female,
+                    IsAboriginal = jx % 2 == 0 ? true : false,
+                    IsDisabled = jx % 2 == 0 ? true : false,
+                    IsRegional = jx % 2 == 0 ? true : false,
+                    ExecutiveSearch = jx % 2 == 0 ? true : false
                 });
-
-
-
             }
         }
 
@@ -89,9 +85,9 @@ if(app != null) continue;
             var rng = new Random();
             return new AddressType
             {
-                Unit = $"{rng.Next(200,300)}",
+                Unit = $"{rng.Next(200, 300)}",
                 Street = $"Road no {rng.Next(200, 300)}",
-                City="Canberra",
+                City = "Canberra",
                 Postcode = 2148,
                 State = "ACT",
                 Country = "Australia"
