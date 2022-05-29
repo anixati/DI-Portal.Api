@@ -50,8 +50,8 @@ namespace DI.Domain
             Type response) where T : DbContext
         {
             var rp = new ResolvedParameter(
-                (p, c) => p.ParameterType == typeof(IStore),
-                (p, c) => c.Resolve<IStore<T>>()
+                (p, c) => p.ParameterType == typeof(IDataStore),
+                (p, c) => c.Resolve<IDataStore<T>>()
             );
             var reqType = request.MakeGenericType(entity);
 

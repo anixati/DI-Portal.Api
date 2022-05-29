@@ -4,7 +4,7 @@ using DI.Domain.Core;
 
 namespace DI.Domain.Services
 {
-    public interface IStore : IDisposable
+    public interface IDataStore : IDisposable
     {
         IAppConfigStore AppConfigStore { get; }
         IAutoNumberStore AutoNumberStore { get; }

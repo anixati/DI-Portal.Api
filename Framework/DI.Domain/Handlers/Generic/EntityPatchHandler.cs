@@ -13,7 +13,7 @@ namespace DI.Domain.Handlers.Generic
     public class EntityPatchHandler<T> : EntityHandler<T>, IRequestHandler<PatchEntityRequest<T>, DomainResponse>
         where T : class, IEntity
     {
-        public EntityPatchHandler(IStore store, IMapper mapper) : base(store, mapper)
+        public EntityPatchHandler(IDataStore dataStore, IMapper mapper) : base(dataStore, mapper)
         {
         }
 

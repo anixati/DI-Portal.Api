@@ -1,7 +1,7 @@
 ﻿using DI.Forms.Handlers;
 using DI.Forms.Types;
 
-namespace Boards.Services.Appointee
+namespace Boards.Services.Appointees
 {
     public class CreateAppointee : FormBuilder
     {

@@ -41,8 +41,8 @@ namespace DI.Domain
 
         private static void AddStores<T>(this ContainerBuilder builder, Assembly assembly) where T : DbContext
         {
-            builder.RegisterType<DbStore<T>>()
-                .As<IStore<T>>()
+            builder.RegisterType<DbDataStore<T>>()
+                .As<IDataStore<T>>()
                 .InstancePerLifetimeScope();
         }
     }

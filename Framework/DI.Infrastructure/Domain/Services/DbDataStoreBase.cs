@@ -13,14 +13,14 @@ using Microsoft.Extensions.Logging;
 
 namespace DI.Domain.Services
 {
-    public abstract class DbStoreBase<T> : ComponentBase, IStore<T> where T : DbContext
+    public abstract class DbDataStoreBase<T> : ComponentBase, IDataStore<T> where T : DbContext
     {
         private readonly Dictionary<TypeInfo, dynamic> _repositories;
         private IAppConfigStore _appConfigStore;
         private IAutoNumberStore _autoNumberStore;
         private IDbContextTransaction _dbTransaction;
 
-        protected DbStoreBase(T context, ILoggerFactory loggerFactory) : base(
+        protected DbDataStoreBase(T context, ILoggerFactory loggerFactory) : base(
             loggerFactory)
         {
             Db = context;

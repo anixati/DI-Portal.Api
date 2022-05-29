@@ -14,8 +14,8 @@ namespace DI.Domain.Handlers.Generic
     public class EntityRequestHandler<T> : EntityHandler<T>, IRequestHandler<Entity.Request<T>, EntityResponse<T>>
         where T : class, IEntity
     {
-        public EntityRequestHandler(IMapper mapper, IStore store) :
-            base(store, mapper)
+        public EntityRequestHandler(IMapper mapper, IDataStore dataStore) :
+            base(dataStore, mapper)
         {
         }
 

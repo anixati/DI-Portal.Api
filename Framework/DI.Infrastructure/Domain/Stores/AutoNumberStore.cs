@@ -9,7 +9,7 @@ namespace DI.Domain.Stores
 {
     public class AutoNumberStore : DbQueryBase<AutoNumberEntity>, IAutoNumberStore
     {
-        public AutoNumberStore(DbSet<AutoNumberEntity> dbSet, IStore store) : base(dbSet, store)
+        public AutoNumberStore(DbSet<AutoNumberEntity> dbSet, IDataStore dataStore) : base(dbSet, dataStore)
         {
         }
 
@@ -29,7 +29,7 @@ namespace DI.Domain.Stores
                 Set.Update(entity);
             }
 
-            await Store.SaveAsync();
+            await DataStore.SaveAsync();
             return index;
         }
     }

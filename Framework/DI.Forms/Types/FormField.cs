@@ -8,7 +8,7 @@ namespace DI.Forms.Types
     {
         public FormField(string key = "")
         {
-            Key = string.IsNullOrEmpty(key) ? Guid.NewGuid().ToString("N") : key.ToLower().Trim();
+            Key = string.IsNullOrEmpty(key) ? Guid.NewGuid().ToString("N") : key.Trim();
             Width = 70;
         }
 

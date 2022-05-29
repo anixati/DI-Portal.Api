@@ -8,14 +8,14 @@ namespace DI.Domain.Core
 {
     public abstract class DbQueryBase<T> where T : class, IEntity
     {
-        protected DbQueryBase(DbSet<T> set, IStore store)
+        protected DbQueryBase(DbSet<T> set, IDataStore dataStore)
         {
             Set = set;
-            Store = store;
+            DataStore = dataStore;
         }
 
         protected DbSet<T> Set { get; }
-        protected IStore Store { get; }
+        protected IDataStore DataStore { get; }
         protected IQueryable<T> TrQuery => Set;
         protected IQueryable<T> NtQuery => TrQuery.AsNoTracking();
 

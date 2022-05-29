@@ -2,7 +2,7 @@
 using Di.Qry.Schema;
 using Di.Qry.Schema.Types;
 
-namespace Boards.Services.Appointee
+namespace Boards.Services.Appointees
 {
     public class ActiveAppointeeList : QrySchema
     {

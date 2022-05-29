@@ -11,7 +11,7 @@ namespace DI.Domain.Stores
 {
     public class AppConfigStore : DbQueryBase<AppConfigEntity>, IAppConfigStore
     {
-        public AppConfigStore(DbSet<AppConfigEntity> set, IStore store) : base(set, store)
+        public AppConfigStore(DbSet<AppConfigEntity> set, IDataStore dataStore) : base(set, dataStore)
         {
         }
 
@@ -63,7 +63,7 @@ namespace DI.Domain.Stores
                 Set.Update(item);
             }
 
-            await Store.SaveAsync();
+            await DataStore.SaveAsync();
             return value;
         }
 

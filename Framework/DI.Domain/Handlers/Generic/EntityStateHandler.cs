@@ -13,16 +13,16 @@ namespace DI.Domain.Handlers.Generic
     public class EntityStateHandler<T> : ComponentBase, IRequestHandler<Entity.ChangeState<T>, ActionResponse>
         where T : class, IEntity
     {
-        private readonly IStore _store;
+        private readonly IDataStore _dataStore;
 
-        public EntityStateHandler(IStore store, ILoggerFactory loggerFactory) : base(loggerFactory)
+        public EntityStateHandler(IDataStore dataStore, ILoggerFactory loggerFactory) : base(loggerFactory)
         {
-            _store = store;
+            _dataStore = dataStore;
         }
 
         public async Task<ActionResponse> Handle(Entity.ChangeState<T> request, CancellationToken cancellationToken)
         {
-            var repo = _store.Repo<T>();
+            var repo = _dataStore.Repo<T>();
             var entity = await repo.GetById(request.Id);
             entity.ThrowIfNull("no record found!");
 

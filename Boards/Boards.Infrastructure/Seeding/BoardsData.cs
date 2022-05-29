@@ -36,7 +36,7 @@ namespace Boards.Infrastructure.Seeding
         {
             await CreateDummyAppointees();
 
-            await Store.SaveAsync();
+            await DataStore.SaveAsync();
 
             //await CreateIfNotExists(new OptionKey
             //  {Name = "Share Options", Code = "SHAREOPTS", Description = "Share Options"});
@@ -107,7 +107,7 @@ namespace Boards.Infrastructure.Seeding
                     Description =
                         "well-crafted Git commit message is the best way to communicate context about a change to fellow developers"
                 });
-                await Store.SaveAsync();
+                await DataStore.SaveAsync();
                 if (op != null)
                     foreach (var ix in Enumerable.Range(1, rng.Next(3, 5)))
                     {

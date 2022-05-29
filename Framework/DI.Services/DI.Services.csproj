@@ -6,6 +6,7 @@
 
   <ItemGroup>
     <PackageReference Include="AutoMapper" Version="11.0.1" />
+    <PackageReference Include="FastMember.NetCore" Version="1.1.0" />
     <PackageReference Include="MediatR" Version="10.0.1" />
     <PackageReference Include="stateless" Version="5.11.0" />
   </ItemGroup>

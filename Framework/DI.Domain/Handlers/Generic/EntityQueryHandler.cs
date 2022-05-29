@@ -13,7 +13,7 @@ namespace DI.Domain.Handlers.Generic
     public class EntityQueryHandler<T> : EntityHandler<T>, IRequestHandler<Entity.Query<T>, QueryResponse<T>>
         where T : class, IEntity
     {
-        public EntityQueryHandler(IStore store, IMapper mapper) : base(store, mapper)
+        public EntityQueryHandler(IDataStore dataStore, IMapper mapper) : base(dataStore, mapper)
         {
         }
 

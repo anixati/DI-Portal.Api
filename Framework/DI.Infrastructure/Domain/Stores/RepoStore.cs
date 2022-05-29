@@ -14,7 +14,7 @@ namespace DI.Domain.Stores
 {
     public class RepoStore<T> : DbQueryBase<T>, IRepository<T> where T : class, IEntity
     {
-        public RepoStore(DbSet<T> set, IStore context) : base(set, context)
+        public RepoStore(DbSet<T> set, IDataStore context) : base(set, context)
         {
         }
 
@@ -42,7 +42,7 @@ namespace DI.Domain.Stores
         public async Task<T> CreateAndSaveAsync(T entity)
         {
             var entry = await Set.AddAsync(entity);
-            await Store.SaveAsync();
+            await DataStore.SaveAsync();
             return entry.Entity;
         }
 
@@ -57,7 +57,7 @@ namespace DI.Domain.Stores
             var entity = await GetById(id);
             entity.ThrowIfNull($"Failed to retrieve entity by id: {id}");
             Set.Remove(entity);
-            await Store.SaveAsync();
+            await DataStore.SaveAsync();
         }
 
         public void DeleteAsync(params T[] entities)
@@ -96,7 +96,7 @@ namespace DI.Domain.Stores
         public async Task<T> UpdateAsync(T entity)
         {
             var entry = Set.Update(entity);
-            await Store.SaveAsync();
+            await DataStore.SaveAsync();
             return entry.Entity;
         }
 
