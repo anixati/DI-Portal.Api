@@ -72,6 +72,11 @@ if(app != null) continue;
                     ResumeLink="https://google.com",
                     Disabled = (jx%2 ==0)?true :false,
                     Gender = (jx % 2 == 0) ? GenderEnum.Male : GenderEnum.Female,
+                    IsAboriginal = (jx % 2 == 0) ? true : false,
+                    IsDisabled = (jx % 2 == 0) ? true : false,
+                    IsRegional = (jx % 2 == 0) ? true : false,
+                    ExecutiveSearch = (jx % 2 == 0) ? true : false,
+
                 });
 
 

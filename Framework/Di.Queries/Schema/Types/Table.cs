@@ -32,7 +32,8 @@ namespace Di.Qry.Schema.Types
         public static Table Create(string name, string alias, string primaryKey = "", string schemaName = "dbo")
         {
             var entity = new Table(name, alias, primaryKey, schemaName);
-            entity.Column("id","id","Id");
+            entity.Columns.Add(new GridColumn($"{entity.Alias}.Id", "Id", "Id")
+                { Searchable = false, Sortable = false,Type = ColumnType.Hidden});
             return entity;
         }
 

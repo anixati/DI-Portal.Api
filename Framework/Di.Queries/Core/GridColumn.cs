@@ -43,6 +43,7 @@ namespace Di.Qry.Core
     public enum ColumnType
     {
         Default = 0,
+        Hidden,
         HyperLink,
         DateTime
     }

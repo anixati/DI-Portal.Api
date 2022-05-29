@@ -3,8 +3,8 @@
     public enum LayoutType
     {
         Default = 0,
-        Page,
-        FieldGroup,
+        Page =1,
+        FieldGroup=2,
         Tab
     }
 }

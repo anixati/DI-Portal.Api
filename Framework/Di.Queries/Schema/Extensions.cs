@@ -55,8 +55,21 @@ namespace Di.Qry.Schema
         public static Table Column(this Table table, string colName, string accessor = "", string header = "",
             bool searchable = false, bool sortable = false)
         {
-            table.Columns.Add(new GridColumn($"{table.Alias}.{colName}", accessor, header)
-                {Searchable = searchable, Sortable = sortable});
+            table.Column(colName, accessor, header, x =>
+            {
+                x.Searchable = searchable;
+                x.Sortable = sortable;
+            });
+            return table;
+        }
+
+        public static Table Column(this Table table, string colName, string accessor, string header,
+            Action<GridColumn> configure = null)
+        {
+
+            var col = new GridColumn($"{table.Alias}.{colName}", accessor, header);
+            configure?.Invoke(col);
+            table.Columns.Add(col);
             return table;
         }
 

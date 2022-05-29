@@ -1,4 +1,5 @@
-﻿using Di.Qry.Schema;
+﻿using Di.Qry.Core;
+using Di.Qry.Schema;
 using Di.Qry.Schema.Types;
 
 namespace Boards.Services.Appointee
@@ -11,17 +12,23 @@ namespace Boards.Services.Appointee
         protected override Table CreateEntity()
         {
             var pt = Table.Create(Database.AppointeeView);
+            pt.Column("FullName", "FullName", "Full Name", x =>
+            {
+                x.Searchable = true;
+                x.Sortable = true;
+                x.Type = ColumnType.HyperLink;
+            });
             pt.SearchCol("FullName");
             pt.SearchCol("Gender");
-            pt.SearchCol("Phone");
-            pt.SearchCol("Mobile");
-            pt.SearchCol("Fax");
+            //pt.SearchCol("Phone");
+            //pt.SearchCol("Mobile");
+            //pt.SearchCol("Fax");
             pt.SearchCol("City");
             pt.SearchCol("State");
-            pt.SearchCol("IsAboriginal");
-            pt.SearchCol("IsDisabled");
-            pt.SearchCol("IsRegional");
-            pt.SearchCol("ExecutiveSearch");
+            pt.SearchCol("Aboriginal");
+            pt.SearchCol("Handicapped");
+            pt.SearchCol("Regional");
+            pt.SearchCol("Executive");
             pt.SearchCol("Capability");
             pt.SearchCol("Experience");
             return pt;
@@ -47,17 +54,20 @@ namespace Boards.Services.Appointee
         protected override Table CreateEntity()
         {
             var pt = Table.Create(Database.AppointeeView);
-            pt.SearchCol("FullName");
+            pt.Column("FullName", "FullName", "Full Name", x =>
+            {
+                x.Searchable = true;
+                x.Sortable = true;
+                x.Type = ColumnType.HyperLink;
+            });
             pt.SearchCol("Gender");
-            pt.SearchCol("Phone");
-            pt.SearchCol("Mobile");
-            pt.SearchCol("Fax");
+           
             pt.SearchCol("City");
             pt.SearchCol("State");
-            pt.SearchCol("IsAboriginal");
-            pt.SearchCol("IsDisabled");
-            pt.SearchCol("IsRegional");
-            pt.SearchCol("ExecutiveSearch");
+            pt.SearchCol("Aboriginal");
+            pt.SearchCol("Handicapped");
+            pt.SearchCol("Regional");
+            pt.SearchCol("Executive");
             pt.SearchCol("Capability");
             pt.SearchCol("Experience");
             return pt;
