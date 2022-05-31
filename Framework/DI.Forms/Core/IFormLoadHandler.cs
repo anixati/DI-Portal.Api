@@ -6,6 +6,6 @@ namespace DI.Forms.Core
 {
     public interface IFormLoadHandler: IFormActionHandler
     {
-        Task<(IDictionary<string, object>, FormEntity)> Execute(FormSchema schema, long entityId);
+        Task<(IDictionary<string, string>, FormEntity)> Execute(FormSchema schema, long entityId);
     }
 }

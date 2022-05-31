@@ -14,7 +14,7 @@ namespace Boards.Services.Appointees.Handlers
         {
         }
         public override string SchemaName => Constants.Forms.Appointee.View;
-        protected override async Task<FormEntity> Process(FormSchema schema, long entityId, Dictionary<string, object> data)
+        protected override async Task<FormEntity> Process(FormSchema schema, long entityId, Dictionary<string, string> data)
         {
             var repo = GetRepo<Appointee>();
             var entity = await repo.GetById(entityId);
