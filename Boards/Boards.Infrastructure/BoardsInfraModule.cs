@@ -29,6 +29,7 @@ namespace Boards.Infrastructure
             builder.AddQryProviders<BoardsDbContext>();
             builder.AddFormProviders();
             builder.RegisterEntityHandlers<BoardsDbContext>(typeof(BaseEntity).Assembly, typeof(Board).Assembly);
+
             // builder.AddMappings(moduleType);
             // builder.AddEntityServices(moduleAssembly);
         }

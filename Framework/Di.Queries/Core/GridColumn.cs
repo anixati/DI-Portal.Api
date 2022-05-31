@@ -31,6 +31,7 @@ namespace Di.Qry.Core
 
         public int Width { get; set; }
         public string Format { get; set; }
+        public object Options { get; set; }
         public ColumnType Type { get; set; }
         public string TypeCode { get; set; }
 

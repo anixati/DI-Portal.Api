@@ -12,13 +12,13 @@ namespace DI.Services.Forms
 {
     public class FormSubmitHandler : ServiceBase, IRequestHandler<FormActionRequest, FormActionResult>
     {
-        private static readonly ConcurrentDictionary<string, Lazy<IFormActionHandler>> _actions = new();
+        private static readonly ConcurrentDictionary<string, Lazy<IFormCreateHandler>> _actions = new();
 
-        public FormSubmitHandler(IEnumerable<IFormActionHandler> handlers, ILoggerFactory loggerFactory)
+        public FormSubmitHandler(IEnumerable<IFormCreateHandler> handlers, ILoggerFactory loggerFactory)
             : base(loggerFactory)
         {
             foreach (var fb in handlers)
-                _actions[$"{fb.SchemaName.ToLower().Trim()}"] = new Lazy<IFormActionHandler>(() => fb);
+                _actions[$"{fb.SchemaName.ToLower().Trim()}"] = new Lazy<IFormCreateHandler>(() => fb);
         }
 
         public async Task<FormActionResult> Handle(FormActionRequest request, CancellationToken cancellationToken)
@@ -28,7 +28,7 @@ namespace DI.Services.Forms
             return result;
         }
 
-        private IFormActionHandler GetHandler(string qryStateKey)
+        private IFormCreateHandler GetHandler(string qryStateKey)
         {
             if (string.IsNullOrEmpty(qryStateKey))
                 throw new Exception("form handler key is required");

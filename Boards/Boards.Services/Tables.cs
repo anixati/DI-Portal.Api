@@ -2,9 +2,18 @@
 
 namespace Boards.Services
 {
-    public static class Database
+
+    public static class Constants
     {
-        public static readonly TableKey Appointee = new("Appointee", "apt");
-        public static readonly TableKey AppointeeView = new("AppointeesView", "avw");
+        public static class Forms
+        {
+            public static readonly FormKey Appointee = new FormKey("appointee");
+        }
+
+        public static class Db
+        {
+            public static readonly TableKey AppointeeView = new("AppointeesView", "avw");
+        }
     }
+
 }

@@ -1,12 +1,12 @@
-﻿using DI.Forms.Handlers;
+﻿using DI.Domain.Enums;
+using DI.Forms.Handlers;
 using DI.Forms.Types;
 
-namespace Boards.Services.Appointees
+namespace Boards.Services.Appointees.Forms
 {
-    public class CreateAppointee : FormBuilder
+    public class CreateForm : FormBuilder
     {
-        public override string FormName => "CreateAppointee";
-
+        public override string FormName => Constants.Forms.Appointee.Create;
         protected override void CreateSchema(FormSchema fs)
         {
             fs.AddPage("Personal Details", AddPersonDetails);
@@ -27,22 +27,22 @@ namespace Boards.Services.Appointees
                 f.AddInput("MiddleName", "Middle Name");
                 f.AddInput("LastName", "Last Name", true);
             });
-            field.AddInput("Gender", "Gender", true);
+            field.AddSelect<GenderEnum>("Gender", "Gender", true);
         }
 
         private void AddContactDetails(FormField field)
         {
             field.AddFieldGroup(f =>
             {
-                f.AddInput("Email1", "Primary Email", true);
-                f.AddInput("Email2", "other Email");
+                f.AddEmail("Email1", "Primary Email", true);
+                f.AddEmail("Email2", "other Email");
             });
             field.AddFieldGroup(f =>
             {
-                f.AddInput("Mobile", "Mobile Number");
-                f.AddInput("HomePhone", "Phone Number");
+                f.AddPhone("Mobile", "Mobile Number");
+                f.AddPhone("HomePhone", "Phone Number");
             });
-            field.AddInput("FaxNumber", "Fax Number");
+            field.AddPhone("FaxNumber", "Fax Number");
         }
 
         private void AddProfessionalDetails(FormField field)
@@ -50,7 +50,7 @@ namespace Boards.Services.Appointees
             field.AddInput("Biography", "Biography", x =>
             {
                 x.AddRequired("Biography is required");
-                x.AddRule(ValRule.Min(100, "Minimum 100 chars required"));
+                x.AddRule(ValRule.Min(10, "Minimum 10 chars required"));
                 x.FieldType = FormFieldType.Note;
             });
             field.AddInput("PostNominals", "PostNominals");

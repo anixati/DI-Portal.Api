@@ -12,16 +12,15 @@ using Microsoft.Extensions.Logging;
 
 namespace DI.Services.Forms
 {
-    public abstract class FormActionBase<T> : ServiceBase, IFormActionHandler where T : class, IEntity, new()
+    public abstract class FormCreateHandler<T> : ServiceBase, IFormCreateHandler where T : class, IEntity, new()
     {
-        protected FormActionBase(ILoggerFactory logFactory) : base(logFactory)
+        protected FormCreateHandler(ILoggerFactory logFactory) : base(logFactory)
         {
         }
         public abstract string SchemaName { get; }
 
         public async Task<FormActionResult> Execute(IDictionary<string, object> data, long? entityId)
         {
-
             var entity = Convert(data);
             var result = await Process(entity);
             return result;
@@ -39,14 +38,19 @@ namespace DI.Services.Forms
             {
                 var mi = members.FirstOrDefault(x => string.Compare(x.Name, key, StringComparison.OrdinalIgnoreCase) == 0);
                 if (mi == null || value == null) continue;
-                if (mi.Type == typeof(bool) || mi.Type == typeof(Nullable<bool>))
+                if (mi.Type == typeof(bool) || mi.Type == typeof(bool?))
                 {
-                    if (int.TryParse($"{value}", out int rs))
+                    if (int.TryParse($"{value}", out var rs))
+                        accessor[entity, key] = rs == 1 ? true : false;
+                }
+                else if (mi.Type == typeof(int) || mi.Type == typeof(int?))
+                {
+                    if (int.TryParse($"{value}", out var rs))
                         accessor[entity, key] = rs == 1 ? true : false;
                 }
                 else if (mi.Type.IsEnum)
                 {
-                    if (int.TryParse($"{value}", out int rs))
+                    if (int.TryParse($"{value}", out var rs))
                         accessor[entity, key] = rs;
                 }
                 else
@@ -57,28 +61,9 @@ namespace DI.Services.Forms
             SetMapping(entity, data);
             return entity;
         }
-
-        //private T Convert(dynamic obj, IDictionary<string, object> data)
-        //{
-        //    var et = obj as T;
-        //    SetMapping(et, data);
-        //    return et;
-        //}
-
         protected virtual void SetMapping(T entity, IDictionary<string, object> data)
         {
         }
-
-        //private static dynamic ToObject(IDictionary<string, object> data)
-        //{
-        //    var exo = new ExpandoObject();
-        //    var exoCol = (ICollection<KeyValuePair<string, object>>)exo;
-        //    foreach (var keyValuePair in data)
-        //        exoCol.Add(keyValuePair);
-        //    dynamic eoDynamic = exo;
-        //    return eoDynamic;
-        //}
-
 
     }
 }

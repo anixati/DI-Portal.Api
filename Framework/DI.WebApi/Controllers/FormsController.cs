@@ -34,8 +34,16 @@ namespace DI.WebApi.Controllers
             return result.ToResponse();
         }
 
+
+        [HttpGet("schema/{name}/{id}")]
+        public async Task<IActionResult> GetSchema(string name,long id)
+        {
+            var result = await ExecuteTask(async x => await x.Send(new FormSchemaRequest { Name = name,EntityId = id}));
+            return result.ToResponse();
+        }
+
         [HttpPost("process")]
-        public virtual async Task<IActionResult> GetItems([FromBody] FormDataRequest request)
+        public virtual async Task<IActionResult> SubmitCreateForm([FromBody] FormDataRequest request)
         {
             var result = await ExecuteTask(async x => await x.Send(new FormActionRequest
             {

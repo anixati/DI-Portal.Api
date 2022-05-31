@@ -41,4 +41,17 @@ namespace DI.Forms.Types
         public List<ValRule> Rules { get; set; } = new();
         public List<FormField> Fields { get; set; } = new();
     }
+
+
+    public class SelectFieldOption
+    {
+        public SelectFieldOption(string value, string label)
+        {
+            Value = value;
+            Label = label;
+        }
+
+        public string Label { get; }
+        public string Value { get;  }
+    }
 }
