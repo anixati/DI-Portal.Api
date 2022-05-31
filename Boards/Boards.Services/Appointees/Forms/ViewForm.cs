@@ -19,31 +19,34 @@ namespace Boards.Services.Appointees.Forms
         {
             field.AddFieldGroup(f =>
             {
-                f.AddInput("Title", "Title");
-                f.AddInput("FirstName", "First Name", true);
+                f.AddInput("Title", "Title", false, 30);
+                f.AddInput("FirstName", "First Name", true, 30);
+                f.AddInput("LastName", "Last Name", true, 30);
             });
             field.AddFieldGroup(f =>
             {
-                f.AddInput("MiddleName", "Middle Name");
-                f.AddInput("LastName", "Last Name", true);
+                f.AddInput("MiddleName", "Middle Name", false, 30);
+                f.AddSelect<GenderEnum>("Gender", "Gender", true, 30);
+
             });
-            field.AddSelect<GenderEnum>("Gender", "Gender", true);
+
+
             field.AddFieldGroup(f =>
             {
-                f.AddEmail("Email1", "Primary Email", true);
-                f.AddEmail("Email2", "other Email");
+                f.AddPhone("Mobile", "Mobile Number", false, 30);
+                f.AddPhone("HomePhone", "Phone Number", false, 30);
+                f.AddPhone("FaxNumber", "Fax Number", false, 30);
             });
             field.AddFieldGroup(f =>
-            {
-                f.AddPhone("Mobile", "Mobile Number");
-                f.AddPhone("HomePhone", "Phone Number");
-            });
-            field.AddPhone("FaxNumber", "Fax Number");
+         {
+             f.AddEmail("Email1", "Primary Email", true, 30);
+             f.AddEmail("Email2", "other Email", false, 30);
+         });
         }
 
         private void AddAddressDetails(FormField field)
         {
-         
+
         }
 
         private void AddProfessionalDetails(FormField field)

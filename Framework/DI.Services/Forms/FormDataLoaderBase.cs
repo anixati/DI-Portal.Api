@@ -18,14 +18,14 @@ namespace DI.Services.Forms
         }
 
         public abstract string SchemaName { get; }
-        public async Task<IDictionary<string, object>> Execute(FormSchema schema, long entityId)
+        public async Task<(IDictionary<string, object>, FormEntity)> Execute(FormSchema schema, long entityId)
         {
             var rvl = new Dictionary<string, object>();
             LoadKeys(schema.Fields, rvl);
-            await Process(schema, entityId,rvl);
-            return rvl;
+            var entity = await Process(schema, entityId, rvl);
+            return (rvl, entity);
         }
-        protected abstract Task Process(FormSchema schema, long entityId, Dictionary<string, object> data);
+        protected abstract Task<FormEntity> Process(FormSchema schema, long entityId, Dictionary<string, object> data);
         private static void LoadKeys(List<FormField> schemaFields, Dictionary<string, object> rvl)
         {
             foreach (var fd in schemaFields)
@@ -46,18 +46,18 @@ namespace DI.Services.Forms
             {
                 var mi = members.FirstOrDefault(x =>
                     string.Compare(x.Name, key, StringComparison.OrdinalIgnoreCase) == 0);
-                if (mi == null ) continue;
-                
+                if (mi == null) continue;
+
 
                 if (mi.Type == typeof(bool))
                 {
-                        data[key]  = (bool)accessor[entity, key]? 1 : 0;
+                    data[key] = (bool)accessor[entity, key] ? 1 : 0;
                 }
                 else if (mi.Type == typeof(bool?))
                 {
                     var rx = (bool?)accessor[entity, key];
-                    if(rx.HasValue)
-                    data[key] = rx.GetValueOrDefault() ?1 : 0;
+                    if (rx.HasValue)
+                        data[key] = rx.GetValueOrDefault() ? 1 : 0;
                 }
                 else
                 {
@@ -65,7 +65,7 @@ namespace DI.Services.Forms
                 }
 
 
-               
+
                 //else if (mi.Type == typeof(int) || mi.Type == typeof(int?))
                 //{
                 //    if (int.TryParse($"{value}", out var rs))

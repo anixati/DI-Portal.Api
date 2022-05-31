@@ -37,7 +37,9 @@ namespace DI.Services.Forms
             };
             if (!request.EntityId.HasValue) return response;
             var handler = GetHandler(request.Name);
-            response.InitialValues = await handler.Execute(response.Schema, request.EntityId.GetValueOrDefault());
+            var rx= await handler.Execute(response.Schema, request.EntityId.GetValueOrDefault());
+            response.InitialValues = rx.Item1;
+            response.Entity = rx.Item2;
             return response;
         }
     }
