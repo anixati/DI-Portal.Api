@@ -3,6 +3,7 @@ using System.Threading.Tasks;
 using DI.Core;
 using DI.Response;
 using DI.Services.Core;
+using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 
@@ -32,6 +33,10 @@ namespace DI.WebApi.Core
             if (verStr != null && int.TryParse(verStr.ToString(), out var version))
                 return version;
             return 1;
+        }
+        public async Task<T> Send<T>(IRequest<T> request)
+        {
+            return await _serviceContext.Send(request);
         }
 
         protected async Task<IApiResponse> ExecuteTask(Func<IServiceContext, Task<object>> executor)

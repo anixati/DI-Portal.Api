@@ -1,4 +1,6 @@
 ﻿using System.Collections.Generic;
+using DI.Domain.Core;
+using DI.Forms.Core;
 
 namespace DI.Forms.Requests
 {
@@ -10,8 +12,22 @@ namespace DI.Forms.Requests
 
     public class FormActionResult
     {
-        public long EntityId { get; set; }
+        public FormActionResult()
+        {
+            InitialValues = new Dictionary<string, string>();
+        }
+        public FormActionResult(IEntity entity,string title="")
+        {
+            InitialValues = new Dictionary<string, string>();
+            Entity = new FormEntity(title, entity);
+        } 
+        public FormEntity Entity { get; set; }
         public List<ValResult> ValResults { get; set; } = new();
-        public string RouteKey { get; set; }
+        public IDictionary<string, string> InitialValues { get; set; }
+
+        public void SetResult(IEntity entity, string title = "")
+        {
+            Entity = new FormEntity(title, entity);
+        }
     }
 }

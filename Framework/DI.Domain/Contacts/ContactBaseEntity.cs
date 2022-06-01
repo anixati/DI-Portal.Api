@@ -44,7 +44,10 @@ namespace DI.Domain.Contacts
                 return rv;
             }
         }
-
+        public override string GetName()
+        {
+            return FullName;
+        }
         public override string GetKey()
         {
             return FullName;

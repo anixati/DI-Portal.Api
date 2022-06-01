@@ -10,9 +10,9 @@ namespace Boards.Infrastructure.Design
         {
             var dbCtxType = typeof(BoardsDbContext);
             var ctxAssembly = dbCtxType.Assembly;
-           // var connStr = "Server=XD401462;Database=DI_Boards;Trusted_Connection=True;Pooling=true;";
+            var connStr = "Server=XD401462;Database=DI_Boards;Trusted_Connection=True;Pooling=true;";
 
-          var connStr = "Server=DESKTOP-ANJVLKR\\SQLEXPRESS;Database=DI_Boards;Trusted_Connection=True;Pooling=true;";
+         // var connStr = "Server=DESKTOP-ANJVLKR\\SQLEXPRESS;Database=DI_Boards;Trusted_Connection=True;Pooling=true;";
 
             var dbOptions = new DbContextOptionsBuilder<BoardsDbContext>()
                 .UseSqlServer(connStr, ox => { ox.MigrationsAssembly(ctxAssembly.FullName); })

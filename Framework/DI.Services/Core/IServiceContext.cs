@@ -36,5 +36,9 @@ namespace DI.Services.Core
 
         Task<TResponse> Send<TResponse>(IRequest<TResponse> request,
             CancellationToken cancellationToken = default);
+
+        Task<ActionResponse> ChangeStatus<T>(Entity.ChangeState<T> request)
+            where T : class, IEntity;
+
     }
 }

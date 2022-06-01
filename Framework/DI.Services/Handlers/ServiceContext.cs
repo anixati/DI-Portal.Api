@@ -15,7 +15,8 @@ using MediatR;
 
 namespace DI.Services.Handlers
 {
-    public class ServiceContext : IServiceContext
+    public class ServiceContext : 
+        IServiceContext
     {
         private readonly IIdentityProvider _identityProvider;
         private readonly IMapper _mapper;
@@ -57,6 +58,10 @@ namespace DI.Services.Handlers
             return await _mediator.Send(request);
         }
 
+        public async Task<ActionResponse> ChangeStatus<T>(Entity.ChangeState<T> request) where T : class, IEntity
+        {
+            return await _mediator.Send(request);
+        }
 
         public async Task<ActionResponse> ChangeStatus<T>(SetStatusAction request) where T : class, IEntity
         {
@@ -96,8 +101,7 @@ namespace DI.Services.Handlers
         {
             return await _mediator.Send(request, cancellationToken);
         }
-
-
+        
         #region Helpers
 
         private ViewResponse<TK> ConvertTo<T, TK>(EntityResponse<T> response)

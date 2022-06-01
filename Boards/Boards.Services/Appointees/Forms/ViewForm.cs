@@ -20,8 +20,8 @@ namespace Boards.Services.Appointees.Forms
             field.AddFieldGroup(f =>
             {
                 f.AddInput("Title", "Title", false, 30);
-                f.AddInput("FirstName", "First Name", true, 30);
-                f.AddInput("LastName", "Last Name", true, 30);
+                f.AddInput("FirstName", "First Name", true, 35);
+                f.AddInput("LastName", "Last Name", true, 35);
             });
             field.AddFieldGroup(f =>
             {
@@ -29,7 +29,7 @@ namespace Boards.Services.Appointees.Forms
                 f.AddSelect<GenderEnum>("Gender", "Gender", true, 30);
 
             });
-
+            //field.AddDivider();
 
             field.AddFieldGroup(f =>
             {

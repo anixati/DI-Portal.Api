@@ -7,6 +7,12 @@ namespace DI.Forms.Types
     public static class FieldExtensions
     {
 
+        public static FormField AddDivider(this FormField fd, string title ="")
+        {
+            var field = new FormField { Layout = LayoutType.Divider,Title  = title};
+            if (fd.Fields.All(x => x.Key != field.Key)) fd.Fields.Add(field);
+            return fd;
+        }
         public static FormField AddFieldGroup(this FormField fd, Action<FormField> Configure)
         {
             var field = new FormField { Layout = LayoutType.FieldGroup };

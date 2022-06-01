@@ -5,6 +5,7 @@
         Default = 0,
         Page = 1,
         FieldGroup = 2,
-        Tab
+        Tab=3,
+        Divider
     }
 }

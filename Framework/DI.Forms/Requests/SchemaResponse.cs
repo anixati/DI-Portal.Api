@@ -1,4 +1,5 @@
-﻿using DI.Forms.Types;
+﻿using DI.Forms.Core;
+using DI.Forms.Types;
 
 namespace DI.Forms.Requests
 {

@@ -30,7 +30,7 @@ namespace DI.Domain.Core
 
         public bool IsTransient => Id == default;
 
-        public string GetName()
+        public virtual string GetName()
         {
             return GetType().Name.ToLower();
         }
