@@ -14,8 +14,4 @@
     <ProjectReference Include="..\Boards.Domain\Boards.Domain.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Boards\" />
-  </ItemGroup>
-
 </Project>

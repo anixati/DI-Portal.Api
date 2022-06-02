@@ -1,5 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
+using Boards.Domain.Contacts;
 using Boards.Domain.Roles;
 using DI.Domain.Core;
 using DI.Domain.Options;
@@ -19,9 +21,7 @@ namespace Boards.Domain.Boards
 
         [MaxLength(2000)] public string EstablishedByUnderText { get; set; }
 
-        [MaxLength(255)] public string AssistantSecretory { get; set; }
-
-        [MaxLength(50)] public string AssistantSecretoryPhone { get; set; }
+       
 
         [MaxLength(255)] public string NominationCommittee { get; set; }
 
@@ -38,8 +38,6 @@ namespace Boards.Domain.Boards
 
         [MaxLength(255)] public string Constitution { get; set; }
 
-        [MaxLength(255)] public string ResponsibleOfficer { get; set; }
-
         [MaxLength(255)] public string QuorumRequiredText { get; set; }
 
         public int? OptimumMembers { get; set; }
@@ -52,12 +50,21 @@ namespace Boards.Domain.Boards
 
         public bool ExcludeFromGenderBalance { get; set; }
 
-        public OptionSet Status { get; set; }
+        public OptionSet BoardStatus { get; set; }
         public OptionSet Division { get; set; }
         public OptionSet EstablishedByUnder { get; set; }
         public OptionSet StatusColor { get; set; }
-        public int? ApprovedAppUserId { get; set; }
-        public AppUser Approved { get; set; }
+
+        public long? ApprovedUserId { get; set; }
+        public AppUser ApprovedUser { get; set; }
+
+        public long? ResponsibleUserId { get; set; }
+        public AppUser ResponsibleUser { get; set; }
+
+        public long? AsstSecretaryId { get; set; }
+        public AssistantSecretary AsstSecretary { get; set; }
+        [MaxLength(50)] public string AsstSecretaryPhone { get; set; }
+
         public List<BoardRole> Roles { get; set; }
     }
 }

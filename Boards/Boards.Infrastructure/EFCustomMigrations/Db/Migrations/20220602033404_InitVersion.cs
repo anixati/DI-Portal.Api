@@ -1,7 +1,7 @@
 ﻿using System;
 using Microsoft.EntityFrameworkCore.Migrations;
 
-namespace Boards.Infrastructure.Migrations
+namespace EFCustomMigrations.Db.Migrations
 {
     public partial class InitVersion : Migration
     {
@@ -55,7 +55,7 @@ namespace Boards.Infrastructure.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Minister",
+                name: "Ministers",
                 schema: "Dbo",
                 columns: table => new
                 {
@@ -94,7 +94,7 @@ namespace Boards.Infrastructure.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Minister", x => x.Id);
+                    table.PrimaryKey("PK_Ministers", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -355,10 +355,10 @@ namespace Boards.Infrastructure.Migrations
                 {
                     table.PrimaryKey("PK_MinisterTerms", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_MinisterTerms_Minister_MinisterId",
+                        name: "FK_MinisterTerms_Ministers_MinisterId",
                         column: x => x.MinisterId,
                         principalSchema: "Dbo",
-                        principalTable: "Minister",
+                        principalTable: "Ministers",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
@@ -507,7 +507,7 @@ namespace Boards.Infrastructure.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Board",
+                name: "Boards",
                 schema: "Dbo",
                 columns: table => new
                 {
@@ -517,15 +517,12 @@ namespace Boards.Infrastructure.Migrations
                     Summary = table.Column<string>(type: "nvarchar(2000)", maxLength: 2000, nullable: true),
                     PendingAction = table.Column<string>(type: "nvarchar(2000)", maxLength: 2000, nullable: true),
                     EstablishedByUnderText = table.Column<string>(type: "nvarchar(2000)", maxLength: 2000, nullable: true),
-                    AssistantSecretory = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: true),
-                    AssistantSecretoryPhone = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: true),
                     NominationCommittee = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: true),
                     OwnerDivision = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: true),
                     OwnerPosition = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: true),
                     Acronym = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: true),
                     LegislationReference = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: true),
                     Constitution = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: true),
-                    ResponsibleOfficer = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: true),
                     QuorumRequiredText = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: true),
                     OptimumMembers = table.Column<int>(type: "int", nullable: true),
                     MaximumTerms = table.Column<int>(type: "int", nullable: true),
@@ -534,12 +531,14 @@ namespace Boards.Infrastructure.Migrations
                     QuorumRequired = table.Column<int>(type: "int", nullable: false),
                     ReportingApproved = table.Column<bool>(type: "bit", nullable: false),
                     ExcludeFromGenderBalance = table.Column<bool>(type: "bit", nullable: false),
-                    StatusId = table.Column<long>(type: "bigint", nullable: true),
+                    BoardStatusId = table.Column<long>(type: "bigint", nullable: true),
                     DivisionId = table.Column<long>(type: "bigint", nullable: true),
                     EstablishedByUnderId = table.Column<long>(type: "bigint", nullable: true),
                     StatusColorId = table.Column<long>(type: "bigint", nullable: true),
-                    ApprovedAppUserId = table.Column<int>(type: "int", nullable: true),
-                    ApprovedId = table.Column<long>(type: "bigint", nullable: true),
+                    ApprovedUserId = table.Column<long>(type: "bigint", nullable: true),
+                    ResponsibleUserId = table.Column<long>(type: "bigint", nullable: true),
+                    AsstSecretaryId = table.Column<long>(type: "bigint", nullable: true),
+                    AsstSecretaryPhone = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: true),
                     Locked = table.Column<bool>(type: "bit", nullable: false),
                     Disabled = table.Column<bool>(type: "bit", nullable: false),
                     Deleted = table.Column<bool>(type: "bit", nullable: false),
@@ -553,45 +552,59 @@ namespace Boards.Infrastructure.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Board", x => x.Id);
+                    table.PrimaryKey("PK_Boards", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Board_OptionSet_DivisionId",
+                        name: "FK_Boards_OptionSet_BoardStatusId",
+                        column: x => x.BoardStatusId,
+                        principalSchema: "Dbo",
+                        principalTable: "OptionSet",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_Boards_OptionSet_DivisionId",
                         column: x => x.DivisionId,
                         principalSchema: "Dbo",
                         principalTable: "OptionSet",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
-                        name: "FK_Board_OptionSet_EstablishedByUnderId",
+                        name: "FK_Boards_OptionSet_EstablishedByUnderId",
                         column: x => x.EstablishedByUnderId,
                         principalSchema: "Dbo",
                         principalTable: "OptionSet",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
-                        name: "FK_Board_OptionSet_StatusColorId",
+                        name: "FK_Boards_OptionSet_StatusColorId",
                         column: x => x.StatusColorId,
                         principalSchema: "Dbo",
                         principalTable: "OptionSet",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
-                        name: "FK_Board_OptionSet_StatusId",
-                        column: x => x.StatusId,
-                        principalSchema: "Dbo",
-                        principalTable: "OptionSet",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
-                    table.ForeignKey(
-                        name: "FK_Board_Portfolios_PortfolioId",
+                        name: "FK_Boards_Portfolios_PortfolioId",
                         column: x => x.PortfolioId,
                         principalSchema: "Dbo",
                         principalTable: "Portfolios",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
-                        name: "FK_Board_Users_ApprovedId",
-                        column: x => x.ApprovedId,
+                        name: "FK_Boards_Secretaries_AsstSecretaryId",
+                        column: x => x.AsstSecretaryId,
+                        principalSchema: "Dbo",
+                        principalTable: "Secretaries",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_Boards_Users_ApprovedUserId",
+                        column: x => x.ApprovedUserId,
+                        principalSchema: "acl",
+                        principalTable: "Users",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_Boards_Users_ResponsibleUserId",
+                        column: x => x.ResponsibleUserId,
                         principalSchema: "acl",
                         principalTable: "Users",
                         principalColumn: "Id",
@@ -665,7 +678,7 @@ namespace Boards.Infrastructure.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "BoardRole",
+                name: "BoardRoles",
                 schema: "Dbo",
                 columns: table => new
                 {
@@ -734,121 +747,121 @@ namespace Boards.Infrastructure.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_BoardRole", x => x.Id);
+                    table.PrimaryKey("PK_BoardRoles", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_BoardRole_Appointee_IncumbentId",
+                        name: "FK_BoardRoles_Appointee_IncumbentId",
                         column: x => x.IncumbentId,
                         principalSchema: "Dbo",
                         principalTable: "Appointee",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
-                        name: "FK_BoardRole_Board_BoardId",
+                        name: "FK_BoardRoles_Boards_BoardId",
                         column: x => x.BoardId,
                         principalSchema: "Dbo",
-                        principalTable: "Board",
+                        principalTable: "Boards",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
-                        name: "FK_BoardRole_OptionSet_AppointmentSourceId",
+                        name: "FK_BoardRoles_OptionSet_AppointmentSourceId",
                         column: x => x.AppointmentSourceId,
                         principalSchema: "Dbo",
                         principalTable: "OptionSet",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
-                        name: "FK_BoardRole_OptionSet_AppointmentStateId",
+                        name: "FK_BoardRoles_OptionSet_AppointmentStateId",
                         column: x => x.AppointmentStateId,
                         principalSchema: "Dbo",
                         principalTable: "OptionSet",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
-                        name: "FK_BoardRole_OptionSet_ApproverTypeId",
+                        name: "FK_BoardRoles_OptionSet_ApproverTypeId",
                         column: x => x.ApproverTypeId,
                         principalSchema: "Dbo",
                         principalTable: "OptionSet",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
-                        name: "FK_BoardRole_OptionSet_EstablishedByUnderId",
+                        name: "FK_BoardRoles_OptionSet_EstablishedByUnderId",
                         column: x => x.EstablishedByUnderId,
                         principalSchema: "Dbo",
                         principalTable: "OptionSet",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
-                        name: "FK_BoardRole_OptionSet_JudicialId",
+                        name: "FK_BoardRoles_OptionSet_JudicialId",
                         column: x => x.JudicialId,
                         principalSchema: "Dbo",
                         principalTable: "OptionSet",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
-                        name: "FK_BoardRole_OptionSet_MinSubLocationId",
+                        name: "FK_BoardRoles_OptionSet_MinSubLocationId",
                         column: x => x.MinSubLocationId,
                         principalSchema: "Dbo",
                         principalTable: "OptionSet",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
-                        name: "FK_BoardRole_OptionSet_PositionId",
+                        name: "FK_BoardRoles_OptionSet_PositionId",
                         column: x => x.PositionId,
                         principalSchema: "Dbo",
                         principalTable: "OptionSet",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
-                        name: "FK_BoardRole_OptionSet_PositionRemuneratedId",
+                        name: "FK_BoardRoles_OptionSet_PositionRemuneratedId",
                         column: x => x.PositionRemuneratedId,
                         principalSchema: "Dbo",
                         principalTable: "OptionSet",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
-                        name: "FK_BoardRole_OptionSet_PositionTypeId",
+                        name: "FK_BoardRoles_OptionSet_PositionTypeId",
                         column: x => x.PositionTypeId,
                         principalSchema: "Dbo",
                         principalTable: "OptionSet",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
-                        name: "FK_BoardRole_OptionSet_ReasonForGenderExcludeId",
+                        name: "FK_BoardRoles_OptionSet_ReasonForGenderExcludeId",
                         column: x => x.ReasonForGenderExcludeId,
                         principalSchema: "Dbo",
                         principalTable: "OptionSet",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
-                        name: "FK_BoardRole_OptionSet_RemunerationMethodId",
+                        name: "FK_BoardRoles_OptionSet_RemunerationMethodId",
                         column: x => x.RemunerationMethodId,
                         principalSchema: "Dbo",
                         principalTable: "OptionSet",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
-                        name: "FK_BoardRole_OptionSet_RemunerationPeriodId",
+                        name: "FK_BoardRoles_OptionSet_RemunerationPeriodId",
                         column: x => x.RemunerationPeriodId,
                         principalSchema: "Dbo",
                         principalTable: "OptionSet",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
-                        name: "FK_BoardRole_OptionSet_SelectionProcessId",
+                        name: "FK_BoardRoles_OptionSet_SelectionProcessId",
                         column: x => x.SelectionProcessId,
                         principalSchema: "Dbo",
                         principalTable: "OptionSet",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
-                        name: "FK_BoardRole_OptionSet_SourceId",
+                        name: "FK_BoardRoles_OptionSet_SourceId",
                         column: x => x.SourceId,
                         principalSchema: "Dbo",
                         principalTable: "OptionSet",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
-                        name: "FK_BoardRole_Secretaries_AssistantSecretaryId",
+                        name: "FK_BoardRoles_Secretaries_AssistantSecretaryId",
                         column: x => x.AssistantSecretaryId,
                         principalSchema: "Dbo",
                         principalTable: "Secretaries",
@@ -857,7 +870,7 @@ namespace Boards.Infrastructure.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "BoardRoleEvent",
+                name: "BoardAppointments",
                 schema: "Dbo",
                 columns: table => new
                 {
@@ -866,7 +879,7 @@ namespace Boards.Infrastructure.Migrations
                     BoardRoleId = table.Column<long>(type: "bigint", nullable: false),
                     AppointeeId = table.Column<long>(type: "bigint", nullable: false),
                     AppointmentDate = table.Column<DateTime>(type: "datetime2", nullable: true),
-                    InitialStartDate = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    InitialStartDate = table.Column<DateTime>(type: "datetime2", nullable: true),
                     StartDate = table.Column<DateTime>(type: "datetime2", nullable: false),
                     EndDate = table.Column<DateTime>(type: "datetime2", nullable: true),
                     BriefNumber = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: true),
@@ -914,100 +927,100 @@ namespace Boards.Infrastructure.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_BoardRoleEvent", x => x.Id);
+                    table.PrimaryKey("PK_BoardAppointments", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_BoardRoleEvent_Appointee_AppointeeId",
+                        name: "FK_BoardAppointments_Appointee_AppointeeId",
                         column: x => x.AppointeeId,
                         principalSchema: "Dbo",
                         principalTable: "Appointee",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
-                        name: "FK_BoardRoleEvent_BoardRole_BoardRoleId",
+                        name: "FK_BoardAppointments_BoardRoles_BoardRoleId",
                         column: x => x.BoardRoleId,
                         principalSchema: "Dbo",
-                        principalTable: "BoardRole",
+                        principalTable: "BoardRoles",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
-                        name: "FK_BoardRoleEvent_OptionSet_AppointmentSourceId",
+                        name: "FK_BoardAppointments_OptionSet_AppointmentSourceId",
                         column: x => x.AppointmentSourceId,
                         principalSchema: "Dbo",
                         principalTable: "OptionSet",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
-                        name: "FK_BoardRoleEvent_OptionSet_AppointmentStateId",
+                        name: "FK_BoardAppointments_OptionSet_AppointmentStateId",
                         column: x => x.AppointmentStateId,
                         principalSchema: "Dbo",
                         principalTable: "OptionSet",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
-                        name: "FK_BoardRoleEvent_OptionSet_AppointmentStatusId",
+                        name: "FK_BoardAppointments_OptionSet_AppointmentStatusId",
                         column: x => x.AppointmentStatusId,
                         principalSchema: "Dbo",
                         principalTable: "OptionSet",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
-                        name: "FK_BoardRoleEvent_OptionSet_ApproverTypeId",
+                        name: "FK_BoardAppointments_OptionSet_ApproverTypeId",
                         column: x => x.ApproverTypeId,
                         principalSchema: "Dbo",
                         principalTable: "OptionSet",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
-                        name: "FK_BoardRoleEvent_OptionSet_JudicialId",
+                        name: "FK_BoardAppointments_OptionSet_JudicialId",
                         column: x => x.JudicialId,
                         principalSchema: "Dbo",
                         principalTable: "OptionSet",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
-                        name: "FK_BoardRoleEvent_OptionSet_PositionId",
+                        name: "FK_BoardAppointments_OptionSet_PositionId",
                         column: x => x.PositionId,
                         principalSchema: "Dbo",
                         principalTable: "OptionSet",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
-                        name: "FK_BoardRoleEvent_OptionSet_PositionRemuneratedId",
+                        name: "FK_BoardAppointments_OptionSet_PositionRemuneratedId",
                         column: x => x.PositionRemuneratedId,
                         principalSchema: "Dbo",
                         principalTable: "OptionSet",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
-                        name: "FK_BoardRoleEvent_OptionSet_RemunerationMethodId",
+                        name: "FK_BoardAppointments_OptionSet_RemunerationMethodId",
                         column: x => x.RemunerationMethodId,
                         principalSchema: "Dbo",
                         principalTable: "OptionSet",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
-                        name: "FK_BoardRoleEvent_OptionSet_RemunerationPeriodId",
+                        name: "FK_BoardAppointments_OptionSet_RemunerationPeriodId",
                         column: x => x.RemunerationPeriodId,
                         principalSchema: "Dbo",
                         principalTable: "OptionSet",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
-                        name: "FK_BoardRoleEvent_OptionSet_SelectionProcessId",
+                        name: "FK_BoardAppointments_OptionSet_SelectionProcessId",
                         column: x => x.SelectionProcessId,
                         principalSchema: "Dbo",
                         principalTable: "OptionSet",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
-                        name: "FK_BoardRoleEvent_OptionSet_SourceId",
+                        name: "FK_BoardAppointments_OptionSet_SourceId",
                         column: x => x.SourceId,
                         principalSchema: "Dbo",
                         principalTable: "OptionSet",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
-                        name: "FK_BoardRoleEvent_OptionSet_TermsServedId",
+                        name: "FK_BoardAppointments_OptionSet_TermsServedId",
                         column: x => x.TermsServedId,
                         principalSchema: "Dbo",
                         principalTable: "OptionSet",
@@ -1028,226 +1041,238 @@ namespace Boards.Infrastructure.Migrations
                 column: "ExperienceId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Board_ApprovedId",
+                name: "IX_BoardAppointments_AppointeeId",
                 schema: "Dbo",
-                table: "Board",
-                column: "ApprovedId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Board_DivisionId",
-                schema: "Dbo",
-                table: "Board",
-                column: "DivisionId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Board_EstablishedByUnderId",
-                schema: "Dbo",
-                table: "Board",
-                column: "EstablishedByUnderId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Board_PortfolioId",
-                schema: "Dbo",
-                table: "Board",
-                column: "PortfolioId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Board_StatusColorId",
-                schema: "Dbo",
-                table: "Board",
-                column: "StatusColorId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Board_StatusId",
-                schema: "Dbo",
-                table: "Board",
-                column: "StatusId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_BoardRole_AppointmentSourceId",
-                schema: "Dbo",
-                table: "BoardRole",
-                column: "AppointmentSourceId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_BoardRole_AppointmentStateId",
-                schema: "Dbo",
-                table: "BoardRole",
-                column: "AppointmentStateId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_BoardRole_ApproverTypeId",
-                schema: "Dbo",
-                table: "BoardRole",
-                column: "ApproverTypeId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_BoardRole_AssistantSecretaryId",
-                schema: "Dbo",
-                table: "BoardRole",
-                column: "AssistantSecretaryId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_BoardRole_BoardId",
-                schema: "Dbo",
-                table: "BoardRole",
-                column: "BoardId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_BoardRole_EstablishedByUnderId",
-                schema: "Dbo",
-                table: "BoardRole",
-                column: "EstablishedByUnderId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_BoardRole_IncumbentId",
-                schema: "Dbo",
-                table: "BoardRole",
-                column: "IncumbentId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_BoardRole_JudicialId",
-                schema: "Dbo",
-                table: "BoardRole",
-                column: "JudicialId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_BoardRole_MinSubLocationId",
-                schema: "Dbo",
-                table: "BoardRole",
-                column: "MinSubLocationId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_BoardRole_PositionId",
-                schema: "Dbo",
-                table: "BoardRole",
-                column: "PositionId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_BoardRole_PositionRemuneratedId",
-                schema: "Dbo",
-                table: "BoardRole",
-                column: "PositionRemuneratedId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_BoardRole_PositionTypeId",
-                schema: "Dbo",
-                table: "BoardRole",
-                column: "PositionTypeId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_BoardRole_ReasonForGenderExcludeId",
-                schema: "Dbo",
-                table: "BoardRole",
-                column: "ReasonForGenderExcludeId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_BoardRole_RemunerationMethodId",
-                schema: "Dbo",
-                table: "BoardRole",
-                column: "RemunerationMethodId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_BoardRole_RemunerationPeriodId",
-                schema: "Dbo",
-                table: "BoardRole",
-                column: "RemunerationPeriodId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_BoardRole_SelectionProcessId",
-                schema: "Dbo",
-                table: "BoardRole",
-                column: "SelectionProcessId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_BoardRole_SourceId",
-                schema: "Dbo",
-                table: "BoardRole",
-                column: "SourceId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_BoardRoleEvent_AppointeeId",
-                schema: "Dbo",
-                table: "BoardRoleEvent",
+                table: "BoardAppointments",
                 column: "AppointeeId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_BoardRoleEvent_AppointmentSourceId",
+                name: "IX_BoardAppointments_AppointmentSourceId",
                 schema: "Dbo",
-                table: "BoardRoleEvent",
+                table: "BoardAppointments",
                 column: "AppointmentSourceId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_BoardRoleEvent_AppointmentStateId",
+                name: "IX_BoardAppointments_AppointmentStateId",
                 schema: "Dbo",
-                table: "BoardRoleEvent",
+                table: "BoardAppointments",
                 column: "AppointmentStateId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_BoardRoleEvent_AppointmentStatusId",
+                name: "IX_BoardAppointments_AppointmentStatusId",
                 schema: "Dbo",
-                table: "BoardRoleEvent",
+                table: "BoardAppointments",
                 column: "AppointmentStatusId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_BoardRoleEvent_ApproverTypeId",
+                name: "IX_BoardAppointments_ApproverTypeId",
                 schema: "Dbo",
-                table: "BoardRoleEvent",
+                table: "BoardAppointments",
                 column: "ApproverTypeId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_BoardRoleEvent_BoardRoleId",
+                name: "IX_BoardAppointments_BoardRoleId",
                 schema: "Dbo",
-                table: "BoardRoleEvent",
+                table: "BoardAppointments",
                 column: "BoardRoleId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_BoardRoleEvent_JudicialId",
+                name: "IX_BoardAppointments_JudicialId",
                 schema: "Dbo",
-                table: "BoardRoleEvent",
+                table: "BoardAppointments",
                 column: "JudicialId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_BoardRoleEvent_PositionId",
+                name: "IX_BoardAppointments_PositionId",
                 schema: "Dbo",
-                table: "BoardRoleEvent",
+                table: "BoardAppointments",
                 column: "PositionId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_BoardRoleEvent_PositionRemuneratedId",
+                name: "IX_BoardAppointments_PositionRemuneratedId",
                 schema: "Dbo",
-                table: "BoardRoleEvent",
+                table: "BoardAppointments",
                 column: "PositionRemuneratedId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_BoardRoleEvent_RemunerationMethodId",
+                name: "IX_BoardAppointments_RemunerationMethodId",
                 schema: "Dbo",
-                table: "BoardRoleEvent",
+                table: "BoardAppointments",
                 column: "RemunerationMethodId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_BoardRoleEvent_RemunerationPeriodId",
+                name: "IX_BoardAppointments_RemunerationPeriodId",
                 schema: "Dbo",
-                table: "BoardRoleEvent",
+                table: "BoardAppointments",
                 column: "RemunerationPeriodId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_BoardRoleEvent_SelectionProcessId",
+                name: "IX_BoardAppointments_SelectionProcessId",
                 schema: "Dbo",
-                table: "BoardRoleEvent",
+                table: "BoardAppointments",
                 column: "SelectionProcessId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_BoardRoleEvent_SourceId",
+                name: "IX_BoardAppointments_SourceId",
                 schema: "Dbo",
-                table: "BoardRoleEvent",
+                table: "BoardAppointments",
                 column: "SourceId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_BoardRoleEvent_TermsServedId",
+                name: "IX_BoardAppointments_TermsServedId",
                 schema: "Dbo",
-                table: "BoardRoleEvent",
+                table: "BoardAppointments",
                 column: "TermsServedId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_BoardRoles_AppointmentSourceId",
+                schema: "Dbo",
+                table: "BoardRoles",
+                column: "AppointmentSourceId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_BoardRoles_AppointmentStateId",
+                schema: "Dbo",
+                table: "BoardRoles",
+                column: "AppointmentStateId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_BoardRoles_ApproverTypeId",
+                schema: "Dbo",
+                table: "BoardRoles",
+                column: "ApproverTypeId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_BoardRoles_AssistantSecretaryId",
+                schema: "Dbo",
+                table: "BoardRoles",
+                column: "AssistantSecretaryId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_BoardRoles_BoardId",
+                schema: "Dbo",
+                table: "BoardRoles",
+                column: "BoardId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_BoardRoles_EstablishedByUnderId",
+                schema: "Dbo",
+                table: "BoardRoles",
+                column: "EstablishedByUnderId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_BoardRoles_IncumbentId",
+                schema: "Dbo",
+                table: "BoardRoles",
+                column: "IncumbentId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_BoardRoles_JudicialId",
+                schema: "Dbo",
+                table: "BoardRoles",
+                column: "JudicialId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_BoardRoles_MinSubLocationId",
+                schema: "Dbo",
+                table: "BoardRoles",
+                column: "MinSubLocationId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_BoardRoles_PositionId",
+                schema: "Dbo",
+                table: "BoardRoles",
+                column: "PositionId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_BoardRoles_PositionRemuneratedId",
+                schema: "Dbo",
+                table: "BoardRoles",
+                column: "PositionRemuneratedId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_BoardRoles_PositionTypeId",
+                schema: "Dbo",
+                table: "BoardRoles",
+                column: "PositionTypeId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_BoardRoles_ReasonForGenderExcludeId",
+                schema: "Dbo",
+                table: "BoardRoles",
+                column: "ReasonForGenderExcludeId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_BoardRoles_RemunerationMethodId",
+                schema: "Dbo",
+                table: "BoardRoles",
+                column: "RemunerationMethodId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_BoardRoles_RemunerationPeriodId",
+                schema: "Dbo",
+                table: "BoardRoles",
+                column: "RemunerationPeriodId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_BoardRoles_SelectionProcessId",
+                schema: "Dbo",
+                table: "BoardRoles",
+                column: "SelectionProcessId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_BoardRoles_SourceId",
+                schema: "Dbo",
+                table: "BoardRoles",
+                column: "SourceId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Boards_ApprovedUserId",
+                schema: "Dbo",
+                table: "Boards",
+                column: "ApprovedUserId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Boards_AsstSecretaryId",
+                schema: "Dbo",
+                table: "Boards",
+                column: "AsstSecretaryId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Boards_BoardStatusId",
+                schema: "Dbo",
+                table: "Boards",
+                column: "BoardStatusId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Boards_DivisionId",
+                schema: "Dbo",
+                table: "Boards",
+                column: "DivisionId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Boards_EstablishedByUnderId",
+                schema: "Dbo",
+                table: "Boards",
+                column: "EstablishedByUnderId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Boards_PortfolioId",
+                schema: "Dbo",
+                table: "Boards",
+                column: "PortfolioId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Boards_ResponsibleUserId",
+                schema: "Dbo",
+                table: "Boards",
+                column: "ResponsibleUserId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Boards_StatusColorId",
+                schema: "Dbo",
+                table: "Boards",
+                column: "StatusColorId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_MinisterTerms_MinisterId",
@@ -1342,7 +1367,7 @@ namespace Boards.Infrastructure.Migrations
                 schema: "Dbo");
 
             migrationBuilder.DropTable(
-                name: "BoardRoleEvent",
+                name: "BoardAppointments",
                 schema: "Dbo");
 
             migrationBuilder.DropTable(
@@ -1366,11 +1391,11 @@ namespace Boards.Infrastructure.Migrations
                 schema: "acl");
 
             migrationBuilder.DropTable(
-                name: "BoardRole",
+                name: "BoardRoles",
                 schema: "Dbo");
 
             migrationBuilder.DropTable(
-                name: "Minister",
+                name: "Ministers",
                 schema: "Dbo");
 
             migrationBuilder.DropTable(
@@ -1386,11 +1411,7 @@ namespace Boards.Infrastructure.Migrations
                 schema: "Dbo");
 
             migrationBuilder.DropTable(
-                name: "Board",
-                schema: "Dbo");
-
-            migrationBuilder.DropTable(
-                name: "Secretaries",
+                name: "Boards",
                 schema: "Dbo");
 
             migrationBuilder.DropTable(
@@ -1403,6 +1424,10 @@ namespace Boards.Infrastructure.Migrations
 
             migrationBuilder.DropTable(
                 name: "Portfolios",
+                schema: "Dbo");
+
+            migrationBuilder.DropTable(
+                name: "Secretaries",
                 schema: "Dbo");
 
             migrationBuilder.DropTable(

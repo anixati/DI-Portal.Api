@@ -22,7 +22,7 @@ namespace Boards.Domain.Roles
         public Board Board { get; set; }
 
 
-        [Required] public long IncumbentId { get; set; }
+        [Required] public long? IncumbentId { get; set; }
 
         public Appointee Incumbent { get; set; }
 

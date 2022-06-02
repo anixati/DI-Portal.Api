@@ -4,16 +4,14 @@ using Boards.Infrastructure.Domain;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
-using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
-namespace Boards.Infrastructure.Migrations
+namespace EFCustomMigrations.Db.Migrations
 {
     [DbContext(typeof(BoardsDbContext))]
-    [Migration("20220526063008_InitVersion")]
-    partial class InitVersion
+    partial class BoardsDbContextModelSnapshot : ModelSnapshot
     {
-        protected override void BuildTargetModel(ModelBuilder modelBuilder)
+        protected override void BuildModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -33,19 +31,18 @@ namespace Boards.Infrastructure.Migrations
                         .HasMaxLength(255)
                         .HasColumnType("nvarchar(255)");
 
-                    b.Property<int?>("ApprovedAppUserId")
-                        .HasColumnType("int");
-
-                    b.Property<long?>("ApprovedId")
+                    b.Property<long?>("ApprovedUserId")
                         .HasColumnType("bigint");
 
-                    b.Property<string>("AssistantSecretory")
-                        .HasMaxLength(255)
-                        .HasColumnType("nvarchar(255)");
+                    b.Property<long?>("AsstSecretaryId")
+                        .HasColumnType("bigint");
 
-                    b.Property<string>("AssistantSecretoryPhone")
+                    b.Property<string>("AsstSecretaryPhone")
                         .HasMaxLength(50)
                         .HasColumnType("nvarchar(50)");
+
+                    b.Property<long?>("BoardStatusId")
+                        .HasColumnType("bigint");
 
                     b.Property<string>("Constitution")
                         .HasMaxLength(255)
@@ -143,14 +140,10 @@ namespace Boards.Infrastructure.Migrations
                     b.Property<bool>("ReportingApproved")
                         .HasColumnType("bit");
 
-                    b.Property<string>("ResponsibleOfficer")
-                        .HasMaxLength(255)
-                        .HasColumnType("nvarchar(255)");
-
-                    b.Property<long?>("StatusColorId")
+                    b.Property<long?>("ResponsibleUserId")
                         .HasColumnType("bigint");
 
-                    b.Property<long?>("StatusId")
+                    b.Property<long?>("StatusColorId")
                         .HasColumnType("bigint");
 
                     b.Property<string>("Summary")
@@ -164,7 +157,11 @@ namespace Boards.Infrastructure.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("ApprovedId");
+                    b.HasIndex("ApprovedUserId");
+
+                    b.HasIndex("AsstSecretaryId");
+
+                    b.HasIndex("BoardStatusId");
 
                     b.HasIndex("DivisionId");
 
@@ -172,11 +169,11 @@ namespace Boards.Infrastructure.Migrations
 
                     b.HasIndex("PortfolioId");
 
+                    b.HasIndex("ResponsibleUserId");
+
                     b.HasIndex("StatusColorId");
 
-                    b.HasIndex("StatusId");
-
-                    b.ToTable("Board");
+                    b.ToTable("Boards");
                 });
 
             modelBuilder.Entity("Boards.Domain.Boards.Minister", b =>
@@ -259,7 +256,7 @@ namespace Boards.Infrastructure.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Minister");
+                    b.ToTable("Ministers");
                 });
 
             modelBuilder.Entity("Boards.Domain.Boards.MinisterTerm", b =>
@@ -559,6 +556,197 @@ namespace Boards.Infrastructure.Migrations
                     b.ToTable("Secretaries");
                 });
 
+            modelBuilder.Entity("Boards.Domain.Roles.BoardAppointment", b =>
+                {
+                    b.Property<long>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bigint")
+                        .UseIdentityColumn();
+
+                    b.Property<int?>("AppointedDays")
+                        .HasColumnType("int");
+
+                    b.Property<long>("AppointeeId")
+                        .HasColumnType("bigint");
+
+                    b.Property<DateTime?>("AppointmentDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int?>("AppointmentDays")
+                        .HasColumnType("int");
+
+                    b.Property<long?>("AppointmentSourceId")
+                        .HasColumnType("bigint");
+
+                    b.Property<long?>("AppointmentStateId")
+                        .HasColumnType("bigint");
+
+                    b.Property<long?>("AppointmentStatusId")
+                        .HasColumnType("bigint");
+
+                    b.Property<long?>("ApproverTypeId")
+                        .HasColumnType("bigint");
+
+                    b.Property<long>("BoardRoleId")
+                        .HasColumnType("bigint");
+
+                    b.Property<string>("BriefNumber")
+                        .HasMaxLength(255)
+                        .HasColumnType("nvarchar(255)");
+
+                    b.Property<string>("CreatedBy")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
+
+                    b.Property<DateTime>("CreatedOn")
+                        .HasColumnType("datetime2");
+
+                    b.Property<bool>("Deleted")
+                        .HasColumnType("bit");
+
+                    b.Property<bool>("Disabled")
+                        .HasColumnType("bit");
+
+                    b.Property<DateTime?>("EndDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<bool?>("EndDateUnknown")
+                        .HasColumnType("bit");
+
+                    b.Property<bool?>("ExOfficio")
+                        .HasColumnType("bit");
+
+                    b.Property<decimal?>("ExchangeRate")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<bool?>("ExcludeFromOrder15")
+                        .HasColumnType("bit");
+
+                    b.Property<bool?>("ExcludeGenderReport")
+                        .HasColumnType("bit");
+
+                    b.Property<DateTime?>("InitialStartDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<bool?>("IsActing")
+                        .HasColumnType("bit");
+
+                    b.Property<bool?>("IsCurrentAppointment")
+                        .HasColumnType("bit");
+
+                    b.Property<bool?>("IsFullTime")
+                        .HasColumnType("bit");
+
+                    b.Property<bool?>("IsProposed")
+                        .HasColumnType("bit");
+
+                    b.Property<int>("IsRemunerated")
+                        .HasColumnType("int");
+
+                    b.Property<bool?>("IsSemiDisc")
+                        .HasColumnType("bit");
+
+                    b.Property<long?>("JudicialId")
+                        .HasColumnType("bigint");
+
+                    b.Property<int?>("LeadTimeMonths")
+                        .HasColumnType("int");
+
+                    b.Property<bool>("Locked")
+                        .HasColumnType("bit");
+
+                    b.Property<int?>("MaxService")
+                        .HasColumnType("int");
+
+                    b.Property<string>("ModifiedBy")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
+
+                    b.Property<DateTime>("ModifiedOn")
+                        .HasColumnType("datetime2");
+
+                    b.Property<decimal?>("PaAmount")
+                        .HasColumnType("decimal(13,2)");
+
+                    b.Property<decimal?>("PaRemuneration")
+                        .HasColumnType("decimal(13,2)");
+
+                    b.Property<decimal?>("PdAmount")
+                        .HasColumnType("decimal(13,2)");
+
+                    b.Property<decimal?>("PdRemuneration")
+                        .HasColumnType("decimal(13,2)");
+
+                    b.Property<long?>("PositionId")
+                        .HasColumnType("bigint");
+
+                    b.Property<long?>("PositionRemuneratedId")
+                        .HasColumnType("bigint");
+
+                    b.Property<long?>("RemunerationMethodId")
+                        .HasColumnType("bigint");
+
+                    b.Property<long?>("RemunerationPeriodId")
+                        .HasColumnType("bigint");
+
+                    b.Property<long?>("SelectionProcessId")
+                        .HasColumnType("bigint");
+
+                    b.Property<long?>("SourceId")
+                        .HasColumnType("bigint");
+
+                    b.Property<DateTime>("StartDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int?>("TermLimit")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("TermYears")
+                        .HasColumnType("int");
+
+                    b.Property<long?>("TermsServedId")
+                        .HasColumnType("bigint");
+
+                    b.Property<byte[]>("Timestamp")
+                        .IsConcurrencyToken()
+                        .ValueGeneratedOnAddOrUpdate()
+                        .HasColumnType("rowversion");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("AppointeeId");
+
+                    b.HasIndex("AppointmentSourceId");
+
+                    b.HasIndex("AppointmentStateId");
+
+                    b.HasIndex("AppointmentStatusId");
+
+                    b.HasIndex("ApproverTypeId");
+
+                    b.HasIndex("BoardRoleId");
+
+                    b.HasIndex("JudicialId");
+
+                    b.HasIndex("PositionId");
+
+                    b.HasIndex("PositionRemuneratedId");
+
+                    b.HasIndex("RemunerationMethodId");
+
+                    b.HasIndex("RemunerationPeriodId");
+
+                    b.HasIndex("SelectionProcessId");
+
+                    b.HasIndex("SourceId");
+
+                    b.HasIndex("TermsServedId");
+
+                    b.ToTable("BoardAppointments");
+                });
+
             modelBuilder.Entity("Boards.Domain.Roles.BoardRole", b =>
                 {
                     b.Property<long>("Id")
@@ -630,7 +818,8 @@ namespace Boards.Infrastructure.Migrations
                     b.Property<DateTime?>("ExpiryDate")
                         .HasColumnType("datetime2");
 
-                    b.Property<long>("IncumbentId")
+                    b.Property<long?>("IncumbentId")
+                        .IsRequired()
                         .HasColumnType("bigint");
 
                     b.Property<bool?>("IsApsEmployee")
@@ -796,198 +985,7 @@ namespace Boards.Infrastructure.Migrations
 
                     b.HasIndex("SourceId");
 
-                    b.ToTable("BoardRole");
-                });
-
-            modelBuilder.Entity("Boards.Domain.Roles.BoardRoleEvent", b =>
-                {
-                    b.Property<long>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("bigint")
-                        .UseIdentityColumn();
-
-                    b.Property<int?>("AppointedDays")
-                        .HasColumnType("int");
-
-                    b.Property<long>("AppointeeId")
-                        .HasColumnType("bigint");
-
-                    b.Property<DateTime?>("AppointmentDate")
-                        .HasColumnType("datetime2");
-
-                    b.Property<int?>("AppointmentDays")
-                        .HasColumnType("int");
-
-                    b.Property<long?>("AppointmentSourceId")
-                        .HasColumnType("bigint");
-
-                    b.Property<long?>("AppointmentStateId")
-                        .HasColumnType("bigint");
-
-                    b.Property<long?>("AppointmentStatusId")
-                        .HasColumnType("bigint");
-
-                    b.Property<long?>("ApproverTypeId")
-                        .HasColumnType("bigint");
-
-                    b.Property<long>("BoardRoleId")
-                        .HasColumnType("bigint");
-
-                    b.Property<string>("BriefNumber")
-                        .HasMaxLength(255)
-                        .HasColumnType("nvarchar(255)");
-
-                    b.Property<string>("CreatedBy")
-                        .IsRequired()
-                        .HasMaxLength(50)
-                        .HasColumnType("nvarchar(50)");
-
-                    b.Property<DateTime>("CreatedOn")
-                        .HasColumnType("datetime2");
-
-                    b.Property<bool>("Deleted")
-                        .HasColumnType("bit");
-
-                    b.Property<bool>("Disabled")
-                        .HasColumnType("bit");
-
-                    b.Property<DateTime?>("EndDate")
-                        .HasColumnType("datetime2");
-
-                    b.Property<bool?>("EndDateUnknown")
-                        .HasColumnType("bit");
-
-                    b.Property<bool?>("ExOfficio")
-                        .HasColumnType("bit");
-
-                    b.Property<decimal?>("ExchangeRate")
-                        .HasColumnType("decimal(18,2)");
-
-                    b.Property<bool?>("ExcludeFromOrder15")
-                        .HasColumnType("bit");
-
-                    b.Property<bool?>("ExcludeGenderReport")
-                        .HasColumnType("bit");
-
-                    b.Property<DateTime>("InitialStartDate")
-                        .HasColumnType("datetime2");
-
-                    b.Property<bool?>("IsActing")
-                        .HasColumnType("bit");
-
-                    b.Property<bool?>("IsCurrentAppointment")
-                        .HasColumnType("bit");
-
-                    b.Property<bool?>("IsFullTime")
-                        .HasColumnType("bit");
-
-                    b.Property<bool?>("IsProposed")
-                        .HasColumnType("bit");
-
-                    b.Property<int>("IsRemunerated")
-                        .HasColumnType("int");
-
-                    b.Property<bool?>("IsSemiDisc")
-                        .HasColumnType("bit");
-
-                    b.Property<long?>("JudicialId")
-                        .HasColumnType("bigint");
-
-                    b.Property<int?>("LeadTimeMonths")
-                        .HasColumnType("int");
-
-                    b.Property<bool>("Locked")
-                        .HasColumnType("bit");
-
-                    b.Property<int?>("MaxService")
-                        .HasColumnType("int");
-
-                    b.Property<string>("ModifiedBy")
-                        .IsRequired()
-                        .HasMaxLength(50)
-                        .HasColumnType("nvarchar(50)");
-
-                    b.Property<DateTime>("ModifiedOn")
-                        .HasColumnType("datetime2");
-
-                    b.Property<decimal?>("PaAmount")
-                        .HasColumnType("decimal(13,2)");
-
-                    b.Property<decimal?>("PaRemuneration")
-                        .HasColumnType("decimal(13,2)");
-
-                    b.Property<decimal?>("PdAmount")
-                        .HasColumnType("decimal(13,2)");
-
-                    b.Property<decimal?>("PdRemuneration")
-                        .HasColumnType("decimal(13,2)");
-
-                    b.Property<long?>("PositionId")
-                        .HasColumnType("bigint");
-
-                    b.Property<long?>("PositionRemuneratedId")
-                        .HasColumnType("bigint");
-
-                    b.Property<long?>("RemunerationMethodId")
-                        .HasColumnType("bigint");
-
-                    b.Property<long?>("RemunerationPeriodId")
-                        .HasColumnType("bigint");
-
-                    b.Property<long?>("SelectionProcessId")
-                        .HasColumnType("bigint");
-
-                    b.Property<long?>("SourceId")
-                        .HasColumnType("bigint");
-
-                    b.Property<DateTime>("StartDate")
-                        .HasColumnType("datetime2");
-
-                    b.Property<int?>("TermLimit")
-                        .HasColumnType("int");
-
-                    b.Property<int?>("TermYears")
-                        .HasColumnType("int");
-
-                    b.Property<long?>("TermsServedId")
-                        .HasColumnType("bigint");
-
-                    b.Property<byte[]>("Timestamp")
-                        .IsConcurrencyToken()
-                        .ValueGeneratedOnAddOrUpdate()
-                        .HasColumnType("rowversion");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("AppointeeId");
-
-                    b.HasIndex("AppointmentSourceId");
-
-                    b.HasIndex("AppointmentStateId");
-
-                    b.HasIndex("AppointmentStatusId");
-
-                    b.HasIndex("ApproverTypeId");
-
-                    b.HasIndex("BoardRoleId");
-
-                    b.HasIndex("JudicialId");
-
-                    b.HasIndex("PositionId");
-
-                    b.HasIndex("PositionRemuneratedId");
-
-                    b.HasIndex("RemunerationMethodId");
-
-                    b.HasIndex("RemunerationPeriodId");
-
-                    b.HasIndex("SelectionProcessId");
-
-                    b.HasIndex("SourceId");
-
-                    b.HasIndex("TermsServedId");
-
-                    b.ToTable("BoardRoleEvent");
+                    b.ToTable("BoardRoles");
                 });
 
             modelBuilder.Entity("DI.Domain.App.AuditHistory", b =>
@@ -1624,9 +1622,19 @@ namespace Boards.Infrastructure.Migrations
 
             modelBuilder.Entity("Boards.Domain.Boards.Board", b =>
                 {
-                    b.HasOne("DI.Domain.Users.AppUser", "Approved")
+                    b.HasOne("DI.Domain.Users.AppUser", "ApprovedUser")
                         .WithMany()
-                        .HasForeignKey("ApprovedId")
+                        .HasForeignKey("ApprovedUserId")
+                        .OnDelete(DeleteBehavior.Restrict);
+
+                    b.HasOne("Boards.Domain.Contacts.AssistantSecretary", "AsstSecretary")
+                        .WithMany()
+                        .HasForeignKey("AsstSecretaryId")
+                        .OnDelete(DeleteBehavior.Restrict);
+
+                    b.HasOne("DI.Domain.Options.OptionSet", "BoardStatus")
+                        .WithMany()
+                        .HasForeignKey("BoardStatusId")
                         .OnDelete(DeleteBehavior.Restrict);
 
                     b.HasOne("DI.Domain.Options.OptionSet", "Division")
@@ -1645,17 +1653,21 @@ namespace Boards.Infrastructure.Migrations
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
+                    b.HasOne("DI.Domain.Users.AppUser", "ResponsibleUser")
+                        .WithMany()
+                        .HasForeignKey("ResponsibleUserId")
+                        .OnDelete(DeleteBehavior.Restrict);
+
                     b.HasOne("DI.Domain.Options.OptionSet", "StatusColor")
                         .WithMany()
                         .HasForeignKey("StatusColorId")
                         .OnDelete(DeleteBehavior.Restrict);
 
-                    b.HasOne("DI.Domain.Options.OptionSet", "Status")
-                        .WithMany()
-                        .HasForeignKey("StatusId")
-                        .OnDelete(DeleteBehavior.Restrict);
+                    b.Navigation("ApprovedUser");
 
-                    b.Navigation("Approved");
+                    b.Navigation("AsstSecretary");
+
+                    b.Navigation("BoardStatus");
 
                     b.Navigation("Division");
 
@@ -1663,7 +1675,7 @@ namespace Boards.Infrastructure.Migrations
 
                     b.Navigation("Portfolio");
 
-                    b.Navigation("Status");
+                    b.Navigation("ResponsibleUser");
 
                     b.Navigation("StatusColor");
                 });
@@ -1697,7 +1709,7 @@ namespace Boards.Infrastructure.Migrations
 
                             b1.HasKey("MinisterId");
 
-                            b1.ToTable("Minister");
+                            b1.ToTable("Ministers");
 
                             b1.WithOwner()
                                 .HasForeignKey("MinisterId");
@@ -1730,7 +1742,7 @@ namespace Boards.Infrastructure.Migrations
 
                             b1.HasKey("MinisterId");
 
-                            b1.ToTable("Minister");
+                            b1.ToTable("Ministers");
 
                             b1.WithOwner()
                                 .HasForeignKey("MinisterId");
@@ -1920,6 +1932,109 @@ namespace Boards.Infrastructure.Migrations
                     b.Navigation("StreetAddress");
                 });
 
+            modelBuilder.Entity("Boards.Domain.Roles.BoardAppointment", b =>
+                {
+                    b.HasOne("Boards.Domain.Contacts.Appointee", "Appointee")
+                        .WithMany()
+                        .HasForeignKey("AppointeeId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.HasOne("DI.Domain.Options.OptionSet", "AppointmentSource")
+                        .WithMany()
+                        .HasForeignKey("AppointmentSourceId")
+                        .OnDelete(DeleteBehavior.Restrict);
+
+                    b.HasOne("DI.Domain.Options.OptionSet", "AppointmentState")
+                        .WithMany()
+                        .HasForeignKey("AppointmentStateId")
+                        .OnDelete(DeleteBehavior.Restrict);
+
+                    b.HasOne("DI.Domain.Options.OptionSet", "AppointmentStatus")
+                        .WithMany()
+                        .HasForeignKey("AppointmentStatusId")
+                        .OnDelete(DeleteBehavior.Restrict);
+
+                    b.HasOne("DI.Domain.Options.OptionSet", "ApproverType")
+                        .WithMany()
+                        .HasForeignKey("ApproverTypeId")
+                        .OnDelete(DeleteBehavior.Restrict);
+
+                    b.HasOne("Boards.Domain.Roles.BoardRole", "BoardRole")
+                        .WithMany()
+                        .HasForeignKey("BoardRoleId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.HasOne("DI.Domain.Options.OptionSet", "Judicial")
+                        .WithMany()
+                        .HasForeignKey("JudicialId")
+                        .OnDelete(DeleteBehavior.Restrict);
+
+                    b.HasOne("DI.Domain.Options.OptionSet", "Position")
+                        .WithMany()
+                        .HasForeignKey("PositionId")
+                        .OnDelete(DeleteBehavior.Restrict);
+
+                    b.HasOne("DI.Domain.Options.OptionSet", "PositionRemunerated")
+                        .WithMany()
+                        .HasForeignKey("PositionRemuneratedId")
+                        .OnDelete(DeleteBehavior.Restrict);
+
+                    b.HasOne("DI.Domain.Options.OptionSet", "RemunerationMethod")
+                        .WithMany()
+                        .HasForeignKey("RemunerationMethodId")
+                        .OnDelete(DeleteBehavior.Restrict);
+
+                    b.HasOne("DI.Domain.Options.OptionSet", "RemunerationPeriod")
+                        .WithMany()
+                        .HasForeignKey("RemunerationPeriodId")
+                        .OnDelete(DeleteBehavior.Restrict);
+
+                    b.HasOne("DI.Domain.Options.OptionSet", "SelectionProcess")
+                        .WithMany()
+                        .HasForeignKey("SelectionProcessId")
+                        .OnDelete(DeleteBehavior.Restrict);
+
+                    b.HasOne("DI.Domain.Options.OptionSet", "Source")
+                        .WithMany()
+                        .HasForeignKey("SourceId")
+                        .OnDelete(DeleteBehavior.Restrict);
+
+                    b.HasOne("DI.Domain.Options.OptionSet", "TermsServed")
+                        .WithMany()
+                        .HasForeignKey("TermsServedId")
+                        .OnDelete(DeleteBehavior.Restrict);
+
+                    b.Navigation("Appointee");
+
+                    b.Navigation("AppointmentSource");
+
+                    b.Navigation("AppointmentState");
+
+                    b.Navigation("AppointmentStatus");
+
+                    b.Navigation("ApproverType");
+
+                    b.Navigation("BoardRole");
+
+                    b.Navigation("Judicial");
+
+                    b.Navigation("Position");
+
+                    b.Navigation("PositionRemunerated");
+
+                    b.Navigation("RemunerationMethod");
+
+                    b.Navigation("RemunerationPeriod");
+
+                    b.Navigation("SelectionProcess");
+
+                    b.Navigation("Source");
+
+                    b.Navigation("TermsServed");
+                });
+
             modelBuilder.Entity("Boards.Domain.Roles.BoardRole", b =>
                 {
                     b.HasOne("DI.Domain.Options.OptionSet", "AppointmentSource")
@@ -2043,109 +2158,6 @@ namespace Boards.Infrastructure.Migrations
                     b.Navigation("SelectionProcess");
 
                     b.Navigation("Source");
-                });
-
-            modelBuilder.Entity("Boards.Domain.Roles.BoardRoleEvent", b =>
-                {
-                    b.HasOne("Boards.Domain.Contacts.Appointee", "Appointee")
-                        .WithMany()
-                        .HasForeignKey("AppointeeId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-
-                    b.HasOne("DI.Domain.Options.OptionSet", "AppointmentSource")
-                        .WithMany()
-                        .HasForeignKey("AppointmentSourceId")
-                        .OnDelete(DeleteBehavior.Restrict);
-
-                    b.HasOne("DI.Domain.Options.OptionSet", "AppointmentState")
-                        .WithMany()
-                        .HasForeignKey("AppointmentStateId")
-                        .OnDelete(DeleteBehavior.Restrict);
-
-                    b.HasOne("DI.Domain.Options.OptionSet", "AppointmentStatus")
-                        .WithMany()
-                        .HasForeignKey("AppointmentStatusId")
-                        .OnDelete(DeleteBehavior.Restrict);
-
-                    b.HasOne("DI.Domain.Options.OptionSet", "ApproverType")
-                        .WithMany()
-                        .HasForeignKey("ApproverTypeId")
-                        .OnDelete(DeleteBehavior.Restrict);
-
-                    b.HasOne("Boards.Domain.Roles.BoardRole", "BoardRole")
-                        .WithMany()
-                        .HasForeignKey("BoardRoleId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-
-                    b.HasOne("DI.Domain.Options.OptionSet", "Judicial")
-                        .WithMany()
-                        .HasForeignKey("JudicialId")
-                        .OnDelete(DeleteBehavior.Restrict);
-
-                    b.HasOne("DI.Domain.Options.OptionSet", "Position")
-                        .WithMany()
-                        .HasForeignKey("PositionId")
-                        .OnDelete(DeleteBehavior.Restrict);
-
-                    b.HasOne("DI.Domain.Options.OptionSet", "PositionRemunerated")
-                        .WithMany()
-                        .HasForeignKey("PositionRemuneratedId")
-                        .OnDelete(DeleteBehavior.Restrict);
-
-                    b.HasOne("DI.Domain.Options.OptionSet", "RemunerationMethod")
-                        .WithMany()
-                        .HasForeignKey("RemunerationMethodId")
-                        .OnDelete(DeleteBehavior.Restrict);
-
-                    b.HasOne("DI.Domain.Options.OptionSet", "RemunerationPeriod")
-                        .WithMany()
-                        .HasForeignKey("RemunerationPeriodId")
-                        .OnDelete(DeleteBehavior.Restrict);
-
-                    b.HasOne("DI.Domain.Options.OptionSet", "SelectionProcess")
-                        .WithMany()
-                        .HasForeignKey("SelectionProcessId")
-                        .OnDelete(DeleteBehavior.Restrict);
-
-                    b.HasOne("DI.Domain.Options.OptionSet", "Source")
-                        .WithMany()
-                        .HasForeignKey("SourceId")
-                        .OnDelete(DeleteBehavior.Restrict);
-
-                    b.HasOne("DI.Domain.Options.OptionSet", "TermsServed")
-                        .WithMany()
-                        .HasForeignKey("TermsServedId")
-                        .OnDelete(DeleteBehavior.Restrict);
-
-                    b.Navigation("Appointee");
-
-                    b.Navigation("AppointmentSource");
-
-                    b.Navigation("AppointmentState");
-
-                    b.Navigation("AppointmentStatus");
-
-                    b.Navigation("ApproverType");
-
-                    b.Navigation("BoardRole");
-
-                    b.Navigation("Judicial");
-
-                    b.Navigation("Position");
-
-                    b.Navigation("PositionRemunerated");
-
-                    b.Navigation("RemunerationMethod");
-
-                    b.Navigation("RemunerationPeriod");
-
-                    b.Navigation("SelectionProcess");
-
-                    b.Navigation("Source");
-
-                    b.Navigation("TermsServed");
                 });
 
             modelBuilder.Entity("DI.Domain.Options.OptionSet", b =>

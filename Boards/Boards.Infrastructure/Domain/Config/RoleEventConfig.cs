@@ -4,9 +4,9 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace Boards.Infrastructure.Domain.Config
 {
-    public class RoleEventConfig : IEntityTypeConfiguration<BoardRoleEvent>
+    public class RoleEventConfig : IEntityTypeConfiguration<BoardAppointment>
     {
-        public void Configure(EntityTypeBuilder<BoardRoleEvent> builder)
+        public void Configure(EntityTypeBuilder<BoardAppointment> builder)
         {
         }
     }

@@ -1,5 +1,6 @@
 ﻿using System.Linq;
 using Boards.Domain.Boards;
+using Boards.Domain.Roles;
 using DI.Domain.Services;
 using DI.Security;
 using Microsoft.EntityFrameworkCore;
@@ -18,7 +19,9 @@ namespace Boards.Infrastructure.Domain
         }
 
         public DbSet<Portfolio> Portfolios { get; set; }
-
+        public DbSet<Board> Boards { get; set; }
+        public DbSet<BoardRole> BoardRoles { get; set; }
+        public DbSet<BoardAppointment> BoardAppointments { get; set; }
 
         protected override void ConfigureModels(ModelBuilder builder)
         {

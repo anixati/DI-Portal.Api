@@ -15,6 +15,7 @@ namespace Di.Qry.Core
             ColName = !string.IsNullOrEmpty(accessor) ? $"{colName} AS {accessor}" : $"{colName}";
             Accessor = !string.IsNullOrEmpty(accessor) ? $"{accessor}" : $"{SanitizeCol(colName)}";
             Header = !string.IsNullOrEmpty(header) ? $"{header}" : $"{Accessor.ToSentence()}";
+            LinkId = "id";
         }
 
         [JsonIgnore] public string SortCol { get; }
@@ -26,7 +27,7 @@ namespace Di.Qry.Core
         [JsonIgnore] public string ColName { get; }
 
         public string Accessor { get; }
-
+        public string LinkId { get; set; }
         [JsonProperty("Header")] public string Header { get; }
 
         public int Width { get; set; }

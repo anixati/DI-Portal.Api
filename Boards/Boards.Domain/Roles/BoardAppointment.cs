@@ -1,12 +1,13 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using Boards.Domain.Contacts;
 using DI.Domain.Enums;
 using DI.Domain.Options;
 
 namespace Boards.Domain.Roles
 {
-    public class BoardRoleEvent : BoardRoleBase
+    public class BoardAppointment : BoardRoleBase
     {
         [Required] public long BoardRoleId { get; set; }
         public BoardRole BoardRole { get; set; }
@@ -16,7 +17,7 @@ namespace Boards.Domain.Roles
 
 
         public DateTime? AppointmentDate { get; set; }
-        public DateTime InitialStartDate { get; set; }
+        public DateTime? InitialStartDate { get; set; }
         public DateTime StartDate { get; set; }
         public DateTime? EndDate { get; set; }
 

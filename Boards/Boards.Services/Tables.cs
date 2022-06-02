@@ -7,16 +7,26 @@ namespace Boards.Services
     {
         public static class Forms
         {
+
+            public static readonly FormKey Boards = new FormKey("boards");
+            public static readonly FormKey BoardRole = new FormKey("boardroles");
+            public static readonly FormKey BoardAppointment = new FormKey("boardappointments");
+
             public static readonly FormKey Appointee = new FormKey("appointee");
             public static readonly FormKey Minister = new FormKey("minister");
             public static readonly FormKey Secretary = new FormKey("secretary");
+            public static readonly FormKey Portfolio = new FormKey("portfolio");
         }
 
         public static class Db
         {
+            public static readonly TableKey Portfolio = new("Portfolios", "pf");
+
             public static readonly TableKey AppointeeView = new("AppointeesView", "avw");
-            public static readonly TableKey MinistersView = new("MinistersView", "avw");
-            public static readonly TableKey SecretaryView = new("SecretariesView", "avw");
+            public static readonly TableKey MinistersView = new("MinistersView", "mvw");
+            public static readonly TableKey SecretaryView = new("SecretariesView", "svw");
+            public static readonly TableKey PortFolioView = new("PortfoliosView", "pvw");
+            public static readonly TableKey BoardsView = new("ActiveBoardsView", "bvw");
         }
     }
 

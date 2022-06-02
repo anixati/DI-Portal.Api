@@ -6,13 +6,14 @@ namespace DI.Forms.Types
 {
     public static class FieldExtensions
     {
-
-        public static FormField AddDivider(this FormField fd, string title ="")
+        #region Layouts
+        public static FormField AddDivider(this FormField fd, string title = "")
         {
-            var field = new FormField { Layout = LayoutType.Divider,Title  = title};
+            var field = new FormField { Layout = LayoutType.Divider, Title = title };
             if (fd.Fields.All(x => x.Key != field.Key)) fd.Fields.Add(field);
             return fd;
         }
+
         public static FormField AddFieldGroup(this FormField fd, Action<FormField> Configure)
         {
             var field = new FormField { Layout = LayoutType.FieldGroup };
@@ -21,6 +22,7 @@ namespace DI.Forms.Types
             return fd;
         }
 
+        #endregion
 
         public static FormField AddYesNo(this FormField fd, string key, string title, string desc,
             bool required = false, int width = 50)
@@ -36,6 +38,8 @@ namespace DI.Forms.Types
             });
             return fd;
         }
+        
+        #region Select List
 
         public static FormField AddSelect<T>(this FormField fd, string key, string title = null, bool required = false,
             int width = 50) where T : struct, IConvertible
@@ -44,8 +48,9 @@ namespace DI.Forms.Types
                 throw new Exception("must be a enum");
 
             var values = Enum.GetValues(typeof(T));
-            var rCol = (from int item in values select
-                new SelectFieldOption($"{item}", Enum.GetName(typeof(T), item))).ToList();
+            var rCol = (from int item in values
+                        select
+new SelectFieldOption($"{item}", Enum.GetName(typeof(T), item))).ToList();
             return fd.AddSelect(key, rCol, title, required, width);
         }
 
@@ -63,6 +68,24 @@ namespace DI.Forms.Types
             return fd;
         }
 
+        #endregion
+
+
+
+        public static FormField AddLookup(this FormField fd, string key,string viewId, string title = null, bool required = false,
+            int width = 50)
+        {
+            fd.AddInput(key, title, x =>
+            {
+                x.Width = width;
+                x.FieldType = FormFieldType.Lookup;
+                x.Options = viewId;
+                if (required)
+                    x.AddRequired($"{title} is required");
+            });
+            return fd;
+        }
+
         public static FormField AddInput(this FormField fd, string key, string title = null, bool required = false,
             int width = 50)
         {
@@ -70,6 +93,19 @@ namespace DI.Forms.Types
             {
                 x.Width = width;
                 x.FieldType = FormFieldType.Text;
+
+                if (required)
+                    x.AddRequired($"{title} is required");
+            });
+            return fd;
+        }
+        public static FormField AddNumeric(this FormField fd, string key, string title = null, bool required = false,
+            int width = 50)
+        {
+            fd.AddInput(key, title, x =>
+            {
+                x.Width = width;
+                x.FieldType = FormFieldType.Number;
 
                 if (required)
                     x.AddRequired($"{title} is required");
@@ -90,6 +126,7 @@ namespace DI.Forms.Types
             return fd;
         }
 
+        #region Rules
         public static FormField AddRule(this FormField fd, ValRule rule)
         {
             fd.Rules.Add(rule);
@@ -100,10 +137,11 @@ namespace DI.Forms.Types
         {
             fd.AddRule(ValRule.Required(message));
             return fd;
-        }
+        } 
+        #endregion
 
 
-        #region MyRegion
+        #region contact details
 
         public static FormField AddPhone(this FormField fd, string key, string title = null, bool required = false,
             int width = 50)
