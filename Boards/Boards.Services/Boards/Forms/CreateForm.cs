@@ -59,7 +59,7 @@ namespace Boards.Services.Boards.Forms
                 x.AddRule(ValRule.Min(10, "Minimum 10 chars required"));
                 x.FieldType = FormFieldType.Note;
             });
-            field.AddInput("EstablishedByUnder", "Established by under");
+            field.AddPickList("EstablishedByUnder", "EstablishedByUnder", "Established by under");
             field.AddInput("EstablishedByUnderText", "Established by under text", x =>
             {
                 x.AddRule(ValRule.Min(10, "Minimum 10 chars required"));
@@ -96,20 +96,20 @@ namespace Boards.Services.Boards.Forms
         {
             field.AddFieldGroup(f =>
             {
-                f.AddInput("OwnerDivision", "Owner Division");
-                f.AddInput("OwnerPosition", "Owner Position");
+                f.AddPickList("OwnerDivision", "OwnerDivision", "Owner Division");
+                f.AddPickList("OwnerPosition", "OwnerPosition", "Owner Position");
             });
             field.AddFieldGroup(f =>
             {
-                f.AddInput("BoardStatus", "Board Status");
-                f.AddInput("Division", "Division");
+                f.AddPickList("BoardStatus", "BoardStatus", "Board Status");
+                f.AddPickList("Division", "Division", "Division");
             });
             field.AddFieldGroup(f =>
             {
-                f.AddInput("ResponsibleUser", "Responsible User");
-                f.AddInput("ApprovedUser", "Approved User");
+                f.AddLookup("ResponsibleUser", "UsersLookup", "Responsible User");
+                f.AddLookup("ApprovedUser", "UsersLookup", "Approved User");
             });
-            field.AddInput("AsstSecretary", "Asst. Secretary");
+            field.AddLookup("AsstSecretary", "SecretaryLookup", "Asst. Secretary");
           
         }
     }

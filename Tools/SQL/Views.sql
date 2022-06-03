@@ -1,7 +1,7 @@
 USE [DI_Boards]
 GO
 
-DROP VIEW [dbo].[AppointeesView]
+DROP VIEW [dbo].[ActiveBoardsView]
 GO
 
 SET ANSI_NULLS ON
@@ -16,9 +16,10 @@ CREATE VIEW  [dbo].[ActiveBoardsView] AS
 			bds.Id,
 			bds.Acronym,
 			bds.[Name],
+			pf.Id AS PortfolioId,
 			pf.[Name] As Portfolio,
-			bds.OwnerDivision,
-			bds.OwnerPosition,
+			(SELECT os.[Label] FROM OptionSet os where os.ID=bds.[OwnerDivisionId]) AS OwnerDivision,
+			(SELECT os.[Label] FROM OptionSet os where os.ID=bds.[OwnerPositionId]) AS OwnerPosition,
 			rou.Id AS RespOfficerId,
 			(COALESCE(rou.Title+' ','')+rou.FirstName+' '+rou.LastName) As RespOfficer,
 			apu.Id AS ApprovedUserId,

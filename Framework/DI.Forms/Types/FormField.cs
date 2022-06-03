@@ -21,7 +21,7 @@ namespace DI.Forms.Types
         public object Options { get; set; }
         public object Value { get; set; }
         public int Width { get; set; }
-
+        public string ViewId { get; set; }
         public bool Required
         {
             get
@@ -42,6 +42,18 @@ namespace DI.Forms.Types
         public List<FormField> Fields { get; set; } = new();
     }
 
+    
+    public class OptionFieldConfig
+    {
+        public OptionFieldConfig(string code)
+        {
+            Code = code;
+            Options = new List<SelectFieldOption>();
+        }
+
+        public string Code { get; }
+        public List<SelectFieldOption> Options { get; set; }
+    }
 
     public class SelectFieldOption
     {

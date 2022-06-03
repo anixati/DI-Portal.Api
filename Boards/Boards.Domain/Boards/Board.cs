@@ -25,9 +25,10 @@ namespace Boards.Domain.Boards
 
         [MaxLength(255)] public string NominationCommittee { get; set; }
 
-        [MaxLength(255)] public string OwnerDivision { get; set; }
-
-        [MaxLength(255)] public string OwnerPosition { get; set; }
+        public long OwnerDivisionId { get; set; }
+        public OptionSet OwnerDivision { get; set; }
+        public long OwnerPositionId { get; set; }
+        public OptionSet OwnerPosition { get; set; }
 
         [MaxLength(255)] public string Acronym { get; set; }
 
@@ -50,10 +51,15 @@ namespace Boards.Domain.Boards
 
         public bool ExcludeFromGenderBalance { get; set; }
 
+        public long? BoardStatusId { get; set; }
         public OptionSet BoardStatus { get; set; }
+        
+        public long? DivisionId { get; set; }
         public OptionSet Division { get; set; }
+
+        public long? EstablishedByUnderId { get; set; }
         public OptionSet EstablishedByUnder { get; set; }
-        public OptionSet StatusColor { get; set; }
+        
 
         public long? ApprovedUserId { get; set; }
         public AppUser ApprovedUser { get; set; }

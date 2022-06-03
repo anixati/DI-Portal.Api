@@ -21,24 +21,22 @@ namespace DI.Services.Forms
 
         public async Task<FormSchemaResponse> Handle(FormSchemaRequest request, CancellationToken cancellationToken)
         {
-
+            var response = new FormSchemaResponse();
+            var handler = GetHandler(request.Name);
             if (!request.EntityId.HasValue)//create 
             {
-                return new FormSchemaResponse
-                {
-                    Schema = _provider.GetSchema($"create_{request.Name}")
-                };
+
+                response.Schema = _provider.GetSchema($"create_{request.Name}");
+                await handler.LoadOptions(response.Schema);
             }
-            //view
-            var schema = _provider.GetSchema($"view_{request.Name}");
-            var handler = GetHandler(request.Name);
-            var rx = await handler.LoadViewData(schema, request.EntityId.GetValueOrDefault());
-            return new FormSchemaResponse
+            else //view
             {
-                Schema = schema,
-                Entity = rx.Entity,
-                InitialValues = rx.InitialValues
-            };
+                response.Schema = _provider.GetSchema($"view_{request.Name}");
+                var rx = await handler.LoadViewData(response.Schema, request.EntityId.GetValueOrDefault());
+                response.Entity = rx.Entity;
+                response.InitialValues = rx.InitialValues;
+            }
+            return response;
         }
     }
 }

@@ -38,7 +38,7 @@ namespace DI.Forms.Types
             });
             return fd;
         }
-        
+
         #region Select List
 
         public static FormField AddSelect<T>(this FormField fd, string key, string title = null, bool required = false,
@@ -49,8 +49,7 @@ namespace DI.Forms.Types
 
             var values = Enum.GetValues(typeof(T));
             var rCol = (from int item in values
-                        select
-new SelectFieldOption($"{item}", Enum.GetName(typeof(T), item))).ToList();
+                        select new SelectFieldOption($"{item}", Enum.GetName(typeof(T), item))).ToList();
             return fd.AddSelect(key, rCol, title, required, width);
         }
 
@@ -72,7 +71,22 @@ new SelectFieldOption($"{item}", Enum.GetName(typeof(T), item))).ToList();
 
 
 
-        public static FormField AddLookup(this FormField fd, string key,string viewId, string title = null, bool required = false,
+
+        public static FormField AddPickList(this FormField fd, string key, string viewId, string title = null, bool required = false,
+            int width = 50)
+        {
+            fd.AddInput(key, title, x =>
+            {
+                x.Width = width;
+                x.FieldType = FormFieldType.PickList;
+                x.ViewId = viewId;
+                if (required)
+                    x.AddRequired($"{title} is required");
+            });
+            return fd;
+        }
+
+        public static FormField AddLookup(this FormField fd, string key, string viewId, string title = null, bool required = false,
             int width = 50)
         {
             fd.AddInput(key, title, x =>
@@ -137,7 +151,7 @@ new SelectFieldOption($"{item}", Enum.GetName(typeof(T), item))).ToList();
         {
             fd.AddRule(ValRule.Required(message));
             return fd;
-        } 
+        }
         #endregion
 
 

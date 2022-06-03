@@ -10,7 +10,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace EFCustomMigrations.Db.Migrations
 {
     [DbContext(typeof(BoardsDbContext))]
-    [Migration("20220602033404_InitVersion")]
+    [Migration("20220602160843_InitVersion")]
     partial class InitVersion
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -117,13 +117,11 @@ namespace EFCustomMigrations.Db.Migrations
                     b.Property<int?>("OptimumMembers")
                         .HasColumnType("int");
 
-                    b.Property<string>("OwnerDivision")
-                        .HasMaxLength(255)
-                        .HasColumnType("nvarchar(255)");
+                    b.Property<long?>("OwnerDivisionId")
+                        .HasColumnType("bigint");
 
-                    b.Property<string>("OwnerPosition")
-                        .HasMaxLength(255)
-                        .HasColumnType("nvarchar(255)");
+                    b.Property<long?>("OwnerPositionId")
+                        .HasColumnType("bigint");
 
                     b.Property<string>("PendingAction")
                         .HasMaxLength(2000)
@@ -143,9 +141,6 @@ namespace EFCustomMigrations.Db.Migrations
                         .HasColumnType("bit");
 
                     b.Property<long?>("ResponsibleUserId")
-                        .HasColumnType("bigint");
-
-                    b.Property<long?>("StatusColorId")
                         .HasColumnType("bigint");
 
                     b.Property<string>("Summary")
@@ -169,11 +164,13 @@ namespace EFCustomMigrations.Db.Migrations
 
                     b.HasIndex("EstablishedByUnderId");
 
+                    b.HasIndex("OwnerDivisionId");
+
+                    b.HasIndex("OwnerPositionId");
+
                     b.HasIndex("PortfolioId");
 
                     b.HasIndex("ResponsibleUserId");
-
-                    b.HasIndex("StatusColorId");
 
                     b.ToTable("Boards");
                 });
@@ -1649,6 +1646,16 @@ namespace EFCustomMigrations.Db.Migrations
                         .HasForeignKey("EstablishedByUnderId")
                         .OnDelete(DeleteBehavior.Restrict);
 
+                    b.HasOne("DI.Domain.Options.OptionSet", "OwnerDivision")
+                        .WithMany()
+                        .HasForeignKey("OwnerDivisionId")
+                        .OnDelete(DeleteBehavior.Restrict);
+
+                    b.HasOne("DI.Domain.Options.OptionSet", "OwnerPosition")
+                        .WithMany()
+                        .HasForeignKey("OwnerPositionId")
+                        .OnDelete(DeleteBehavior.Restrict);
+
                     b.HasOne("Boards.Domain.Boards.Portfolio", "Portfolio")
                         .WithMany("Boards")
                         .HasForeignKey("PortfolioId")
@@ -1658,11 +1665,6 @@ namespace EFCustomMigrations.Db.Migrations
                     b.HasOne("DI.Domain.Users.AppUser", "ResponsibleUser")
                         .WithMany()
                         .HasForeignKey("ResponsibleUserId")
-                        .OnDelete(DeleteBehavior.Restrict);
-
-                    b.HasOne("DI.Domain.Options.OptionSet", "StatusColor")
-                        .WithMany()
-                        .HasForeignKey("StatusColorId")
                         .OnDelete(DeleteBehavior.Restrict);
 
                     b.Navigation("ApprovedUser");
@@ -1675,11 +1677,13 @@ namespace EFCustomMigrations.Db.Migrations
 
                     b.Navigation("EstablishedByUnder");
 
+                    b.Navigation("OwnerDivision");
+
+                    b.Navigation("OwnerPosition");
+
                     b.Navigation("Portfolio");
 
                     b.Navigation("ResponsibleUser");
-
-                    b.Navigation("StatusColor");
                 });
 
             modelBuilder.Entity("Boards.Domain.Boards.Minister", b =>

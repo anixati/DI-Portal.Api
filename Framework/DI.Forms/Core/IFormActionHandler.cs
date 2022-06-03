@@ -11,5 +11,6 @@ namespace DI.Forms.Core
         Task<FormActionResult> LoadViewData(FormSchema schema, long entityId);
         Task<FormActionResult> CreateEntity(IDictionary<string, object> data, long? entityId);
         EntityTypeResponse GetEntityType(EntityTypeRequest request);
+        Task LoadOptions(FormSchema responseSchema);
     }
 }

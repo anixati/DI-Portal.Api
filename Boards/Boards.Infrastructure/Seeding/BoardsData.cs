@@ -34,6 +34,7 @@ namespace Boards.Infrastructure.Seeding
 
         protected override async Task SetupDomainData()
         {
+            await CreateDummyOpSets();
             await CreateDummyAppointees();
 
             await DataStore.SaveAsync();
@@ -41,6 +42,42 @@ namespace Boards.Infrastructure.Seeding
             //await CreateIfNotExists(new OptionKey
             //  {Name = "Share Options", Code = "SHAREOPTS", Description = "Share Options"});
         }
+
+        private async Task CreateDummyOpSets()
+        {
+            var rng = new Random();
+            var osk = new string[] {"OwnerDivision","BoardStatus","Division","OwnerPosition","EstablishedByUnder"};
+
+            var ix = 1;
+            foreach (var jx in osk)
+            {
+                ix++;
+
+                var op = await CreateIfNotExists(new OptionKey
+                {
+                    Name = $"{jx}",
+                    Code = $"{jx.ToUpCase()}",
+                    Description = $"{jx} description"
+                });
+                await DataStore.SaveAsync();
+                foreach (var i in Enumerable.Range(1, rng.Next(3, 5)))
+                {
+                    var ov = Create(new OptionSet
+                    {
+                        OptionKeyId = op.Id,
+                        Label = $"Option {ix}{i}",
+                        Value = ix+i,
+                        Order = i,
+                        Description =
+                            "xxx x x  x"
+                    });
+                }
+            }
+
+
+        }
+
+
 
         private async Task CreateDummyAppointees()
         {
@@ -95,7 +132,7 @@ namespace Boards.Infrastructure.Seeding
         }
 
 
-        private async Task CreateDummyOpSets()
+        private async Task xx()
         {
             var rng = new Random();
             var opr = GetRepo<OptionKey>();

@@ -2,14 +2,51 @@
 using System.Collections.Generic;
 using System.Linq;
 using DI.Domain.Core;
+using DI.Domain.Options;
 using DI.Forms.Requests;
 using DI.Forms.Types;
 using FastMember;
+using Newtonsoft.Json;
 
 namespace DI.Services.Forms
 {
     public static class FormActions
     {
+
+        public static void LoadOptions(this FormSchema schema, Dictionary<string, OptionFieldConfig> map)
+        {
+            LoadOptions(schema.Fields, map);
+        }
+
+        public static void LoadOptions(List<FormField> schemaFields, Dictionary<string, OptionFieldConfig> map)
+        {
+            foreach (var fd in schemaFields)
+            {
+                if (fd.FieldType == FormFieldType.PickList && map.ContainsKey(fd.Key))
+                    fd.Options = map[fd.Key].Options;
+                if (fd.Fields.Any())
+                    LoadOptions(fd.Fields, map);
+            }
+        }
+
+        public static Dictionary<string, OptionFieldConfig> CreateOptions(this FormSchema schema)
+        {
+            var config = new Dictionary<string, OptionFieldConfig>();
+            CreateOptions(schema.Fields, config);
+            return config;
+        }
+
+        private static void CreateOptions(List<FormField> schemaFields, IDictionary<string, OptionFieldConfig> config)
+        {
+            foreach (var fd in schemaFields)
+            {
+                if (fd.FieldType == FormFieldType.PickList)
+                    config[$"{fd.Key}"] = new OptionFieldConfig(fd.ViewId);
+                if (fd.Fields.Any())
+                    CreateOptions(fd.Fields, config);
+            }
+        }
+
         public static void LoadKeys(this FormActionResult rs, FormSchema schema)
         {
             LoadKeys(schema.Fields, rs.InitialValues);
@@ -86,12 +123,31 @@ namespace DI.Services.Forms
                 else if (mi.Type == typeof(int) || mi.Type == typeof(int?))
                 {
                     if (int.TryParse($"{value}", out var rs))
-                        accessor[entity, key] = rs == 1 ? true : false;
+                        accessor[entity, key] = rs;
                 }
                 else if (mi.Type.IsEnum)
                 {
                     if (int.TryParse($"{value}", out var rs))
                         accessor[entity, key] = rs;
+                }
+                else if (mi.Type.IsClass && typeof(IEntity).IsAssignableFrom(mi.Type))
+                {
+                    var idKey = $"{mi.Name}Id";
+                    var idMemType = members.FirstOrDefault(x => string.Compare(x.Name, idKey, StringComparison.OrdinalIgnoreCase) == 0);
+                    if (idMemType == null) continue;
+
+                    if (mi.Type == typeof(OptionSet))
+                    {
+                        if (!long.TryParse($"{value}", out var rs)) continue;
+                        accessor[entity, idKey] = rs;
+                    }
+                    else
+                    {
+                        var ov = ConvertToOption(value);
+                        if (ov == null) continue;
+                        if (!long.TryParse(ov.Value, out var rs)) continue;
+                        accessor[entity, idKey] = rs;
+                    }
                 }
                 else
                 {
@@ -99,6 +155,22 @@ namespace DI.Services.Forms
                 }
             }
             return entity;
+        }
+
+        private static SelectFieldOption ConvertToOption(object value)
+        {
+            var inObj = $"{value}";
+            if (string.IsNullOrEmpty(inObj)) return null;
+            try
+            {
+                var option = JsonConvert.DeserializeObject<SelectFieldOption>(inObj);
+                return option;
+            }
+            catch (Exception ex)
+            {
+                var d = ex.ToString();
+                return null;
+            }
         }
     }
 }

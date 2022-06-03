@@ -518,8 +518,8 @@ namespace EFCustomMigrations.Db.Migrations
                     PendingAction = table.Column<string>(type: "nvarchar(2000)", maxLength: 2000, nullable: true),
                     EstablishedByUnderText = table.Column<string>(type: "nvarchar(2000)", maxLength: 2000, nullable: true),
                     NominationCommittee = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: true),
-                    OwnerDivision = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: true),
-                    OwnerPosition = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: true),
+                    OwnerDivisionId = table.Column<long>(type: "bigint", nullable: true),
+                    OwnerPositionId = table.Column<long>(type: "bigint", nullable: true),
                     Acronym = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: true),
                     LegislationReference = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: true),
                     Constitution = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: true),
@@ -534,7 +534,6 @@ namespace EFCustomMigrations.Db.Migrations
                     BoardStatusId = table.Column<long>(type: "bigint", nullable: true),
                     DivisionId = table.Column<long>(type: "bigint", nullable: true),
                     EstablishedByUnderId = table.Column<long>(type: "bigint", nullable: true),
-                    StatusColorId = table.Column<long>(type: "bigint", nullable: true),
                     ApprovedUserId = table.Column<long>(type: "bigint", nullable: true),
                     ResponsibleUserId = table.Column<long>(type: "bigint", nullable: true),
                     AsstSecretaryId = table.Column<long>(type: "bigint", nullable: true),
@@ -575,8 +574,15 @@ namespace EFCustomMigrations.Db.Migrations
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
-                        name: "FK_Boards_OptionSet_StatusColorId",
-                        column: x => x.StatusColorId,
+                        name: "FK_Boards_OptionSet_OwnerDivisionId",
+                        column: x => x.OwnerDivisionId,
+                        principalSchema: "Dbo",
+                        principalTable: "OptionSet",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_Boards_OptionSet_OwnerPositionId",
+                        column: x => x.OwnerPositionId,
                         principalSchema: "Dbo",
                         principalTable: "OptionSet",
                         principalColumn: "Id",
@@ -1257,6 +1263,18 @@ namespace EFCustomMigrations.Db.Migrations
                 column: "EstablishedByUnderId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_Boards_OwnerDivisionId",
+                schema: "Dbo",
+                table: "Boards",
+                column: "OwnerDivisionId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Boards_OwnerPositionId",
+                schema: "Dbo",
+                table: "Boards",
+                column: "OwnerPositionId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Boards_PortfolioId",
                 schema: "Dbo",
                 table: "Boards",
@@ -1267,12 +1285,6 @@ namespace EFCustomMigrations.Db.Migrations
                 schema: "Dbo",
                 table: "Boards",
                 column: "ResponsibleUserId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Boards_StatusColorId",
-                schema: "Dbo",
-                table: "Boards",
-                column: "StatusColorId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_MinisterTerms_MinisterId",

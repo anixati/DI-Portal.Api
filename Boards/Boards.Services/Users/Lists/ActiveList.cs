@@ -2,17 +2,17 @@
 using Di.Qry.Schema;
 using Di.Qry.Schema.Types;
 
-namespace Boards.Services.Secretary.Lists
+namespace Boards.Services.Users.Lists
 {
 
     public class LookupList : QrySchema
     {
-        public override string SchemaName => "SecretaryLookup";
-        public override string Title => "Current Secretaries";
+        public override string SchemaName => "UsersLookup";
+        public override string Title => "Current Users";
 
         protected override Table CreateEntity()
         {
-            var pt = Table.Create(Constants.Db.SecretaryView);
+            var pt = Table.Create(Constants.Db.UsersView);
             pt.Column("FullName", "Name", "Name", x =>
             {
                 x.Searchable = true;
@@ -34,8 +34,8 @@ namespace Boards.Services.Secretary.Lists
     }
     public class ActiveList : QrySchema
     {
-        public override string SchemaName => "ActiveSecretaries";
-        public override string Title => "Active Secretaries";
+        public override string SchemaName => "ActiveUsers";
+        public override string Title => "Active Users";
 
         protected override Table CreateEntity()
         {

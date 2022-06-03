@@ -47,6 +47,15 @@ namespace DI.Services.Forms
             return new EntityTypeResponse {EntityType = typeof(T)};
         }
 
+        public async Task LoadOptions(FormSchema responseSchema)
+        {
+            var map = responseSchema.CreateOptions();
+            await LoadOptionSets(map);
+            responseSchema.LoadOptions(map);
+        }
+
+        protected abstract Task LoadOptionSets(Dictionary<string, OptionFieldConfig> map);
+
         protected virtual void OnPreCreate(T entity, IDictionary<string, object> data)
         {
         }

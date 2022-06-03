@@ -1,12 +1,16 @@
-﻿using System.Threading;
+﻿using System.Collections.Generic;
+using System.Linq;
+using System.Threading;
 using System.Threading.Tasks;
 using Boards.Domain;
 using DI;
 using DI.Domain.Core;
+using DI.Domain.Options;
 using DI.Domain.Services;
 using DI.Forms.Requests;
 using DI.Forms.Types;
 using DI.Services.Forms;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 
 namespace Boards.Services.Core
@@ -55,6 +59,21 @@ namespace Boards.Services.Core
             var rs = await repo.CreateAsync(entity);
             await SaveAsync();
             return new FormActionResult(rs);
+        }
+
+        protected override async Task LoadOptionSets(Dictionary<string, OptionFieldConfig> map)
+        {
+            var repo = GetRepo<OptionKey>();
+            foreach (var (_, value) in map)
+            {
+
+                var rs = await repo.Query().Include(x => x.Values).Where(x => x.Code == value.Code)
+                    .FirstOrDefaultAsync();
+                if (rs != null && rs.Values != null && rs.Values.Any())
+                    value.Options = rs.Values.Select(x => new SelectFieldOption($"{x.Value}", $"{x.Label}"))
+                        .ToList();
+
+            }
         }
     }
 }
