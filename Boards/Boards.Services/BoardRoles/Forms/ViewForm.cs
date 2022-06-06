@@ -1,18 +1,17 @@
-﻿using DI.Domain.Enums;
-using DI.Forms.Handlers;
+﻿using DI.Forms.Handlers;
 using DI.Forms.Types;
 
-namespace Boards.Services.Boards.Forms
+namespace Boards.Services.BoardRoles.Forms
 {
     public class ViewForm : FormBuilder
     {
-        public override string FormName => Constants.Forms.Boards.View;
+        public override string FormName => Constants.Forms.BoardRole.View;
         protected override void CreateSchema(FormSchema fs)
         {
             fs.AddTab("Board Details", BoardDetails);
             fs.AddTab("Summary Details", SummaryDetails);
             fs.AddTab("Other Details", OtherDetails);
-            fs.AddSubgrid("Roles", "BoardRolesView");
+         
         }
 
         private void BoardDetails(FormField field)
@@ -96,8 +95,8 @@ namespace Boards.Services.Boards.Forms
            
             field.AddFieldGroup(f =>
             {
-                f.AddLookup("ResponsibleUser", "ActiveUsers", "Responsible User", false, 24);
-                f.AddLookup("ApprovedUser", "ActiveUsers", "Approved User", false, 24);
+                f.AddLookup("ResponsibleUser", "UsersLookup", "Responsible User",false,24);
+                f.AddLookup("ApprovedUser", "UsersLookup", "Approved User", false, 24);
                 f.AddLookup("AsstSecretary", "SecretaryLookup", "Asst. Secretary", false, 24);
             });
         }

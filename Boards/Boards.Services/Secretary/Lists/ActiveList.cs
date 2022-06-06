@@ -18,7 +18,7 @@ namespace Boards.Services.Secretary.Lists
                 x.Searchable = true;
                 x.Sortable = true;
             });
-            pt.SelectSearchCols("Gender", "State");
+            pt.AddSearchCols("Gender", "State");
             return pt;
         }
 

@@ -12,6 +12,7 @@ namespace Boards.Services.Boards.Lists
         protected override Table CreateEntity()
         {
             var pt = Table.Create(Constants.Db.BoardsView);
+            pt.AddHiddenCols("PortfolioId", "RespOfficerId", "ApprovedUserId", "AsstSecretaryId");
             pt.SearchCol("Acronym");
             pt.Column("Name", "Name", "Name", x =>
             {
@@ -25,6 +26,7 @@ namespace Boards.Services.Boards.Lists
                 x.Sortable = true;
                 x.Type = ColumnType.HyperLink;
                 x.LinkId = "PortfolioId";
+                x.LinkPath = "boards/portfolios/";
             });
             pt.SearchCol("OwnerDivision");
             pt.SearchCol("OwnerPosition");

@@ -4,62 +4,76 @@ using System.ComponentModel.DataAnnotations.Schema;
 using Boards.Domain.Boards;
 using Boards.Domain.Contacts;
 using Boards.Domain.Shared;
+using DI.Domain.Core;
 using DI.Domain.Options;
 
 namespace Boards.Domain.Roles
 {
-    public class BoardRole : BoardRoleBase
+    public class BoardRole : AuditBaseEntity
     {
-        [Required]
-        [MaxLength(255)]
-        [Column(Order = 1)]
+
+        [Required, MaxLength(255), Column(Order = 1)]
         public string Name { get; set; }
 
-        [MaxLength(2000)] public string Description { get; set; }
-
         [Required] public long BoardId { get; set; }
+        public virtual Board Board { get; set; }
+        
+        public long? IncumbentId { get; set; }
+        public virtual Appointee Incumbent { get; set; }
+        
 
-        public Board Board { get; set; }
+        [Required] public long PositionId { get; set; }
+        public OptionSet Position { get; set; }
+        
+        [Required] public long AppointerId { get; set; }
+        public OptionSet Appointer { get; set; }
 
-
-        [Required] public long? IncumbentId { get; set; }
-
-        public Appointee Incumbent { get; set; }
-
-
-        [Required] public long? AssistantSecretaryId { get; set; }
-
-        public AssistantSecretary AssistantSecretary { get; set; }
-
-
-        public DateTime? MinisterLetterDate { get; set; }
-        public DateTime? MinisterSubDate { get; set; }
-        public DateTime? MinisterActionDate { get; set; }
-        public DateTime? ExpiryDate { get; set; }
-        public DateTime? CabinetDate { get; set; }
-        public DateTime? ExCoDate { get; set; }
-        public DateTime? VacantFromDate { get; set; }
-        public DateTime? NotifyLetterDate { get; set; }
-
-        [MaxLength(2000)] public string ProcessStatus { get; set; }
-
-        [MaxLength(2000)] public string Responsibilities { get; set; }
-
-        [MaxLength(2000)] public string Requirements { get; set; }
-
-        [MaxLength(2000)] public string NextSteps { get; set; }
-
-        public DateStateEnum MinLetterDateType { get; set; }
-        public DateStateEnum NotLetterDateType { get; set; }
-        public DateStateEnum ExCoDateType { get; set; }
-        public DateStateEnum CabinetDateType { get; set; }
-        public OptionSet PositionType { get; set; }
-
-        public bool? IsApsEmployee { get; set; }
-        public bool? IsSignificant { get; set; }
+        public bool IsFullTime { get; set; }
         public bool? IsExecutive { get; set; }
-        public OptionSet ReasonForGenderExclude { get; set; }
-        public OptionSet EstablishedByUnder { get; set; }
-        public OptionSet MinSubLocation { get; set; }
+        public bool? IsExOfficio { get; set; }
+        public bool? IsApsEmployee { get; set; }
+        public bool? IsExNominated { get; set; }
+        public int? Term { get; set; }
+        
+        [Required] public YesNoOptionEnum PositionRemunerated { get; set; }
+        [Required,Column(TypeName = "decimal(13, 2)")] public decimal? PaAmount { get; set; }
+        [Required] public long RemunerationMethodId { get; set; }
+        public virtual OptionSet RemunerationMethod { get; set; }
+
+        [Required, MaxLength(255), Column(Order = 1)]
+        public string RemunerationTribunal { get; set; }
+        public DateTime? VacantFromDate { get; set; }
+
+        public bool? ExcludeFromOrder15 { get; set; }
+        public bool? ExcludeGenderReport { get; set; }
+        public bool IsSignAppointment { get; set; }
+
+
+        //-------- Ministerial-----------
+        [MaxLength(2000)] public string NextSteps { get; set; }
+        [MaxLength(2000)] public string InstrumentLink { get; set; }
+        [Required] public string PDMSNumber { get; set; }
+        [Required] public long MinSubLocationId { get; set; }
+        public virtual OptionSet MinSubLocation { get; set; }
+        public DateTime? MinisterOfficeDate { get; set; }
+        public DateTime? MinisterActionDate { get; set; }
+
+
+        public DateStateEnum LetterToPmDateType { get; set; }
+        public DateTime? LetterToPmDate { get; set; }
+        public DateStateEnum ExCoDateType { get; set; }
+        public DateTime? ExCoDate { get; set; }
+        public DateStateEnum NotifyLetterDateType { get; set; }
+        public DateTime? NotifyLetterDate { get; set; }
+        public DateStateEnum CabinetDateType { get; set; }
+        public DateTime? CabinetDate { get; set; }
+
+        [MaxLength(2000)] public string InternalNotes { get; set; }
+
+
+        public override string GetName()
+        {
+            return Name;
+        }
     }
 }

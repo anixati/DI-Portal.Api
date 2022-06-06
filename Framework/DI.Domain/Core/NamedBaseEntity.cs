@@ -16,5 +16,10 @@ namespace DI.Domain.Core
         {
             return Name;
         }
+
+        public override string GetName()
+        {
+            return Name;
+        }
     }
 }

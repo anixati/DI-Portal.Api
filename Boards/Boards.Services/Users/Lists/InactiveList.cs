@@ -7,25 +7,17 @@ namespace Boards.Services.Users.Lists
     public class InactiveList : QrySchema
     {
         public override string SchemaName => "InActiveUsers";
-        public override string Title => "InActive Users";
+        public override string Title => "Inactive Users";
 
         protected override Table CreateEntity()
         {
-            var pt = Table.Create(Constants.Db.SecretaryView);
-            pt.Column("FullName", "FullName", "Full Name", x =>
+            var pt = Table.Create(Constants.Db.UsersView);
+            pt.Column("FullName", "Name", "Name", x =>
             {
                 x.Searchable = true;
                 x.Sortable = true;
-                x.Type = ColumnType.HyperLink;
-                
             });
-            pt.SearchCol("FullName");
-            pt.SearchCol("Gender");
-            pt.SearchCol("Phone");
-            pt.SearchCol("Mobile");
-            pt.SearchCol("Fax");
-            pt.SearchCol("City");
-            pt.SearchCol("State");
+            pt.AddSearchCols("Phone", "Email", "CreatedOn");
             return pt;
         }
 

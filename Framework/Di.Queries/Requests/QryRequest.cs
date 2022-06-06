@@ -1,18 +1,20 @@
 ﻿using System.Collections.Generic;
 using Di.Qry.Core;
+using DI.Queries;
 using MediatR;
 
 namespace Di.Qry.Requests
 {
     public class QryRequest : IQryRequest, IRequest<QryResponse>
     {
-        public QryRequest(string schema)
+        public QryRequest(string schema, long? entityId)
         {
             Schema = schema;
+            EntityId = entityId;
         }
 
         public string Schema { get; }
-
+        public long? EntityId { get; }
         public string SearchStr { get; set; }
 
         public bool CanSearch()

@@ -32,6 +32,7 @@ namespace DI.Services.Forms
             else //view
             {
                 response.Schema = _provider.GetSchema($"view_{request.Name}");
+                await handler.LoadOptions(response.Schema);
                 var rx = await handler.LoadViewData(response.Schema, request.EntityId.GetValueOrDefault());
                 response.Entity = rx.Entity;
                 response.InitialValues = rx.InitialValues;

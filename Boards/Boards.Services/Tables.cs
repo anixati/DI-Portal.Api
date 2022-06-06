@@ -27,7 +27,11 @@ namespace Boards.Services
             public static readonly TableKey SecretaryView = new("SecretariesView", "svw");
             public static readonly TableKey PortFolioView = new("PortfoliosView", "pvw");
             public static readonly TableKey BoardsView = new("ActiveBoardsView", "bvw");
-            public static readonly TableKey UsersView = new("UsersView", "uvw");
+            public static readonly TableKey BoardRolesView = new("BoardRolesView", "bvw");
+            public static readonly TableKey AppointmentsView = new("BoardAppointmentsView", "bvw");
+
+
+            public static readonly TableKey UsersView = new("ActiveUsersView", "uvw");
         }
     }
 

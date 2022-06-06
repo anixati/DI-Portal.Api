@@ -5,6 +5,7 @@ using System.Linq;
 using Di.Qry.Core;
 using Di.Qry.Providers;
 using Di.Qry.Schema.Types;
+using DI.Queries;
 using SqlKata;
 using static System.String;
 
@@ -26,7 +27,7 @@ namespace Di.Qry.Schema
         }
 
         public Table Table { get; }
-
+        public string ParentId { get; set; }
         public string Key => $"{Table.Name}_Query";
 
         public bool HasSubQueries => _subQueries.Any();
@@ -78,11 +79,7 @@ namespace Di.Qry.Schema
 
         private static void AddJoin(Query query, Link link)
         {
-            //if (link.LinkType == LinkType.Outer)
-            //    query.LeftJoin(link.Table.TableName, link.From, link.To);
-            //else
-            //    query.Join(link.Table.TableName, link.From, link.To);
-
+       
             query.Join(link.Table.TableName, x =>
             {
                 x.On(link.From, link.To);
@@ -120,6 +117,9 @@ namespace Di.Qry.Schema
 
             if (request.Filter != null && request.Filter.HasChildRules)
                 exQuery.Where(x => AddClause(request.Filter, request.Filter.IsOr, x));
+            if(!string.IsNullOrEmpty(ParentId)&& request.EntityId.HasValue)
+                exQuery.Where(x => x.Where(ParentId,"=",request.EntityId.GetValueOrDefault()));
+
             if (request.CanSearch())
                 exQuery.Where(q =>
                     {

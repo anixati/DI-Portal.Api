@@ -40,11 +40,12 @@ namespace DI.WebApi.Controllers
         [HttpPost("schema/{name}")]
         public virtual async Task<IActionResult> GetItems([Required] string name, [FromBody] QueryRequest request)
         {
-            var qryReq = new QryRequest(name)
+            var qryReq = new QryRequest(name,request.EntityId)
             {
                 SearchStr = request.SearchStr,
                 PageInfo = new PageInfo(request.Index.GetValueOrDefault(), request.Size.GetValueOrDefault()),
-                SortInfos = request.SortBy.Select(x => new SortInfo(x.Id, x.Desc)).ToList()
+                SortInfos = request.SortBy.Select(x => new SortInfo(x.Id, x.Desc)).ToList(),
+                Filter =request.Filter 
             };
             var result = await ExecuteTask(async x => await x.Send(qryReq));
             return result.ToResponse();

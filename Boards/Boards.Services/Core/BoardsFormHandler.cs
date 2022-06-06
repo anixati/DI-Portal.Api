@@ -47,7 +47,7 @@ namespace Boards.Services.Core
         protected override async Task LoadData(FormSchema schema, long entityId, FormActionResult result)
         {
             var repo = GetRepo<T>();
-            var entity = await repo.GetById(entityId);
+            var entity = await repo.GetById(entityId,true);
             entity.ThrowIfNull($"Entity not found for given id {entityId}");
             result.InitialValues.MapFromEntity(entity);
             result.SetResult(entity, entity.GetName());

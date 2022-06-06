@@ -106,8 +106,8 @@ namespace Boards.Services.Boards.Forms
             });
             field.AddFieldGroup(f =>
             {
-                f.AddLookup("ResponsibleUser", "UsersLookup", "Responsible User");
-                f.AddLookup("ApprovedUser", "UsersLookup", "Approved User");
+                f.AddLookup("ResponsibleUser", "ActiveUsers", "Responsible User");
+                f.AddLookup("ApprovedUser", "ActiveUsers", "Approved User");
             });
             field.AddLookup("AsstSecretary", "SecretaryLookup", "Asst. Secretary");
           

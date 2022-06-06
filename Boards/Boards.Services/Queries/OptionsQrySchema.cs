@@ -15,7 +15,7 @@ namespace Boards.Services.Queries
 
             var link = ok.Join("OptionSet", "os", "OptionKeyId");
             link.Select("Id|OptionId", "Order", "Value");
-            link.SelectSearchCols("Label");
+            link.AddSearchCols("Label");
             return ok;
         }
 

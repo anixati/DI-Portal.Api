@@ -6,6 +6,7 @@
         Page = 1,
         FieldGroup = 2,
         Tab=3,
-        Divider
+        Divider=4,
+        Subgrid=5,
     }
 }

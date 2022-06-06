@@ -11,7 +11,7 @@ namespace Boards.Services.Portfolios.Lists
         protected override Table CreateEntity()
         {
             var pf = Table.Create(Constants.Db.Portfolio);
-            pf.SelectSearchCols("Name", "Description");
+            pf.AddSearchCols("Name", "Description");
             return pf;
         }
 

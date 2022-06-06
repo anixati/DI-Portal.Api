@@ -4,6 +4,7 @@ namespace Di.Qry.Core
 {
     public class PagedContext : IPagedContext
     {
+        public long? EntityId { get; set; }
         public PageInfo PageInfo { get; set; }
         public IQryContext CountQry { get; set; }
         public IQryContext DataQry { get; set; }

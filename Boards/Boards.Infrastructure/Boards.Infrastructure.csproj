@@ -21,7 +21,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="EFCustomMigrations\Db\Migrations\" />
+    <Folder Include="EFCustomMigrations\" />
   </ItemGroup>
 
 </Project>

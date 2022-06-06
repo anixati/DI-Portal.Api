@@ -13,7 +13,7 @@ namespace Boards.Domain.Boards
     {
         [Required] public long PortfolioId { get; set; }
 
-        public Portfolio Portfolio { get; set; }
+        public virtual Portfolio Portfolio { get; set; }
 
         [MaxLength(2000)] public string Summary { get; set; }
 
@@ -62,13 +62,13 @@ namespace Boards.Domain.Boards
         
 
         public long? ApprovedUserId { get; set; }
-        public AppUser ApprovedUser { get; set; }
+        public virtual AppUser ApprovedUser { get; set; }
 
         public long? ResponsibleUserId { get; set; }
-        public AppUser ResponsibleUser { get; set; }
+        public virtual AppUser ResponsibleUser { get; set; }
 
         public long? AsstSecretaryId { get; set; }
-        public AssistantSecretary AsstSecretary { get; set; }
+        public virtual AssistantSecretary AsstSecretary { get; set; }
         [MaxLength(50)] public string AsstSecretaryPhone { get; set; }
 
         public List<BoardRole> Roles { get; set; }

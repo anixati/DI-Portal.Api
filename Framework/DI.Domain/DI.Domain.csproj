@@ -6,6 +6,7 @@
 
   <ItemGroup>
     <PackageReference Include="AutoMapper" Version="11.0.1" />
+    <PackageReference Include="FastMember.NetCore" Version="1.1.0" />
     <PackageReference Include="MediatR" Version="10.0.1" />
     <PackageReference Include="MediatR.Contracts" Version="1.0.1" />
     <PackageReference Include="Microsoft.AspNetCore.JsonPatch" Version="5.0.2" />
@@ -16,6 +17,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\DI.Common\DI.Common.csproj" />
+    <ProjectReference Include="..\DI.Forms\DI.Forms.csproj" />
   </ItemGroup>
 
   <ItemGroup>

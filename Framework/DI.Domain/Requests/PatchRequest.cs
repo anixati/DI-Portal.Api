@@ -4,13 +4,13 @@ namespace DI.Domain.Requests
 {
     public class PatchRequest
     {
-        protected PatchRequest(long id, JsonPatchDocument request)
+        protected PatchRequest(long id, JsonPatchDocument data)
         {
             Id = id;
-            Request = request;
+            Data = data;
         }
 
         public long Id { get; }
-        public JsonPatchDocument Request { get; }
+        public JsonPatchDocument Data { get; }
     }
 }

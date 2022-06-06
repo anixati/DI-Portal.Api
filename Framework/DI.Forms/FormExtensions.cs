@@ -1,12 +1,32 @@
-﻿using System.Reflection;
+﻿using System;
+using System.Reflection;
 using Autofac;
 using DI.Forms.Core;
 using DI.Forms.Handlers;
+using DI.Forms.Types;
+using Newtonsoft.Json;
 
 namespace DI.Forms
 {
     public static class FormExtensions
     {
+
+        public static SelectFieldOption ConvertToOption(this object value)
+        {
+            var inObj = $"{value}";
+            if (string.IsNullOrEmpty(inObj)) return null;
+            try
+            {
+                var option = JsonConvert.DeserializeObject<SelectFieldOption>(inObj);
+                return option;
+            }
+            catch (Exception ex)
+            {
+                var d = ex.ToString();
+                return null;
+            }
+        }
+
         public static void AddFormProviders(this ContainerBuilder builder)
         {
             builder.RegisterType<FormProvider>()

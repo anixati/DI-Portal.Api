@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using Di.Qry.Core;
+using DI.Queries;
 
 namespace Di.Qry.Requests
 {

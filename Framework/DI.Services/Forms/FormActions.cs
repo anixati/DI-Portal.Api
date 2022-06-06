@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using DI.Domain.Core;
 using DI.Domain.Options;
+using DI.Forms;
 using DI.Forms.Requests;
 using DI.Forms.Types;
 using FastMember;
@@ -98,6 +99,32 @@ namespace DI.Services.Forms
                 {
                     data[key] = $"{(int)accessor[entity, key]}";
                 }
+                else if (mi.Type.IsClass && typeof(IEntity).IsAssignableFrom(mi.Type))
+                {
+                    var idKey = $"{mi.Name}Id";
+                    var idMemType = members.FirstOrDefault(x => string.Compare(x.Name, idKey, StringComparison.OrdinalIgnoreCase) == 0);
+                    if (idMemType == null) continue;
+
+                    if (mi.Type == typeof(OptionSet))
+                    {
+                        var obj = accessor[entity, idKey];
+                        if (obj != null)
+                            data[key] = $"{obj}";
+                    }
+                    else
+                    {
+                        var rv = accessor[entity, idKey];
+                        if (value == null) continue;
+                        var ls = "GET FROM DB";
+                        var vp = accessor[entity, key];
+                        if (vp !=  null)
+                        {
+                            var et = vp as IEntity;
+                            ls = et?.GetName();
+                        }
+                        data[key] = JsonConvert.SerializeObject(new {value=rv, label=ls});
+                    }
+                }
                 else
                 {
                     data[key] = $"{accessor[entity, key]}";
@@ -143,7 +170,7 @@ namespace DI.Services.Forms
                     }
                     else
                     {
-                        var ov = ConvertToOption(value);
+                        var ov =value.ConvertToOption();
                         if (ov == null) continue;
                         if (!long.TryParse(ov.Value, out var rs)) continue;
                         accessor[entity, idKey] = rs;
@@ -157,20 +184,5 @@ namespace DI.Services.Forms
             return entity;
         }
 
-        private static SelectFieldOption ConvertToOption(object value)
-        {
-            var inObj = $"{value}";
-            if (string.IsNullOrEmpty(inObj)) return null;
-            try
-            {
-                var option = JsonConvert.DeserializeObject<SelectFieldOption>(inObj);
-                return option;
-            }
-            catch (Exception ex)
-            {
-                var d = ex.ToString();
-                return null;
-            }
-        }
     }
 }

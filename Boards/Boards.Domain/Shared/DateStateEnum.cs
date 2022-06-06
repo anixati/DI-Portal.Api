@@ -2,8 +2,15 @@
 {
     public enum DateStateEnum
     {
-        Na = 0,
-        Tba,
+        NA = 0,
+        TBA,
         Date
+    }
+
+    public enum YesNoOptionEnum
+    {
+        Yes = 0,
+        No,
+        UnableToDisclose
     }
 }

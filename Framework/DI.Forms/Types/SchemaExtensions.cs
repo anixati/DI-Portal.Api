@@ -21,5 +21,22 @@ namespace DI.Forms.Types
             return fs;
         }
 
+
+        public static FormSchema AddSubgrid(this FormSchema fs, string title,string viewId)
+        {
+            fs.AddTab(title, f =>
+            {
+                var field = new FormField()
+                {
+                    Layout = LayoutType.Subgrid,
+                    FieldType = FormFieldType.Subgrid,
+                    ViewId = viewId
+                
+                };
+                if (f.Fields.All(x => x.Key != field.Key)) f.Fields.Add(field);
+
+            });
+            return fs;
+        }
     }
 }

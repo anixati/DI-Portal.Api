@@ -11,6 +11,7 @@
         Date = 6,
         Select = 7,
         Lookup = 8,
-        PickList=9
+        PickList=9,
+        Subgrid=10
     }
 }

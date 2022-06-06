@@ -12,7 +12,7 @@ namespace DI.Domain.Services
     public interface IRepository<T> where T : class, IEntity
     {
         IQueryable<T> Query(bool tracking = false);
-        Task<T> GetById(long id);
+        Task<T> GetById(long id,bool includeAll =false);
         Task<IEnumerable<T>> GetListAsync(bool tracking = false);
 
         Task<IEnumerable<TK>> GetListAsync<TK>(Expression<Func<T, TK>> selectExp, bool tracking = false)
