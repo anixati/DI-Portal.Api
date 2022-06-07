@@ -76,10 +76,10 @@ namespace DI.Domain.Handlers.Generic
 
                 
             }
-
-
             patch.ApplyTo(entity);
-
+            var original = await Repository.GetById(entity.Id, true);
+            if(original != null)
+                entity.OnPreUpdate(original);
             var result = await Repository.UpdateAsync(entity);
             Commit();
             return new DomainResponse(ResponseCode.Updated, "Patched");

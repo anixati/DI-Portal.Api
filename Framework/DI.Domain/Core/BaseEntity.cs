@@ -39,5 +39,11 @@ namespace DI.Domain.Core
         {
             return $"{Id}";
         }
+
+        public virtual void OnPreUpdate(IEntity entity)
+        {
+            
+        }
+        
     }
 }

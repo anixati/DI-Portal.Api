@@ -18,10 +18,10 @@ namespace Boards.Domain.Roles
         public virtual Board Board { get; set; }
 
         [Required] public long BoardRoleId { get; set; }
-        public BoardRole BoardRole { get; set; }
+        public virtual BoardRole BoardRole { get; set; }
 
         [Required] public long AppointeeId { get; set; }
-        public Appointee Appointee { get; set; }
+        public virtual Appointee Appointee { get; set; }
 
         public DateTime StartDate { get; set; }
         public DateTime? EndDate { get; set; }
@@ -38,14 +38,14 @@ namespace Boards.Domain.Roles
         [Required] public long RemunerationPeriodId { get; set; }
         public virtual OptionSet RemunerationPeriod { get; set; }
 
-        public long? AppointmentSourceSourceId { get; set; }
+        public long? AppointmentSourceId { get; set; }
         public virtual OptionSet AppointmentSource { get; set; }
 
-        public long? SelectionProcessProcessId { get; set; }
+        public long? SelectionProcessId { get; set; }
 
-        public OptionSet SelectionProcess { get; set; }
+        public virtual OptionSet SelectionProcess { get; set; }
         public long? JudicialId { get; set; }
-        public OptionSet Judicial { get; set; }
+        public virtual OptionSet Judicial { get; set; }
 
         public DateTime? AppointmentDate { get; set; }
         public DateTime? InitialStartDate { get; set; }
@@ -54,6 +54,12 @@ namespace Boards.Domain.Roles
         public override string GetName()
         {
             return Name;
+        }
+
+        public override void OnPreUpdate(IEntity entity)
+        {
+            if (entity is BoardAppointment ba)
+                Name = ba.Appointee?.FullName;
         }
     }
 }

@@ -1,12 +1,15 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using Boards.Domain;
+using Boards.Domain.Contacts;
 using DI;
 using DI.Domain.Core;
 using DI.Domain.Options;
 using DI.Domain.Services;
+using DI.Forms;
 using DI.Forms.Requests;
 using DI.Forms.Types;
 using DI.Services.Forms;
@@ -41,13 +44,13 @@ namespace Boards.Services.Core
         protected void Rollback()
         {
             _boardsContext.Store.Rollback();
-        } 
+        }
         #endregion
 
         protected override async Task LoadData(FormSchema schema, long entityId, FormActionResult result)
         {
             var repo = GetRepo<T>();
-            var entity = await repo.GetById(entityId,true);
+            var entity = await repo.GetById(entityId, true);
             entity.ThrowIfNull($"Entity not found for given id {entityId}");
             result.InitialValues.MapFromEntity(entity);
             result.SetResult(entity, entity.GetName());
@@ -75,5 +78,24 @@ namespace Boards.Services.Core
 
             }
         }
+
+        protected async Task<string> GetOpSetLabel(long id)
+        {
+            var repo = GetRepo<OptionSet>();
+            var entity = await repo.GetById(id, false);
+            entity.ThrowIfNull($"Entity not found for given id {id}");
+            return entity.Label;
+        }
+
+        protected long? GetLookupId(IDictionary<string, object> data, string key)
+        {
+            if (!data.ContainsKey(key) || data[key] == null) return null;
+            var ov = data[key].ConvertToOption();
+            if (ov == null) return null;
+            if (long.TryParse($"{ov.Value}", out var lookupId))
+                return lookupId;
+            return null;
+        }
+
     }
 }

@@ -24,6 +24,23 @@ END;
 GO
 
 
+-------------------------
+DROP VIEW IF EXISTS [dbo].[ActiveUsersView]
+GO
+CREATE VIEW  [dbo].[ActiveUsersView] AS 
+       SELECT 
+			usr.Id,
+			(COALESCE(usr.Title+' ','')+usr.FirstName+' '+COALESCE(usr.MiddleName+' ','')+usr.LastName) As FullName,
+			usr.HomePhone AS Phone,
+            usr.Email1 as Email,
+			usr.CreatedOn,
+			usr.[Disabled]
+			FROM [acl].[Users] usr
+
+
+GO
+
+
 ---------------------------
 DROP VIEW IF EXISTS [dbo].[ActiveBoardsView]
 GO
@@ -104,17 +121,19 @@ Go
 
 	  
 ---------------------------
-DROP VIEW IF EXISTS [dbo].[BoardAppointmentsView]
+DROP VIEW IF EXISTS [dbo].[AppointmentsView]
 GO
 
-CREATE VIEW  [dbo].[BoardAppointmentsView] AS 
+CREATE VIEW  [dbo].[AppointmentsView] AS 
 	  SELECT 
 	  bap.Id,
 	  bap.BoardRoleId,
 	  brl.BoardId,
 	  bap.AppointeeId,
+	  bap.Name AS AppointmentName,
 	  brl.Name AS RoleName,
 	  bap.Name AS AppointeeName,
+	  brd.Name AS BoardName,
 	  bap.BriefNumber,
 	  bap.StartDate,
 	  bap.EndDate,
@@ -122,4 +141,5 @@ CREATE VIEW  [dbo].[BoardAppointmentsView] AS
 	  bap.[Disabled]
 	  FROM BoardAppointments bap
 	  JOIN BoardRoles brl ON brl.Id=bap.BoardRoleId
+	  JOIN Boards brd ON brd.Id=brl.BoardId
 	  JOIN [dbo].[Appointee] apt on apt.Id= bap.AppointeeId

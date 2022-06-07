@@ -10,5 +10,6 @@
         byte[] Timestamp { get; set; }
         string GetName();
         string GetKey();
+        void OnPreUpdate(IEntity entity);
     }
 }

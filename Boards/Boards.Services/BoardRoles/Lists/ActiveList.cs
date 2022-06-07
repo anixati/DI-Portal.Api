@@ -18,6 +18,7 @@ namespace Boards.Services.BoardRoles.Lists
                 x.Searchable = true;
                 x.Sortable = true;
                 x.Type = ColumnType.HyperLink;
+                x.LinkPath = "boards/brdroles/";
             });
             pt.Column("Incumbent", "Incumbent", "Incumbent", x =>
             {

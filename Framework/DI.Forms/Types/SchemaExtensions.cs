@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 
 namespace DI.Forms.Types
@@ -22,17 +23,17 @@ namespace DI.Forms.Types
         }
 
 
-        public static FormSchema AddSubgrid(this FormSchema fs, string title,string viewId)
+        public static FormSchema AddSubgrid(this FormSchema fs, string title,string viewId, Action<FormField> Configure)
         {
             fs.AddTab(title, f =>
             {
                 var field = new FormField()
                 {
-                    Layout = LayoutType.Subgrid,
-                    FieldType = FormFieldType.Subgrid,
-                    ViewId = viewId
-                
+                    Layout = LayoutType.SubGrid,
+                    FieldType = FormFieldType.SubGrid,
+                    ViewId = viewId,
                 };
+                Configure(field);
                 if (f.Fields.All(x => x.Key != field.Key)) f.Fields.Add(field);
 
             });

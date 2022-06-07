@@ -95,6 +95,24 @@ namespace DI.Services.Forms
                     else
                         data[key] = "";
                 }
+                else if (mi.Type == typeof(int))
+                {
+                    var rx = (int)accessor[entity, key];
+                        data[key] = $"{rx}";
+
+                }
+                else if (mi.Type == typeof(DateTime?))
+                {
+                    var rx = (DateTime?)accessor[entity, key];
+                    data[key] = rx.HasValue?$"{rx:o}":"";
+
+                }
+                else if (mi.Type == typeof(DateTime))
+                {
+                    var rx = (DateTime)accessor[entity, key];
+                    data[key] = $"{rx:o}";
+
+                }
                 else if (mi.Type.IsEnum)
                 {
                     data[key] = $"{(int)accessor[entity, key]}";
@@ -150,6 +168,16 @@ namespace DI.Services.Forms
                 else if (mi.Type == typeof(int) || mi.Type == typeof(int?))
                 {
                     if (int.TryParse($"{value}", out var rs))
+                        accessor[entity, key] = rs;
+                }
+                else if (mi.Type == typeof(decimal) || mi.Type == typeof(decimal?))
+                {
+                    if (decimal.TryParse($"{value}", out var rs))
+                        accessor[entity, key] = rs;
+                }
+                else if (mi.Type == typeof(DateTime) || mi.Type == typeof(DateTime?))
+                {
+                    if (DateTime.TryParse($"{value}", out var rs))
                         accessor[entity, key] = rs;
                 }
                 else if (mi.Type.IsEnum)

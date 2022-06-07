@@ -12,6 +12,8 @@
         Select = 7,
         Lookup = 8,
         PickList=9,
-        Subgrid=10
+        SubGrid=10,
+        Decimal = 11,
+        Action =21
     }
 }

@@ -12,7 +12,13 @@ namespace Boards.Services.Boards.Forms
             fs.AddTab("Board Details", BoardDetails);
             fs.AddTab("Summary Details", SummaryDetails);
             fs.AddTab("Other Details", OtherDetails);
-            fs.AddSubgrid("Roles", "BoardRolesView");
+            fs.AddSubgrid("Roles", "BoardRolesView", x =>
+            {
+                x.AddAction("create", Constants.Forms.BoardRole.Key, "New Role");
+            });
+            fs.AddSubgrid("Appointments", "BoardAppointmentsView", x =>
+            {
+            });
         }
 
         private void BoardDetails(FormField field)

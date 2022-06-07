@@ -35,11 +35,11 @@ namespace DI.Services.Forms
 
         #region Create Handle
 
-        public Task<FormActionResult> CreateEntity(IDictionary<string, object> data, long? entityId)
+        public async Task<FormActionResult> CreateEntity(IDictionary<string, object> data, long? entityId)
         {
             var entity = data.CreateEntity<T>();
-            OnPreCreate(entity, data);
-            return CreateEntity(entity);
+            await OnPreCreate(entity, data, entityId);
+            return await CreateEntity(entity);
         }
 
         public EntityTypeResponse GetEntityType(EntityTypeRequest request)
@@ -56,8 +56,9 @@ namespace DI.Services.Forms
 
         protected abstract Task LoadOptionSets(Dictionary<string, OptionFieldConfig> map);
 
-        protected virtual void OnPreCreate(T entity, IDictionary<string, object> data)
+        protected virtual async Task OnPreCreate(T entity, IDictionary<string, object> data, long? entityId)
         {
+            await Task.Delay(0);
         }
         protected abstract Task<FormActionResult> CreateEntity(T entity); 
 

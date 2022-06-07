@@ -24,6 +24,20 @@ namespace DI.Forms.Types
 
         #endregion
 
+
+        public static FormField AddAction(this FormField fd, string key, string viewId, string title ="")
+        {
+            var field = new FormField(key)
+            {
+                Layout = LayoutType.SubGrid,
+                FieldType = FormFieldType.Action,
+                Title = string.IsNullOrEmpty(title) ? key : title,
+                ViewId = viewId
+        };
+            if (fd.Fields.All(x => x.Key != field.Key)) fd.Fields.Add(field);
+            return fd;
+        }
+
         public static FormField AddYesNo(this FormField fd, string key, string title, string desc,
             bool required = false, int width = 50)
         {
@@ -70,6 +84,19 @@ namespace DI.Forms.Types
         #endregion
 
 
+        public static FormField AddDate(this FormField fd, string key, string title = null, bool required = false,
+            int width = 50)
+        {
+            fd.AddInput(key, title, x =>
+            {
+                x.Width = width;
+                x.FieldType = FormFieldType.Date;
+                x.Options = $"DD/MM/YYYY";
+                if (required)
+                    x.AddRequired($"{title} is required");
+            });
+            return fd;
+        }
 
 
         public static FormField AddPickList(this FormField fd, string key, string viewId, string title = null, bool required = false,
@@ -126,7 +153,18 @@ namespace DI.Forms.Types
             });
             return fd;
         }
-
+        public static FormField AddDecimal(this FormField fd, string key, string title = null, bool required = false,
+            int width = 50)
+        {
+            fd.AddInput(key, title, x =>
+            {
+                x.Width = width;
+                x.FieldType = FormFieldType.Decimal;
+                if (required)
+                    x.AddRequired($"{title} is required");
+            });
+            return fd;
+        }
         public static FormField AddInput(this FormField fd, string key, string title, Action<FormField> configure)
         {
             var field = new FormField(key)

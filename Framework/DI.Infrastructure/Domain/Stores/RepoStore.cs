@@ -97,6 +97,7 @@ namespace DI.Domain.Stores
 
         public async Task<T> UpdateAsync(T entity)
         {
+            
             var entry = Set.Update(entity);
             await DataStore.SaveAsync();
             return entry.Entity;

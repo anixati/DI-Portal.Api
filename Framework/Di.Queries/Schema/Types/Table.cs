@@ -58,10 +58,11 @@ namespace Di.Qry.Schema.Types
     {
         public FormKey(string name)
         {
-            Create = $"create_{name.ToLower()}";
-            View = $"view_{name.ToLower()}";
+            Key = $"{name.ToLower().Trim()}";
+            Create = $"create_{Key}";
+            View = $"view_{Key}";
         }
-
+        public string Key { get; }
         public string Create { get; }
         public string View { get; }
     }

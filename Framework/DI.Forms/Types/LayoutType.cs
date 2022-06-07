@@ -7,6 +7,6 @@
         FieldGroup = 2,
         Tab=3,
         Divider=4,
-        Subgrid=5,
+        SubGrid=5,
     }
 }
