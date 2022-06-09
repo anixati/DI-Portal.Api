@@ -1,17 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Threading.Tasks;
-using AutoMapper.QueryableExtensions.Impl;
-using DI.Domain.Config;
 using DI.Domain.Core;
-using DI.Domain.Requests;
 using DI.Forms.Core;
 using DI.Forms.Requests;
 using DI.Forms.Types;
-using FastMember;
 using Microsoft.Extensions.Logging;
 
-namespace DI.Services.Forms
+namespace DI.Services.Handlers
 {
     public abstract class FormHandler<T> : ServiceBase, IFormActionHandler where T : class, IEntity, new()
     {

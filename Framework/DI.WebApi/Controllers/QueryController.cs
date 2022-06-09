@@ -13,7 +13,6 @@ using Microsoft.Extensions.Logging;
 
 namespace DI.WebApi.Controllers
 {
-    [AllowAnonymous]
     [ApiVersionNeutral]
     [Route("qry")]
     public class QueryController : ServiceController

@@ -13,14 +13,5 @@ namespace DI.Domain.Requests
         public PatchEntityRequest(long id, JsonPatchDocument data) : base(id, data)
         {
         }
-
-        //public void Apply(T entity)
-        //{
-        //    var invalidList = entity.GetInvalidPatchPaths();
-        //    if (invalidList.Any())
-        //        if (Data.Operations.Any(operation => invalidList.Contains(operation.path)))
-        //            throw new UnauthorizedAccessException();
-        //    Data.ApplyTo(entity);
-        //}
     }
 }

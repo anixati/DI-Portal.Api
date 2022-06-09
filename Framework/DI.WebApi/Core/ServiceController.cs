@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Threading.Tasks;
 using DI.Core;
+using DI.Exceptions;
 using DI.Response;
 using DI.Services.Core;
 using MediatR;
@@ -50,6 +51,10 @@ namespace DI.WebApi.Core
             {
                 var result = await executor();
                 result.ThrowIfNull("response is null ");
+                return ApiResponse.Success(result);
+            }
+            catch (DataValidationException dex)
+            {
                 return ApiResponse.Success(result);
             }
             catch (Exception ex)

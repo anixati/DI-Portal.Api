@@ -9,7 +9,7 @@ using DI.Forms.Types;
 using FastMember;
 using Newtonsoft.Json;
 
-namespace DI.Services.Forms
+namespace DI.Services.Handlers
 {
     public static class FormActions
     {

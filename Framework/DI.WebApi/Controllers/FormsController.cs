@@ -17,7 +17,6 @@ using Microsoft.Extensions.Logging;
 
 namespace DI.WebApi.Controllers
 {
-    [AllowAnonymous]
     [ApiVersionNeutral]
     [Route("forms")]
     public class FormsController : EntityController

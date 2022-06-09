@@ -75,5 +75,11 @@ namespace Boards.Domain.Roles
         {
             return Name;
         }
+
+        public override void OnPreUpdate(IEntity entity)
+        {
+            if (entity is BoardRole ba)
+                Name = ba.Position.Label;
+        }
     }
 }

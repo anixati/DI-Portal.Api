@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using DI.Forms.Core;
 using Microsoft.Extensions.Logging;
 
-namespace DI.Services.Forms
+namespace DI.Services.Handlers
 {
     public abstract class ActionHandlerBase : ServiceBase
     {

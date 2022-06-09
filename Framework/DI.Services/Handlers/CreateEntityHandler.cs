@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections.Concurrent;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
 using DI.Forms.Core;
@@ -8,7 +6,7 @@ using DI.Forms.Requests;
 using MediatR;
 using Microsoft.Extensions.Logging;
 
-namespace DI.Services.Forms
+namespace DI.Services.Handlers
 {
     public class CreateEntityHandler : ActionHandlerBase, IRequestHandler<FormActionRequest, FormActionResult>
     {

@@ -4,6 +4,7 @@
     {
         Default = 0,
         Created = 1,
+
         Updated = 2,
         Deleted = 3,
         Disabled = 4,
@@ -18,6 +19,7 @@
         TimedOut = 13,
         Duplicate = 14,
         UnAuthorized = 15,
-        Retrieved = 16
+        Retrieved = 16,
+        ValidationFail = 17
     }
 }

@@ -5,7 +5,7 @@ using DI.Forms.Requests;
 using MediatR;
 using Microsoft.Extensions.Logging;
 
-namespace DI.Services.Forms
+namespace DI.Services.Handlers
 {
     public class FormListHandler : ServiceBase, IRequestHandler<FormsListRequest, FormsListResponse>
     {

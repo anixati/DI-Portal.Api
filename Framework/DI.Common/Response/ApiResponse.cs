@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using DI.Core;
+using DI.Exceptions;
 using Newtonsoft.Json;
 
 namespace DI.Response
@@ -35,6 +36,10 @@ namespace DI.Response
         public static IApiResponse Error(Exception exception, ResponseCode status = ResponseCode.ServerError)
         {
             return Error(exception.ToExceptionMessages(), status);
+        }
+        public static IApiResponse Error(DataValidationException exception)
+        {
+            return Error(exception.Errors, ResponseCode.ValidationFail);
         }
 
 
