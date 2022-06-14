@@ -33,7 +33,8 @@ namespace DI.WebApi.Responses
                     case ResponseCode.BadRequest:
                         return new ObjectResult(response.Messages) {StatusCode = StatusCodes.Status400BadRequest};
                     case ResponseCode.UnAuthorized:
-                        return new UnauthorizedObjectResult(response);
+                        return new OkObjectResult(response);
+                       // return new UnauthorizedObjectResult(response);
                     case ResponseCode.ServerError:
                         return new ObjectResult(response)
                             {StatusCode = StatusCodes.Status500InternalServerError};

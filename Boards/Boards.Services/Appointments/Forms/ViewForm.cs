@@ -1,11 +1,12 @@
 ﻿using AutoMapper.Internal;
 using Boards.Domain.Shared;
+using Boards.Services.Core;
 using DI.Forms.Handlers;
 using DI.Forms.Types;
 
 namespace Boards.Services.Appointments.Forms
 {
-    public class ViewForm : FormBuilder
+    public class ViewForm : BoardForms
     {
         public override string FormName => Constants.Forms.BoardAppointment.View;
         protected override void CreateSchema(FormSchema fs)
@@ -18,7 +19,7 @@ namespace Boards.Services.Appointments.Forms
         {
             field.AddFieldGroup(f =>
             {
-                f.AddLookup("Appointee", "AppointeeLookup", "Appointees", true, 29);
+                f.AddLookup("Appointee", "AppointeeLookup",Routes.Appointee,"Appointees", true, 29);
                 f.AddInput("BriefNumber", "Brief Number", true, 29);
                 f.AddPickList("Judicial", "Judicial", "Judicial", false, 29);
                 f.AddNumeric("PrevTerms", "Previous Terms", false, 29);

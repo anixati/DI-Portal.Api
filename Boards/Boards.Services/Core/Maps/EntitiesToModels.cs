@@ -1,7 +1,7 @@
 ﻿using AutoMapper;
 using Boards.Domain.Boards;
 
-namespace Boards.Services.Maps
+namespace Boards.Services.Core.Maps
 {
     public class EntitiesToModels : Profile
     {

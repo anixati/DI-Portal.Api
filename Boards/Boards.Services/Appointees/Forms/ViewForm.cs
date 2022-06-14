@@ -1,10 +1,11 @@
-﻿using DI.Domain.Enums;
+﻿using Boards.Services.Core;
+using DI.Domain.Enums;
 using DI.Forms.Handlers;
 using DI.Forms.Types;
 
 namespace Boards.Services.Appointees.Forms
 {
-    public class ViewForm : FormBuilder
+    public class ViewForm : BoardForms
     {
         public override string FormName => Constants.Forms.Appointee.View;
         protected override void CreateSchema(FormSchema fs)

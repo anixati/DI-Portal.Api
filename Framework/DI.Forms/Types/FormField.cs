@@ -66,4 +66,10 @@ namespace DI.Forms.Types
         public string Label { get; }
         public string Value { get;  }
     }
+
+    public interface IClientRoute
+    {
+        string Key { get; }
+        string Path();
+    }
 }

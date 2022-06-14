@@ -1,9 +1,10 @@
-﻿using DI.Forms.Handlers;
+﻿using Boards.Services.Core;
+using DI.Forms.Handlers;
 using DI.Forms.Types;
 
 namespace Boards.Services.Portfolios.Forms
 {
-    public class ViewForm : FormBuilder
+    public class ViewForm : BoardForms
     {
         public override string FormName => Constants.Forms.Portfolio.View;
         protected override void CreateSchema(FormSchema fs)

@@ -16,4 +16,13 @@ namespace DI.Exceptions
 
         public List<string> Errors { get; private set; }
     }
+
+    [Serializable]
+    public class AccessDeniedException : Exception
+    {
+        public AccessDeniedException(string msg) : base(msg)
+        {
+            
+        }
+    }
 }

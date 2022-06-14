@@ -1,10 +1,11 @@
-﻿using DI.Domain.Enums;
+﻿using Boards.Services.Core;
+using DI.Domain.Enums;
 using DI.Forms.Handlers;
 using DI.Forms.Types;
 
 namespace Boards.Services.Boards.Forms
 {
-    public class ViewForm : FormBuilder
+    public class ViewForm : BoardForms
     {
         public override string FormName => Constants.Forms.Boards.View;
         protected override void CreateSchema(FormSchema fs)
@@ -38,7 +39,7 @@ namespace Boards.Services.Boards.Forms
             });
             field.AddFieldGroup(f =>
             {
-                f.AddLookup("Portfolio", "PortfolioLookup", "Portfolio", true,33);
+                f.AddLookup("Portfolio", "PortfolioLookup", Routes.Portfolios, "Portfolio", true,33);
                 f.AddPickList("OwnerDivision", "OwnerDivision", "Owner Division",false,33);
                 f.AddPickList("OwnerPosition", "OwnerPosition", "Owner Position",false,33);
             });
@@ -102,9 +103,9 @@ namespace Boards.Services.Boards.Forms
            
             field.AddFieldGroup(f =>
             {
-                f.AddLookup("ResponsibleUser", "ActiveUsers", "Responsible User", false, 24);
-                f.AddLookup("ApprovedUser", "ActiveUsers", "Approved User", false, 24);
-                f.AddLookup("AsstSecretary", "SecretaryLookup", "Asst. Secretary", false, 24);
+                f.AddLookup("ResponsibleUser", "ActiveUsers", Routes.Users, "Responsible User", false, 24);
+                f.AddLookup("ApprovedUser", "ActiveUsers", Routes.Users, "Approved User", false, 24);
+                f.AddLookup("AsstSecretary", "SecretaryLookup", Routes.Secretary, "Asst. Secretary", false, 24);
             });
         }
 

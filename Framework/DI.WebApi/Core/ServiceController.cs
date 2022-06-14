@@ -55,7 +55,11 @@ namespace DI.WebApi.Core
             }
             catch (DataValidationException dex)
             {
-                return ApiResponse.Success(result);
+                return ApiResponse.Error(dex);
+            }
+            catch (AccessDeniedException adx)
+            {
+                return ApiResponse.Error(adx);
             }
             catch (Exception ex)
             {

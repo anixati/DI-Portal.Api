@@ -9,14 +9,16 @@ namespace DI.Services.Handlers
 {
     public class SiteMapHandler : ServiceBase, IRequestHandler<SiteMapRequest, SiteMap>
     {
-        public SiteMapHandler(ILoggerFactory logFactory) : base(logFactory)
+        private readonly ISiteMapProvider _provider;
+        public SiteMapHandler(ILoggerFactory logFactory, ISiteMapProvider provider) : base(logFactory)
         {
+            _provider = provider;
         }
 
         public async Task<SiteMap> Handle(SiteMapRequest request, CancellationToken cancellationToken)
         {
             await Task.Delay(0);
-            return new SiteMap();
+            return _provider.Create();
         }
     }
 }

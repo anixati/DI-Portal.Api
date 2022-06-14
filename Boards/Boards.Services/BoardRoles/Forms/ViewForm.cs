@@ -1,10 +1,11 @@
 ﻿using Boards.Domain.Shared;
+using Boards.Services.Core;
 using DI.Forms.Handlers;
 using DI.Forms.Types;
 
 namespace Boards.Services.BoardRoles.Forms
 {
-    public class ViewForm : FormBuilder
+    public class ViewForm : BoardForms
     {
         public override string FormName => Constants.Forms.BoardRole.View;
         protected override void CreateSchema(FormSchema fs)

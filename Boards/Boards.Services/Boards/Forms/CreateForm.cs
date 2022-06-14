@@ -1,4 +1,5 @@
-﻿using DI.Domain.Enums;
+﻿using Boards.Services.Core;
+using DI.Domain.Enums;
 using DI.Forms.Handlers;
 using DI.Forms.Types;
 
@@ -27,7 +28,7 @@ namespace Boards.Services.Boards.Forms
             field.AddFieldGroup(f =>
             {
                 f.AddInput("Acronym", "Acronym");
-                f.AddLookup("Portfolio", "PortfolioLookup", "Portfolio", true);
+                f.AddLookup("Portfolio", "PortfolioLookup", Routes.Portfolios, "Portfolio", true);
             });
             field.AddInput("Description", "Description", x =>
             {
@@ -106,10 +107,10 @@ namespace Boards.Services.Boards.Forms
             });
             field.AddFieldGroup(f =>
             {
-                f.AddLookup("ResponsibleUser", "ActiveUsers", "Responsible User");
-                f.AddLookup("ApprovedUser", "ActiveUsers", "Approved User");
+                f.AddLookup("ResponsibleUser", "ActiveUsers", Routes.Users, "Responsible User");
+                f.AddLookup("ApprovedUser", "ActiveUsers", Routes.Users, "Approved User");
             });
-            field.AddLookup("AsstSecretary", "SecretaryLookup", "Asst. Secretary");
+            field.AddLookup("AsstSecretary", "SecretaryLookup", Routes.Secretary, "Asst. Secretary");
           
         }
     }

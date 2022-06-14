@@ -1,4 +1,5 @@
 ﻿using Boards.Domain.Shared;
+using Boards.Services.Core;
 using DI.Forms.Handlers;
 using DI.Forms.Types;
 
@@ -17,7 +18,7 @@ namespace Boards.Services.Appointments.Forms
         {
             field.AddFieldGroup(f =>
             {
-                f.AddLookup("Appointee", "AppointeeLookup", "Appointees", true,50);
+                f.AddLookup("Appointee", "AppointeeLookup", Routes.Appointee, "Appointees", true,50);
                 f.AddInput("BriefNumber", "Brief Number", true, 50);
             });
             

@@ -41,6 +41,10 @@ namespace DI.Response
         {
             return Error(exception.Errors, ResponseCode.ValidationFail);
         }
+        public static IApiResponse Error(AccessDeniedException exception)
+        {
+            return Error(exception.Message, ResponseCode.UnAuthorized);
+        }
 
 
         public static IApiResponse Error(string message, ResponseCode status = ResponseCode.ServerError)

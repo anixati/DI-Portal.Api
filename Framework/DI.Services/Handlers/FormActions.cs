@@ -133,14 +133,12 @@ namespace DI.Services.Handlers
                     {
                         var rv = accessor[entity, idKey];
                         if (value == null) continue;
-                        var ls = "GET FROM DB";
+                        var ls = "";
                         var vp = accessor[entity, key];
-                        if (vp !=  null)
-                        {
-                            var et = vp as IEntity;
-                            ls = et?.GetName();
-                        }
-                        data[key] = JsonConvert.SerializeObject(new {value=rv, label=ls});
+                        if (vp == null) continue;
+                        var et = vp as IEntity;
+                        ls = et?.GetName();
+                        data[key] = JsonConvert.SerializeObject(new {value = rv, label = ls});
                     }
                 }
                 else

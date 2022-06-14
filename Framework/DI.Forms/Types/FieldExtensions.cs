@@ -113,14 +113,15 @@ namespace DI.Forms.Types
             return fd;
         }
 
-        public static FormField AddLookup(this FormField fd, string key, string viewId, string title = null, bool required = false,
+        public static FormField AddLookup(this FormField fd, string key, string viewId, IClientRoute route, string title = null, bool required = false,
             int width = 50)
         {
             fd.AddInput(key, title, x =>
             {
                 x.Width = width;
                 x.FieldType = FormFieldType.Lookup;
-                x.Options = viewId;
+                x.ViewId = viewId;
+                x.Options = route.Path();
                 if (required)
                     x.AddRequired($"{title} is required");
             });
