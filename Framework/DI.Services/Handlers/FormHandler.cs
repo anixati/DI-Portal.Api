@@ -24,6 +24,20 @@ namespace DI.Services.Handlers
             await LoadData(schema, entityId, rs);
             return rs;
         }
+
+        public async Task<FormActionResult> LoadCreateData(FormSchema schema, long? entityId)
+        {
+            var rs = new FormActionResult();
+            await LoadCreateData(schema, entityId, rs);
+            return rs;
+        }
+
+        protected virtual async Task LoadCreateData(FormSchema schema, long? entityId, FormActionResult result)
+        {
+            await Task.Delay(0);
+        }
+
+
         protected abstract Task LoadData(FormSchema schema, long entityId, FormActionResult result);
 
         #endregion

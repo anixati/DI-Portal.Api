@@ -1,17 +1,19 @@
 ﻿using Boards.Services.Core;
 using DI.Domain.Enums;
-using DI.Forms.Handlers;
 using DI.Forms.Types;
 
-namespace Boards.Services.Ministers.Forms
+namespace Boards.Services.Users.Forms
 {
     public class ViewForm : BoardForms
     {
-        public override string FormName => Constants.Forms.Minister.View;
+        public override string FormName => Constants.Forms.AppUser.View;
         protected override void CreateSchema(FormSchema fs)
         {
             fs.AddTab("Personal Details", AddPersonDetails);
-            fs.AddSubgrid("Portfolio's", "MinisterPortfolios", x =>
+            fs.AddSubgrid("Approved by Boards's", "ApprovedUserBoards", x =>
+            {
+            });
+            fs.AddSubgrid("Resp. Officer Boards's", "RespOfficerBoards", x =>
             {
             });
         }
@@ -39,17 +41,10 @@ namespace Boards.Services.Ministers.Forms
                 f.AddPhone("FaxNumber", "Fax Number", false, 30);
             });
             field.AddFieldGroup(f =>
-         {
-             f.AddEmail("Email1", "Primary Email", true, 30);
-             f.AddEmail("Email2", "other Email", false, 30);
-         });
+            {
+                f.AddEmail("Email1", "Primary Email", true, 30);
+                f.AddEmail("Email2", "other Email", false, 30);
+            });
         }
-
-        private void AddAddressDetails(FormField field)
-        {
-
-        }
-
-       
     }
 }

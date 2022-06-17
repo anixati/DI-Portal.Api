@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using DI.Domain.Core;
 using DI.Forms.Core;
+using Newtonsoft.Json;
 
 namespace DI.Forms.Requests
 {
@@ -28,6 +29,15 @@ namespace DI.Forms.Requests
         public void SetResult(IEntity entity, string title = "")
         {
             Entity = new FormEntity(title, entity);
+        }
+
+        public void SetLookupValue(string key, string label, string value)
+        {
+            InitialValues[key] = JsonConvert.SerializeObject(new
+            {
+                value = value,
+                label = label
+            });
         }
     }
 }

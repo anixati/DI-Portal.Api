@@ -11,9 +11,9 @@ namespace Boards.Services.Secretary.Forms
         protected override void CreateSchema(FormSchema fs)
         {
             fs.AddTab("Personal Details", AddPersonDetails);
-            fs.AddTab("Address Details", AddAddressDetails);
-           // fs.AddTab("Professional Details", AddProfessionalDetails);
-           // fs.AddTab("Other Details", OtherDetails);
+            fs.AddSubgrid("Board's", "SecretaryBoards", x =>
+            {
+            });
         }
 
         private void AddPersonDetails(FormField field)

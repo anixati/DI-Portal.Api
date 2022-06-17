@@ -18,6 +18,7 @@ namespace DI.Forms.Types
         public string Title { get; set; }
         public string Description { get; set; }
         public bool Disabled { get; set; }
+        public bool Readonly { get; set; }
         public object Options { get; set; }
         public object Value { get; set; }
         public int Width { get; set; }

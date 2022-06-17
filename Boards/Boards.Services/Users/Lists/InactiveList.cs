@@ -16,6 +16,7 @@ namespace Boards.Services.Users.Lists
             {
                 x.Searchable = true;
                 x.Sortable = true;
+                x.Type = ColumnType.HyperLink;
             });
             pt.AddSearchCols("Phone", "Email", "CreatedOn");
             return pt;

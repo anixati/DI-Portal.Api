@@ -33,10 +33,10 @@ namespace DI.WebApi.Controllers
             return result.ToResponse();
         }
 
-        [HttpGet("create/{name}")]
-        public async Task<IActionResult> GetSchema(string name)
+        [HttpGet("create/{name}/{id:long?}")]
+        public async Task<IActionResult> GetSchema([Required] string name, long? id)
         {
-            var result = await ExecuteTask(async x => await x.Send(new FormSchemaRequest {Name = name}));
+            var result = await ExecuteTask(async x => await x.Send(new FormSchemaRequest {Name = name, EntityId = id ,RequestType = SchemaRequestType.Create}));
             return result.ToResponse();
         }
 
@@ -44,7 +44,7 @@ namespace DI.WebApi.Controllers
         [HttpGet("view/{name}/{id}")]
         public async Task<IActionResult> GetSchema([Required] string name, [Required] long id)
         {
-            var result = await ExecuteTask(async x => await x.Send(new FormSchemaRequest {Name = name, EntityId = id}));
+            var result = await ExecuteTask(async x => await x.Send(new FormSchemaRequest {Name = name, EntityId = id, RequestType = SchemaRequestType.View }));
             return result.ToResponse();
         }
 

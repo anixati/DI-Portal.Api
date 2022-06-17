@@ -23,11 +23,13 @@ namespace DI.Services.Handlers
         {
             var response = new FormSchemaResponse();
             var handler = GetHandler(request.Name);
-            if (!request.EntityId.HasValue)//create 
+            if (request.RequestType == SchemaRequestType.Create)//create 
             {
 
                 response.Schema = _provider.GetSchema($"create_{request.Name}");
                 await handler.LoadOptions(response.Schema);
+                var rx = await handler.LoadCreateData(response.Schema, request.EntityId.GetValueOrDefault());
+                response.InitialValues = rx.InitialValues;
             }
             else //view
             {

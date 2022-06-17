@@ -1,5 +1,9 @@
-﻿using Boards.Domain;
+﻿using System.Threading.Tasks;
+using Boards.Domain;
+using Boards.Domain.Boards;
 using Boards.Services.Core;
+using DI.Forms.Requests;
+using DI.Forms.Types;
 using Microsoft.Extensions.Logging;
 
 namespace Boards.Services.Terms.Forms
@@ -10,6 +14,16 @@ namespace Boards.Services.Terms.Forms
         {
         }
 
+
+        protected override async Task LoadCreateData(FormSchema schema, long? entityId, FormActionResult result)
+        {
+            if (!entityId.HasValue) return;
+            var repo = GetRepo<Portfolio>();
+            var pf = await repo.GetById(entityId.GetValueOrDefault());
+            if (pf != null)
+                result.SetLookupValue("Portfolio", $"{pf.Name}", $"{pf.Id}");
+
+        }
         public override string SchemaKey => "ministerterm";
     }
 }

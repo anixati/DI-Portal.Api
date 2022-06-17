@@ -114,7 +114,7 @@ namespace DI.Forms.Types
         }
 
         public static FormField AddLookup(this FormField fd, string key, string viewId, IClientRoute route, string title = null, bool required = false,
-            int width = 50)
+            int width = 50, Action<FormField> configure =null)
         {
             fd.AddInput(key, title, x =>
             {
@@ -124,6 +124,8 @@ namespace DI.Forms.Types
                 x.Options = route.Path();
                 if (required)
                     x.AddRequired($"{title} is required");
+                if (configure != null)
+                    configure(x);
             });
             return fd;
         }

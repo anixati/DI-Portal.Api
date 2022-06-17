@@ -57,6 +57,7 @@ namespace Boards.Services.Core
             result.SetResult(entity, entity.GetName());
         }
 
+
         protected override async Task<FormActionResult> CreateEntity(T entity)
         {
             var repo = GetRepo<T>();

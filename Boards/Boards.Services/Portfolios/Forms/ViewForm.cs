@@ -10,9 +10,9 @@ namespace Boards.Services.Portfolios.Forms
         protected override void CreateSchema(FormSchema fs)
         {
             fs.AddTab("Portfolio Details", AddPersonDetails);
-            fs.AddSubgrid("Minister's", "BoardRolesView", x =>
+            fs.AddSubgrid("Minister's", "PortfolioMinisters", x =>
             {
-                x.AddAction("create", Constants.Forms.BoardRole.Key, "New Role");
+                x.AddAction("create", Constants.Forms.MinisterTerm.Key, "Add Minister");
             });
         }
 

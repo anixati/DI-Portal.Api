@@ -12,9 +12,8 @@ namespace Boards.Services.Ministers.Lists
         protected override Table CreateEntity()
         {
             var pt = Table.Create(Constants.Db.MinistersView);
-            pt.Column("FullName", "FullName", "Full Name", x =>
-            {
-                x.Searchable = true;
+            pt.Column("FullName", "Name", "Name", x =>{
+               x.Searchable = true;
                 x.Sortable = true;
                 x.Type = ColumnType.HyperLink;
             });
