@@ -1,11 +1,14 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Threading.Tasks;
+using Autofac.Features.ResolveAnything;
 using Boards.Domain.Boards;
 using Boards.Domain.Contacts;
 using Boards.Domain.Shared;
 using DI.Domain.Core;
 using DI.Domain.Options;
+using DI.Domain.Services;
 
 namespace Boards.Domain.Roles
 {
@@ -70,16 +73,18 @@ namespace Boards.Domain.Roles
 
         [MaxLength(2000)] public string InternalNotes { get; set; }
 
-
         public override string GetName()
         {
             return Name;
         }
-
-        public override void OnPreUpdate(IEntity entity)
+         
+        public override async Task<IEntity> OnCoreEvent(EntityEvent @event, IDataStore store)
         {
-            if (entity is BoardRole ba)
-                Name = ba.Position.Label;
+            var ps = await store.Repo<OptionSet>().GetById(this.PositionId);
+            if (ps == null) return null;
+            this.Name = ps.Label;
+            return this;
+
         }
     }
 }

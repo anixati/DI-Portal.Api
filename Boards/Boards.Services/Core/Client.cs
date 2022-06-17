@@ -9,9 +9,12 @@ namespace Boards.Services.Core
         public const string Reports = "reports";
         public const string Admin = "admin";
 
+        public static readonly IClientRoute Default = Client.New("");
 
         public static readonly IClientRoute Dashboard = Client.New("dashboard");
         public static readonly IClientRoute Boards = Client.New("list");
+        public static readonly IClientRoute Roles = Client.New("brdroles");
+
         public static readonly IClientRoute Appointee = Client.New("appointees");
         public static readonly IClientRoute Minister = Client.New("ministers");
         public static readonly IClientRoute Secretary = Client.New("secretaries");
@@ -35,7 +38,7 @@ namespace Boards.Services.Core
         public string Key { get; }
         public string Path()
         {
-            return $"/{_base}/{Key}";
+            return string.IsNullOrEmpty(Key) ? "" : $"/{_base}/{Key}";
         }
 
         public static IClientRoute New(string key,string cb= Routes.Base)

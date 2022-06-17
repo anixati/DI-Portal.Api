@@ -15,6 +15,7 @@ namespace DI.Domain.Handlers
             _mapper = mapper;
         }
 
+        protected IDataStore Store => _dataStore;
         protected IRepository<T> Repository => _dataStore.Repo<T>();
 
         protected void Commit()

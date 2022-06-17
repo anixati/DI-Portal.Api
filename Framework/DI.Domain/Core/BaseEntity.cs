@@ -1,10 +1,12 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Threading.Tasks;
 using DI.Attributes;
+using DI.Domain.Services;
 
 namespace DI.Domain.Core
 {
-    public abstract class BaseEntity : IEntity
+    public abstract class BaseEntity : IEntity,IEntityEvent
     {
         [Key] [NoPatch] [Column(Order = 0)] public long Id { get; set; }
 
@@ -39,11 +41,10 @@ namespace DI.Domain.Core
         {
             return $"{Id}";
         }
-
-        public virtual void OnPreUpdate(IEntity entity)
+        public virtual async Task<IEntity> OnCoreEvent(EntityEvent @event, IDataStore store)
         {
-            
+            await Task.Delay(0);
+            return null;
         }
-        
     }
 }

@@ -143,3 +143,22 @@ CREATE VIEW  [dbo].[AppointmentsView] AS
 	  JOIN BoardRoles brl ON brl.Id=bap.BoardRoleId
 	  JOIN Boards brd ON brd.Id=brl.BoardId
 	  JOIN [dbo].[Appointee] apt on apt.Id= bap.AppointeeId
+
+
+GO
+---------------------------
+DROP VIEW IF EXISTS [dbo].[MinisterTermsView]
+GO
+
+CREATE VIEW  [dbo].[MinisterTermsView] AS 
+	 SELECT 
+	  mts.Id,
+	  mns.Id AS MinisterId,
+	  (COALESCE(mns.Title+' ','')+mns.FirstName+' '+mns.LastName) As Minister,
+	  pfs.Id AS PortfolioId,
+	  pfs.Name AS Portfolio,
+	  mts.StartDate,
+	  mts.EndDate
+	  FROM MinisterTerms mts
+	  JOIN Ministers mns ON mns.Id = mts.MinisterId
+	  JOIN Portfolios pfs ON pfs.Id= mts.PortfolioId

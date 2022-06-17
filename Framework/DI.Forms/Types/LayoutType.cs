@@ -8,5 +8,6 @@
         Tab=3,
         Divider=4,
         SubGrid=5,
+        Header=6,
     }
 }

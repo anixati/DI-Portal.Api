@@ -29,7 +29,7 @@ namespace DI.Domain.Handlers.Generic
         public async Task<DomainResponse> Handle(PatchEntityRequest<T> request, CancellationToken cancellationToken)
         {
             Ensure.That(() => request.Id > 0, "id is required");
-            var entity = await Repository.GetById(request.Id,true);
+            var entity = await Repository.GetById(request.Id, true);
             entity.ThrowIfNull("Record not found or deleted !");
 
             //check invalid Paths
@@ -48,7 +48,7 @@ namespace DI.Domain.Handlers.Generic
 
                 var mi = members.FirstOrDefault(x =>
                     string.Compare($"/{x.Name}", op.path, StringComparison.OrdinalIgnoreCase) == 0);
-                if (mi == null|| op.value ==null) continue;
+                if (mi == null || op.value == null) continue;
 
                 if (mi.Type.IsClass && typeof(IEntity).IsAssignableFrom(mi.Type))
                 {
@@ -74,13 +74,16 @@ namespace DI.Domain.Handlers.Generic
                     patch.Operations.Add(op);
                 }
 
-                
+
             }
             patch.ApplyTo(entity);
-            var original = await Repository.GetById(entity.Id, true);
-            if(original != null)
-                entity.OnPreUpdate(original);
+
             var result = await Repository.UpdateAsync(entity);
+            if (result != null)
+            {
+                if (await ((IEntityEvent)result).OnCoreEvent(EntityEvent.Update, Store) is T rs)
+                    await Repository.UpdateAsync(rs);
+            }
             Commit();
             return new DomainResponse(ResponseCode.Updated, "Patched");
         }

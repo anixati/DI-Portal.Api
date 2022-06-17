@@ -23,6 +23,15 @@ namespace DI.Forms.Types
         }
 
 
+
+        public static FormSchema AddHeaders(this FormSchema fs, Action<FormField> Configure)
+        {
+            var field = new FormField { Layout = LayoutType.Header };
+            Configure(field);
+            if (fs.Fields.All(x => x.Key != field.Key)) fs.Fields.Add(field);
+            return fs;
+        }
+
         public static FormSchema AddSubgrid(this FormSchema fs, string title,string viewId, Action<FormField> Configure)
         {
             fs.AddTab(title, f =>

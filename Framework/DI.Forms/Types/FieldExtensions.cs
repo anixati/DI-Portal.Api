@@ -128,6 +128,17 @@ namespace DI.Forms.Types
             return fd;
         }
 
+
+        public static FormField AddLink(this FormField fd, string key,  IClientRoute route, string title = null )
+        {
+            fd.AddInput(key, title, x =>
+            {
+                x.FieldType = FormFieldType.Link;
+                x.Options = route.Path();
+            });
+            return fd;
+        }
+
         public static FormField AddInput(this FormField fd, string key, string title = null, bool required = false,
             int width = 50)
         {

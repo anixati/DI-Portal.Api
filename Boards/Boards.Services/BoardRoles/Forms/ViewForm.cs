@@ -10,9 +10,14 @@ namespace Boards.Services.BoardRoles.Forms
         public override string FormName => Constants.Forms.BoardRole.View;
         protected override void CreateSchema(FormSchema fs)
         {
+            fs.AddHeaders(f =>
+            {
+                f.AddLink("Board",  Routes.Boards, "Board");
+            });
+
             fs.AddTab("Role Details", BoardDetails);
             fs.AddTab("Ministerial Details", MinisterialDetails);
-            fs.AddTab("Other Details",OtherDetails);
+            fs.AddTab("Other Details", OtherDetails);
             fs.AddSubgrid("Appointments", "RoleAppointmentsView", x =>
             {
                 x.AddAction("create", Constants.Forms.BoardAppointment.Key, "New Appointment");
@@ -33,12 +38,12 @@ namespace Boards.Services.BoardRoles.Forms
                 f.AddYesNo("IsExNominated", "Is Externally Nominated", "", true, 35);
                 f.AddYesNo("IsSignAppointment", "Significant Appointment", "", true, 35);
             });
-            
+
             field.AddFieldGroup(f =>
             {
-               
+
                 f.AddYesNo("ExcludeFromOrder15", "Exclude from order 15 report", "", true, 35);
-                f.AddYesNo("ExcludeGenderReport", "Exclude from gender report", "", true,35);
+                f.AddYesNo("ExcludeGenderReport", "Exclude from gender report", "", true, 35);
             });
         }
 
@@ -48,7 +53,7 @@ namespace Boards.Services.BoardRoles.Forms
             {
                 f.AddPickList("Position", "Position", "Position", true, 29);
                 f.AddPickList("Appointer", "Appointer", "Appointer", true, 29);
-                f.AddSelect<YesNoOptionEnum>("PositionRemunerated", "Position Remunerated", true,29);
+                f.AddSelect<YesNoOptionEnum>("PositionRemunerated", "Position Remunerated", true, 29);
                 f.AddDecimal("PaAmount", "Per-annum Amount", true, 29);
             });
             field.AddFieldGroup(f =>
@@ -56,7 +61,7 @@ namespace Boards.Services.BoardRoles.Forms
                 f.AddPickList("RemunerationMethod", "RemunerationMethod", "Remuneration Method", true, 29);
                 f.AddInput("RemunerationTribunal", "Remuneration Tribunal", true, 29);
                 f.AddDate("VacantFromDate", "Vacant from Date", false, 29);
-                f.AddNumeric("Term", "Term",false,29);
+                f.AddNumeric("Term", "Term", false, 29);
             });
             field.AddInput("InstrumentLink", "Instrument Link", x =>
             {
@@ -68,7 +73,7 @@ namespace Boards.Services.BoardRoles.Forms
                 x.AddRule(ValRule.Min(10, "Minimum 10 chars required"));
                 x.FieldType = FormFieldType.Note;
             });
-         
+
         }
 
         private void MinisterialDetails(FormField field)
@@ -104,7 +109,7 @@ namespace Boards.Services.BoardRoles.Forms
             });
 
         }
-        
+
 
 
     }

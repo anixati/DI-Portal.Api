@@ -16,6 +16,7 @@ namespace Boards.Services
             public static readonly FormKey Minister = new FormKey("minister");
             public static readonly FormKey Secretary = new FormKey("secretary");
             public static readonly FormKey Portfolio = new FormKey("portfolio");
+            public static readonly FormKey MinisterTerm = new FormKey("ministerterm");
         }
 
         public static class Db
@@ -30,6 +31,7 @@ namespace Boards.Services
             public static readonly TableKey BoardRolesView = new("BoardRolesView", "bvw");
             public static readonly TableKey AppointmentsView = new("AppointmentsView", "bvw");
 
+            public static readonly TableKey MinisterTermsView = new("MinisterTermsView", "mts");
 
             public static readonly TableKey UsersView = new("ActiveUsersView", "uvw");
         }

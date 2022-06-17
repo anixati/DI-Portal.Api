@@ -11,8 +11,14 @@ namespace Boards.Services.Appointments.Forms
         public override string FormName => Constants.Forms.BoardAppointment.View;
         protected override void CreateSchema(FormSchema fs)
         {
-            fs.AddPage("Appointment", Appointment);
-            fs.AddPage("Other Details", OtherDetails);
+            fs.AddHeaders(f =>
+            {
+                f.AddLink("Board", Routes.Boards, "Board");
+                f.AddLink("BoardRole", Routes.Roles, "Role");
+            });
+
+            fs.AddTab("Appointment", Appointment);
+            fs.AddTab("Other Details", OtherDetails);
         }
 
         private void Appointment(FormField field)
@@ -39,21 +45,23 @@ namespace Boards.Services.Appointments.Forms
                 f.AddPickList("AppointmentSource", "AppointmentSource", "Appointment Source", true, 29);
                 f.AddPickList("SelectionProcess", "SelectionProcess", "Selection Process", true, 29);
             });
-            field.AddFieldGroup(f =>
-            {
-                f.AddYesNo("IsExOfficio", "Is ExOfficio", "", true, 29);
-                f.AddYesNo("IsFullTime", "Full Time", "", false, 29);
-                f.AddYesNo("ActingInRole", "Acting", "", false, 29);
-                f.AddYesNo("ExclGenderReport", "Exclude Gender Report", "", false, 29);
-            });
+            //field.AddFieldGroup(f =>
+            //{
+            //    f.AddYesNo("IsExOfficio", "Is ExOfficio", "", true, 29);
+            //    f.AddYesNo("IsFullTime", "Full Time", "", false, 29);
+            //    f.AddYesNo("ActingInRole", "Acting", "", false, 29);
+            //    f.AddYesNo("ExclGenderReport", "Exclude Gender Report", "", false, 29);
+            //});
            
             
         }
 
         private void OtherDetails(FormField field)
         {
-            
-
+            field.AddYesNo("IsExOfficio", "Is ExOfficio", "", true, 29);
+            field.AddYesNo("IsFullTime", "Full Time", "", false, 29);
+            field.AddYesNo("ActingInRole", "Acting", "", false, 29);
+            field.AddYesNo("ExclGenderReport", "Exclude Gender Report", "", false, 29);
         }
 
 

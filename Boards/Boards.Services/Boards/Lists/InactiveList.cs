@@ -12,13 +12,13 @@ namespace Boards.Services.Boards.Lists
         protected override Table CreateEntity()
         {
             var pt = Table.Create(Constants.Db.BoardsView);
-            pt.SearchCol("Acronym");
             pt.Column("Name", "Name", "Name", x =>
             {
                 x.Searchable = true;
                 x.Sortable = true;
                 x.Type = ColumnType.HyperLink;
             });
+            pt.SearchCol("Acronym");
             pt.Column("Portfolio", "Portfolio", "Portfolio", x =>
             {
                 x.Searchable = true;

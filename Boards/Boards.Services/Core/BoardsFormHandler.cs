@@ -52,7 +52,8 @@ namespace Boards.Services.Core
             var repo = GetRepo<T>();
             var entity = await repo.GetById(entityId, true);
             entity.ThrowIfNull($"Entity not found for given id {entityId}");
-            result.InitialValues.MapFromEntity(entity);
+            entity.UpdateValues(result.InitialValues, schema);
+            //result.InitialValues.MapFromEntity(entity);
             result.SetResult(entity, entity.GetName());
         }
 
@@ -73,7 +74,7 @@ namespace Boards.Services.Core
                 var rs = await repo.Query().Include(x => x.Values).Where(x => x.Code == value.Code)
                     .FirstOrDefaultAsync();
                 if (rs != null && rs.Values != null && rs.Values.Any())
-                    value.Options = rs.Values.Select(x => new SelectFieldOption($"{x.Value}", $"{x.Label}"))
+                    value.Options = rs.Values.Select(x => new SelectFieldOption($"{x.Id}", $"{x.Label}"))
                         .ToList();
 
             }

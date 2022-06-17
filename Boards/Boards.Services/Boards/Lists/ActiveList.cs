@@ -13,13 +13,14 @@ namespace Boards.Services.Boards.Lists
         {
             var pt = Table.Create(Constants.Db.BoardsView);
             pt.AddHiddenCols("PortfolioId", "RespOfficerId", "ApprovedUserId", "AsstSecretaryId");
-            pt.SearchCol("Acronym");
+            
             pt.Column("Name", "Name", "Name", x =>
             {
                 x.Searchable = true;
                 x.Sortable = true;
                 x.Type = ColumnType.HyperLink;
             });
+            pt.SearchCol("Acronym");
             pt.Column("Portfolio", "Portfolio", "Portfolio", x =>
             {
                 x.Searchable = true;

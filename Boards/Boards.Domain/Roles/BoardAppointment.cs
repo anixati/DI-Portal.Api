@@ -1,11 +1,13 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Threading.Tasks;
 using Boards.Domain.Boards;
 using Boards.Domain.Contacts;
 using DI.Domain.Core;
 using DI.Domain.Enums;
 using DI.Domain.Options;
+using DI.Domain.Services;
 
 namespace Boards.Domain.Roles
 {
@@ -56,10 +58,12 @@ namespace Boards.Domain.Roles
             return Name;
         }
 
-        public override void OnPreUpdate(IEntity entity)
+        public override async Task<IEntity> OnCoreEvent(EntityEvent @event, IDataStore store)
         {
-            if (entity is BoardAppointment ba)
-                Name = ba.Appointee?.FullName;
+            var ps = await store.Repo<Appointee>().GetById(this.AppointeeId);
+            if (ps == null) return null;
+            this.Name = ps.FullName;
+            return this;
         }
     }
 }

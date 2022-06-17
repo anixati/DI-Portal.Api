@@ -50,7 +50,8 @@ namespace DI.Services.Handlers
 
         public static void LoadKeys(this FormActionResult rs, FormSchema schema)
         {
-            LoadKeys(schema.Fields, rs.InitialValues);
+            var ls = schema.Fields.Where(x => x.Layout != LayoutType.Header).ToList();
+            LoadKeys(ls, rs.InitialValues);
         }
 
         private static void LoadKeys(List<FormField> schemaFields, IDictionary<string, string> rvl)
@@ -64,87 +65,27 @@ namespace DI.Services.Handlers
             }
         }
 
-        public static void MapFromEntity<T>(this IDictionary<string, string> data, T entity)
+        public static void UpdateValues<T>(this T entity, IDictionary<string, string> data, FormSchema schema)
         {
-            var accessor = TypeAccessor.Create(typeof(T));
-            var members = accessor.GetMembers();
+            var mapper = new EntityMapper<T>(entity);
+
+            var header = schema.Fields.FirstOrDefault(x => x.Layout == LayoutType.Header);
+            if (header?.Fields.Count > 0)
+            {
+                foreach (var fd in header?.Fields)
+                {
+                    var val = mapper.GetValue(fd.Key);
+                    if (val == null) continue;
+                    fd.Value = val;
+
+                }
+            }
+
             foreach (var (key, value) in data)
             {
-                var mi = members.FirstOrDefault(x =>
-                    string.Compare(x.Name, key, StringComparison.OrdinalIgnoreCase) == 0);
-                if (mi == null) continue;
-
-
-                if (mi.Type == typeof(bool))
-                {
-                    data[key] = (bool)accessor[entity, key] ? "1" : "0";
-                }
-                else if (mi.Type == typeof(bool?))
-                {
-                    var rx = (bool?)accessor[entity, key];
-                    if (rx.HasValue)
-                        data[key] = rx.GetValueOrDefault() ? "1" : "0";
-                    else
-                        data[key] = "";
-                }
-                else if (mi.Type == typeof(int?))
-                {
-                    var rx = (int?)accessor[entity, key];
-                    if (rx.HasValue)
-                        data[key] = $"{rx.GetValueOrDefault()}";
-                    else
-                        data[key] = "";
-                }
-                else if (mi.Type == typeof(int))
-                {
-                    var rx = (int)accessor[entity, key];
-                        data[key] = $"{rx}";
-
-                }
-                else if (mi.Type == typeof(DateTime?))
-                {
-                    var rx = (DateTime?)accessor[entity, key];
-                    data[key] = rx.HasValue?$"{rx:o}":"";
-
-                }
-                else if (mi.Type == typeof(DateTime))
-                {
-                    var rx = (DateTime)accessor[entity, key];
-                    data[key] = $"{rx:o}";
-
-                }
-                else if (mi.Type.IsEnum)
-                {
-                    data[key] = $"{(int)accessor[entity, key]}";
-                }
-                else if (mi.Type.IsClass && typeof(IEntity).IsAssignableFrom(mi.Type))
-                {
-                    var idKey = $"{mi.Name}Id";
-                    var idMemType = members.FirstOrDefault(x => string.Compare(x.Name, idKey, StringComparison.OrdinalIgnoreCase) == 0);
-                    if (idMemType == null) continue;
-
-                    if (mi.Type == typeof(OptionSet))
-                    {
-                        var obj = accessor[entity, idKey];
-                        if (obj != null)
-                            data[key] = $"{obj}";
-                    }
-                    else
-                    {
-                        var rv = accessor[entity, idKey];
-                        if (value == null) continue;
-                        var ls = "";
-                        var vp = accessor[entity, key];
-                        if (vp == null) continue;
-                        var et = vp as IEntity;
-                        ls = et?.GetName();
-                        data[key] = JsonConvert.SerializeObject(new {value = rv, label = ls});
-                    }
-                }
-                else
-                {
-                    data[key] = $"{accessor[entity, key]}";
-                }
+                var val = mapper.GetValue(key);
+                if (val == null) continue;
+                data[key] = $"{val}";
             }
         }
 
@@ -196,7 +137,7 @@ namespace DI.Services.Handlers
                     }
                     else
                     {
-                        var ov =value.ConvertToOption();
+                        var ov = value.ConvertToOption();
                         if (ov == null) continue;
                         if (!long.TryParse(ov.Value, out var rs)) continue;
                         accessor[entity, idKey] = rs;

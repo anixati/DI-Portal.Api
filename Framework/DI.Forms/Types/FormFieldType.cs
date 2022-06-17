@@ -14,6 +14,7 @@
         PickList=9,
         SubGrid=10,
         Decimal = 11,
-        Action =21
+        Action =21,
+        Link=22
     }
 }
