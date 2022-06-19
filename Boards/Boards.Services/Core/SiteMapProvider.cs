@@ -44,8 +44,8 @@ namespace Boards.Services.Core
             link.Add("logs", "Audit logs");
             link.Add(Routes.Group, "Security", x =>
             {
-                x.Add("users", "users");
-                x.Add("roles", "roles");
+                x.Add("users", "Users");
+                x.Add("roles", "Roles");
                 x.Add("teams", "Teams");
             });
             rv.Navigation.Add(link);

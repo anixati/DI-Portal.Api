@@ -5,7 +5,7 @@ using Di.Qry.Schema.Types;
 namespace Boards.Services.Appointments.Lists
 {
 
-    public static class Columns
+    public static class Shared
     {
         public static Table Default()
         {

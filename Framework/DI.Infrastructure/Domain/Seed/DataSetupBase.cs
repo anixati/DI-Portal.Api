@@ -76,6 +76,14 @@ namespace DI.Domain.Seed
                 });
             }
 
+            var team = await CreateIfNotExists(new AppTeam
+            {
+                Name = $"Default",
+                Description = "Default Team",
+                Locked = true
+            });
+
+
             var entitites = DataStore.Db.Model.GetEntityTypes().Select(x => x.ClrType).ToList();
             foreach (var entity in entitites)
                 await CreateIfNotExists(new AppResource {Name = $"{entity.Name}", Description = $"{entity.FullName}"});

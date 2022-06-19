@@ -8,6 +8,8 @@ SET QUOTED_IDENTIFIER ON
 GO
 
 ---------------------------
+-- FUNCTIONS
+---------------------------
 DROP FUNCTION IF EXISTS [dbo].[GetCodeValue]
 GO
 CREATE FUNCTION [dbo].[GetCodeValue] (@id bigint,@code varchar(100))
@@ -24,6 +26,95 @@ END;
 GO
 
 
+
+---------------------------
+-- PROCEDURES
+---------------------------
+--DROP FUNCTION IF EXISTS [dbo].[GetCodeValue]
+--GO
+--CREATE FUNCTION [dbo].[GetCodeValue] (@id bigint,@code varchar(100))
+--RETURNS VARCHAR(255)
+--WITH EXECUTE AS CALLER
+--AS
+--BEGIN
+--    DECLARE @RV VARCHAR(255);
+--	SELECT TOP 1 @RV=os.Value FROM [dbo].[OptionSet] os
+--		JOIN [dbo].[OptionKeys] ok ON ok.Id= os.OptionKeyId
+--		WHERE os.Id = @id AND ok.Code =@code
+--    RETURN(@RV);
+--END;
+--GO
+
+
+---------------------------
+-- VIEWS
+---------------------------
+DROP VIEW IF EXISTS [dbo].[AppointeesView]
+GO
+CREATE VIEW [dbo].[AppointeesView] AS 
+                    SELECT 
+                    ap.Id,
+                    (COALESCE(ap.Title+' ','')+ap.FirstName+' '+COALESCE(ap.MiddleName+' ','')+ap.LastName) As FullName,
+                    (case ap.Gender when 1 then 'Male' when 2 then 'Female' else 'NA' end) As Gender,
+                    ap.HomePhone AS Phone,
+                    ap.MobilePhone AS Mobile,
+                    ap.FaxNumber As Fax,
+                    ap.Email1 as Email,
+                    ap.StreetAddress_City AS City,
+                    ap.StreetAddress_State AS State,
+                    (case ap.IsAboriginal when 1 then 'Yes' when 2 then 'No' else '' end) AS Aboriginal,
+                    (case ap.IsDisabled when 1 then 'Yes' when 2 then 'No' else '' end) AS Handicapped,
+                    (case ap.IsRegional when 1 then 'Yes' when 2 then 'No' else '' end)   AS Regional,
+                    (case ap.ExecutiveSearch when 1 then 'Yes' when 2 then 'No' else '' end)  AS Executive,
+                    ap.[Disabled],
+                    (SELECT os.Label FROM OptionSet os JOIN OptionKeys ok on os.OptionKeyId= ok.Id WHERE ok.Code='new_positiontype' AND os.Value= ap.CapabilitiesId AND os.Deleted=0) AS Capability,
+                    (SELECT os.Label FROM OptionSet os JOIN OptionKeys ok on os.OptionKeyId= ok.Id WHERE ok.Code='new_positiontype' AND os.Value= ap.ExperienceId AND os.Deleted=0) AS Experience
+                    FROM [dbo].[Appointee] ap
+                    WHERE ap.Deleted=0 
+
+GO
+
+---------------------------
+DROP VIEW IF EXISTS [dbo].[SecretariesView]
+GO
+CREATE VIEW [dbo].[SecretariesView] AS 
+                    SELECT 
+                    mns.Id,
+                    (COALESCE(mns.Title+' ','')+mns.FirstName+' '+COALESCE(mns.MiddleName+' ','')+mns.LastName) As FullName,
+                    (case mns.Gender when 1 then 'Male' when 2 then 'Female' else 'NA' end) As Gender,
+                    mns.HomePhone AS Phone,
+                    mns.MobilePhone AS Mobile,
+                    mns.FaxNumber As Fax,
+                    mns.Email1 as Email,
+                    mns.StreetAddress_City AS City,
+                    mns.StreetAddress_State AS State,
+                    mns.[Disabled]
+                    FROM [dbo].[Secretaries] mns
+                    WHERE mns.Deleted=0
+GO
+
+-------------------------
+DROP VIEW IF EXISTS [dbo].[PortfoliosView]
+GO
+CREATE VIEW [dbo].[PortfoliosView] AS 
+                    SELECT
+                    Pf.Id,
+                    pf.[Name] AS PortfolioName,
+                    pf.[Description] AS [Description],
+                    pf.CreatedOn,
+                    (COALESCE(mn.Title+' ','')+mn.FirstName+' '+COALESCE(mn.MiddleName+' ','')+mn.LastName) As Minister,
+                    mt.StartDate,
+                    mt.EndDate,
+                    pf.[Disabled]
+                    FROM [dbo].[Portfolios] pf
+                    LEFT OUTER JOIN [dbo].[MinisterTerms] mt ON mt.PortfolioId = pf.Id AND mt.Deleted =0
+                    LEFT OUTER JOIN [dbo].[Ministers] mn ON mn.Id = mt.MinisterId AND mn.Deleted =0
+                    WHERE pf.Deleted =0
+GO
+
+
+
+
 -------------------------
 DROP VIEW IF EXISTS [dbo].[ActiveUsersView]
 GO
@@ -36,7 +127,7 @@ CREATE VIEW  [dbo].[ActiveUsersView] AS
 			usr.CreatedOn,
 			usr.[Disabled]
 			FROM [acl].[Users] usr
-
+			WHERE usr.Deleted=0
 
 GO
 
@@ -62,11 +153,11 @@ CREATE VIEW  [dbo].[ActiveBoardsView] AS
 			0 AS CurrentRoles,
 			bds.[Disabled]
 			FROM [dbo].[Boards] bds
-			LEFT JOIN [dbo].[Portfolios] pf on pf.Id = bds.PortfolioId
-			LEFT OUTER JOIN [dbo].[Secretaries] ats on ats.Id = bds.AsstSecretaryId
-			LEFT OUTER JOIN [acl].[Users] rou On rou.Id = bds.ResponsibleUserId
-			LEFT OUTER JOIN [acl].[Users] apu On apu.Id = bds.ApprovedUserId
-
+			LEFT JOIN [dbo].[Portfolios] pf on pf.Id = bds.PortfolioId AND pf.Deleted =0
+			LEFT OUTER JOIN [dbo].[Secretaries] ats on ats.Id = bds.AsstSecretaryId AND ats.Deleted =0
+			LEFT OUTER JOIN [acl].[Users] rou On rou.Id = bds.ResponsibleUserId AND rou.Deleted =0
+			LEFT OUTER JOIN [acl].[Users] apu On apu.Id = bds.ApprovedUserId AND apu.Deleted =0
+			WHERE bds.Deleted=0
 
 GO
 
@@ -115,8 +206,8 @@ CREATE VIEW  [dbo].[BoardRolesView] AS
 	  FROM [dbo].[BoardRoles] brl
 	  JOIN [dbo].[Boards] bds on brl.Id = bds.Id 
 	  JOIN OptionSet pos On pos.Id = brl.PositionId
-	  LEFT OUTER JOIN [dbo].[Appointee] apt on apt.Id= brl.IncumbentId
-
+	  LEFT OUTER JOIN [dbo].[Appointee] apt on apt.Id= brl.IncumbentId  AND apt.Deleted=0
+	  WHERE brl.Deleted=0 AND bds.Deleted=0 AND pos.Deleted=0
 Go
 
 	  
@@ -140,10 +231,10 @@ CREATE VIEW  [dbo].[AppointmentsView] AS
 	  bap.[Locked],
 	  bap.[Disabled]
 	  FROM BoardAppointments bap
-	  JOIN BoardRoles brl ON brl.Id=bap.BoardRoleId
+	  JOIN BoardRoles brl ON brl.Id=bap.BoardRoleId 
 	  JOIN Boards brd ON brd.Id=brl.BoardId
-	  JOIN [dbo].[Appointee] apt on apt.Id= bap.AppointeeId
-
+	  JOIN [dbo].[Appointee] apt on apt.Id= bap.AppointeeId 
+	  WHERE bap.Deleted=0 AND brl.Deleted=0 AND brd.Deleted=0 AND apt.Deleted=0
 
 GO
 ---------------------------
@@ -158,7 +249,10 @@ CREATE VIEW  [dbo].[MinisterTermsView] AS
 	  pfs.Id AS PortfolioId,
 	  pfs.Name AS Portfolio,
 	  mts.StartDate,
-	  mts.EndDate
+	  mts.EndDate,
+	  mts.Disabled
 	  FROM MinisterTerms mts
 	  JOIN Ministers mns ON mns.Id = mts.MinisterId
 	  JOIN Portfolios pfs ON pfs.Id= mts.PortfolioId
+	  WHERE mts.Deleted = 0 AND mns.Deleted=0 AND pfs.Deleted =0
+	  

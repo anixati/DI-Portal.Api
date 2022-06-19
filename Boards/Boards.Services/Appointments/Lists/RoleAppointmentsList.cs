@@ -9,7 +9,7 @@ namespace Boards.Services.Appointments.Lists
         public override string Title => "Role Appointments";
         protected override Table CreateEntity()
         {
-            return Columns.Default();
+            return Shared.Default();
         }
         protected override void ConfigureQry(QryState qs)
         {

@@ -11,9 +11,14 @@ namespace Boards.Services.Appointees.Forms
         protected override void CreateSchema(FormSchema fs)
         {
             fs.AddTab("Personal Details", AddPersonDetails);
-            fs.AddTab("Address Details", AddAddressDetails);
             fs.AddTab("Professional Details", AddProfessionalDetails);
             fs.AddTab("Other Details", OtherDetails);
+            fs.AddSubgrid("Appointment's", "AppointeeAppointments", x =>
+            {
+            });
+            //fs.AddSubgrid("Portfolio's", "MinisterPortfolios", x =>
+            //{
+            //});
         }
 
         private void AddPersonDetails(FormField field)
@@ -21,8 +26,8 @@ namespace Boards.Services.Appointees.Forms
             field.AddFieldGroup(f =>
             {
                 f.AddInput("Title", "Title", false, 30);
-                f.AddInput("FirstName", "First Name", true, 35);
-                f.AddInput("LastName", "Last Name", true, 35);
+                f.AddInput("FirstName", "First Name", true, 30);
+                f.AddInput("LastName", "Last Name", true, 30);
             });
             field.AddFieldGroup(f =>
             {
@@ -41,15 +46,10 @@ namespace Boards.Services.Appointees.Forms
             field.AddFieldGroup(f =>
          {
              f.AddEmail("Email1", "Primary Email", true, 30);
-             f.AddEmail("Email2", "other Email", false, 30);
+             f.AddEmail("Email2", "Other Email", false, 30);
          });
         }
-
-        private void AddAddressDetails(FormField field)
-        {
-
-        }
-
+        
         private void AddProfessionalDetails(FormField field)
         {
             field.AddInput("Biography", "Biography", x =>
