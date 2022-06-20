@@ -1,4 +1,5 @@
-﻿using Di.Qry.Core;
+﻿using Boards.Services.Core;
+using Di.Qry.Core;
 using Di.Qry.Schema;
 using Di.Qry.Schema.Types;
 
@@ -17,7 +18,7 @@ namespace Boards.Services.Appointments.Lists
                 x.Sortable = true;
                 x.Type = ColumnType.HyperLink;
                 x.LinkId = "Id";
-                x.LinkPath = "boards/appointments/";
+                x.LinkPath = Routes.Appointment.Path();
             });
             pt.Column("BoardName", "BoardName", "Board", x =>
             {
@@ -25,7 +26,7 @@ namespace Boards.Services.Appointments.Lists
                 x.Sortable = true;
                 x.Type = ColumnType.HyperLink;
                 x.LinkId = "BoardId";
-                x.LinkPath = "boards/list/";
+                x.LinkPath = Routes.Boards.Path();
             });
 
             pt.Column("RoleName", "RoleName", "Role", x =>
@@ -34,7 +35,7 @@ namespace Boards.Services.Appointments.Lists
                 x.Sortable = true;
                 x.Type = ColumnType.HyperLink;
                 x.LinkId = "BoardRoleId";
-                x.LinkPath = "boards/brdroles/";
+                x.LinkPath = Routes.Roles.Path();
             });
             pt.Column("AppointeeName", "AppointeeName", "Appointee", x =>
             {
@@ -42,7 +43,7 @@ namespace Boards.Services.Appointments.Lists
                 x.Sortable = true;
                 x.Type = ColumnType.HyperLink;
                 x.LinkId = "AppointeeId";
-                x.LinkPath = "boards/appointees/";
+                x.LinkPath = Routes.Appointee.Path();
             });
             pt.AddSearchCols("BriefNumber", "StartDate", "EndDate");
 

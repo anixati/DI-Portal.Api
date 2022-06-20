@@ -1,4 +1,5 @@
-﻿using Di.Qry.Core;
+﻿using Boards.Services.Core;
+using Di.Qry.Core;
 using Di.Qry.Schema;
 using Di.Qry.Schema.Types;
 
@@ -17,20 +18,18 @@ namespace Boards.Services.Appointees.Lists
                 x.Searchable = true;
                 x.Sortable = true;
                 x.Type = ColumnType.HyperLink;
+                x.LinkPath = Routes.Appointee.Path();
             });
-            pt.SearchCol("FullName");
-            pt.SearchCol("Gender");
-            //pt.SearchCol("Phone");
-            //pt.SearchCol("Mobile");
-            //pt.SearchCol("Fax");
-            pt.SearchCol("City");
-            pt.SearchCol("State");
-            pt.SearchCol("Aboriginal");
-            pt.SearchCol("Handicapped");
-            pt.SearchCol("Regional");
-            pt.SearchCol("Executive");
-            pt.SearchCol("Capability");
-            pt.SearchCol("Experience");
+            pt.AddSearchCol("FullName");
+            pt.AddSearchCol("Gender");
+            pt.AddSearchCol("City");
+            pt.AddSearchCol("State");
+            pt.AddSearchCol("Aboriginal");
+            pt.AddSearchCol("Handicapped");
+            pt.AddSearchCol("Regional");
+            pt.AddSearchCol("Executive");
+            pt.AddSearchCol("Capability");
+            pt.AddSearchCol("Experience");
             return pt;
         }
 

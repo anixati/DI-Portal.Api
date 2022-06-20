@@ -11,7 +11,8 @@ namespace DI.Domain.Users
     public class AppUser : ContactBaseEntity
     {
         [Required] [MaxLength(255)] public string UserId { get; set; }
-        public ICollection<TeamUser> UserTeams { get; set; }
+        public virtual ICollection<TeamUser> UserTeams { get; set; }
+        public virtual ICollection<UserRole> UserRoles { get; set; }
     }
 
     public class UserViewModel : ContactViewModel

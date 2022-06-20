@@ -115,22 +115,6 @@ GO
 
 
 
--------------------------
-DROP VIEW IF EXISTS [dbo].[ActiveUsersView]
-GO
-CREATE VIEW  [dbo].[ActiveUsersView] AS 
-       SELECT 
-			usr.Id,
-			(COALESCE(usr.Title+' ','')+usr.FirstName+' '+COALESCE(usr.MiddleName+' ','')+usr.LastName) As FullName,
-			usr.HomePhone AS Phone,
-            usr.Email1 as Email,
-			usr.CreatedOn,
-			usr.[Disabled]
-			FROM [acl].[Users] usr
-			WHERE usr.Deleted=0
-
-GO
-
 
 ---------------------------
 DROP VIEW IF EXISTS [dbo].[ActiveBoardsView]
@@ -255,4 +239,23 @@ CREATE VIEW  [dbo].[MinisterTermsView] AS
 	  JOIN Ministers mns ON mns.Id = mts.MinisterId
 	  JOIN Portfolios pfs ON pfs.Id= mts.PortfolioId
 	  WHERE mts.Deleted = 0 AND mns.Deleted=0 AND pfs.Deleted =0
+GO	  
 	  
+-------------------------
+-- Security 
+-------------------------
+DROP VIEW IF EXISTS [dbo].[ActiveUsersView]
+GO
+CREATE VIEW  [dbo].[ActiveUsersView] AS 
+       SELECT 
+			usr.Id,
+			usr.[UserId],
+			(COALESCE(usr.Title+' ','')+usr.FirstName+' '+COALESCE(usr.MiddleName+' ','')+usr.LastName) As FullName,
+			usr.HomePhone AS Phone,
+            usr.Email1 as Email,
+			usr.CreatedOn,
+			usr.[Disabled]
+			FROM [acl].[Users] usr
+			WHERE usr.Deleted=0
+
+GO

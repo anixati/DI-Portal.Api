@@ -7,8 +7,8 @@ namespace DI.Domain.Users
     [Table("Teams", Schema = Constants.SecuritySchema)]
     public class AppTeam : NamedBaseEntity
     {
-        public ICollection<TeamUser> TeamUsers { get; set; }
-        public ICollection<TeamRole> TeamRoles { get; set; }
+        public virtual ICollection<TeamUser> TeamUsers { get; set; }
+        public virtual ICollection<TeamRole> TeamRoles { get; set; }
     }
 
     public class TeamViewModel : NamedViewModel

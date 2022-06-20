@@ -36,11 +36,11 @@ namespace Di.Qry.Schema
                 if (colName.Contains("|"))
                 {
                     var cs = colName.Split(new[] { "|" }, StringSplitOptions.RemoveEmptyEntries);
-                    table.SearchCol(cs[0], cs[1]);
+                    table.AddSearchCol(cs[0], cs[1]);
                 }
                 else
                 {
-                    table.SearchCol(colName);
+                    table.AddSearchCol(colName);
                 }
 
             return table;
@@ -57,12 +57,22 @@ namespace Di.Qry.Schema
             return table;
         }
 
-        public static Table SearchCol(this Table table, string colName, string accessor = "")
+        public static Table AddSearchCol(this Table table, string colName, string accessor = "")
         {
             table.Column(colName, accessor, string.Empty, true, true);
             return table;
         }
-
+        public static Table AddDateColumn(this Table table, string colName, string accessor = "", string header = "",
+            bool searchable = false, bool sortable = false)
+        {
+            table.Column(colName, accessor, header, x =>
+            {
+                x.Searchable = searchable;
+                x.Sortable = sortable;
+                x.Type = ColumnType.DateTime;
+            });
+            return table;
+        }
         public static Table Column(this Table table, string colName, string accessor = "", string header = "",
             bool searchable = false, bool sortable = false)
         {

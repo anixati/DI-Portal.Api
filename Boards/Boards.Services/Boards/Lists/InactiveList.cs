@@ -3,17 +3,17 @@ using Di.Qry.Schema.Types;
 
 namespace Boards.Services.Boards.Lists
 {
-    public class ActiveList : QrySchema
+    public class InactiveList : QrySchema
     {
-        public override string SchemaName => "ActiveBoards";
-        public override string Title => "Active Boards";
+        public override string SchemaName => "InActiveMinisters";
+        public override string Title => "InActive Ministers";
         protected override Table CreateEntity()
         {
             return Shared.BoardViewTable();
         }
         protected override void ConfigureQry(QryState qs)
         {
-            qs.Where("Disabled", "=", "0");
+            qs.Where("Disabled", "=", "1");
         }
         protected override (string, bool) GetDefaultSort()
         {

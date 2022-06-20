@@ -11,7 +11,7 @@ namespace Boards.Services.Queries
         protected override Table CreateEntity()
         {
             var ok = Table.Create("OptionKeys", "ok");
-            ok.SearchCol("Name", "GroupName");
+            ok.AddSearchCol("Name", "GroupName");
 
             var link = ok.Join("OptionSet", "os", "OptionKeyId");
             link.Select("Id|OptionId", "Order", "Value");

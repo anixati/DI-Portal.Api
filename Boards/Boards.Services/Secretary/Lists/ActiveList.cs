@@ -4,34 +4,6 @@ using Di.Qry.Schema.Types;
 
 namespace Boards.Services.Secretary.Lists
 {
-
-    public class LookupList : QrySchema
-    {
-        public override string SchemaName => "SecretaryLookup";
-        public override string Title => "Current Secretaries";
-
-        protected override Table CreateEntity()
-        {
-            var pt = Table.Create(Constants.Db.SecretaryView);
-            pt.Column("FullName", "Name", "Name", x =>
-            {
-                x.Searchable = true;
-                x.Sortable = true;
-            });
-            pt.AddSearchCols("Gender", "State");
-            return pt;
-        }
-
-        protected override void ConfigureQry(QryState qs)
-        {
-            qs.Where("Disabled", "=", "0");
-        }
-
-        protected override (string, bool) GetDefaultSort()
-        {
-            return ("FullName", false);
-        }
-    }
     public class ActiveList : QrySchema
     {
         public override string SchemaName => "ActiveSecretaries";
@@ -45,14 +17,15 @@ namespace Boards.Services.Secretary.Lists
                 x.Searchable = true;
                 x.Sortable = true;
                 x.Type = ColumnType.HyperLink;
+                x.LinkPath = Routes.Minister.Path();
             });
            
-            pt.SearchCol("Gender");
-            pt.SearchCol("Phone");
-            pt.SearchCol("Mobile");
-            pt.SearchCol("Fax");
-            pt.SearchCol("City");
-            pt.SearchCol("State");
+            pt.AddSearchCol("Gender");
+            pt.AddSearchCol("Phone");
+            pt.AddSearchCol("Mobile");
+            pt.AddSearchCol("Fax");
+            pt.AddSearchCol("City");
+            pt.AddSearchCol("State");
             return pt;
         }
 

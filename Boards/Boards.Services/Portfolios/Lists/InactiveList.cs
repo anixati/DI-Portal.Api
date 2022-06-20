@@ -17,13 +17,14 @@ namespace Boards.Services.Portfolios.Lists
                 x.Searchable = true;
                 x.Sortable = true;
                 x.Type = ColumnType.HyperLink;
+                x.LinkPath = Routes.Portfolios.Path();
             });
-            pt.SearchCol("PortfolioName");
-            pt.SearchCol("Description");
-            pt.SearchCol("CreatedOn");
-            pt.SearchCol("Minister");
-            pt.SearchCol("StartDate");
-            pt.SearchCol("EndDate");
+            pt.AddSearchCol("PortfolioName");
+            pt.AddSearchCol("Description");
+            pt.AddSearchCol("CreatedOn");
+            pt.AddSearchCol("Minister");
+            pt.AddSearchCol("StartDate");
+            pt.AddSearchCol("EndDate");
             return pt;
         }
 

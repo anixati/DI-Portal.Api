@@ -17,15 +17,16 @@ namespace Boards.Services.Ministers.Lists
                 x.Searchable = true;
                 x.Sortable = true;
                 x.Type = ColumnType.HyperLink;
-                
+                x.LinkPath = Routes.Minister.Path();
+
             });
-            pt.SearchCol("FullName");
-            pt.SearchCol("Gender");
-            pt.SearchCol("Phone");
-            pt.SearchCol("Mobile");
-            pt.SearchCol("Fax");
-            pt.SearchCol("City");
-            pt.SearchCol("State");
+            pt.AddSearchCol("FullName");
+            pt.AddSearchCol("Gender");
+            pt.AddSearchCol("Phone");
+            pt.AddSearchCol("Mobile");
+            pt.AddSearchCol("Fax");
+            pt.AddSearchCol("City");
+            pt.AddSearchCol("State");
             return pt;
         }
 

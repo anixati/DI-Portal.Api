@@ -15,8 +15,9 @@ namespace DI.Domain.Users
         [Column(Order = 2)]
         public string Code { get; set; }
 
-        public ICollection<AppTeam> Teams { get; set; }
-        public ICollection<Permission> Permissions { get; set; }
+        public virtual ICollection<UserRole> UserRoles { get; set; }
+        public virtual ICollection<TeamRole> TeamRoles { get; set; }
+        public virtual ICollection<Permission> Permissions { get; set; }
     }
 
     public class RoleViewModel : NamedViewModel

@@ -16,10 +16,11 @@ namespace Boards.Services.Ministers.Lists
                x.Searchable = true;
                 x.Sortable = true;
                 x.Type = ColumnType.HyperLink;
+
             });
-            pt.SearchCol("Gender");
-            pt.SearchCol("City");
-            pt.SearchCol("State");
+            pt.AddSearchCol("Gender");
+            pt.AddSearchCol("City");
+            pt.AddSearchCol("State");
             return pt;
         }
 

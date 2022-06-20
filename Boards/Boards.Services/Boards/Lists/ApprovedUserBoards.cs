@@ -3,9 +3,9 @@ using Di.Qry.Schema.Types;
 
 namespace Boards.Services.Boards.Lists
 {
-    public class ActiveList : QrySchema
+    public class ApprovedUserBoards : QrySchema
     {
-        public override string SchemaName => "ActiveBoards";
+        public override string SchemaName => "ApprovedUserBoards";
         public override string Title => "Active Boards";
         protected override Table CreateEntity()
         {
@@ -14,6 +14,7 @@ namespace Boards.Services.Boards.Lists
         protected override void ConfigureQry(QryState qs)
         {
             qs.Where("Disabled", "=", "0");
+            qs.ParentId = "ApprovedUserId";
         }
         protected override (string, bool) GetDefaultSort()
         {
