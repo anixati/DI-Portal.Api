@@ -79,7 +79,7 @@ namespace Di.Qry.Schema
 
         private static void AddJoin(Query query, Link link)
         {
-       
+
             query.Join(link.Table.TableName, x =>
             {
                 x.On(link.From, link.To);
@@ -107,7 +107,7 @@ namespace Di.Qry.Schema
 
         public IPagedContext Compile(IQryRequest request)
         {
-            var rv = new PagedContext {PageInfo = request.PageInfo};
+            var rv = new PagedContext { PageInfo = request.PageInfo };
             var compiler = new LocalCompiler();
             var cols = GetQryColumns();
             if (!_fds.Any())
@@ -117,8 +117,8 @@ namespace Di.Qry.Schema
 
             if (request.Filter != null && request.Filter.HasChildRules)
                 exQuery.Where(x => AddClause(request.Filter, request.Filter.IsOr, x));
-            if(!string.IsNullOrEmpty(ParentId)&& request.EntityId.HasValue)
-                exQuery.Where(x => x.Where(ParentId,"=",request.EntityId.GetValueOrDefault()));
+            if (!string.IsNullOrEmpty(ParentId) && request.EntityId.HasValue)
+                exQuery.Where(x => x.Where(ParentId, "=", request.EntityId.GetValueOrDefault()));
 
             if (request.CanSearch())
                 exQuery.Where(q =>
@@ -133,7 +133,7 @@ namespace Di.Qry.Schema
 
 
             var countQuery = exQuery.Clone();
-            var qry = countQuery.AsCount(new[] {$"{Table.PrimaryKey}"});
+            var qry = countQuery.AsCount(new[] { $"{Table.PrimaryKey}" });
             rv.CountQry = QryContext.Create("Count", compiler.Compile(qry));
 
             foreach (var si in GetSortColumns(request, cols))
@@ -247,7 +247,11 @@ namespace Di.Qry.Schema
         private static void SetupQuery(Table table, Query sqlQry)
         {
             foreach (var qc in table.Columns)
-                sqlQry.Select(qc.ColName);
+            {
+                if (qc.SelectType == SelectType.Raw)
+                    sqlQry.SelectRaw(qc.ColName);
+                else sqlQry.Select(qc.ColName);
+            }
             if (!table.Links.Any()) return;
             foreach (var (_, link) in table.Links)
             {
@@ -297,7 +301,7 @@ namespace Di.Qry.Schema
         public Dictionary<string, IQryField> GetQryFields()
         {
             SetUpQryFields(Table);
-            return _fds.ToDictionary(x => x.Key, y => (IQryField) y.Value);
+            return _fds.ToDictionary(x => x.Key, y => (IQryField)y.Value);
         }
 
         private void SetUpQryFields(Table table)

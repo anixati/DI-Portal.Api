@@ -13,7 +13,6 @@ namespace Boards.Services.Access.Lists
         protected override Table CreateEntity()
         {
             var pt = Table.Create(Constants.Db.UsersView);
-           // pt.Select("UserId");
             pt.Column("FullName", "Name", "Name", x =>
             {
                 x.Searchable = true;
@@ -21,7 +20,7 @@ namespace Boards.Services.Access.Lists
                 x.Type = ColumnType.HyperLink;
                 x.LinkPath = Routes.UserAdmin.Path();
             });
-            pt.AddSearchCols( "Email");
+            pt.AddSearchCols("UserId","Email");
             pt.AddDateColumn("CreatedOn");
             return pt;
         }
@@ -47,44 +46,62 @@ namespace Boards.Services.Access.Lists
         protected override Table CreateEntity()
         {
 
-            var tb = Table.Create("UserRoles", "rls", "", "acl");
-
-
-            tb.Column("Name", "Name", "Name", x =>
+            var tb = Table.Create("UserRoles", "pe", "", "acl");
+            tb.AddHiddenCols("AppUserId", "AppRoleId");
+            var link = tb.InnerJoin("Roles", "se", "Id", "AppRoleId", x =>
             {
-                x.Searchable = true;
-                x.Sortable = true;
-                x.Type = ColumnType.HyperLink;
-                x.LinkPath = Routes.RoleAdmin.Path();
-            });
-            tb.AddSearchCols("Code");
-            tb.AddDateColumn("CreatedOn");
+                x.Column("Name", "Name", "Name", x =>
+                {
+                    x.Searchable = true;
+                    x.Sortable = true;
+                    x.Type = ColumnType.HyperLink;
+                    x.LinkId = "Id";
+                    x.LinkPath = Routes.RoleAdmin.Path();
+                });
+            }, "acl");
             return tb;
-
-
-            var pt = Table.Create(Constants.Db.UsersView);
-            // pt.Select("UserId");
-            pt.Column("FullName", "Name", "Name", x =>
-            {
-                x.Searchable = true;
-                x.Sortable = true;
-                x.Type = ColumnType.HyperLink;
-                x.LinkPath = Routes.UserAdmin.Path();
-            });
-            pt.AddSearchCols("Email");
-            pt.AddDateColumn("CreatedOn");
-            return pt;
         }
-
         protected override void ConfigureQry(QryState qs)
         {
-            qs.Where("Disabled", "=", "0");
+            qs.ParentId = "AppUserId";
         }
-
         protected override (string, bool) GetDefaultSort()
         {
-            return ("FullName", false);
+            return ("AppUserId", false);
         }
     }
 
+
+    public class UserTeamList : QrySchema
+    {
+        public override string SchemaName => "UserTeamList";
+        public override string Title => "Current Teams";
+
+        protected override Table CreateEntity()
+        {
+
+            var tb = Table.Create("TeamUsers", "pe", "", "acl");
+            tb.AddHiddenCols("AppUserId", "AppTeamId");
+            var link = tb.InnerJoin("Teams", "se", "Id", "AppTeamId", x =>
+            {
+                x.Column("Name", "Name", "Name", x =>
+                {
+                    x.Searchable = true;
+                    x.Sortable = true;
+                    x.Type = ColumnType.HyperLink;
+                    x.LinkId = "Id";
+                    x.LinkPath = Routes.TeamAdmin.Path();
+                });
+            }, "acl");
+            return tb;
+        }
+        protected override void ConfigureQry(QryState qs)
+        {
+            qs.ParentId = "AppUserId";
+        }
+        protected override (string, bool) GetDefaultSort()
+        {
+            return ("AppUserId", false);
+        }
+    }
 }

@@ -35,12 +35,19 @@ namespace Di.Qry.Core
         public string Format { get; set; }
         public object Options { get; set; }
         public ColumnType Type { get; set; }
-        public string TypeCode { get; set; }
+        public int TypeCode { get; set; }
+        [JsonIgnore] public SelectType SelectType { get; set; } = SelectType.Default;
 
         private string SanitizeCol(string colName)
         {
             return colName.Contains(".") ? colName[(colName.LastIndexOf('.') + 1)..] : colName;
         }
+    }
+
+    public enum SelectType
+    {
+        Default = 0,
+        Raw
     }
 
     public enum ColumnType

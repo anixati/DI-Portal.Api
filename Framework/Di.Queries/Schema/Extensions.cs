@@ -84,6 +84,19 @@ namespace Di.Qry.Schema
             return table;
         }
 
+
+        public static Table CalColumn(this Table table, string colExp, string accessor, string header,
+            Action<GridColumn> configure = null)
+        {
+            var col = new GridColumn($"{colExp}", accessor, header)
+            {
+                SelectType = SelectType.Raw
+            };
+            configure?.Invoke(col);
+            table.Columns.Add(col);
+            return table;
+        }
+
         public static Table Column(this Table table, string colName, string accessor, string header,
             Action<GridColumn> configure = null)
         {
@@ -112,11 +125,11 @@ namespace Di.Qry.Schema
             table.Fields.Add(mf);
             return table;
         }
-
+        
         public static Table InnerJoin(this Table table, string name, string alias, string from, string to,
-            Action<Table> configure = null)
+            Action<Table> configure = null, string schemaName = "dbo")
         {
-            var qe = new Table(name, alias);
+            var qe = new Table(name, alias,"",schemaName);
             configure?.Invoke(qe);
             return table.Join(qe, from, to);
         }
@@ -143,9 +156,9 @@ namespace Di.Qry.Schema
             return table;
         }
 
-        public static Table Join(this Table table, string name, string alias, string from)
+        public static Table Join(this Table table, string name, string alias, string from, string schemaName = "dbo")
         {
-            var link = new Table(name, alias);
+            var link = new Table(name, alias,"", schemaName);
             var key = $"{table.Name}_{link.Name}";
             table.Links[key] = new Link(key)
             {
