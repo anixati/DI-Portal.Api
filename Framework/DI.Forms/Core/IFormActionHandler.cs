@@ -13,5 +13,6 @@ namespace DI.Forms.Core
         Task<FormActionResult> CreateEntity(IDictionary<string, object> data, long? entityId);
         EntityTypeResponse GetEntityType(EntityTypeRequest request);
         Task LoadOptions(FormSchema responseSchema);
+        Task<FormActionResult> ManageEntity(IDictionary<string, object> data, long entityId);
     }
 }

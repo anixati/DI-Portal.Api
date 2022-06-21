@@ -11,6 +11,7 @@ namespace Boards.Services.Access.Views
             fs.AddTab("Team Details", UserDetails);
             fs.AddSubgrid("Role's", "TeamRoleList", x =>
             {
+                x.AddAction("manage", "teamrole", "Manage Role's");
             });
             fs.AddSubgrid("Users's", "TeamUserList", x =>
             {

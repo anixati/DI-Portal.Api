@@ -19,6 +19,18 @@ namespace DI.Services.Handlers
         public async Task<FormActionResult> Handle(FormActionRequest request, CancellationToken cancellationToken)
         {
             var handler = GetHandler(request.SchemaKey);
+            if (request.Type == ActionType.Manage)
+                return await ManageEntity(request, handler);
+            return await CreateEntity(request, handler);
+        }
+
+        private static async Task<FormActionResult> ManageEntity(FormActionRequest request, IFormActionHandler handler)
+        {
+            var result = await handler.ManageEntity(request.Data, request.EntityId.GetValueOrDefault());
+            return result;
+        }
+        private static async Task<FormActionResult> CreateEntity(FormActionRequest request, IFormActionHandler handler)
+        {
             var result = await handler.CreateEntity(request.Data, request.EntityId);
             return result;
         }

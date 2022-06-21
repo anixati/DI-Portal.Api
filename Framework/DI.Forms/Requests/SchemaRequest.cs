@@ -2,7 +2,7 @@
 
 namespace DI.Forms.Requests
 {
-    public enum SchemaRequestType
+    public enum ActionType
     {
         Create=0,
         View,
@@ -12,7 +12,7 @@ namespace DI.Forms.Requests
     public class FormSchemaRequest : IRequest<FormSchemaResponse>
     {
         public long? EntityId { get; set; }
-        public SchemaRequestType RequestType { get; set; }
+        public ActionType Type { get; set; }
         public string Name { get; set; }
     }
 }

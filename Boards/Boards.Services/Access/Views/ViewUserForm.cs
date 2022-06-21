@@ -16,6 +16,7 @@ namespace Boards.Services.Access.Views
             });
             fs.AddSubgrid("Teams's", "UserTeamList", x =>
             {
+                x.AddAction("manage", "teamuser", "Manage Teams's");
             });
         }
 

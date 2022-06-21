@@ -53,6 +53,7 @@ namespace DI.Domain.Services
 
         protected virtual void ConfigureModels(ModelBuilder builder)
         {
+
         }
 
         public override async Task<int> SaveChangesAsync(CancellationToken cancellationToken = new())

@@ -23,7 +23,7 @@ namespace DI.Services.Handlers
         {
             var response = new FormSchemaResponse();
             var handler = GetHandler(request.Name);
-            if (request.RequestType == SchemaRequestType.Create)//create 
+            if (request.Type == ActionType.Create)//create 
             {
 
                 response.Schema = _provider.GetSchema($"create_{request.Name}");
@@ -31,7 +31,7 @@ namespace DI.Services.Handlers
                 var rx = await handler.LoadCreateData(response.Schema, request.EntityId.GetValueOrDefault());
                 response.InitialValues = rx.InitialValues;
             }
-            else if (request.RequestType == SchemaRequestType.Manage)//manage 
+            else if (request.Type == ActionType.Manage)//manage 
             {
 
                 response.Schema = _provider.GetSchema($"manage_{request.Name}");

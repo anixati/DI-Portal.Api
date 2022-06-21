@@ -7,6 +7,7 @@ namespace DI.Forms.Requests
 {
     public class FormActionRequest : IRequest<FormActionResult>
     {
+        public ActionType Type { get; set; }
         public string SchemaKey { get; set; }
         public long? EntityId { get; set; }
         public Dictionary<string, object> Data { get; set; } = new();

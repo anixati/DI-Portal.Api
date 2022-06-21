@@ -25,6 +25,14 @@ namespace DI.Domain.Stores
             return await Active().FirstOrDefaultAsync(x => x.Id == id);
         }
 
+        public async Task<T> GetById(long id, params string[] includes)
+        {
+            var query = Active();
+            if (includes != null)
+                query = includes.Aggregate(query, (current, include) => current.Include(include));
+            return await query.FirstOrDefaultAsync(x => x.Id == id);
+        }
+
         public async Task<long> CountAsync()
         {
             return await Active(false).LongCountAsync();
@@ -60,6 +68,11 @@ namespace DI.Domain.Stores
             entity.ThrowIfNull($"Failed to retrieve entity by id: {id}");
             Set.Remove(entity);
             await DataStore.SaveAsync();
+        }
+
+        public Task<bool> DeleteAsync(Expression<Func<T, bool>> expression)
+        {
+            throw new NotImplementedException();
         }
 
         public void DeleteAsync(params T[] entities)

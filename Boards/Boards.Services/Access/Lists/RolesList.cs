@@ -50,7 +50,7 @@ namespace Boards.Services.Access.Lists
                     x.Searchable = true;
                     x.Sortable = true;
                     x.Type = ColumnType.HyperLink;
-                    x.LinkId = "Id";
+                    x.LinkId = "AppUserId";
                     x.LinkPath = Routes.UserAdmin.Path();
                 });
             }, "acl");
@@ -84,7 +84,7 @@ namespace Boards.Services.Access.Lists
                     x.Searchable = true;
                     x.Sortable = true;
                     x.Type = ColumnType.HyperLink;
-                    x.LinkId = "Id";
+                    x.LinkId = "AppTeamId";
                     x.LinkPath = Routes.TeamAdmin.Path();
                 });
             }, "acl");

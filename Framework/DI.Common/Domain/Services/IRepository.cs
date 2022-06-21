@@ -13,6 +13,7 @@ namespace DI.Domain.Services
     {
         IQueryable<T> Query(bool tracking = false);
         Task<T> GetById(long id,bool includeAll =false);
+        Task<T> GetById(long id, params string[] includes);
         Task<IEnumerable<T>> GetListAsync(bool tracking = false);
 
         Task<IEnumerable<TK>> GetListAsync<TK>(Expression<Func<T, TK>> selectExp, bool tracking = false)
@@ -34,6 +35,7 @@ namespace DI.Domain.Services
         Task CreateAsync(params T[] entities);
 
         Task DeleteAsync(long id);
+        Task<bool> DeleteAsync(Expression<Func<T, bool>> expression);
         void DeleteAsync(params T[] entities);
 
         Task<T> UpdateAsync(T entity);

@@ -36,14 +36,14 @@ namespace DI.WebApi.Controllers
         [HttpGet("create/{name}/{id:long?}")]
         public async Task<IActionResult> GetCreateSchema([Required] string name, long? id)
         {
-            var result = await ExecuteTask(async x => await x.Send(new FormSchemaRequest {Name = name, EntityId = id ,RequestType = SchemaRequestType.Create}));
+            var result = await ExecuteTask(async x => await x.Send(new FormSchemaRequest {Name = name, EntityId = id ,Type = ActionType.Create}));
             return result.ToResponse();
         }
 
         [HttpGet("manage/{name}/{id:long}")]
         public async Task<IActionResult> GetManageSchema([Required] string name, long id)
         {
-            var result = await ExecuteTask(async x => await x.Send(new FormSchemaRequest { Name = name, EntityId = id, RequestType = SchemaRequestType.Manage }));
+            var result = await ExecuteTask(async x => await x.Send(new FormSchemaRequest { Name = name, EntityId = id, Type = ActionType.Manage }));
             return result.ToResponse();
         }
 
@@ -51,7 +51,7 @@ namespace DI.WebApi.Controllers
         [HttpGet("view/{name}/{id}")]
         public async Task<IActionResult> GetViewSchema([Required] string name, [Required] long id)
         {
-            var result = await ExecuteTask(async x => await x.Send(new FormSchemaRequest {Name = name, EntityId = id, RequestType = SchemaRequestType.View }));
+            var result = await ExecuteTask(async x => await x.Send(new FormSchemaRequest {Name = name, EntityId = id, Type = ActionType.View }));
             return result.ToResponse();
         }
 
@@ -60,6 +60,21 @@ namespace DI.WebApi.Controllers
         {
             var result = await ExecuteTask(async x => await x.Send(new FormActionRequest
             {
+                Type = ActionType.Create,
+                SchemaKey = request.Schema,
+                EntityId = request.EntityId,
+                Data = request.Data
+            }));
+            return result.ToResponse();
+        }
+
+
+        [HttpPost("manage")]
+        public virtual async Task<IActionResult> SubmitManageForm([FromBody] FormDataRequest request)
+        {
+            var result = await ExecuteTask(async x => await x.Send(new FormActionRequest
+            {
+                Type = ActionType.Manage,
                 SchemaKey = request.Schema,
                 EntityId = request.EntityId,
                 Data = request.Data

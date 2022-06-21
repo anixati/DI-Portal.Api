@@ -14,4 +14,27 @@ namespace Boards.Services.Access.Create
             fs.Options = new List<SelectItem> {new("RolesList", "Select Role's")};
         }
     }
+
+    public class ManageTeamsForm : FormBuilder
+    {
+        public override string FormName => $"manage_teamuser";
+        protected override FormType FormType => FormType.MultiSelect;
+
+        protected override void CreateSchema(FormSchema fs)
+        {
+            fs.Options = new List<SelectItem> { new("TeamsList", "Select Team's") };
+        }
+    }
+
+
+    public class ManageTeamRoleForm : FormBuilder
+    {
+        public override string FormName => $"manage_teamrole";
+        protected override FormType FormType => FormType.MultiSelect;
+
+        protected override void CreateSchema(FormSchema fs)
+        {
+            fs.Options = new List<SelectItem> { new("RolesList", "Select Role's") };
+        }
+    }
 }

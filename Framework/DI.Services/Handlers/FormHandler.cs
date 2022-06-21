@@ -1,4 +1,6 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using DI.Domain.Core;
 using DI.Forms.Core;
@@ -63,14 +65,37 @@ namespace DI.Services.Handlers
             responseSchema.LoadOptions(map);
         }
 
+       
+
         protected abstract Task LoadOptionSets(Dictionary<string, OptionFieldConfig> map);
 
         protected virtual async Task OnPreCreate(T entity, IDictionary<string, object> data, long? entityId)
         {
             await Task.Delay(0);
         }
-        protected abstract Task<FormActionResult> CreateEntity(T entity); 
+        protected abstract Task<FormActionResult> CreateEntity(T entity);
 
         #endregion
+
+        #region Manage Handle
+
+        public async Task<FormActionResult> ManageEntity(IDictionary<string, object> data, long entityId)
+        {
+            data.ThrowIfNull($"Input data is null");
+            var selection = data.Keys.Select(s => new { rs = long.TryParse(s, out var value), value })
+                .Where(p => p.rs)
+                .Select(p => p.value).ToList();
+            selection.ThrowIfNull($"Input data is null");
+            var rs = await CreateIntersection(entityId, selection);
+            return rs;
+        }
+
+        protected virtual async Task<FormActionResult> CreateIntersection(long entityId, List<long> selection)
+        {
+            await Task.Delay(0);
+            throw new NotImplementedException($"Not implemented");
+        } 
+        #endregion
+
     }
 }
