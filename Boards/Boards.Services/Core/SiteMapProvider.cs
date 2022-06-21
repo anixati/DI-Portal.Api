@@ -26,6 +26,7 @@ namespace Boards.Services.Core
             });
             link.Add(Routes.Portfolios.Key, "Portfolios");
             link.Add(Routes.Users.Key, "Users");
+            link.Add(Routes.Skills.Key, "Skills");
             rv.Navigation.Add(link);
         }
 

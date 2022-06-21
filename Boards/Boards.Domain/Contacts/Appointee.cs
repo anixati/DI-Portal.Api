@@ -21,8 +21,12 @@ namespace Boards.Domain.Contacts
         public bool? IsDisabled { get; set; }
         public bool? ExecutiveSearch { get; set; }
 
-        public OptionSet Capabilities { get; set; }
-        public OptionSet Experience { get; set; }
-        public List<BoardRole> Roles { get; set; }
+        public long? CapabilitiesId { get; set; }
+        public virtual OptionSet Capabilities { get; set; }
+
+        public long? ExperienceId { get; set; }
+        public virtual OptionSet Experience { get; set; }
+        public virtual ICollection<BoardRole> Roles { get; set; }
+        public virtual ICollection<AppointeeSkill> AppointeeSkills { get; set; }
     }
 }

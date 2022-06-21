@@ -134,6 +134,8 @@ GO
 
 
 
+
+
 ---------------------------
 DROP VIEW IF EXISTS [dbo].[ActiveBoardsView]
 GO
@@ -275,5 +277,43 @@ CREATE VIEW  [dbo].[ActiveUsersView] AS
 			usr.[Disabled]
 			FROM [acl].[Users] usr
 			WHERE usr.Deleted=0
+
+GO
+--------------------------
+DROP VIEW IF EXISTS [dbo].[SkillsView]
+GO
+CREATE VIEW  [dbo].[SkillsView] AS 
+	SELECT skl.Id,
+		skl.[Name],
+		(SELECT os.[Label] FROM OptionSet os where os.ID= skl.[SkillTypeId]) AS SkillType,
+		skl.[Description],
+		skl.[CreatedOn],
+		skl.[ModifiedOn],
+		skl.[Disabled]
+	FROM [dbo].[Skill] skl
+	WHERE skl.Deleted=0 
+
+GO
+---------------------------
+DROP VIEW IF EXISTS [dbo].[AppointeeSkillsView]
+GO
+CREATE VIEW  [dbo].[AppointeeSkillsView] AS 
+   SELECT 
+   aks.[Id],
+   aks.[AppointeeId],
+   aks.[SkillId],
+   skl.[Name] AS Skill,
+   (SELECT os.[Label] FROM OptionSet os where os.ID= skl.[SkillTypeId]) AS SkillType,
+   (COALESCE(apt.Title+' ','')+apt.FirstName+' '+apt.LastName) As FullName,
+   (case apt.Gender when 1 then 'Male' when 2 then 'Female' else 'NA' end) As Gender,
+   apt.HomePhone AS Phone,
+   apt.Email1 as Email,
+   apt.StreetAddress_City AS City,
+   aks.Disabled
+   FROM [dbo].[AppointeeSkill] aks
+   JOIN  [dbo].[Skill] skl on aks.SkillId= skl.Id AND skl.Deleted=0
+   JOIN [dbo].[Appointee] apt on apt.Id= aks.AppointeeId AND apt.Deleted=0
+   WHERE aks.Deleted=0 and aks.Disabled=0
+
 
 GO

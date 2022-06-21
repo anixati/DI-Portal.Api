@@ -25,6 +25,10 @@ namespace Boards.Infrastructure.Domain
 
         protected override void ConfigureModels(ModelBuilder builder)
         {
+
+            //foreach (var relationship in builder.Model.GetEntityTypes().SelectMany(e => e.GetForeignKeys()))
+            //    relationship.DeleteBehavior = DeleteBehavior.NoAction;
+
             foreach (var relationship in builder.Model.GetEntityTypes().SelectMany(e => e.GetForeignKeys()))
                 relationship.DeleteBehavior = DeleteBehavior.Cascade;
         }

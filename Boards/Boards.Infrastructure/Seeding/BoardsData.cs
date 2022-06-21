@@ -36,6 +36,9 @@ namespace Boards.Infrastructure.Seeding
 
         protected override async Task SetupDomainData()
         {
+          
+
+            //dummy
             await CreateDummyOpSets();
             await CreatePortfolios();
             await CreateDummyAppointees();
@@ -49,6 +52,11 @@ namespace Boards.Infrastructure.Seeding
             //  {Name = "Share Options", Code = "SHAREOPTS", Description = "Share Options"});
         }
 
+    
+
+
+
+
         private async Task CreateDummyOpSets()
         {
             var rng = new Random();
@@ -56,7 +64,7 @@ namespace Boards.Infrastructure.Seeding
             {
                 "OwnerDivision", "BoardStatus", "Division", "OwnerPosition", "EstablishedByUnder",
                 "Position", "Appointer", "RemunerationMethod", "MinSubLocation", "RemunerationPeriod",
-                "AppointmentSource", "SelectionProcess", "Judicial"
+                "AppointmentSource", "SelectionProcess", "Judicial","SkillType"
 
             };
             var repo = DataStore.Repo<OptionKey>();

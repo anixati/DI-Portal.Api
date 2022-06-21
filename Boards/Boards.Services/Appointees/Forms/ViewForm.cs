@@ -16,6 +16,10 @@ namespace Boards.Services.Appointees.Forms
             fs.AddSubgrid("Appointment's", "AppointeeAppointments", x =>
             {
             });
+            fs.AddSubgrid("Skill's", "AppointeeSkills", x =>
+            {
+                x.AddAction("manage", "appointeeskill", "Manage Skill's");
+            });
         }
 
         private void AddPersonDetails(FormField field)

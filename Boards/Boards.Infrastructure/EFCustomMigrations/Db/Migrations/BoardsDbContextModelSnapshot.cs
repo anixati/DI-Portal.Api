@@ -470,6 +470,42 @@ namespace EFCustomMigrations.Db.Migrations
                     b.ToTable("Appointee");
                 });
 
+            modelBuilder.Entity("Boards.Domain.Contacts.AppointeeSkill", b =>
+                {
+                    b.Property<long>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bigint")
+                        .UseIdentityColumn();
+
+                    b.Property<long>("AppointeeId")
+                        .HasColumnType("bigint");
+
+                    b.Property<bool>("Deleted")
+                        .HasColumnType("bit");
+
+                    b.Property<bool>("Disabled")
+                        .HasColumnType("bit");
+
+                    b.Property<bool>("Locked")
+                        .HasColumnType("bit");
+
+                    b.Property<long>("SkillId")
+                        .HasColumnType("bigint");
+
+                    b.Property<byte[]>("Timestamp")
+                        .IsConcurrencyToken()
+                        .ValueGeneratedOnAddOrUpdate()
+                        .HasColumnType("rowversion");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("AppointeeId");
+
+                    b.HasIndex("SkillId");
+
+                    b.ToTable("AppointeeSkill");
+                });
+
             modelBuilder.Entity("Boards.Domain.Contacts.AssistantSecretary", b =>
                 {
                     b.Property<long>("Id")
@@ -551,6 +587,62 @@ namespace EFCustomMigrations.Db.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Secretaries");
+                });
+
+            modelBuilder.Entity("Boards.Domain.Contacts.Skill", b =>
+                {
+                    b.Property<long>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bigint")
+                        .UseIdentityColumn();
+
+                    b.Property<string>("CreatedBy")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
+
+                    b.Property<DateTime>("CreatedOn")
+                        .HasColumnType("datetime2");
+
+                    b.Property<bool>("Deleted")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("Description")
+                        .HasMaxLength(2000)
+                        .HasColumnType("nvarchar(2000)");
+
+                    b.Property<bool>("Disabled")
+                        .HasColumnType("bit");
+
+                    b.Property<bool>("Locked")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("ModifiedBy")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
+
+                    b.Property<DateTime>("ModifiedOn")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasMaxLength(255)
+                        .HasColumnType("nvarchar(255)");
+
+                    b.Property<long>("SkillTypeId")
+                        .HasColumnType("bigint");
+
+                    b.Property<byte[]>("Timestamp")
+                        .IsConcurrencyToken()
+                        .ValueGeneratedOnAddOrUpdate()
+                        .HasColumnType("rowversion");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("SkillTypeId");
+
+                    b.ToTable("Skill");
                 });
 
             modelBuilder.Entity("Boards.Domain.Roles.BoardAppointment", b =>
@@ -1508,50 +1600,50 @@ namespace EFCustomMigrations.Db.Migrations
                     b.HasOne("DI.Domain.Users.AppUser", "ApprovedUser")
                         .WithMany()
                         .HasForeignKey("ApprovedUserId")
-                        .OnDelete(DeleteBehavior.Restrict);
+                        .OnDelete(DeleteBehavior.NoAction);
 
                     b.HasOne("Boards.Domain.Contacts.AssistantSecretary", "AsstSecretary")
                         .WithMany()
                         .HasForeignKey("AsstSecretaryId")
-                        .OnDelete(DeleteBehavior.Restrict);
+                        .OnDelete(DeleteBehavior.NoAction);
 
                     b.HasOne("DI.Domain.Options.OptionSet", "BoardStatus")
                         .WithMany()
                         .HasForeignKey("BoardStatusId")
-                        .OnDelete(DeleteBehavior.Restrict);
+                        .OnDelete(DeleteBehavior.NoAction);
 
                     b.HasOne("DI.Domain.Options.OptionSet", "Division")
                         .WithMany()
                         .HasForeignKey("DivisionId")
-                        .OnDelete(DeleteBehavior.Restrict);
+                        .OnDelete(DeleteBehavior.NoAction);
 
                     b.HasOne("DI.Domain.Options.OptionSet", "EstablishedByUnder")
                         .WithMany()
                         .HasForeignKey("EstablishedByUnderId")
-                        .OnDelete(DeleteBehavior.Restrict);
+                        .OnDelete(DeleteBehavior.NoAction);
 
                     b.HasOne("DI.Domain.Options.OptionSet", "OwnerDivision")
                         .WithMany()
                         .HasForeignKey("OwnerDivisionId")
-                        .OnDelete(DeleteBehavior.Restrict)
+                        .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
 
                     b.HasOne("DI.Domain.Options.OptionSet", "OwnerPosition")
                         .WithMany()
                         .HasForeignKey("OwnerPositionId")
-                        .OnDelete(DeleteBehavior.Restrict)
+                        .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
 
                     b.HasOne("Boards.Domain.Boards.Portfolio", "Portfolio")
                         .WithMany("Boards")
                         .HasForeignKey("PortfolioId")
-                        .OnDelete(DeleteBehavior.Restrict)
+                        .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
 
                     b.HasOne("DI.Domain.Users.AppUser", "ResponsibleUser")
                         .WithMany()
                         .HasForeignKey("ResponsibleUserId")
-                        .OnDelete(DeleteBehavior.Restrict);
+                        .OnDelete(DeleteBehavior.NoAction);
 
                     b.Navigation("ApprovedUser");
 
@@ -1650,13 +1742,13 @@ namespace EFCustomMigrations.Db.Migrations
                     b.HasOne("Boards.Domain.Boards.Minister", "Minister")
                         .WithMany("Terms")
                         .HasForeignKey("MinisterId")
-                        .OnDelete(DeleteBehavior.Restrict)
+                        .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
 
                     b.HasOne("Boards.Domain.Boards.Portfolio", "Portfolio")
                         .WithMany("Terms")
                         .HasForeignKey("PortfolioId")
-                        .OnDelete(DeleteBehavior.Restrict)
+                        .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
 
                     b.Navigation("Minister");
@@ -1669,12 +1761,12 @@ namespace EFCustomMigrations.Db.Migrations
                     b.HasOne("DI.Domain.Options.OptionSet", "Capabilities")
                         .WithMany()
                         .HasForeignKey("CapabilitiesId")
-                        .OnDelete(DeleteBehavior.Restrict);
+                        .OnDelete(DeleteBehavior.NoAction);
 
                     b.HasOne("DI.Domain.Options.OptionSet", "Experience")
                         .WithMany()
                         .HasForeignKey("ExperienceId")
-                        .OnDelete(DeleteBehavior.Restrict);
+                        .OnDelete(DeleteBehavior.NoAction);
 
                     b.OwnsOne("DI.Domain.Owned.AddressType", "PostalAddress", b1 =>
                         {
@@ -1751,6 +1843,25 @@ namespace EFCustomMigrations.Db.Migrations
                     b.Navigation("StreetAddress");
                 });
 
+            modelBuilder.Entity("Boards.Domain.Contacts.AppointeeSkill", b =>
+                {
+                    b.HasOne("Boards.Domain.Contacts.Appointee", "Appointee")
+                        .WithMany("AppointeeSkills")
+                        .HasForeignKey("AppointeeId")
+                        .OnDelete(DeleteBehavior.NoAction)
+                        .IsRequired();
+
+                    b.HasOne("Boards.Domain.Contacts.Skill", "Skill")
+                        .WithMany("AppointeeSkills")
+                        .HasForeignKey("SkillId")
+                        .OnDelete(DeleteBehavior.NoAction)
+                        .IsRequired();
+
+                    b.Navigation("Appointee");
+
+                    b.Navigation("Skill");
+                });
+
             modelBuilder.Entity("Boards.Domain.Contacts.AssistantSecretary", b =>
                 {
                     b.OwnsOne("DI.Domain.Owned.AddressType", "PostalAddress", b1 =>
@@ -1824,46 +1935,57 @@ namespace EFCustomMigrations.Db.Migrations
                     b.Navigation("StreetAddress");
                 });
 
+            modelBuilder.Entity("Boards.Domain.Contacts.Skill", b =>
+                {
+                    b.HasOne("DI.Domain.Options.OptionSet", "SkillType")
+                        .WithMany()
+                        .HasForeignKey("SkillTypeId")
+                        .OnDelete(DeleteBehavior.NoAction)
+                        .IsRequired();
+
+                    b.Navigation("SkillType");
+                });
+
             modelBuilder.Entity("Boards.Domain.Roles.BoardAppointment", b =>
                 {
                     b.HasOne("Boards.Domain.Contacts.Appointee", "Appointee")
                         .WithMany()
                         .HasForeignKey("AppointeeId")
-                        .OnDelete(DeleteBehavior.Restrict)
+                        .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
 
                     b.HasOne("DI.Domain.Options.OptionSet", "AppointmentSource")
                         .WithMany()
                         .HasForeignKey("AppointmentSourceId")
-                        .OnDelete(DeleteBehavior.Restrict);
+                        .OnDelete(DeleteBehavior.NoAction);
 
                     b.HasOne("Boards.Domain.Boards.Board", "Board")
                         .WithMany()
                         .HasForeignKey("BoardId")
-                        .OnDelete(DeleteBehavior.Restrict)
+                        .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
 
                     b.HasOne("Boards.Domain.Roles.BoardRole", "BoardRole")
                         .WithMany()
                         .HasForeignKey("BoardRoleId")
-                        .OnDelete(DeleteBehavior.Restrict)
+                        .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
 
                     b.HasOne("DI.Domain.Options.OptionSet", "Judicial")
                         .WithMany()
                         .HasForeignKey("JudicialId")
-                        .OnDelete(DeleteBehavior.Restrict);
+                        .OnDelete(DeleteBehavior.NoAction);
 
                     b.HasOne("DI.Domain.Options.OptionSet", "RemunerationPeriod")
                         .WithMany()
                         .HasForeignKey("RemunerationPeriodId")
-                        .OnDelete(DeleteBehavior.Restrict)
+                        .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
 
                     b.HasOne("DI.Domain.Options.OptionSet", "SelectionProcess")
                         .WithMany()
                         .HasForeignKey("SelectionProcessId")
-                        .OnDelete(DeleteBehavior.Restrict);
+                        .OnDelete(DeleteBehavior.NoAction);
 
                     b.Navigation("Appointee");
 
@@ -1885,41 +2007,41 @@ namespace EFCustomMigrations.Db.Migrations
                     b.HasOne("DI.Domain.Options.OptionSet", "Appointer")
                         .WithMany()
                         .HasForeignKey("AppointerId")
-                        .OnDelete(DeleteBehavior.Restrict)
+                        .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
 
                     b.HasOne("Boards.Domain.Contacts.AssistantSecretary", null)
                         .WithMany("Roles")
                         .HasForeignKey("AssistantSecretaryId")
-                        .OnDelete(DeleteBehavior.Restrict);
+                        .OnDelete(DeleteBehavior.NoAction);
 
                     b.HasOne("Boards.Domain.Boards.Board", "Board")
                         .WithMany("Roles")
                         .HasForeignKey("BoardId")
-                        .OnDelete(DeleteBehavior.Restrict)
+                        .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
 
                     b.HasOne("Boards.Domain.Contacts.Appointee", "Incumbent")
                         .WithMany("Roles")
                         .HasForeignKey("IncumbentId")
-                        .OnDelete(DeleteBehavior.Restrict);
+                        .OnDelete(DeleteBehavior.NoAction);
 
                     b.HasOne("DI.Domain.Options.OptionSet", "MinSubLocation")
                         .WithMany()
                         .HasForeignKey("MinSubLocationId")
-                        .OnDelete(DeleteBehavior.Restrict)
+                        .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
 
                     b.HasOne("DI.Domain.Options.OptionSet", "Position")
                         .WithMany()
                         .HasForeignKey("PositionId")
-                        .OnDelete(DeleteBehavior.Restrict)
+                        .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
 
                     b.HasOne("DI.Domain.Options.OptionSet", "RemunerationMethod")
                         .WithMany()
                         .HasForeignKey("RemunerationMethodId")
-                        .OnDelete(DeleteBehavior.Restrict)
+                        .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
 
                     b.Navigation("Appointer");
@@ -1940,7 +2062,7 @@ namespace EFCustomMigrations.Db.Migrations
                     b.HasOne("DI.Domain.Options.OptionKey", "OptionKey")
                         .WithMany("Values")
                         .HasForeignKey("OptionKeyId")
-                        .OnDelete(DeleteBehavior.Restrict)
+                        .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
 
                     b.Navigation("OptionKey");
@@ -2024,13 +2146,13 @@ namespace EFCustomMigrations.Db.Migrations
                     b.HasOne("DI.Domain.Users.AppResource", "AppResource")
                         .WithMany("Permissions")
                         .HasForeignKey("AppResourceId")
-                        .OnDelete(DeleteBehavior.Restrict)
+                        .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
 
                     b.HasOne("DI.Domain.Users.AppRole", "AppRole")
                         .WithMany("Permissions")
                         .HasForeignKey("AppRoleId")
-                        .OnDelete(DeleteBehavior.Restrict)
+                        .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
 
                     b.Navigation("AppResource");
@@ -2043,13 +2165,13 @@ namespace EFCustomMigrations.Db.Migrations
                     b.HasOne("DI.Domain.Users.AppRole", "AppRole")
                         .WithMany("TeamRoles")
                         .HasForeignKey("AppRoleId")
-                        .OnDelete(DeleteBehavior.Restrict)
+                        .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
 
                     b.HasOne("DI.Domain.Users.AppTeam", "AppTeam")
                         .WithMany("TeamRoles")
                         .HasForeignKey("AppTeamId")
-                        .OnDelete(DeleteBehavior.Restrict)
+                        .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
 
                     b.Navigation("AppRole");
@@ -2062,13 +2184,13 @@ namespace EFCustomMigrations.Db.Migrations
                     b.HasOne("DI.Domain.Users.AppTeam", "AppTeam")
                         .WithMany("TeamUsers")
                         .HasForeignKey("AppTeamId")
-                        .OnDelete(DeleteBehavior.Restrict)
+                        .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
 
                     b.HasOne("DI.Domain.Users.AppUser", "AppUser")
                         .WithMany("UserTeams")
                         .HasForeignKey("AppUserId")
-                        .OnDelete(DeleteBehavior.Restrict)
+                        .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
 
                     b.Navigation("AppTeam");
@@ -2081,13 +2203,13 @@ namespace EFCustomMigrations.Db.Migrations
                     b.HasOne("DI.Domain.Users.AppRole", "AppRole")
                         .WithMany("UserRoles")
                         .HasForeignKey("AppRoleId")
-                        .OnDelete(DeleteBehavior.Restrict)
+                        .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
 
                     b.HasOne("DI.Domain.Users.AppUser", "AppUser")
                         .WithMany("UserRoles")
                         .HasForeignKey("AppUserId")
-                        .OnDelete(DeleteBehavior.Restrict)
+                        .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
 
                     b.Navigation("AppRole");
@@ -2114,12 +2236,19 @@ namespace EFCustomMigrations.Db.Migrations
 
             modelBuilder.Entity("Boards.Domain.Contacts.Appointee", b =>
                 {
+                    b.Navigation("AppointeeSkills");
+
                     b.Navigation("Roles");
                 });
 
             modelBuilder.Entity("Boards.Domain.Contacts.AssistantSecretary", b =>
                 {
                     b.Navigation("Roles");
+                });
+
+            modelBuilder.Entity("Boards.Domain.Contacts.Skill", b =>
+                {
+                    b.Navigation("AppointeeSkills");
                 });
 
             modelBuilder.Entity("DI.Domain.Options.OptionKey", b =>

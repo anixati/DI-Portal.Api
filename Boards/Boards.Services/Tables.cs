@@ -16,6 +16,8 @@ namespace Boards.Services
             public static readonly FormKey Minister = new FormKey("minister");
             public static readonly FormKey Secretary = new FormKey("secretary");
             public static readonly FormKey Portfolio = new FormKey("portfolio");
+            public static readonly FormKey Skill = new FormKey("skill");
+
             public static readonly FormKey MinisterTerm = new FormKey("ministerterm");
             public static readonly FormKey AppUser = new FormKey("appuser");
             public static readonly FormKey AppRole = new FormKey("approle");

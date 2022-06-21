@@ -21,6 +21,7 @@ namespace Boards.Services
         public static readonly IClientRoute Minister = Client.New("ministers");
         public static readonly IClientRoute Secretary = Client.New("secretaries");
         public static readonly IClientRoute Portfolios = Client.New("portfolios");
+        public static readonly IClientRoute Skills = Client.New("skills");
         public static readonly IClientRoute Groups = Client.New("groups");
         public static readonly IClientRoute Users = Client.New("appusers");
 

@@ -354,8 +354,7 @@ namespace EFCustomMigrations.Db.Migrations
                         column: x => x.OptionKeyId,
                         principalSchema: "Dbo",
                         principalTable: "OptionKeys",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
+                        principalColumn: "Id");
                 });
 
             migrationBuilder.CreateTable(
@@ -382,15 +381,13 @@ namespace EFCustomMigrations.Db.Migrations
                         column: x => x.MinisterId,
                         principalSchema: "Dbo",
                         principalTable: "Ministers",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
+                        principalColumn: "Id");
                     table.ForeignKey(
                         name: "FK_MinisterTerms_Portfolios_PortfolioId",
                         column: x => x.PortfolioId,
                         principalSchema: "Dbo",
                         principalTable: "Portfolios",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
+                        principalColumn: "Id");
                 });
 
             migrationBuilder.CreateTable(
@@ -420,15 +417,13 @@ namespace EFCustomMigrations.Db.Migrations
                         column: x => x.AppResourceId,
                         principalSchema: "acl",
                         principalTable: "Resources",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
+                        principalColumn: "Id");
                     table.ForeignKey(
                         name: "FK_Permissions_Roles_AppRoleId",
                         column: x => x.AppRoleId,
                         principalSchema: "acl",
                         principalTable: "Roles",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
+                        principalColumn: "Id");
                 });
 
             migrationBuilder.CreateTable(
@@ -453,15 +448,13 @@ namespace EFCustomMigrations.Db.Migrations
                         column: x => x.AppRoleId,
                         principalSchema: "acl",
                         principalTable: "Roles",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
+                        principalColumn: "Id");
                     table.ForeignKey(
                         name: "FK_TeamRoles_Teams_AppTeamId",
                         column: x => x.AppTeamId,
                         principalSchema: "acl",
                         principalTable: "Teams",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
+                        principalColumn: "Id");
                 });
 
             migrationBuilder.CreateTable(
@@ -486,15 +479,13 @@ namespace EFCustomMigrations.Db.Migrations
                         column: x => x.AppTeamId,
                         principalSchema: "acl",
                         principalTable: "Teams",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
+                        principalColumn: "Id");
                     table.ForeignKey(
                         name: "FK_TeamUsers_Users_AppUserId",
                         column: x => x.AppUserId,
                         principalSchema: "acl",
                         principalTable: "Users",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
+                        principalColumn: "Id");
                 });
 
             migrationBuilder.CreateTable(
@@ -519,15 +510,13 @@ namespace EFCustomMigrations.Db.Migrations
                         column: x => x.AppRoleId,
                         principalSchema: "acl",
                         principalTable: "Roles",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
+                        principalColumn: "Id");
                     table.ForeignKey(
                         name: "FK_UserRoles_Users_AppUserId",
                         column: x => x.AppUserId,
                         principalSchema: "acl",
                         principalTable: "Users",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
+                        principalColumn: "Id");
                 });
 
             migrationBuilder.CreateTable(
@@ -586,15 +575,13 @@ namespace EFCustomMigrations.Db.Migrations
                         column: x => x.CapabilitiesId,
                         principalSchema: "Dbo",
                         principalTable: "OptionSet",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
+                        principalColumn: "Id");
                     table.ForeignKey(
                         name: "FK_Appointee_OptionSet_ExperienceId",
                         column: x => x.ExperienceId,
                         principalSchema: "Dbo",
                         principalTable: "OptionSet",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
+                        principalColumn: "Id");
                 });
 
             migrationBuilder.CreateTable(
@@ -648,64 +635,85 @@ namespace EFCustomMigrations.Db.Migrations
                         column: x => x.BoardStatusId,
                         principalSchema: "Dbo",
                         principalTable: "OptionSet",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
+                        principalColumn: "Id");
                     table.ForeignKey(
                         name: "FK_Boards_OptionSet_DivisionId",
                         column: x => x.DivisionId,
                         principalSchema: "Dbo",
                         principalTable: "OptionSet",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
+                        principalColumn: "Id");
                     table.ForeignKey(
                         name: "FK_Boards_OptionSet_EstablishedByUnderId",
                         column: x => x.EstablishedByUnderId,
                         principalSchema: "Dbo",
                         principalTable: "OptionSet",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
+                        principalColumn: "Id");
                     table.ForeignKey(
                         name: "FK_Boards_OptionSet_OwnerDivisionId",
                         column: x => x.OwnerDivisionId,
                         principalSchema: "Dbo",
                         principalTable: "OptionSet",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
+                        principalColumn: "Id");
                     table.ForeignKey(
                         name: "FK_Boards_OptionSet_OwnerPositionId",
                         column: x => x.OwnerPositionId,
                         principalSchema: "Dbo",
                         principalTable: "OptionSet",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
+                        principalColumn: "Id");
                     table.ForeignKey(
                         name: "FK_Boards_Portfolios_PortfolioId",
                         column: x => x.PortfolioId,
                         principalSchema: "Dbo",
                         principalTable: "Portfolios",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
+                        principalColumn: "Id");
                     table.ForeignKey(
                         name: "FK_Boards_Secretaries_AsstSecretaryId",
                         column: x => x.AsstSecretaryId,
                         principalSchema: "Dbo",
                         principalTable: "Secretaries",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
+                        principalColumn: "Id");
                     table.ForeignKey(
                         name: "FK_Boards_Users_ApprovedUserId",
                         column: x => x.ApprovedUserId,
                         principalSchema: "acl",
                         principalTable: "Users",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
+                        principalColumn: "Id");
                     table.ForeignKey(
                         name: "FK_Boards_Users_ResponsibleUserId",
                         column: x => x.ResponsibleUserId,
                         principalSchema: "acl",
                         principalTable: "Users",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
+                        principalColumn: "Id");
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Skill",
+                schema: "Dbo",
+                columns: table => new
+                {
+                    Id = table.Column<long>(type: "bigint", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    SkillTypeId = table.Column<long>(type: "bigint", nullable: false),
+                    Locked = table.Column<bool>(type: "bit", nullable: false),
+                    Disabled = table.Column<bool>(type: "bit", nullable: false),
+                    Deleted = table.Column<bool>(type: "bit", nullable: false),
+                    Timestamp = table.Column<byte[]>(type: "rowversion", rowVersion: true, nullable: true),
+                    CreatedOn = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    CreatedBy = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
+                    ModifiedOn = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    ModifiedBy = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
+                    Name = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: false),
+                    Description = table.Column<string>(type: "nvarchar(2000)", maxLength: 2000, nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Skill", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Skill_OptionSet_SkillTypeId",
+                        column: x => x.SkillTypeId,
+                        principalSchema: "Dbo",
+                        principalTable: "OptionSet",
+                        principalColumn: "Id");
                 });
 
             migrationBuilder.CreateTable(
@@ -767,50 +775,74 @@ namespace EFCustomMigrations.Db.Migrations
                         column: x => x.IncumbentId,
                         principalSchema: "Dbo",
                         principalTable: "Appointee",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
+                        principalColumn: "Id");
                     table.ForeignKey(
                         name: "FK_BoardRoles_Boards_BoardId",
                         column: x => x.BoardId,
                         principalSchema: "Dbo",
                         principalTable: "Boards",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
+                        principalColumn: "Id");
                     table.ForeignKey(
                         name: "FK_BoardRoles_OptionSet_AppointerId",
                         column: x => x.AppointerId,
                         principalSchema: "Dbo",
                         principalTable: "OptionSet",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
+                        principalColumn: "Id");
                     table.ForeignKey(
                         name: "FK_BoardRoles_OptionSet_MinSubLocationId",
                         column: x => x.MinSubLocationId,
                         principalSchema: "Dbo",
                         principalTable: "OptionSet",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
+                        principalColumn: "Id");
                     table.ForeignKey(
                         name: "FK_BoardRoles_OptionSet_PositionId",
                         column: x => x.PositionId,
                         principalSchema: "Dbo",
                         principalTable: "OptionSet",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
+                        principalColumn: "Id");
                     table.ForeignKey(
                         name: "FK_BoardRoles_OptionSet_RemunerationMethodId",
                         column: x => x.RemunerationMethodId,
                         principalSchema: "Dbo",
                         principalTable: "OptionSet",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
+                        principalColumn: "Id");
                     table.ForeignKey(
                         name: "FK_BoardRoles_Secretaries_AssistantSecretaryId",
                         column: x => x.AssistantSecretaryId,
                         principalSchema: "Dbo",
                         principalTable: "Secretaries",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
+                        principalColumn: "Id");
+                });
+
+            migrationBuilder.CreateTable(
+                name: "AppointeeSkill",
+                schema: "Dbo",
+                columns: table => new
+                {
+                    Id = table.Column<long>(type: "bigint", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    AppointeeId = table.Column<long>(type: "bigint", nullable: false),
+                    SkillId = table.Column<long>(type: "bigint", nullable: false),
+                    Locked = table.Column<bool>(type: "bit", nullable: false),
+                    Disabled = table.Column<bool>(type: "bit", nullable: false),
+                    Deleted = table.Column<bool>(type: "bit", nullable: false),
+                    Timestamp = table.Column<byte[]>(type: "rowversion", rowVersion: true, nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_AppointeeSkill", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_AppointeeSkill_Appointee_AppointeeId",
+                        column: x => x.AppointeeId,
+                        principalSchema: "Dbo",
+                        principalTable: "Appointee",
+                        principalColumn: "Id");
+                    table.ForeignKey(
+                        name: "FK_AppointeeSkill_Skill_SkillId",
+                        column: x => x.SkillId,
+                        principalSchema: "Dbo",
+                        principalTable: "Skill",
+                        principalColumn: "Id");
                 });
 
             migrationBuilder.CreateTable(
@@ -856,50 +888,43 @@ namespace EFCustomMigrations.Db.Migrations
                         column: x => x.AppointeeId,
                         principalSchema: "Dbo",
                         principalTable: "Appointee",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
+                        principalColumn: "Id");
                     table.ForeignKey(
                         name: "FK_BoardAppointments_BoardRoles_BoardRoleId",
                         column: x => x.BoardRoleId,
                         principalSchema: "Dbo",
                         principalTable: "BoardRoles",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
+                        principalColumn: "Id");
                     table.ForeignKey(
                         name: "FK_BoardAppointments_Boards_BoardId",
                         column: x => x.BoardId,
                         principalSchema: "Dbo",
                         principalTable: "Boards",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
+                        principalColumn: "Id");
                     table.ForeignKey(
                         name: "FK_BoardAppointments_OptionSet_AppointmentSourceId",
                         column: x => x.AppointmentSourceId,
                         principalSchema: "Dbo",
                         principalTable: "OptionSet",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
+                        principalColumn: "Id");
                     table.ForeignKey(
                         name: "FK_BoardAppointments_OptionSet_JudicialId",
                         column: x => x.JudicialId,
                         principalSchema: "Dbo",
                         principalTable: "OptionSet",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
+                        principalColumn: "Id");
                     table.ForeignKey(
                         name: "FK_BoardAppointments_OptionSet_RemunerationPeriodId",
                         column: x => x.RemunerationPeriodId,
                         principalSchema: "Dbo",
                         principalTable: "OptionSet",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
+                        principalColumn: "Id");
                     table.ForeignKey(
                         name: "FK_BoardAppointments_OptionSet_SelectionProcessId",
                         column: x => x.SelectionProcessId,
                         principalSchema: "Dbo",
                         principalTable: "OptionSet",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
+                        principalColumn: "Id");
                 });
 
             migrationBuilder.CreateIndex(
@@ -913,6 +938,18 @@ namespace EFCustomMigrations.Db.Migrations
                 schema: "Dbo",
                 table: "Appointee",
                 column: "ExperienceId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_AppointeeSkill_AppointeeId",
+                schema: "Dbo",
+                table: "AppointeeSkill",
+                column: "AppointeeId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_AppointeeSkill_SkillId",
+                schema: "Dbo",
+                table: "AppointeeSkill",
+                column: "SkillId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_BoardAppointments_AppointeeId",
@@ -1097,6 +1134,12 @@ namespace EFCustomMigrations.Db.Migrations
                 unique: true);
 
             migrationBuilder.CreateIndex(
+                name: "IX_Skill_SkillTypeId",
+                schema: "Dbo",
+                table: "Skill",
+                column: "SkillTypeId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_TeamRoles_AppRoleId",
                 schema: "acl",
                 table: "TeamRoles",
@@ -1143,6 +1186,10 @@ namespace EFCustomMigrations.Db.Migrations
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
+                name: "AppointeeSkill",
+                schema: "Dbo");
+
+            migrationBuilder.DropTable(
                 name: "AuditHistory",
                 schema: "Dbo");
 
@@ -1177,6 +1224,10 @@ namespace EFCustomMigrations.Db.Migrations
             migrationBuilder.DropTable(
                 name: "UserRoles",
                 schema: "acl");
+
+            migrationBuilder.DropTable(
+                name: "Skill",
+                schema: "Dbo");
 
             migrationBuilder.DropTable(
                 name: "BoardRoles",
