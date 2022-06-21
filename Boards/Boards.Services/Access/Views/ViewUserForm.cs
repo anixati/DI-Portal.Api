@@ -12,6 +12,7 @@ namespace Boards.Services.Access.Views
             fs.AddTab("User Details",UserDetails);
             fs.AddSubgrid("Role's", "UserRoleList", x =>
             {
+                x.AddAction("manage", "userrole", "Manage Role's");
             });
             fs.AddSubgrid("Teams's", "UserTeamList", x =>
             {

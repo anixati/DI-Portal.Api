@@ -63,11 +63,11 @@ namespace DI.Forms.Types
 
             var values = Enum.GetValues(typeof(T));
             var rCol = (from int item in values
-                        select new SelectFieldOption($"{item}", Enum.GetName(typeof(T), item))).ToList();
+                        select new SelectItem($"{item}", Enum.GetName(typeof(T), item))).ToList();
             return fd.AddSelect(key, rCol, title, required, width);
         }
 
-        public static FormField AddSelect(this FormField fd, string key, List<SelectFieldOption> options, string title = null, bool required = false,
+        public static FormField AddSelect(this FormField fd, string key, List<SelectItem> options, string title = null, bool required = false,
             int width = 50)
         {
             fd.AddInput(key, title, x =>

@@ -16,9 +16,6 @@ namespace Boards.Services.Appointees.Forms
             fs.AddSubgrid("Appointment's", "AppointeeAppointments", x =>
             {
             });
-            //fs.AddSubgrid("Portfolio's", "MinisterPortfolios", x =>
-            //{
-            //});
         }
 
         private void AddPersonDetails(FormField field)
@@ -35,8 +32,6 @@ namespace Boards.Services.Appointees.Forms
                 f.AddSelect<GenderEnum>("Gender", "Gender", true, 30);
 
             });
-            //field.AddDivider();
-
             field.AddFieldGroup(f =>
             {
                 f.AddPhone("Mobile", "Mobile Number", false, 30);

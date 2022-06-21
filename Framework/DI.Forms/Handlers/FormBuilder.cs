@@ -8,12 +8,14 @@ namespace DI.Forms.Handlers
         public abstract string FormName { get; }
         public IFormState Create()
         {
-            var fs = new FormState(FormName);
+            var fs = new FormState(FormName, FormType);
             CreateSchema(fs.Schema);
             return fs;
         }
         protected virtual void CreateSchema(FormSchema fsSchema)
         {
         }
+
+        protected virtual FormType FormType => FormType.Wizard;
     }
 }

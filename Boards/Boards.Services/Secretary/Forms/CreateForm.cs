@@ -7,12 +7,11 @@ namespace Boards.Services.Secretary.Forms
     public class CreateForm : FormBuilder
     {
         public override string FormName => Constants.Forms.Secretary.Create;
+
         protected override void CreateSchema(FormSchema fs)
         {
             fs.AddPage("Personal Details", AddPersonDetails);
             fs.AddPage("Contact Details", AddContactDetails);
-            //fs.AddPage("Professional Details", AddProfessionalDetails);
-            //fs.AddPage("Other Details", OtherDetails);
         }
 
         private void AddPersonDetails(FormField field)

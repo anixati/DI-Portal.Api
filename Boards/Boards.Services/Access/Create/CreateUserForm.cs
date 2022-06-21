@@ -2,7 +2,7 @@
 using DI.Forms.Handlers;
 using DI.Forms.Types;
 
-namespace Boards.Services.Access.Forms
+namespace Boards.Services.Access.Create
 {
     public class CreateUserForm : FormBuilder
     {

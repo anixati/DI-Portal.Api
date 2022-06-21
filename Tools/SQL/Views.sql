@@ -93,6 +93,24 @@ CREATE VIEW [dbo].[SecretariesView] AS
                     WHERE mns.Deleted=0
 GO
 
+---------------------------
+DROP VIEW IF EXISTS [dbo].MinistersView
+GO
+CREATE VIEW MinistersView AS 
+                    SELECT 
+                    mns.Id,
+                    (COALESCE(mns.Title+' ','')+mns.FirstName+' '+COALESCE(mns.MiddleName+' ','')+mns.LastName) As FullName,
+                    (case mns.Gender when 1 then 'Male' when 2 then 'Female' else 'NA' end) As Gender,
+                    mns.HomePhone AS Phone,
+                    mns.MobilePhone AS Mobile,
+                    mns.FaxNumber As Fax,
+                    mns.Email1 as Email,
+                    mns.StreetAddress_City AS City,
+                    mns.StreetAddress_State AS State,
+                    mns.Disabled
+                    FROM [dbo].[Ministers] mns
+                    WHERE mns.Deleted=0
+GO
 -------------------------
 DROP VIEW IF EXISTS [dbo].[PortfoliosView]
 GO

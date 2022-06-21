@@ -75,7 +75,7 @@ namespace Boards.Services.Core
                 var rs = await repo.Query().Include(x => x.Values).Where(x => x.Code == value.Code)
                     .FirstOrDefaultAsync();
                 if (rs != null && rs.Values != null && rs.Values.Any())
-                    value.Options = rs.Values.Select(x => new SelectFieldOption($"{x.Id}", $"{x.Label}"))
+                    value.Options = rs.Values.Select(x => new SelectItem($"{x.Id}", $"{x.Label}"))
                         .ToList();
 
             }

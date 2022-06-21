@@ -1,6 +1,4 @@
-﻿using Boards.Services.Core;
-
-namespace Boards.Services.Access.Forms
+﻿namespace Boards.Services.Access.Create
 {
     public static class Shared
     {

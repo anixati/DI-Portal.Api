@@ -42,35 +42,4 @@ namespace DI.Forms.Types
         public List<ValRule> Rules { get; set; } = new();
         public List<FormField> Fields { get; set; } = new();
     }
-
-    
-    public class OptionFieldConfig
-    {
-        public OptionFieldConfig(string code)
-        {
-            Code = code;
-            Options = new List<SelectFieldOption>();
-        }
-
-        public string Code { get; }
-        public List<SelectFieldOption> Options { get; set; }
-    }
-
-    public class SelectFieldOption
-    {
-        public SelectFieldOption(string value, string label)
-        {
-            Value = value;
-            Label = label;
-        }
-
-        public string Label { get; }
-        public string Value { get;  }
-    }
-
-    public interface IClientRoute
-    {
-        string Key { get; }
-        string Path();
-    }
 }

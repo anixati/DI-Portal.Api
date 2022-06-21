@@ -5,7 +5,8 @@ namespace DI.Forms.Requests
     public enum SchemaRequestType
     {
         Create=0,
-        View
+        View,
+        Manage
     }
 
     public class FormSchemaRequest : IRequest<FormSchemaResponse>

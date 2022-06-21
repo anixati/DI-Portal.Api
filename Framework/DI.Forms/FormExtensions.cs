@@ -11,13 +11,13 @@ namespace DI.Forms
     public static class FormExtensions
     {
 
-        public static SelectFieldOption ConvertToOption(this object value)
+        public static SelectItem ConvertToOption(this object value)
         {
             var inObj = $"{value}";
             if (string.IsNullOrEmpty(inObj)) return null;
             try
             {
-                var option = JsonConvert.DeserializeObject<SelectFieldOption>(inObj);
+                var option = JsonConvert.DeserializeObject<SelectItem>(inObj);
                 return option;
             }
             catch (Exception ex)

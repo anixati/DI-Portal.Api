@@ -34,15 +34,22 @@ namespace DI.WebApi.Controllers
         }
 
         [HttpGet("create/{name}/{id:long?}")]
-        public async Task<IActionResult> GetSchema([Required] string name, long? id)
+        public async Task<IActionResult> GetCreateSchema([Required] string name, long? id)
         {
             var result = await ExecuteTask(async x => await x.Send(new FormSchemaRequest {Name = name, EntityId = id ,RequestType = SchemaRequestType.Create}));
             return result.ToResponse();
         }
 
+        [HttpGet("manage/{name}/{id:long}")]
+        public async Task<IActionResult> GetManageSchema([Required] string name, long id)
+        {
+            var result = await ExecuteTask(async x => await x.Send(new FormSchemaRequest { Name = name, EntityId = id, RequestType = SchemaRequestType.Manage }));
+            return result.ToResponse();
+        }
+
 
         [HttpGet("view/{name}/{id}")]
-        public async Task<IActionResult> GetSchema([Required] string name, [Required] long id)
+        public async Task<IActionResult> GetViewSchema([Required] string name, [Required] long id)
         {
             var result = await ExecuteTask(async x => await x.Send(new FormSchemaRequest {Name = name, EntityId = id, RequestType = SchemaRequestType.View }));
             return result.ToResponse();
