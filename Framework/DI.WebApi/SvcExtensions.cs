@@ -1,15 +1,19 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Net.Http;
 using System.Threading.Tasks;
 using DI.WebApi.Middleware;
 using DI.WebApi.Routes;
 using FluentValidation.AspNetCore;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.ApplicationParts;
 using Microsoft.AspNetCore.Routing;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.IdentityModel.Tokens;
 
 namespace DI.WebApi
 {
@@ -27,6 +31,39 @@ namespace DI.WebApi
             services.AddOptions();
             services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
         }
+
+
+
+        public static void AddTokenAuthentication(this IServiceCollection services, IConfiguration configuration)
+        {
+            services.AddAuthentication(x =>
+                {
+                    x.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+                    x.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+                })
+                .AddJwtBearer(options =>
+                {
+                    options.TokenValidationParameters = new TokenValidationParameters
+                    {
+                        ValidateIssuer = true,
+                        ValidateAudience = true,
+                        ValidateLifetime = true,
+                        //ValidateIssuerSigningKey = true,
+                        ValidIssuer = configuration["JWT:Issuer"],
+                        ValidAudience = configuration["JWT:Audience"],
+                    };
+
+
+                    options.Authority = configuration["JWT:Issuer"];
+                    options.RequireHttpsMetadata = false;
+                    // allow self-signed SSL certs
+                    options.BackchannelHttpHandler = new HttpClientHandler { ServerCertificateCustomValidationCallback = delegate { return true; } };
+                    // the scope id of this api
+                    options.Audience = configuration["JWT:Audience"];
+                });
+        }
+
+
 
         public static void SetupExceptionMiddleware(this IApplicationBuilder app)
         {
@@ -49,7 +86,9 @@ namespace DI.WebApi
                     //mo.ModelBinderProviders.Insert(0, new EntityBinderProvider());
                     mo.UseRoutePrefix(config.RoutePrefix + "/v{version:apiVersion}");
                     mo.AddConventions();
+                    
                 })
+                
                 .AddFluentValidation(fv => config.Validation(fv));
         }
 

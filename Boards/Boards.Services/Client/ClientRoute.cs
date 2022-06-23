@@ -1,11 +1,11 @@
 ﻿using DI.Forms.Types;
 
-namespace Boards.Services.Core
+namespace Boards.Services.Client
 {
-    public class Client : IClientRoute
+    public class ClientRoute : IClientRoute
     {
-        private string _base;
-        public Client(string key, string @base)
+        private readonly string _base;
+        public ClientRoute(string key, string @base)
         {
             Key = key;
             _base = @base;
@@ -19,7 +19,7 @@ namespace Boards.Services.Core
 
         public static IClientRoute New(string key,string cb= Routes.Base)
         {
-            return new Client(key,cb);
+            return new ClientRoute(key,cb);
         }
     }
 }

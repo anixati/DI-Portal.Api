@@ -24,7 +24,7 @@ namespace Boards.Infrastructure
                 .AsImplementedInterfaces();
 
 
-            builder.RegisterType<MockUserIdentityProvider>().As<IIdentityProvider>();
+          
             builder.AddDbContext<BoardsDbContext>();
             builder.AddQryProviders<BoardsDbContext>();
             builder.AddFormProviders();

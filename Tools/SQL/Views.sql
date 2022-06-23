@@ -317,3 +317,28 @@ CREATE VIEW  [dbo].[AppointeeSkillsView] AS
 
 
 GO
+
+
+--------------------------------------------------------
+--- PROCEDURES
+--------------------------------------------------------
+DROP PROCEDURE IF EXISTS [acl].[GetUserRoles]
+GO
+CREATE PROCEDURE[acl].[GetUserRoles]
+    @userId nvarchar(255)
+AS   
+    SET NOCOUNT ON;  
+   	SELECT rls.Code
+	FROM [acl].[UserRoles] urs
+	JOIN [acl].[Users] usr ON usr.Id = urs.AppUserId AND usr.Deleted=0 AND usr.Disabled=0
+	JOIN [acl].[Roles] rls ON rls.Id = urs.AppRoleId AND rls.Deleted=0 AND rls.Disabled=0
+	WHERE urs.Deleted=0 AND urs.Disabled=0 AND usr.UserId= @userId
+	UNION
+	SELECT rls.Code
+	FROM [acl].[TeamUsers] tur
+	JOIN [acl].[Users] usr ON usr.Id = tur.AppUserId AND usr.Deleted=0 AND usr.Disabled=0
+	JOIN [acl].[TeamRoles] trs ON trs.AppTeamId=tur.AppTeamId AND trs.Deleted=0 AND trs.Disabled=0
+	JOIN [acl].[Roles] rls ON rls.Id = trs.AppRoleId AND rls.Deleted=0 AND rls.Disabled=0
+	WHERE tur.Deleted=0 AND tur.Disabled=0 AND usr.UserId= @userId
+
+GO  

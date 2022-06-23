@@ -138,8 +138,7 @@ namespace DI.Domain.Services
         protected string GetInstanceUserKey()
         {
             var user = _identityProvider.GetIdentity();
-            var userId = $"{user.UserId}_{user.Name}";
-            return userId;
+            return user?.GetKey();
         }
 
         public static T Create(IServiceProvider serviceProvider)

@@ -3,6 +3,7 @@ using DI.Actions;
 using DI.Domain.App;
 using DI.Services.Core;
 using DI.WebApi.Core;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.JsonPatch;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
@@ -11,6 +12,7 @@ namespace DI.WebApi.Controllers
 {
     [ApiVersionNeutral]
     [Route("audits")]
+    [Authorize]
     public class AuditController : GenericController<AuditHistory, AuditModel>
     {
         public AuditController(ILoggerFactory factory, IServiceContext context) : base(factory, context)

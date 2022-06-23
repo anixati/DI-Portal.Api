@@ -33,17 +33,11 @@ namespace Boards.ApiHost
                             .AllowAnyHeader();
                     });
             });
-
+            services.AddTokenAuthentication(Configuration);
             services.AddApiControllers(x => x.RoutePrefix = "brds")
-                //.AddJsonOptions(options =>
-                //{
-                //    options.JsonSerializerOptions.PropertyNameCaseInsensitive = true;
-                //    options.JsonSerializerOptions.PropertyNamingPolicy = null;
-                //    options.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter());
-                //}) 
                 .AddNewtonsoftJson()
                 .AddEndpoints(Modules.GetControllers);
-            //.AddFeatures(Modules.GetFeatures);
+                
 
             services.AddSwaggerGen(c =>
             {

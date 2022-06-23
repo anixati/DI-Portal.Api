@@ -10,7 +10,16 @@ namespace DI.Domain.Users
     [Index(nameof(UserId), IsUnique = true)]
     public class AppUser : ContactBaseEntity
     {
-        [Required] [MaxLength(255)] public string UserId { get; set; }
+        [Required] [MaxLength(255)] public virtual string UserId { get; set; }
+
+        [Required][MaxLength(int.MaxValue)] public virtual string PasswordHash { get; set; }
+        [Required][MaxLength(int.MaxValue)] public virtual string SecurityStamp { get; set; }
+        public virtual bool ChangePassword { get; set; }
+        public virtual  bool EmailConfirmed { get; set; }
+        public virtual bool LockedOut { get; set; }
+        public virtual int AccessFailCount { get; set; }
+
+
         public virtual ICollection<TeamUser> UserTeams { get; set; }
         public virtual ICollection<UserRole> UserRoles { get; set; }
     }

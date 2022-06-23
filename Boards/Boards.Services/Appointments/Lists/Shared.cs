@@ -1,4 +1,5 @@
-﻿using Boards.Services.Core;
+﻿using Boards.Services.Client;
+using Boards.Services.Core;
 using Di.Qry.Core;
 using Di.Qry.Schema;
 using Di.Qry.Schema.Types;

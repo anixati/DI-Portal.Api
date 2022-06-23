@@ -1,4 +1,5 @@
 ﻿using Boards.Domain.Shared;
+using Boards.Services.Client;
 using Boards.Services.Core;
 using DI.Forms.Handlers;
 using DI.Forms.Types;

@@ -19,6 +19,7 @@ namespace DI.WebApi.Controllers
 {
     [ApiVersionNeutral]
     [Route("forms")]
+    [Authorize]
     public class FormsController : EntityController
     {
         public FormsController(ILoggerFactory loggerFactory, IServiceContext serviceContext) : base(loggerFactory,

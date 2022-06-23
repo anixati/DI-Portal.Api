@@ -1,15 +1,30 @@
-﻿using DI.Site;
+﻿using DI.Extensions;
+using DI.Security;
+using DI.Site;
 
-namespace Boards.Services.Core
+namespace Boards.Services.Client
 {
-    public class SiteMapProvider:ISiteMapProvider
+    public class SiteMapProvider : ISiteMapProvider
     {
+        private readonly IIdentity _user;
+
+        public SiteMapProvider(IIdentityProvider provider)
+        {
+            _user = provider.GetIdentity();
+        }
+
         public SiteMap Create()
         {
-            var rv = new SiteMap {Logo = "Boards"};
+            var rv = new SiteMap
+            {
+                Logo = "Boards",
+                Restricted = !_user.HasRoles()
+            };
+            if (rv.Restricted) return rv;
             AddBoards(rv);
             AddReports(rv);
-            AddAdmin(rv);
+            if (_user.IsAdmin())
+                AddAdmin(rv);
             return rv;
         }
 
@@ -37,20 +52,22 @@ namespace Boards.Services.Core
             rv.Navigation.Add(link);
         }
 
-        private static void AddAdmin(SiteMap rv)
+        private void AddAdmin(SiteMap rv)
         {
             var link = new NavLink(Routes.Admin, "Admin");
             link.Add(Routes.AdminDashboard.Key, "Dashboard");
             link.Add("options", "Options");
             link.Add("logs", "Audit logs");
-            link.Add(Routes.Group, "Security", x =>
-            {
-                x.Add("users", "Users");
-                x.Add("roles", "Roles");
-                x.Add("teams", "Teams");
-            });
+
+            if (_user.IsSysAdmin())
+                link.Add(Routes.Group, "Security", x =>
+                {
+                    x.Add("users", "Users");
+                    x.Add("roles", "Roles");
+                    x.Add("teams", "Teams");
+                });
             rv.Navigation.Add(link);
         }
-      
+
     }
 }

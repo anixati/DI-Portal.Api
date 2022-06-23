@@ -15,6 +15,7 @@ namespace DI.WebApi.Controllers
 {
     [ApiVersionNeutral]
     [Route("qry")]
+    [Authorize]
     public class QueryController : ServiceController
     {
         public QueryController(ILoggerFactory loggerFactory, IServiceContext serviceContext) : base(loggerFactory,

@@ -1,4 +1,5 @@
-﻿using Di.Qry.Core;
+﻿using Boards.Services.Client;
+using Di.Qry.Core;
 using Di.Qry.Schema;
 using Di.Qry.Schema.Types;
 
@@ -18,6 +19,9 @@ namespace Boards.Services.Users.Lists
                 x.Searchable = true;
                 x.Sortable = true;
                 x.Type = ColumnType.HyperLink;
+                x.LinkId = "Id";
+                x.LinkPath = Routes.Users.Path();
+
             });
             pt.AddSearchCols("Phone", "Email", "CreatedOn");
             return pt;

@@ -1,4 +1,5 @@
 ﻿using DI.Core;
+using DI.Security.Core;
 
 namespace DI.Security
 {
@@ -6,5 +7,8 @@ namespace DI.Security
     {
         string UserId { get; }
         string Name { get; }
+        bool IsInRole(ApplicationRoles role);
+        bool IsInRole(int role);
+        bool HasRoles();
     }
 }

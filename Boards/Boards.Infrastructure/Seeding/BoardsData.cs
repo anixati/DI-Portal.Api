@@ -10,6 +10,7 @@ using DI.Domain.Owned;
 using DI.Domain.Seed;
 using DI.Domain.Users;
 using Microsoft.EntityFrameworkCore;
+using BC = BCrypt.Net.BCrypt;
 
 namespace Boards.Infrastructure.Seeding
 {
@@ -18,7 +19,6 @@ namespace Boards.Infrastructure.Seeding
         public BoardsData(IServiceProvider serviceProvider) : base(serviceProvider)
         {
         }
-
         public static async Task Run(IServiceProvider serviceProvider)
         {
             try
@@ -29,34 +29,16 @@ namespace Boards.Infrastructure.Seeding
             catch (Exception ex)
             {
                 Console.WriteLine($"FAILED: {ex}");
-                // throw new Exception($"Failed to setup - {ex}");
             }
         }
-
-
         protected override async Task SetupDomainData()
         {
-          
-
-            //dummy
             await CreateDummyOpSets();
             await CreatePortfolios();
             await CreateDummyAppointees();
             await CreateDummyUsers();
-
-
-
             await DataStore.SaveAsync();
-
-            //await CreateIfNotExists(new OptionKey
-            //  {Name = "Share Options", Code = "SHAREOPTS", Description = "Share Options"});
         }
-
-    
-
-
-
-
         private async Task CreateDummyOpSets()
         {
             var rng = new Random();
@@ -96,13 +78,8 @@ namespace Boards.Infrastructure.Seeding
                             "Build more reliable software with AI companion"
                     });
                 }
-
-
             }
-
-
         }
-
         private async Task CreatePortfolios()
         {
             var rng = new Random();
@@ -131,23 +108,23 @@ namespace Boards.Infrastructure.Seeding
             foreach (var jx in Enumerable.Range(1, rng.Next(15, 20)))
             {
                 var name = $"App{jx}";
-
-
                 var app = await opr.FindAsync(x => EF.Functions.Like(x.FirstName, name));
                 if (app != null) continue;
-
                 var op = await opr.CreateAsync(new AppUser()
                 {
-                    UserId = Guid.NewGuid().ToString("N"),
+                    UserId = $"User{jx}",
                     Title = "Mr",
                     FirstName = name,
-                    LastName = $"User {jx}",
-                    MiddleName = "Sake",
+                    LastName = $"User",
+                    MiddleName = "",
                     HomePhone = "0262426242",
                     FaxNumber = "0236598956",
                     MobilePhone = "0401642369",
-                    Email1 = $"us{jx}@gmail.com",
-                    Email2 = $"use{jx * 6}@gmail.com",
+                    Email1 = $"{name}.User@gmail.com",
+                    SecurityStamp = DateTime.UtcNow.ToString("o"),
+                    PasswordHash = BC.HashPassword("Summer11"),
+                    EmailConfirmed = true,
+                    ChangePassword = true ,
                     StreetAddress = CreateAddress(),
                     PostalAddress = CreateAddress(),
                     Disabled = jx % 2 == 0 ? true : false,
@@ -163,11 +140,8 @@ namespace Boards.Infrastructure.Seeding
                 foreach (var jx in Enumerable.Range(1, rng.Next(5, 10)))
                 {
                     var name = $"First{jx}";
-
-
                     var app = await opr.FindAsync(x => EF.Functions.Like(x.FirstName, name));
                     if (app != null) continue;
-
                     var op = await opr.CreateAsync(new Appointee
                     {
                         Title = "Mr",
@@ -208,35 +182,6 @@ namespace Boards.Infrastructure.Seeding
                 };
             }
 
-
-            private async Task xx()
-            {
-                var rng = new Random();
-                var opr = GetRepo<OptionKey>();
-                foreach (var jx in Enumerable.Range(1, rng.Next(30, 60)))
-                {
-                    var op = await CreateIfNotExists(new OptionKey
-                    {
-                        Name = $"Option Key {jx}",
-                        Code = $"OPCODE{jx}",
-                        Description =
-                            "well-crafted Git commit message is the best way to communicate context about a change to fellow developers"
-                    });
-                    await DataStore.SaveAsync();
-                    if (op != null)
-                        foreach (var ix in Enumerable.Range(1, rng.Next(3, 5)))
-                        {
-                            var ov = Create(new OptionSet
-                            {
-                                OptionKeyId = op.Id,
-                                Label = $"Random option {rng.Next(3000, 4000)}",
-                                Value = rng.Next(1000, 8000),
-                                Order = ix,
-                                Description =
-                                    "Apple has discontinued macOS Server. Existing macOS Server customers can continue to download and use the app with macOS Monterey"
-                            });
-                        }
-                }
-            }
+        
         }
     }

@@ -1,4 +1,5 @@
-﻿using Boards.Services.Core;
+﻿using Boards.Services.Client;
+using Boards.Services.Core;
 using DI.Domain.Enums;
 using DI.Forms.Handlers;
 using DI.Forms.Types;

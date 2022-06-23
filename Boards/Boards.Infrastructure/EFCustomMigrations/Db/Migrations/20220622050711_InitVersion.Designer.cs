@@ -10,7 +10,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace EFCustomMigrations.Db.Migrations
 {
     [DbContext(typeof(BoardsDbContext))]
-    [Migration("20220621194932_InitVersion")]
+    [Migration("20220622050711_InitVersion")]
     partial class InitVersion
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -1354,6 +1354,12 @@ namespace EFCustomMigrations.Db.Migrations
                         .HasColumnType("bigint")
                         .UseIdentityColumn();
 
+                    b.Property<int>("AccessFailCount")
+                        .HasColumnType("int");
+
+                    b.Property<bool>("ChangePassword")
+                        .HasColumnType("bit");
+
                     b.Property<string>("CreatedBy")
                         .IsRequired()
                         .HasMaxLength(50)
@@ -1375,6 +1381,9 @@ namespace EFCustomMigrations.Db.Migrations
                     b.Property<string>("Email2")
                         .HasMaxLength(50)
                         .HasColumnType("nvarchar(50)");
+
+                    b.Property<bool>("EmailConfirmed")
+                        .HasColumnType("bit");
 
                     b.Property<string>("FaxNumber")
                         .HasMaxLength(10)
@@ -1400,6 +1409,9 @@ namespace EFCustomMigrations.Db.Migrations
                     b.Property<bool>("Locked")
                         .HasColumnType("bit");
 
+                    b.Property<bool>("LockedOut")
+                        .HasColumnType("bit");
+
                     b.Property<string>("MiddleName")
                         .HasMaxLength(255)
                         .HasColumnType("nvarchar(255)");
@@ -1415,6 +1427,16 @@ namespace EFCustomMigrations.Db.Migrations
 
                     b.Property<DateTime>("ModifiedOn")
                         .HasColumnType("datetime2");
+
+                    b.Property<string>("PasswordHash")
+                        .IsRequired()
+                        .HasMaxLength(2147483647)
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("SecurityStamp")
+                        .IsRequired()
+                        .HasMaxLength(2147483647)
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<byte[]>("Timestamp")
                         .IsConcurrencyToken()
