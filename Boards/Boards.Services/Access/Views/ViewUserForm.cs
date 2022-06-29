@@ -1,4 +1,5 @@
-﻿using Boards.Services.Core;
+﻿using Boards.Services.Client;
+using Boards.Services.Core;
 using DI.Domain.Enums;
 using DI.Forms.Types;
 
@@ -9,6 +10,10 @@ namespace Boards.Services.Access.Views
         public override string FormName => $"view_appuser";
         protected override void CreateSchema(FormSchema fs)
         {
+            fs.AddHeaders(f =>
+            {
+                f.AddLabel("UserId", "User Id");
+            });
             fs.AddTab("User Details",UserDetails);
             fs.AddSubgrid("Role's", "UserRoleList", x =>
             {

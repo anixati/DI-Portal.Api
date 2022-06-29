@@ -129,7 +129,14 @@ namespace DI.Forms.Types
             });
             return fd;
         }
-
+        public static FormField AddLabel(this FormField fd, string key, string title = null)
+        {
+            fd.AddInput(key, title, x =>
+            {
+                x.FieldType = FormFieldType.Label;
+            });
+            return fd;
+        }
 
         public static FormField AddLink(this FormField fd, string key,  IClientRoute route, string title = null )
         {

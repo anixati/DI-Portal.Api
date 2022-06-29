@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using Di.Qry.Core;
 using Di.Qry.Requests;
 using Di.Qry.Schema;
+using DI.Security;
 using MediatR;
 using Microsoft.Extensions.Logging;
 
@@ -15,12 +16,13 @@ namespace DI.Services.Queries
     {
         private readonly IQryDataSource _dataSource;
         private readonly IQryProvider _provider;
-
-        public QueryHandler(IQryProvider provider, IQryDataSource handler, ILoggerFactory loggerFactory)
+        private readonly ISecurityContext _securityContext;
+        public QueryHandler(IQryProvider provider, IQryDataSource handler, ILoggerFactory loggerFactory, ISecurityContext securityContext)
             : base(loggerFactory)
         {
             _provider = provider;
             _dataSource = handler;
+            _securityContext = securityContext;
         }
 
         public async Task<QryResponse> Handle(QryRequest request, CancellationToken cancellationToken)
@@ -46,7 +48,9 @@ namespace DI.Services.Queries
             if (qs == null)
                 throw new Exception("Unable to get query state");
 
-            var pagedContext = qs.Compile(request);
+           
+            var pagedContext = await qs.Compile(request, _securityContext);
+
             Trace(pagedContext.DataQry.QueryString);
 
             var dbResult = await _dataSource.ExecuteQuery(pagedContext);

@@ -41,6 +41,12 @@ namespace DI.Domain.Core
         {
             return $"{Id}";
         }
+
+        public EntityReference Reference()
+        {
+            return new EntityReference(Id, GetType().Name);
+        }
+
         public virtual async Task<IEntity> OnCoreEvent(EntityEvent @event, IDataStore store)
         {
             await Task.Delay(0);

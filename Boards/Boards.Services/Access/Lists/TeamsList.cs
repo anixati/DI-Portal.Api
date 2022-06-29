@@ -33,6 +33,32 @@ namespace Boards.Services.Access.Lists
     }
 
 
+    public class AppTeamLookup : QrySchema
+    {
+        public override string SchemaName => "AppTeamLookup";
+        public override string Title => "Teams";
+        protected override Table CreateEntity()
+        {
+            var tb = Table.Create("Teams", "pe", "", "acl");
+            tb.Column("Name", "Name", "Name", x =>
+            {
+                x.Searchable = true;
+                x.Sortable = true;
+                x.Type = ColumnType.HyperLink;
+                x.LinkPath = Routes.TeamAdmin.Path();
+            });
+            tb.AddDateColumn("CreatedOn");
+            return tb;
+        }
+        protected override void ConfigureQry(QryState qs)
+        {
+        }
+        protected override (string, bool) GetDefaultSort()
+        {
+            return ("Name", false);
+        }
+    }
+
 
 
     public class TeamUserList : QrySchema

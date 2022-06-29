@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace EFCustomMigrations.Db.Migrations
 {
-    public partial class InitVersion : Migration
+    public partial class Initial_27062022_131026 : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -12,6 +12,32 @@ namespace EFCustomMigrations.Db.Migrations
 
             migrationBuilder.EnsureSchema(
                 name: "acl");
+
+            migrationBuilder.CreateTable(
+                name: "Activities",
+                schema: "Dbo",
+                columns: table => new
+                {
+                    Id = table.Column<long>(type: "bigint", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    EntityName = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
+                    EntityId = table.Column<long>(type: "bigint", nullable: false),
+                    Title = table.Column<string>(type: "nvarchar(500)", maxLength: 500, nullable: false),
+                    Notes = table.Column<string>(type: "nvarchar(max)", maxLength: 10000, nullable: true),
+                    ContentType = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: true),
+                    Locked = table.Column<bool>(type: "bit", nullable: false),
+                    Disabled = table.Column<bool>(type: "bit", nullable: false),
+                    Deleted = table.Column<bool>(type: "bit", nullable: false),
+                    Timestamp = table.Column<byte[]>(type: "rowversion", rowVersion: true, nullable: true),
+                    CreatedOn = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    CreatedBy = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
+                    ModifiedOn = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    ModifiedBy = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Activities", x => x.Id);
+                });
 
             migrationBuilder.CreateTable(
                 name: "AuditHistory",
@@ -52,6 +78,30 @@ namespace EFCustomMigrations.Db.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_AutoNumbers", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "DeleteRecords",
+                schema: "Dbo",
+                columns: table => new
+                {
+                    Id = table.Column<long>(type: "bigint", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    EntityName = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
+                    EntityId = table.Column<long>(type: "bigint", nullable: false),
+                    Notes = table.Column<string>(type: "nvarchar(500)", maxLength: 500, nullable: false),
+                    Locked = table.Column<bool>(type: "bit", nullable: false),
+                    Disabled = table.Column<bool>(type: "bit", nullable: false),
+                    Deleted = table.Column<bool>(type: "bit", nullable: false),
+                    Timestamp = table.Column<byte[]>(type: "rowversion", rowVersion: true, nullable: true),
+                    CreatedOn = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    CreatedBy = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
+                    ModifiedOn = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    ModifiedBy = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_DeleteRecords", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -598,6 +648,7 @@ namespace EFCustomMigrations.Db.Migrations
                     Id = table.Column<long>(type: "bigint", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     PortfolioId = table.Column<long>(type: "bigint", nullable: false),
+                    AppTeamId = table.Column<long>(type: "bigint", nullable: false),
                     Summary = table.Column<string>(type: "nvarchar(2000)", maxLength: 2000, nullable: true),
                     PendingAction = table.Column<string>(type: "nvarchar(2000)", maxLength: 2000, nullable: true),
                     EstablishedByUnderText = table.Column<string>(type: "nvarchar(2000)", maxLength: 2000, nullable: true),
@@ -677,6 +728,12 @@ namespace EFCustomMigrations.Db.Migrations
                         column: x => x.AsstSecretaryId,
                         principalSchema: "Dbo",
                         principalTable: "Secretaries",
+                        principalColumn: "Id");
+                    table.ForeignKey(
+                        name: "FK_Boards_Teams_AppTeamId",
+                        column: x => x.AppTeamId,
+                        principalSchema: "acl",
+                        principalTable: "Teams",
                         principalColumn: "Id");
                     table.ForeignKey(
                         name: "FK_Boards_Users_ApprovedUserId",
@@ -934,6 +991,13 @@ namespace EFCustomMigrations.Db.Migrations
                 });
 
             migrationBuilder.CreateIndex(
+                name: "IX_Activities_EntityName_EntityId",
+                schema: "Dbo",
+                table: "Activities",
+                columns: new[] { "EntityName", "EntityId" },
+                unique: true);
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Appointee_CapabilitiesId",
                 schema: "Dbo",
                 table: "Appointee",
@@ -1048,6 +1112,12 @@ namespace EFCustomMigrations.Db.Migrations
                 column: "ApprovedUserId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_Boards_AppTeamId",
+                schema: "Dbo",
+                table: "Boards",
+                column: "AppTeamId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Boards_AsstSecretaryId",
                 schema: "Dbo",
                 table: "Boards",
@@ -1094,6 +1164,13 @@ namespace EFCustomMigrations.Db.Migrations
                 schema: "Dbo",
                 table: "Boards",
                 column: "ResponsibleUserId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_DeleteRecords_EntityName_EntityId",
+                schema: "Dbo",
+                table: "DeleteRecords",
+                columns: new[] { "EntityName", "EntityId" },
+                unique: true);
 
             migrationBuilder.CreateIndex(
                 name: "IX_MinisterTerms_MinisterId",
@@ -1192,6 +1269,10 @@ namespace EFCustomMigrations.Db.Migrations
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
+                name: "Activities",
+                schema: "Dbo");
+
+            migrationBuilder.DropTable(
                 name: "AppointeeSkill",
                 schema: "Dbo");
 
@@ -1205,6 +1286,10 @@ namespace EFCustomMigrations.Db.Migrations
 
             migrationBuilder.DropTable(
                 name: "BoardAppointments",
+                schema: "Dbo");
+
+            migrationBuilder.DropTable(
+                name: "DeleteRecords",
                 schema: "Dbo");
 
             migrationBuilder.DropTable(
@@ -1248,10 +1333,6 @@ namespace EFCustomMigrations.Db.Migrations
                 schema: "acl");
 
             migrationBuilder.DropTable(
-                name: "Teams",
-                schema: "acl");
-
-            migrationBuilder.DropTable(
                 name: "Roles",
                 schema: "acl");
 
@@ -1274,6 +1355,10 @@ namespace EFCustomMigrations.Db.Migrations
             migrationBuilder.DropTable(
                 name: "Secretaries",
                 schema: "Dbo");
+
+            migrationBuilder.DropTable(
+                name: "Teams",
+                schema: "acl");
 
             migrationBuilder.DropTable(
                 name: "Users",

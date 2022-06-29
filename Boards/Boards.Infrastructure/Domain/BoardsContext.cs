@@ -1,5 +1,4 @@
-﻿using System.Threading.Tasks;
-using Boards.Domain;
+﻿using Boards.Domain;
 using DI.Domain.Core;
 using DI.Domain.Services;
 

@@ -46,6 +46,7 @@ namespace DI.Services.Handlers
                 var rx = await handler.LoadViewData(response.Schema, request.EntityId.GetValueOrDefault());
                 response.Entity = rx.Entity;
                 response.InitialValues = rx.InitialValues;
+                response.HdrValues = rx.HdrValues;
             }
             return response;
         }

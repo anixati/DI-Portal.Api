@@ -52,6 +52,8 @@ namespace DI.Services.Handlers
         {
             var ls = schema.Fields.Where(x => x.Layout != LayoutType.Header).ToList();
             LoadKeys(ls, rs.InitialValues);
+            var hs = schema.Fields.Where(x => x.Layout == LayoutType.Header).ToList();
+            LoadKeys(hs, rs.HdrValues);
         }
 
         private static void LoadKeys(List<FormField> schemaFields, IDictionary<string, string> rvl)

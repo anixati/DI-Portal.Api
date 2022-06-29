@@ -15,6 +15,11 @@ namespace Boards.Domain.Boards
 
         public virtual Portfolio Portfolio { get; set; }
 
+        [Required] public long AppTeamId { get; set; }
+
+        public virtual AppTeam AppTeam { get; set; }
+
+
         [MaxLength(2000)] public string Summary { get; set; }
 
         [MaxLength(2000)] public string PendingAction { get; set; }

@@ -31,6 +31,9 @@ namespace EFCustomMigrations.Db.Migrations
                         .HasMaxLength(255)
                         .HasColumnType("nvarchar(255)");
 
+                    b.Property<long>("AppTeamId")
+                        .HasColumnType("bigint");
+
                     b.Property<long?>("ApprovedUserId")
                         .HasColumnType("bigint");
 
@@ -151,6 +154,8 @@ namespace EFCustomMigrations.Db.Migrations
                         .HasColumnType("rowversion");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("AppTeamId");
 
                     b.HasIndex("ApprovedUserId");
 
@@ -1063,6 +1068,130 @@ namespace EFCustomMigrations.Db.Migrations
                     b.ToTable("Settings");
                 });
 
+            modelBuilder.Entity("DI.Domain.Features.Activity", b =>
+                {
+                    b.Property<long>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bigint")
+                        .UseIdentityColumn();
+
+                    b.Property<string>("ContentType")
+                        .HasMaxLength(255)
+                        .HasColumnType("nvarchar(255)");
+
+                    b.Property<string>("CreatedBy")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
+
+                    b.Property<DateTime>("CreatedOn")
+                        .HasColumnType("datetime2");
+
+                    b.Property<bool>("Deleted")
+                        .HasColumnType("bit");
+
+                    b.Property<bool>("Disabled")
+                        .HasColumnType("bit");
+
+                    b.Property<long>("EntityId")
+                        .HasColumnType("bigint");
+
+                    b.Property<string>("EntityName")
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
+
+                    b.Property<bool>("Locked")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("ModifiedBy")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
+
+                    b.Property<DateTime>("ModifiedOn")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Notes")
+                        .HasMaxLength(10000)
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<byte[]>("Timestamp")
+                        .IsConcurrencyToken()
+                        .ValueGeneratedOnAddOrUpdate()
+                        .HasColumnType("rowversion");
+
+                    b.Property<string>("Title")
+                        .IsRequired()
+                        .HasMaxLength(500)
+                        .HasColumnType("nvarchar(500)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("EntityName", "EntityId")
+                        .IsUnique();
+
+                    b.ToTable("Activities");
+                });
+
+            modelBuilder.Entity("DI.Domain.Features.DeleteRecord", b =>
+                {
+                    b.Property<long>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bigint")
+                        .UseIdentityColumn();
+
+                    b.Property<string>("CreatedBy")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
+
+                    b.Property<DateTime>("CreatedOn")
+                        .HasColumnType("datetime2");
+
+                    b.Property<bool>("Deleted")
+                        .HasColumnType("bit");
+
+                    b.Property<bool>("Disabled")
+                        .HasColumnType("bit");
+
+                    b.Property<long>("EntityId")
+                        .HasColumnType("bigint");
+
+                    b.Property<string>("EntityName")
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
+
+                    b.Property<bool>("Locked")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("ModifiedBy")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
+
+                    b.Property<DateTime>("ModifiedOn")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Notes")
+                        .IsRequired()
+                        .HasMaxLength(500)
+                        .HasColumnType("nvarchar(500)");
+
+                    b.Property<byte[]>("Timestamp")
+                        .IsConcurrencyToken()
+                        .ValueGeneratedOnAddOrUpdate()
+                        .HasColumnType("rowversion");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("EntityName", "EntityId")
+                        .IsUnique();
+
+                    b.ToTable("DeleteRecords");
+                });
+
             modelBuilder.Entity("DI.Domain.Options.OptionKey", b =>
                 {
                     b.Property<long>("Id")
@@ -1619,6 +1748,12 @@ namespace EFCustomMigrations.Db.Migrations
 
             modelBuilder.Entity("Boards.Domain.Boards.Board", b =>
                 {
+                    b.HasOne("DI.Domain.Users.AppTeam", "AppTeam")
+                        .WithMany()
+                        .HasForeignKey("AppTeamId")
+                        .OnDelete(DeleteBehavior.NoAction)
+                        .IsRequired();
+
                     b.HasOne("DI.Domain.Users.AppUser", "ApprovedUser")
                         .WithMany()
                         .HasForeignKey("ApprovedUserId")
@@ -1668,6 +1803,8 @@ namespace EFCustomMigrations.Db.Migrations
                         .OnDelete(DeleteBehavior.NoAction);
 
                     b.Navigation("ApprovedUser");
+
+                    b.Navigation("AppTeam");
 
                     b.Navigation("AsstSecretary");
 

@@ -2,6 +2,7 @@
 using System.Threading.Tasks;
 using DI.Core;
 using DI.Domain.Core;
+using DI.Domain.Features;
 using DI.Domain.Requests;
 using DI.Domain.Services;
 using DI.Response;
@@ -22,15 +23,26 @@ namespace DI.Domain.Handlers.Generic
 
         public async Task<ActionResponse> Handle(Entity.ChangeState<T> request, CancellationToken cancellationToken)
         {
+            var code = GetCode(request.Action);
             var repo = _dataStore.Repo<T>();
             var entity = await repo.GetById(request.Id);
             entity.ThrowIfNull("no record found!");
-
             EntityStateMachine.Set(entity, request.Action);
 
             var ue = await repo.UpdateAsync(entity);
+            if (code == ResponseCode.Deleted)
+            {
+                var dr = _dataStore.Repo<DeleteRecord>();
+                var erf = entity.Reference();
+                await dr.CreateAndSaveAsync(new DeleteRecord
+                {
+                    EntityId = erf.Id,
+                    EntityName = erf.Name,
+                    Notes = request.Reason
+                    
+                });
+            }
 
-            var code = GetCode(request.Action);
             return new ActionResponse(code, $"{code}", ue.Id);
         }
 

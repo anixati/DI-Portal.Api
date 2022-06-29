@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using DI.Domain.App;
 using DI.Domain.Config;
 using DI.Domain.Core;
+using DI.Domain.Features;
 using DI.Domain.Options;
 using DI.Domain.Users;
 using DI.Exceptions;
@@ -39,6 +40,11 @@ namespace DI.Domain.Services
         public DbSet<AppUser> Users { get; set; }
         public DbSet<AppRole> Roles { get; set; }
         public DbSet<AppResource> Resources { get; set; }
+
+
+        public DbSet<Activity> Activities { get; set; }
+        public DbSet<DeleteRecord> DeleteRecords { get; set; }
+
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
@@ -101,7 +107,8 @@ namespace DI.Domain.Services
                     e.Entity, vc, errors, true);
             }
 
-            if (errors.Any()) throw new DataValidationException(errors);
+            if (errors.Any())
+                throw new DataValidationException(errors);
         }
 
         private List<AuditEvent> GetAuditEvents(IEnumerable<EntityEntry> entries)

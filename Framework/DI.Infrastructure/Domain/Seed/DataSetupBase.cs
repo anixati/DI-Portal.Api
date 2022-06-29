@@ -12,31 +12,36 @@ namespace DI.Domain.Seed
 {
     public abstract class DataSetupBase<T> : IDisposable where T : DbContext
     {
-        protected readonly IDataStore<T> DataStore;
+        protected readonly IDataStore<T> _dataStore;
 
-        protected DataSetupBase(IServiceProvider serviceProvider)
+        protected DataSetupBase(IDataStore<T> dataStore)
         {
-            DataStore = serviceProvider.GetRequiredService<IDataStore<T>>();
+            _dataStore = dataStore;
         }
+
+        //protected DataSetupBase(IServiceProvider serviceProvider)
+        //{
+        //    DataStore = serviceProvider.GetRequiredService<IDataStore<T>>();
+        //}
 
         public void Dispose()
         {
-            DataStore?.Dispose();
+            _dataStore?.Dispose();
         }
 
         public async Task Run()
         {
             try
             {
-                await DataStore.BeginTransaction();
+                await _dataStore.BeginTransaction();
                 await SetupSecurity();
                 await SetupDomainData();
-                await DataStore.SaveAsync();
-                DataStore.Commit();
+                await _dataStore.SaveAsync();
+                _dataStore.Commit();
             }
             catch (Exception ex)
             {
-                DataStore.Rollback();
+                _dataStore.Rollback();
                 Console.WriteLine($"ROLLING BACK ---{ex}");
                 throw;
             }
@@ -44,14 +49,14 @@ namespace DI.Domain.Seed
 
         protected IRepository<TK> GetRepo<TK>() where TK : class, IEntity
         {
-            return DataStore.Repo<TK>();
+            return _dataStore.Repo<TK>();
         }
 
         protected abstract Task SetupDomainData();
 
         protected async Task<TK> CreateIfNotExists<TK>(TK entity) where TK : class, INamedEntity
         {
-            var repo = DataStore.Repo<TK>();
+            var repo = _dataStore.Repo<TK>();
             var op = await repo.FindAsync(x => EF.Functions.Like(x.Name, entity.Name)) ??
                      await repo.CreateAsync(entity);
             return op;
@@ -60,9 +65,14 @@ namespace DI.Domain.Seed
 
         protected async Task<TK> Create<TK>(TK entity) where TK : class, IEntity
         {
-            var repo = DataStore.Repo<TK>();
+            var repo = _dataStore.Repo<TK>();
             var op = await repo.CreateAsync(entity);
             return op;
+        }
+
+        protected async Task Save()
+        {
+            await _dataStore.SaveAsync();
         }
 
         public async Task SetupSecurity()
@@ -72,10 +82,10 @@ namespace DI.Domain.Seed
             {
                 var entity = await CreateIfNotExists(new AppRole
                 {
-                    Name = $"{role}", Code = $"{role.ToString().ToCode()}", Description = role.ToDesc(), Locked = true
+                    Name = $"{role}", Code = $"{role}", Description = role.ToDesc(), Locked = true
                 });
             }
-
+            await Save();
             var team = await CreateIfNotExists(new AppTeam
             {
                 Name = $"Default",
@@ -84,12 +94,12 @@ namespace DI.Domain.Seed
             });
 
 
-            var entitites = DataStore.Db.Model.GetEntityTypes().Select(x => x.ClrType).ToList();
+            var entitites = _dataStore.Db.Model.GetEntityTypes().Select(x => x.ClrType).ToList();
             foreach (var entity in entitites)
                 await CreateIfNotExists(new AppResource {Name = $"{entity.Name}", Description = $"{entity.FullName}"});
 
 
-            await DataStore.SaveAsync();
+            await Save();
         }
     }
 }

@@ -13,9 +13,22 @@ namespace DI.Domain.Core
         byte[] Timestamp { get; set; }
         string GetName();
         string GetKey();
-
-       
+        EntityReference Reference();
     }
+
+    public class EntityReference
+    {
+        public EntityReference(long id, string name)
+        {
+            Id = id;
+            Name = name;
+        }
+
+        public long Id { get; }
+        public string Name { get;  }
+
+    }
+
 
     public enum EntityEvent
     {

@@ -2,10 +2,12 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using Di.Qry.Core;
 using Di.Qry.Providers;
 using Di.Qry.Schema.Types;
 using DI.Queries;
+using DI.Security;
 using SqlKata;
 using static System.String;
 
@@ -28,6 +30,7 @@ namespace Di.Qry.Schema
 
         public Table Table { get; }
         public string ParentId { get; set; }
+        public string TeamId { get; set; }
         public string Key => $"{Table.Name}_Query";
 
         public bool HasSubQueries => _subQueries.Any();
@@ -79,13 +82,12 @@ namespace Di.Qry.Schema
 
         private static void AddJoin(Query query, Link link)
         {
-
             query.Join(link.Table.TableName, x =>
             {
                 x.On(link.From, link.To);
-                if (link.Clauses != null)
-                    foreach (var craw in link.Clauses)
-                        x.WhereRaw(craw);
+                if (link.Clauses == null) return x;
+                foreach (var craw in link.Clauses)
+                    x.WhereRaw(craw);
                 return x;
             }, link.JoinType);
         }
@@ -105,7 +107,7 @@ namespace Di.Qry.Schema
 
         #region Compile Paged Query
 
-        public IPagedContext Compile(IQryRequest request)
+        public async Task<IPagedContext> Compile(IQryRequest request,ISecurityContext securityContext)
         {
             var rv = new PagedContext { PageInfo = request.PageInfo };
             var compiler = new LocalCompiler();
@@ -117,8 +119,18 @@ namespace Di.Qry.Schema
 
             if (request.Filter != null && request.Filter.HasChildRules)
                 exQuery.Where(x => AddClause(request.Filter, request.Filter.IsOr, x));
+
+            //Filter by parent id
             if (!string.IsNullOrEmpty(ParentId) && request.EntityId.HasValue)
                 exQuery.Where(x => x.Where(ParentId, "=", request.EntityId.GetValueOrDefault()));
+
+            //Filter by teamId
+            if (!string.IsNullOrEmpty(TeamId))
+            {
+                var teams = await securityContext.GetTeamIds();
+                if (!teams.Any()) throw new Exception($"User has no teams assigned");
+                exQuery.Where(x => x.WhereIn(TeamId, teams));
+            }
 
             if (request.CanSearch())
                 exQuery.Where(q =>
@@ -128,6 +140,9 @@ namespace Di.Qry.Schema
                         return q;
                     }
                 );
+
+
+
             //  exQuery = cols.Where(x => x.Searchable).Aggregate(exQuery,
             // (current, col) => current.OrWhereLike(col.SortCol, $"%{request.SearchStr}%"));
 
@@ -162,7 +177,6 @@ namespace Di.Qry.Schema
                 if (col != null)
                     rv.Add(new SortInfo(col.SortCol, si.Desc));
             }
-
             return rv;
         }
 
@@ -314,40 +328,5 @@ namespace Di.Qry.Schema
         }
 
         #endregion
-    }
-
-    public class SuQryState
-    {
-        private Query _query;
-
-        public SuQryState(string key, string fromKey, string toKey, Func<Table> entityFunc)
-        {
-            SchemaKey = key;
-            FromKey = fromKey;
-            ToKey = toKey;
-            EntFunc = entityFunc;
-        }
-
-        public string SchemaKey { get; }
-        public string FromKey { get; }
-        public string ToKey { get; }
-        public Func<Table> EntFunc { get; }
-
-
-        public void SetQuery(Query query)
-        {
-            _query = query;
-        }
-
-        public IQryContext Compile(IList<object> inSet)
-        {
-            if (inSet == null) return null;
-            var query = _query.Clone();
-            query.WhereIn(FromKey, inSet);
-
-            var comResult = new LocalCompiler()
-                .Compile(query);
-            return QryContext.Create(SchemaKey, comResult);
-        }
     }
 }

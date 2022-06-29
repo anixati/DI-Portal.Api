@@ -155,6 +155,7 @@ CREATE VIEW  [dbo].[ActiveBoardsView] AS
 			ats.Id AS AsstSecretaryId,
 			(COALESCE(ats.Title+' ','')+ats.FirstName+' '+ats.LastName) As AsstSecretary,  
 			0 AS CurrentRoles,
+			bds.AppTeamId,
 			bds.[Disabled]
 			FROM [dbo].[Boards] bds
 			LEFT JOIN [dbo].[Portfolios] pf on pf.Id = bds.PortfolioId AND pf.Deleted =0

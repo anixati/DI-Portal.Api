@@ -4,26 +4,40 @@ using System.Threading.Tasks;
 using Boards.Domain.Boards;
 using Boards.Domain.Contacts;
 using Boards.Infrastructure.Domain;
+using DI.Domain;
 using DI.Domain.Enums;
 using DI.Domain.Options;
 using DI.Domain.Owned;
 using DI.Domain.Seed;
 using DI.Domain.Users;
+using DI.Security;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Logging;
 using BC = BCrypt.Net.BCrypt;
 
-namespace Boards.Infrastructure.Seeding
+namespace Boards.Infrastructure.Design
 {
     public class BoardsData : DataSetupBase<BoardsDbContext>
     {
-        public BoardsData(IServiceProvider serviceProvider) : base(serviceProvider)
+        private class MigUserIdentityProvider : IIdentityProvider
+        {
+            public IIdentity GetIdentity()
+            {
+                return new UserIdentity("SYSTEM", "", "");
+            }
+        }
+        public BoardsData(DbDataStore<BoardsDbContext> context) : base(context)
         {
         }
         public static async Task Run(IServiceProvider serviceProvider)
         {
             try
             {
-                using var context = new BoardsData(serviceProvider);
+                var lf = serviceProvider.GetService<ILoggerFactory>();
+                var options = serviceProvider.GetService<DbContextOptions<BoardsDbContext>>();
+                var dbc = new BoardsDbContext(options, new MigUserIdentityProvider());
+                using var context = new BoardsData(new DbDataStore<BoardsDbContext>(dbc,lf));
                 await context.Run();
             }
             catch (Exception ex)
@@ -37,7 +51,7 @@ namespace Boards.Infrastructure.Seeding
             await CreatePortfolios();
             await CreateDummyAppointees();
             await CreateDummyUsers();
-            await DataStore.SaveAsync();
+            await Save();
         }
         private async Task CreateDummyOpSets()
         {
@@ -49,7 +63,7 @@ namespace Boards.Infrastructure.Seeding
                 "AppointmentSource", "SelectionProcess", "Judicial","SkillType"
 
             };
-            var repo = DataStore.Repo<OptionKey>();
+            var repo = GetRepo<OptionKey>();
             var ix = 1;
             foreach (var jx in osk)
             {
@@ -64,7 +78,7 @@ namespace Boards.Infrastructure.Seeding
                     Description = $"{jx} description"
                 };
                 await repo.CreateAsync(op);
-                await DataStore.SaveAsync();
+                await Save();
 
                 foreach (var i in Enumerable.Range(1, rng.Next(3, 12)))
                 {
@@ -83,7 +97,7 @@ namespace Boards.Infrastructure.Seeding
         private async Task CreatePortfolios()
         {
             var rng = new Random();
-            var repo = DataStore.Repo<Portfolio>();
+            var repo = GetRepo<Portfolio>();
             var ix = 1;
             foreach (var i in Enumerable.Range(1, rng.Next(6, 12)))
             {
@@ -97,22 +111,29 @@ namespace Boards.Infrastructure.Seeding
                     Description = $"{jx} description"
                 };
                 await repo.CreateAsync(op);
-                await DataStore.SaveAsync();
+                await Save();
             }
         }
 
         private async Task CreateDummyUsers()
         {
-            var rng = new Random();
-            var opr = GetRepo<AppUser>();
-            foreach (var jx in Enumerable.Range(1, rng.Next(15, 20)))
+
+            var tmr = GetRepo<AppTeam>();
+            var tur = GetRepo<TeamUser>();
+            var team = await tmr.FindAsync(x => EF.Functions.Like(x.Name, "Default")); 
+            var users = new string[]
             {
-                var name = $"App{jx}";
+                "Admin","Super","View","Contrib"
+            };
+            var opr = GetRepo<AppUser>();
+            foreach (var name in users)
+            {
                 var app = await opr.FindAsync(x => EF.Functions.Like(x.FirstName, name));
                 if (app != null) continue;
+                var ix = 1;
                 var op = await opr.CreateAsync(new AppUser()
                 {
-                    UserId = $"User{jx}",
+                    UserId = name,
                     Title = "Mr",
                     FirstName = name,
                     LastName = $"User",
@@ -127,10 +148,22 @@ namespace Boards.Infrastructure.Seeding
                     ChangePassword = true ,
                     StreetAddress = CreateAddress(),
                     PostalAddress = CreateAddress(),
-                    Disabled = jx % 2 == 0 ? true : false,
-                    Gender = jx % 2 == 0 ? GenderEnum.Male : GenderEnum.Female,
+                    Disabled = false,
+                    Gender = ix % 2 == 0 ? GenderEnum.Male : GenderEnum.Female,
                 });
+                await Save();
+                if (op != null)
+                {
+                    await tur.CreateAsync(new TeamUser {AppTeamId = team.Id, AppUserId = op.Id});
+                }
+                await Save();
+                ix++;
             }
+
+
+
+
+
         }
 
         private async Task CreateDummyAppointees()

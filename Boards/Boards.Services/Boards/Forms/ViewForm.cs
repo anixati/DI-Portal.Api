@@ -32,6 +32,7 @@ namespace Boards.Services.Boards.Forms
                 x.FieldType = FormFieldType.Text;
                 x.Width = 98;
             });
+            field.AddLookup("AppTeam", "AppTeamLookup", Routes.Default, "Team/Division", true);
             field.AddFieldGroup(f =>
             {
                 f.AddInput("Acronym", "Acronym", true, 33);

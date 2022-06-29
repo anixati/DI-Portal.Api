@@ -12,6 +12,7 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{F916C44C-666A-4EE8-B770-45016AEFD7D7}"
 	ProjectSection(SolutionItems) = preProject
 		.gitignore = .gitignore
+		full-migrate.bat = full-migrate.bat
 		migrate.bat = migrate.bat
 		Notes.txt = Notes.txt
 	EndProjectSection
@@ -46,7 +47,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ConsoleTester", "Tools\Cons
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Di.Queries", "Framework\Di.Queries\Di.Queries.csproj", "{C77AD962-357A-49A3-900D-FAEEE10FCF1A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DI.Forms", "Framework\DI.Forms\DI.Forms.csproj", "{C06CFDD2-82EE-4EF8-95BA-247304D0294E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DI.Forms", "Framework\DI.Forms\DI.Forms.csproj", "{C06CFDD2-82EE-4EF8-95BA-247304D0294E}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

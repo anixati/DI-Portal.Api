@@ -1,5 +1,6 @@
 ﻿using System;
 using Autofac;
+using Boards.Domain;
 using Boards.Domain.Boards;
 using Boards.Infrastructure.Design;
 using Boards.Infrastructure.Domain;
@@ -20,15 +21,23 @@ namespace Boards.Infrastructure
 
             builder.AddVersion(ThisAssembly);
 
-            builder.RegisterAssemblyTypes(moduleAssembly)
-                .AsImplementedInterfaces();
+            //!!!! dont do this on this assembly!!!!
+            //builder.RegisterAssemblyTypes(moduleAssembly)
+            //    .AsImplementedInterfaces();
 
 
-          
             builder.AddDbContext<BoardsDbContext>();
             builder.AddQryProviders<BoardsDbContext>();
             builder.AddFormProviders();
             builder.RegisterEntityHandlers<BoardsDbContext>(typeof(BaseEntity).Assembly, typeof(Board).Assembly);
+
+            builder.RegisterType<BoardsContext>()
+                .As<IBoardsContext>()
+                .InstancePerLifetimeScope();
+
+            builder.RegisterType<SecurityContext>()
+                .As<ISecurityContext>()
+                .InstancePerLifetimeScope();
 
             // builder.AddMappings(moduleType);
             // builder.AddEntityServices(moduleAssembly);

@@ -31,6 +31,10 @@ namespace Boards.Services.Boards.Forms
                 f.AddInput("Acronym", "Acronym");
                 f.AddLookup("Portfolio", "PortfolioLookup", Routes.Portfolios, "Portfolio", true);
             });
+            field.AddFieldGroup(f =>
+            {
+                f.AddLookup("AppTeam", "AppTeamLookup", Routes.Default, "Team/Division", true);
+            });
             field.AddInput("Description", "Description", x =>
             {
                 x.AddRequired("Description is required");

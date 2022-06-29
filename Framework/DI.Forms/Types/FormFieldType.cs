@@ -15,6 +15,7 @@
         SubGrid=10,
         Decimal = 11,
         Action =21,
-        Link=22
+        Link=22,
+        Label=23
     }
 }
