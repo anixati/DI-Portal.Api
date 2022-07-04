@@ -18,7 +18,7 @@ GO
 -- user role
 
 INSERT INTO [acl].[UserRoles] ([AppUserId] ,[AppRoleId] ,[Locked] ,[Disabled] ,[Deleted])
-     VALUES (1,4,0,0,0)
+     VALUES (2,2,0,0,0)
 GO
 
 

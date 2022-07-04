@@ -28,7 +28,7 @@ namespace DI.WebApi.Security
             var user = _accessor.HttpContext?.User;
             user.ThrowIfNull($"Unable to retrieve user principal");
 
-            var uid = user.Claims.FirstOrDefault(x => x.Type == "sub")?.Value;
+            var uid = user.Claims.FirstOrDefault(x => x.Type == ClaimTypes.Sid)?.Value;
             var name = user.Claims.FirstOrDefault(x => x.Type == ClaimTypes.Name)?.Value;
             var roles = user.Claims.FirstOrDefault(x => x.Type == ClaimTypes.Role)?.Value;
 

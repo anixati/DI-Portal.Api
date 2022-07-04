@@ -12,5 +12,6 @@ namespace DI.Security
         bool IsInRole(int role);
         bool HasRoles();
         int[] Roles();
+        bool IsSysAdmin();
     }
 }

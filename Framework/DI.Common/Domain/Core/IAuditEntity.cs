@@ -15,4 +15,9 @@ namespace DI.Domain.Core
         string Name { get; set; }
         string Description { get; set; }
     }
+
+    public interface ICheckSystemEntity : IAuditEntity
+    {
+        bool IsSystem { get; set; }
+    }
 }

@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Boards.Domain;
 using DI.Domain.Users;
+using DI.Extensions;
 using DI.Security;
 using DI.Security.Core;
 
@@ -58,6 +59,11 @@ namespace Boards.Infrastructure.Domain
         public int[] Roles()
         {
             return User.Roles();
+        }
+
+        public bool IsSysAdmin()
+        {
+            return User.IsSysAdmin();
         }
     }
 }

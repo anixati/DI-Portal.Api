@@ -10,7 +10,7 @@ namespace Boards.Services.Boards.Lists
         public static Table BoardViewTable()
         {
             var pt = Table.Create(Constants.Db.BoardsView);
-            pt.AddHiddenCols("PortfolioId", "RespOfficerId", "ApprovedUserId", "AsstSecretaryId");
+            pt.AddHiddenCols("PortfolioId", "RespOfficerId", "ApprovedUserId", "AsstSecretaryId", "AppTeamId");
 
             pt.Column("Name", "Name", "Name", x =>
             {

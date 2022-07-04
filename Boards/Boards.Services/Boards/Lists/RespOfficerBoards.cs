@@ -15,6 +15,7 @@ namespace Boards.Services.Boards.Lists
         {
             qs.Where("Disabled", "=", "0");
             qs.ParentId = "RespOfficerId";
+            qs.TeamId = "AppTeamId";
         }
         protected override (string, bool) GetDefaultSort()
         {

@@ -82,7 +82,7 @@ namespace DI.Domain.Seed
             {
                 var entity = await CreateIfNotExists(new AppRole
                 {
-                    Name = $"{role}", Code = $"{role}", Description = role.ToDesc(), Locked = true
+                    Name = $"{role}", Code = $"{(int)role}", Description = role.ToDesc(), Locked = true,IsSystem = true
                 });
             }
             await Save();
@@ -90,7 +90,8 @@ namespace DI.Domain.Seed
             {
                 Name = $"Default",
                 Description = "Default Team",
-                Locked = true
+                Locked = true,
+                IsSystem = true
             });
 
 

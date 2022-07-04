@@ -16,8 +16,6 @@ GO
 
 CREATE TABLE [Dbo].[Activities] (
     [Id] bigint NOT NULL IDENTITY,
-    [EntityName] nvarchar(100) NOT NULL,
-    [EntityId] bigint NOT NULL,
     [Title] nvarchar(500) NOT NULL,
     [Notes] nvarchar(max) NULL,
     [ContentType] nvarchar(255) NULL,
@@ -29,6 +27,8 @@ CREATE TABLE [Dbo].[Activities] (
     [CreatedBy] nvarchar(50) NOT NULL,
     [ModifiedOn] datetime2 NOT NULL,
     [ModifiedBy] nvarchar(50) NOT NULL,
+    [EntityName] nvarchar(100) NOT NULL,
+    [EntityId] bigint NOT NULL,
     CONSTRAINT [PK_Activities] PRIMARY KEY ([Id])
 );
 GO
@@ -62,9 +62,7 @@ GO
 
 CREATE TABLE [Dbo].[DeleteRecords] (
     [Id] bigint NOT NULL IDENTITY,
-    [EntityName] nvarchar(100) NOT NULL,
-    [EntityId] bigint NOT NULL,
-    [Notes] nvarchar(500) NOT NULL,
+    [Notes] nvarchar(500) NULL,
     [Locked] bit NOT NULL,
     [Disabled] bit NOT NULL,
     [Deleted] bit NOT NULL,
@@ -73,6 +71,8 @@ CREATE TABLE [Dbo].[DeleteRecords] (
     [CreatedBy] nvarchar(50) NOT NULL,
     [ModifiedOn] datetime2 NOT NULL,
     [ModifiedBy] nvarchar(50) NOT NULL,
+    [EntityName] nvarchar(100) NOT NULL,
+    [EntityId] bigint NOT NULL,
     CONSTRAINT [PK_DeleteRecords] PRIMARY KEY ([Id])
 );
 GO
@@ -165,6 +165,7 @@ GO
 CREATE TABLE [acl].[Roles] (
     [Id] bigint NOT NULL IDENTITY,
     [Code] nvarchar(30) NOT NULL,
+    [IsSystem] bit NOT NULL,
     [Locked] bit NOT NULL,
     [Disabled] bit NOT NULL,
     [Deleted] bit NOT NULL,
@@ -234,6 +235,7 @@ GO
 
 CREATE TABLE [acl].[Teams] (
     [Id] bigint NOT NULL IDENTITY,
+    [IsSystem] bit NOT NULL,
     [Locked] bit NOT NULL,
     [Disabled] bit NOT NULL,
     [Deleted] bit NOT NULL,
@@ -257,6 +259,7 @@ CREATE TABLE [acl].[Users] (
     [EmailConfirmed] bit NOT NULL,
     [LockedOut] bit NOT NULL,
     [AccessFailCount] int NOT NULL,
+    [IsSystem] bit NOT NULL,
     [Locked] bit NOT NULL,
     [Disabled] bit NOT NULL,
     [Deleted] bit NOT NULL,
@@ -752,7 +755,7 @@ CREATE UNIQUE INDEX [IX_Users_UserId] ON [acl].[Users] ([UserId]);
 GO
 
 INSERT INTO [__EFMigrationsHistory] ([MigrationId], [ProductVersion])
-VALUES (N'20220627031101_Initial_27062022_131026', N'5.0.16');
+VALUES (N'20220704022034_Initial_04072022_121947', N'5.0.16');
 GO
 
 COMMIT;

@@ -107,7 +107,7 @@ namespace Di.Qry.Schema
 
         #region Compile Paged Query
 
-        public async Task<IPagedContext> Compile(IQryRequest request,ISecurityContext securityContext)
+        public async Task<IPagedContext> Compile(IQryRequest request, ISecurityContext securityContext)
         {
             var rv = new PagedContext { PageInfo = request.PageInfo };
             var compiler = new LocalCompiler();
@@ -125,11 +125,12 @@ namespace Di.Qry.Schema
                 exQuery.Where(x => x.Where(ParentId, "=", request.EntityId.GetValueOrDefault()));
 
             //Filter by teamId
-            if (!string.IsNullOrEmpty(TeamId))
+            if (!string.IsNullOrEmpty(TeamId) && !securityContext.IsSysAdmin() )
             {
                 var teams = await securityContext.GetTeamIds();
-                if (!teams.Any()) throw new Exception($"User has no teams assigned");
-                exQuery.Where(x => x.WhereIn(TeamId, teams));
+                if (teams.Any()) exQuery.Where(x => x.WhereIn(TeamId, teams));
+                else exQuery.Where(x => x.WhereIn(TeamId, new long[]{0}));
+
             }
 
             if (request.CanSearch())

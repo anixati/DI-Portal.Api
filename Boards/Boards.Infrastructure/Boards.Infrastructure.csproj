@@ -22,7 +22,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="EFCustomMigrations\" />
+    <Folder Include="EFCustomMigrations\Db\" />
   </ItemGroup>
 
 </Project>

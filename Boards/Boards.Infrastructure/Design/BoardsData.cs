@@ -24,7 +24,7 @@ namespace Boards.Infrastructure.Design
         {
             public IIdentity GetIdentity()
             {
-                return new UserIdentity("SYSTEM", "", "");
+                return new UserIdentity("", "SYSTEM", "");
             }
         }
         public BoardsData(DbDataStore<BoardsDbContext> context) : base(context)

@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using DI.Domain.Activities;
 using DI.Domain.App;
 using DI.Domain.Contacts;
 using DI.Domain.Core;
@@ -23,6 +24,10 @@ namespace DI.Services.Maps
                 .IncludeAllDerived();
             CreateMap<ContactBaseEntity, ContactViewModel>()
                 .IncludeAllDerived();
+            CreateMap<ActivityBase, ActivityModelBase>()
+                .IncludeAllDerived();
+
+            CreateMap<Activity, ActivityViewModel>();
 
 
             CreateMap<OptionKey, OptionModel>();
