@@ -9,11 +9,11 @@ namespace Boards.Services.Access.Views
         protected override void CreateSchema(FormSchema fs)
         {
             fs.AddTab("Team Details", UserDetails);
-            fs.AddSubgrid("Role's", "TeamRoleList", x =>
+            fs.AddSubGrid("Role's", "TeamRoleList", x =>
             {
                 x.AddAction("manage", "teamrole", "Manage Role's");
             });
-            fs.AddSubgrid("Users's", "TeamUserList", x =>
+            fs.AddSubGrid("Users's", "TeamUserList", x =>
             {
             });
         }

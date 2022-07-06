@@ -1,6 +1,6 @@
 ﻿namespace Di.Qry.Schema.Types
 {
-    public enum FieldType
+    public enum QryFieldType
     {
         Text = 0,
         Numeric,

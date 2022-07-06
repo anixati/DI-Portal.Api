@@ -11,9 +11,10 @@ namespace Boards.Services.Ministers.Forms
         protected override void CreateSchema(FormSchema fs)
         {
             fs.AddTab("Personal Details", AddPersonDetails);
-            fs.AddSubgrid("Portfolio's", "MinisterPortfolios", x =>
+            fs.AddSubGrid("Portfolio's", "MinisterPortfolios", x =>
             {
             });
+            fs.AddDocGrid(Constants.Entities.Minister);
         }
 
         private void AddPersonDetails(FormField field)

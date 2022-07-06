@@ -13,13 +13,14 @@ namespace Boards.Services.Appointees.Forms
             fs.AddTab("Personal Details", AddPersonDetails);
             fs.AddTab("Professional Details", AddProfessionalDetails);
             fs.AddTab("Other Details", OtherDetails);
-            fs.AddSubgrid("Appointment's", "AppointeeAppointments", x =>
+            fs.AddSubGrid("Appointment's", "AppointeeAppointments", x =>
             {
             });
-            fs.AddSubgrid("Skill's", "AppointeeSkills", x =>
+            fs.AddSubGrid("Skill's", "AppointeeSkills", x =>
             {
                 x.AddAction("manage", "appointeeskill", "Manage Skill's");
             });
+            fs.AddDocGrid(Constants.Entities.Appointee);
         }
 
         private void AddPersonDetails(FormField field)

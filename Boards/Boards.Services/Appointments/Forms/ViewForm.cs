@@ -20,6 +20,7 @@ namespace Boards.Services.Appointments.Forms
 
             fs.AddTab("Appointment", Appointment);
             fs.AddTab("Other Details", OtherDetails);
+            fs.AddDocGrid(Constants.Entities.BoardAppointment);
         }
 
         private void Appointment(FormField field)

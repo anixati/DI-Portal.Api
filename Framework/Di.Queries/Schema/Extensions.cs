@@ -112,17 +112,17 @@ namespace Di.Qry.Schema
             return table;
         }
 
-        public static Table AddQry(this Table table, string key, string name, string refDataId)
+        public static Table AddQryField(this Table table, string key, string name, string refDataId)
         {
-            return table.AddQry(key, FieldType.OptionSet, name, x => x.ReferenceSchema = refDataId);
+            return table.AddQryField(key, QryFieldType.OptionSet, name, x => x.ReferenceSchema = refDataId);
         }
 
-        public static Table AddQry(this Table table, string key, FieldType fieldType, string name = "",
-            Action<Field> configure = null)
+        public static Table AddQryField(this Table table, string key, QryFieldType qryFieldType= QryFieldType.Text, string name = "",
+            Action<QryField> configure = null)
         {
-            var mf = new Field(table.Alias, key, fieldType, name);
+            var mf = new QryField(table.Alias, key, qryFieldType, name);
             configure?.Invoke(mf);
-            table.Fields.Add(mf);
+            table.QryFields.Add(mf);
             return table;
         }
         

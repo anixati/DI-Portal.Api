@@ -5,6 +5,19 @@ namespace Boards.Services
 
     public static class Constants
     {
+
+        public static class Entities
+        {
+            public static readonly string Board = "Board";
+            public static readonly string Appointee = "Appointee";
+            public static readonly string BoardAppointment = "BoardAppointment";
+            public static readonly string BoardRole = "BoardRole";
+            public static readonly string Minister = "Minister";
+            public static readonly string Portfolio = "Portfolio";
+            public static readonly string AssistantSecretary = "AssistantSecretary";
+
+        }
+
         public static class Forms
         {
 

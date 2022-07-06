@@ -14,13 +14,15 @@ namespace Boards.Services.Boards.Forms
             fs.AddTab("Board Details", BoardDetails);
             fs.AddTab("Summary Details", SummaryDetails);
             fs.AddTab("Other Details", OtherDetails);
-            fs.AddSubgrid("Roles", "BoardRolesView", x =>
+            fs.AddSubGrid("Roles", "BoardRolesView", x =>
             {
                 x.AddAction("create", Constants.Forms.BoardRole.Key, "New Role");
             });
-            fs.AddSubgrid("Appointments", "BoardAppointmentsView", x =>
+            fs.AddSubGrid("Appointments", "BoardAppointmentsView", x =>
             {
+
             });
+            fs.AddDocGrid(Constants.Entities.Board);
         }
 
         private void BoardDetails(FormField field)
@@ -32,7 +34,7 @@ namespace Boards.Services.Boards.Forms
                 x.FieldType = FormFieldType.Text;
                 x.Width = 98;
             });
-            field.AddLookup("AppTeam", "AppTeamLookup", Routes.Default, "Team/Division", true);
+          
             field.AddFieldGroup(f =>
             {
                 f.AddInput("Acronym", "Acronym", true, 33);
@@ -51,7 +53,13 @@ namespace Boards.Services.Boards.Forms
                 f.AddInput("LegislationReference", "Legislation Reference", false, 33);
                 f.AddInput("Constitution", "Constitution", false, 33);
             });
-            field.AddPickList("EstablishedByUnder", "EstablishedByUnder", "Established by under");
+            field.AddFieldGroup(f =>
+            {
+                f.AddLookup("AppTeam", "AppTeamLookup", Routes.Default, "Team/Division", true);
+
+                f.AddPickList("EstablishedByUnder", "EstablishedByUnder", "Established by under");
+            });
+            
             field.AddInput("EstablishedByUnderText", "Established by under text", x =>
             {
                 x.AddRule(ValRule.Min(10, "Minimum 10 chars required"));

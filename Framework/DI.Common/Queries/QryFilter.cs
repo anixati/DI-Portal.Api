@@ -1,23 +1,19 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using Di.Qry.Core;
-using DI.Queries;
 
-namespace Di.Qry.Requests
+namespace DI.Queries
 {
-    public class QryFilter : IQryFilter
+    public class QryFilter 
     {
         public List<QryFilter> Rules { get; set; }
 
-        public string Condition { get; set; }
+        public string Condition { get; set; } = "and";
 
         public string Field { get; set; }
 
         public string Operator { get; set; }
         public object Value { get; set; }
-
-        IEnumerable<IQryFilter> IQryFilter.Rules => Rules;
 
         public bool IsOr => string.Compare(Condition, "or", StringComparison.InvariantCultureIgnoreCase) == 0;
 

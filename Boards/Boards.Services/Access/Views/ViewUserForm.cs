@@ -15,11 +15,11 @@ namespace Boards.Services.Access.Views
                 f.AddLabel("UserId", "User Id");
             });
             fs.AddTab("User Details",UserDetails);
-            fs.AddSubgrid("Role's", "UserRoleList", x =>
+            fs.AddSubGrid("Role's", "UserRoleList", x =>
             {
                 x.AddAction("manage", "userrole", "Manage Role's");
             });
-            fs.AddSubgrid("Teams's", "UserTeamList", x =>
+            fs.AddSubGrid("Teams's", "UserTeamList", x =>
             {
                 x.AddAction("manage", "teamuser", "Manage Teams's");
             });

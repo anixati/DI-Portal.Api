@@ -16,6 +16,7 @@
         Decimal = 11,
         Action =21,
         Link=22,
-        Label=23
+        Label=23,
+        Documents = 24,
     }
 }

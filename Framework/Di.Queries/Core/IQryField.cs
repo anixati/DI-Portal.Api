@@ -17,6 +17,6 @@ namespace Di.Qry.Core
         bool IsMetaData { get; }
         bool IsSubQry { get; }
         JObject GetConfig(IQryProvider provider);
-        QryClause Transalate(IQryFilter filter);
+        QryClause Transalate(QryFilter filter);
     }
 }

@@ -22,7 +22,7 @@ namespace Di.Qry.Schema.Types
         public string PrimaryKey => $"{Alias}.{_primaryKey}";
         public List<SortInfo> SortColumns { get; set; } = new();
         public List<GridColumn> Columns { get; set; } = new();
-        public List<Field> Fields { get; set; } = new();
+        public List<QryField> QryFields { get; set; } = new();
 
         public Dictionary<string, Link> Links { get; set; } = new();
 

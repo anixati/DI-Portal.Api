@@ -10,10 +10,10 @@ namespace Boards.Services.Users.Forms
         protected override void CreateSchema(FormSchema fs)
         {
             fs.AddTab("Personal Details", AddPersonDetails);
-            fs.AddSubgrid("Approved by Boards's", "ApprovedUserBoards", x =>
+            fs.AddSubGrid("Approved by Boards's", "ApprovedUserBoards", x =>
             {
             });
-            fs.AddSubgrid("Resp. Officer Boards's", "RespOfficerBoards", x =>
+            fs.AddSubGrid("Resp. Officer Boards's", "RespOfficerBoards", x =>
             {
             });
         }

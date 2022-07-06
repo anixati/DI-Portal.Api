@@ -1,21 +1,21 @@
-﻿using System;
+﻿using Di.Qry.Core;
+using Di.Qry.Providers;
+using Di.Qry.Schema.Types;
+using DI.Security;
+using SqlKata;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Di.Qry.Core;
-using Di.Qry.Providers;
-using Di.Qry.Schema.Types;
 using DI.Queries;
-using DI.Security;
-using SqlKata;
 using static System.String;
 
 namespace Di.Qry.Schema
 {
     public class QryState : IQryState
     {
-        private readonly Dictionary<string, Field> _fds;
+        private readonly Dictionary<string, QryField> _fds;
         private readonly List<SuQryState> _subQueries;
         private List<GridColumn> _cols;
 
@@ -23,7 +23,7 @@ namespace Di.Qry.Schema
         {
             Table = table;
             _cols = new List<GridColumn>();
-            _fds = new Dictionary<string, Field>();
+            _fds = new Dictionary<string, QryField>();
             Query = new Query(Table.TableName);
             _subQueries = new List<SuQryState>();
         }
@@ -93,7 +93,7 @@ namespace Di.Qry.Schema
         }
 
 
-        private Query BuildSubQuery(Field qfd, IQryFilter rule, string queryOnField)
+        private Query BuildSubQuery(QryField qfd, QryFilter rule, string queryOnField)
         {
             var subQuery = new Query(qfd.Table.TableName)
                 .Select(queryOnField);
@@ -117,7 +117,7 @@ namespace Di.Qry.Schema
 
             var exQuery = Query.Clone();
 
-            if (request.Filter != null && request.Filter.HasChildRules)
+            if (request.Filter is {HasChildRules: true})
                 exQuery.Where(x => AddClause(request.Filter, request.Filter.IsOr, x));
 
             //Filter by parent id
@@ -181,7 +181,7 @@ namespace Di.Qry.Schema
             return rv;
         }
 
-        private Query AddClause(IQryFilter filter, bool isOr, Query query)
+        private Query AddClause(QryFilter filter, bool isOr, Query query)
         {
             if (!filter.HasChildRules)
                 return query;
@@ -198,7 +198,7 @@ namespace Di.Qry.Schema
             return query;
         }
 
-        private void AddRule(Query query, IQryFilter rule, bool isOr)
+        private void AddRule(Query query, QryFilter rule, bool isOr)
         {
             if (!_fds.TryGetValue(rule.Field, out var qfd))
                 throw new Exception($"Query field :{rule.Field} not permitted ");
@@ -321,7 +321,7 @@ namespace Di.Qry.Schema
 
         private void SetUpQryFields(Table table)
         {
-            foreach (var qf in table.Fields)
+            foreach (var qf in table.QryFields)
                 _fds[qf.QueryKey] = qf;
             if (!table.Links.Any()) return;
             foreach (var ql in table.Links.Values)

@@ -7,24 +7,24 @@ using Newtonsoft.Json.Linq;
 
 namespace Di.Qry.Schema.Types
 {
-    public class Field : IQryField
+    public class QryField : IQryField
     {
-        public Field(string alias, string fieldName, FieldType fieldType, string name = "")
+        public QryField(string alias, string fieldName, QryFieldType qryFieldType, string name = "")
         {
             Alias = alias;
             FieldName = fieldName;
             Name = string.IsNullOrEmpty(name) ? fieldName : name;
-            FieldType = fieldType;
+            QryFieldType = qryFieldType;
         }
 
-        public Field(string fieldName, FieldType fieldType, string name = "")
+        public QryField(string fieldName, QryFieldType qryFieldType, string name = "")
         {
             FieldName = fieldName;
             Name = string.IsNullOrEmpty(name) ? fieldName : name;
-            FieldType = fieldType;
+            QryFieldType = qryFieldType;
         }
 
-        public FieldType FieldType { get; set; }
+        public QryFieldType QryFieldType { get; set; }
         public Table Table { get; set; }
         public string EntityField { get; set; }
 
@@ -40,7 +40,7 @@ namespace Di.Qry.Schema.Types
         public List<QryOption> Options { get; set; }
         public string[] Operators { get; set; }
 
-        public bool IsMetaData => FieldType == FieldType.OptionSet &&
+        public bool IsMetaData => QryFieldType == QryFieldType.OptionSet &&
                                   !string.IsNullOrEmpty(ReferenceSchema);
 
         public bool IsSubQry => Table != null;
@@ -50,8 +50,8 @@ namespace Di.Qry.Schema.Types
 
         public JObject GetConfig(IQryProvider provider)
         {
-            var qryConfig = JObject.FromObject(new {name = Name, type = GetTypeStr(FieldType), nullable = Nullable});
-            Operators = GetOperators(FieldType);
+            var qryConfig = JObject.FromObject(new {name = Name, type = GetTypeStr(QryFieldType), nullable = Nullable});
+            Operators = GetOperators(QryFieldType);
             if (IsMetaData)
                 Options = provider.GetQryOptions(ReferenceSchema);
             if (Options != null && Options.Any())
@@ -62,7 +62,7 @@ namespace Di.Qry.Schema.Types
                 qryConfig["options"] = qryOptions;
             }
 
-            if (FieldType == FieldType.Status)
+            if (QryFieldType == QryFieldType.Status)
             {
                 var qryOptions = new JArray
                 {
@@ -84,7 +84,7 @@ namespace Di.Qry.Schema.Types
             return qryConfig;
         }
 
-        public QryClause Transalate(IQryFilter filter)
+        public QryClause Transalate(QryFilter filter)
         {
             if (!filter.HasOperator)
                 throw new Exception("Invalid filter! Operator cannot be null");
@@ -93,7 +93,7 @@ namespace Di.Qry.Schema.Types
                 throw new Exception($"Operator :{filter.Operator} not allowed!");
 
             var OpVal = filter.Value;
-            if (FieldType == FieldType.Text)
+            if (QryFieldType == QryFieldType.Text)
                 OpVal = filter.Operator switch
                 {
                     "contains" => $"%{filter.Value}%",
@@ -105,21 +105,21 @@ namespace Di.Qry.Schema.Types
         }
 
 
-        private static string GetTypeStr(FieldType fieldType)
+        private static string GetTypeStr(QryFieldType qryFieldType)
         {
-            switch (fieldType)
+            switch (qryFieldType)
             {
-                case FieldType.Text:
-                case FieldType.Search:
+                case QryFieldType.Text:
+                case QryFieldType.Search:
                     return "string";
 
-                case FieldType.Numeric:
+                case QryFieldType.Numeric:
                     return "number";
 
-                case FieldType.Date:
+                case QryFieldType.Date:
                     return "date";
 
-                case FieldType.Bool:
+                case QryFieldType.Bool:
                     return "boolean";
 
                 default:
@@ -127,17 +127,17 @@ namespace Di.Qry.Schema.Types
             }
         }
 
-        private static string[] GetOperators(FieldType fieldType)
+        private static string[] GetOperators(QryFieldType qryFieldType)
         {
-            return fieldType switch
+            return qryFieldType switch
             {
-                FieldType.Search => new[] {"contains"},
-                FieldType.Status => new[] {"equals to"},
-                FieldType.Text => new[] {"equals to", "not equals to", "contains", "starts with", "ends with"},
-                FieldType.Numeric => new[] {"equals to", "not equals to", "greater than", "is less than"},
-                FieldType.Date => new[] {"equals to", "not equals to", "greater than", "is less than"},
-                FieldType.Bool => new[] {"equals to", "not equals to"},
-                FieldType.OptionSet => new[] {"equals to", "not equals to", "in"},
+                QryFieldType.Search => new[] {"contains"},
+                QryFieldType.Status => new[] {"equals to"},
+                QryFieldType.Text => new[] {"equals to", "not equals to", "contains", "starts with", "ends with"},
+                QryFieldType.Numeric => new[] {"equals to", "not equals to", "greater than", "is less than"},
+                QryFieldType.Date => new[] {"equals to", "not equals to", "greater than", "is less than"},
+                QryFieldType.Bool => new[] {"equals to", "not equals to"},
+                QryFieldType.OptionSet => new[] {"equals to", "not equals to", "in"},
                 _ => null
             };
         }

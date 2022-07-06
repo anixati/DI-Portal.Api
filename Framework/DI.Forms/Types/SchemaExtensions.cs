@@ -32,7 +32,7 @@ namespace DI.Forms.Types
             return fs;
         }
 
-        public static FormSchema AddSubgrid(this FormSchema fs, string title,string viewId, Action<FormField> Configure)
+        public static FormSchema AddSubGrid(this FormSchema fs, string title,string viewId, Action<FormField> Configure)
         {
             fs.AddTab(title, f =>
             {
@@ -43,6 +43,23 @@ namespace DI.Forms.Types
                     ViewId = viewId,
                 };
                 Configure(field);
+                if (f.Fields.All(x => x.Key != field.Key)) f.Fields.Add(field);
+
+            });
+            return fs;
+        }
+
+
+        public static FormSchema AddDocGrid(this FormSchema fs,  string viewId, string title="Documents")
+        {
+            fs.AddTab(title, f =>
+            {
+                var field = new FormField()
+                {
+                    Layout = LayoutType.SubGrid,
+                    FieldType = FormFieldType.Documents,
+                    ViewId = viewId,
+                };
                 if (f.Fields.All(x => x.Key != field.Key)) f.Fields.Add(field);
 
             });

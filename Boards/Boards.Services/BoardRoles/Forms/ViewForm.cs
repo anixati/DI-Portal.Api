@@ -19,10 +19,11 @@ namespace Boards.Services.BoardRoles.Forms
             fs.AddTab("Role Details", BoardDetails);
             fs.AddTab("Ministerial Details", MinisterialDetails);
             fs.AddTab("Other Details", OtherDetails);
-            fs.AddSubgrid("Appointments", "RoleAppointmentsView", x =>
+            fs.AddSubGrid("Appointments", "RoleAppointmentsView", x =>
             {
                 x.AddAction("create", Constants.Forms.BoardAppointment.Key, "New Appointment");
             });
+            fs.AddDocGrid(Constants.Entities.BoardRole);
         }
 
         private void OtherDetails(FormField field)

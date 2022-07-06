@@ -8,7 +8,7 @@ namespace Di.Qry.Core
         string Schema { get; }
         long? EntityId { get; }
         string SearchStr { get; }
-        IQryFilter Filter { get; }
+        QryFilter Filter { get; }
         PageInfo PageInfo { get; }
         List<SortInfo> SortInfos { get; }
         bool CanSearch();

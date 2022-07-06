@@ -6,11 +6,6 @@ using System.Threading.Tasks;
 
 namespace DI.Site
 {
-    public interface ISiteMapProvider
-    {
-        SiteMap Create();
-    }
-
     public class SiteMap
     {
         public bool Restricted { get; set; }

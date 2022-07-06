@@ -9,7 +9,7 @@ namespace Boards.Services.Skills.Forms
         protected override void CreateSchema(FormSchema fs)
         {
             fs.AddTab("Skill Details", AddPersonDetails);
-            fs.AddSubgrid("Appointees", "SkillAppointee", x =>
+            fs.AddSubGrid("Appointees", "SkillAppointee", x =>
             {
 
             });
