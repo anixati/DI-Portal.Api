@@ -37,7 +37,8 @@ namespace Boards.Services.Documents.Lists
         protected override void ConfigureQry(QryState qs)
         {
             qs.Where("Disabled", "=", "0");
-           // qs.TeamId = "AppTeamId";
+            qs.Where("Deleted", "=", "0");
+            // qs.TeamId = "AppTeamId";
         }
         protected override (string, bool) GetDefaultSort()
         {

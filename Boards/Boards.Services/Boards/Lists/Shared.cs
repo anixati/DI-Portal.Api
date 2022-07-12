@@ -36,7 +36,6 @@ namespace Boards.Services.Boards.Lists
                 x.Sortable = true;
                 x.Type = ColumnType.HyperLink;
                 x.LinkId = "RespOfficerId";
-                x.LinkPath = "boards/portfolios/";
                 x.LinkPath = Routes.Users.Path();
             });
             pt.Column("AsstSecretary", "AsstSecretary", "Asst. Secretary", x =>

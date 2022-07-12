@@ -1,4 +1,5 @@
-﻿using Di.Qry.Core;
+﻿using Boards.Services.Client;
+using Di.Qry.Core;
 using Di.Qry.Schema;
 using Di.Qry.Schema.Types;
 
@@ -18,7 +19,7 @@ namespace Boards.Services.BoardRoles.Lists
                 x.Searchable = true;
                 x.Sortable = true;
                 x.Type = ColumnType.HyperLink;
-                x.LinkPath = "boards/brdroles/";
+                x.LinkPath = Routes.Roles.Path();
             });
             pt.Column("Incumbent", "Incumbent", "Incumbent", x =>
             {
@@ -26,7 +27,7 @@ namespace Boards.Services.BoardRoles.Lists
                 x.Sortable = true;
                 x.Type = ColumnType.HyperLink;
                 x.LinkId = "IncumbentId";
-                x.LinkPath = "boards/portfolios/";
+                x.LinkPath = Routes.Appointee.Path(); ;
             });
             pt.AddSearchCols("Appointer", "IsFullTime", "IsExecutive", "IsApsEmployee", "IsExOfficio", "Term");
             return pt;

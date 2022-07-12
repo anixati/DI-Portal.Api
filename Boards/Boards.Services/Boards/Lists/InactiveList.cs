@@ -5,8 +5,8 @@ namespace Boards.Services.Boards.Lists
 {
     public class InactiveList : QrySchema
     {
-        public override string SchemaName => "InActiveMinisters";
-        public override string Title => "InActive Ministers";
+        public override string SchemaName => "InActiveBoards";
+        public override string Title => "InActive Boards";
         protected override Table CreateEntity()
         {
             return Shared.BoardViewTable();
