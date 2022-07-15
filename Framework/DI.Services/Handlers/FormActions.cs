@@ -99,34 +99,21 @@ namespace DI.Services.Handlers
             var entity = new T();
             foreach (var (key, value) in data)
             {
-                var mi = members.FirstOrDefault(x => string.Compare(x.Name, key, StringComparison.OrdinalIgnoreCase) == 0);
+                var nested = key.Contains('.');
+                var entKey = key;
+                var subKey = string.Empty;
+                if (nested)
+                {
+
+                    var ix = key.IndexOf('.');
+                    subKey = key[(ix + 1)..];
+                    entKey = key[..ix];
+                }
+
+                var mi = members.FirstOrDefault(x => string.Compare(x.Name, entKey, StringComparison.OrdinalIgnoreCase) == 0);
                 if (mi == null || value == null) continue;
-                if (mi.Type == typeof(bool) || mi.Type == typeof(bool?))
-                {
-                    if (int.TryParse($"{value}", out var rs))
-                        accessor[entity, key] = rs == 1 ? true : false;
-                }
-                else if (mi.Type == typeof(int) || mi.Type == typeof(int?))
-                {
-                    if (int.TryParse($"{value}", out var rs))
-                        accessor[entity, key] = rs;
-                }
-                else if (mi.Type == typeof(decimal) || mi.Type == typeof(decimal?))
-                {
-                    if (decimal.TryParse($"{value}", out var rs))
-                        accessor[entity, key] = rs;
-                }
-                else if (mi.Type == typeof(DateTime) || mi.Type == typeof(DateTime?))
-                {
-                    if (DateTime.TryParse($"{value}", out var rs))
-                        accessor[entity, key] = rs;
-                }
-                else if (mi.Type.IsEnum)
-                {
-                    if (int.TryParse($"{value}", out var rs))
-                        accessor[entity, key] = rs;
-                }
-                else if (mi.Type.IsClass && typeof(IEntity).IsAssignableFrom(mi.Type))
+
+                if (mi.Type.IsClass && typeof(IEntity).IsAssignableFrom(mi.Type))
                 {
                     var idKey = $"{mi.Name}Id";
                     var idMemType = members.FirstOrDefault(x => string.Compare(x.Name, idKey, StringComparison.OrdinalIgnoreCase) == 0);
@@ -147,11 +134,68 @@ namespace DI.Services.Handlers
                 }
                 else
                 {
-                    accessor[entity, key] = value;
+                    if (nested)
+                    {
+                        var nesAccesor = TypeAccessor.Create(mi.Type);
+                        var nesProp = accessor[entity, entKey];
+
+                        if (nesProp == null)
+                        {
+                            nesProp = Activator.CreateInstance(mi.Type);
+                            accessor[entity, entKey] = nesProp;
+                        }
+                        var nesMi = nesAccesor.GetMembers().FirstOrDefault(x => string.Compare(x.Name, subKey, StringComparison.OrdinalIgnoreCase) == 0);
+                        if (nesMi == null ) continue;
+                        MapValues(nesProp, nesMi.Type, nesAccesor, subKey, value);
+                    }
+                    else
+                    {
+                        MapValues(entity,mi.Type,accessor,key,value);
+                    }
                 }
             }
             return entity;
         }
+
+        private static void MapValues<T>(T entity, Type type, TypeAccessor accessor, string key, object value)
+        {
+
+            if (type == typeof(bool) || type == typeof(bool?))
+            {
+                if (int.TryParse($"{value}", out var rs))
+                    accessor[entity, key] = rs == 1 ? true : false;
+            }
+            else if (type == typeof(int) || type == typeof(int?))
+            {
+                if (int.TryParse($"{value}", out var rs))
+                    accessor[entity, key] = rs;
+            }
+            else if (type == typeof(short) || type == typeof(short?))
+            {
+                if (short.TryParse($"{value}", out var rs))
+                    accessor[entity, key] = rs;
+            }
+            else if (type == typeof(decimal) || type == typeof(decimal?))
+            {
+                if (decimal.TryParse($"{value}", out var rs))
+                    accessor[entity, key] = rs;
+            }
+            else if (type == typeof(DateTime) || type == typeof(DateTime?))
+            {
+                if (DateTime.TryParse($"{value}", out var rs))
+                    accessor[entity, key] = rs;
+            }
+            else if (type.IsEnum)
+            {
+                if (int.TryParse($"{value}", out var rs))
+                    accessor[entity, key] = rs;
+            }
+            else
+            {
+                accessor[entity, key] = value;
+            }
+        }
+
 
     }
 }

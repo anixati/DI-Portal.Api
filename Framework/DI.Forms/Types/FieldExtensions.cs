@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using Newtonsoft.Json;
 
 namespace DI.Forms.Types
 {
@@ -161,16 +162,14 @@ namespace DI.Forms.Types
             });
             return fd;
         }
-        public static FormField AddNumeric(this FormField fd, string key, string title = null, bool required = false,
-            int width = 50)
+        public static FormField AddNumeric(this FormField fd, string key, string title = null, bool required = false, int min=0,int max= 9999)
         {
             fd.AddInput(key, title, x =>
             {
-                x.Width = width;
                 x.FieldType = FormFieldType.Number;
-
                 if (required)
                     x.AddRequired($"{title} is required");
+                x.Options = JsonConvert.SerializeObject(new {min = min, max = max});
             });
             return fd;
         }

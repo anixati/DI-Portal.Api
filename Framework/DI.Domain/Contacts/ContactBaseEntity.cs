@@ -22,16 +22,14 @@ namespace DI.Domain.Contacts
         [MaxLength(10)] public string MobilePhone { get; set; }
 
         [MaxLength(10)] public string FaxNumber { get; set; }
-
-
+        
         [MaxLength(50)] public string Email1 { get; set; }
 
         [MaxLength(50)] public string Email2 { get; set; }
 
         public AddressType StreetAddress { get; set; }
         public AddressType PostalAddress { get; set; }
-
-
+        
         public string FullName
         {
             get

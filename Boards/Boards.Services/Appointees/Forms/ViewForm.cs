@@ -1,4 +1,5 @@
-﻿using Boards.Services.Core;
+﻿using Boards.Services._Shared;
+using Boards.Services.Core;
 using DI.Domain.Enums;
 using DI.Forms.Handlers;
 using DI.Forms.Types;
@@ -44,12 +45,17 @@ namespace Boards.Services.Appointees.Forms
                 f.AddPhone("FaxNumber", "Fax Number", false, 30);
             });
             field.AddFieldGroup(f =>
-         {
-             f.AddEmail("Email1", "Primary Email", true, 30);
-             f.AddEmail("Email2", "Other Email", false, 30);
-         });
+            {
+                f.AddEmail("Email1", "Primary Email", true, 30);
+                f.AddEmail("Email2", "Other Email", false, 30);
+            });
+            field.AddDivider("Street Address");
+            field.AddAddress("StreetAddress");
+            field.AddDivider("Postal Address");
+            field.AddAddress("PostalAddress");
+
         }
-        
+
         private void AddProfessionalDetails(FormField field)
         {
             field.AddInput("Biography", "Biography", x =>
