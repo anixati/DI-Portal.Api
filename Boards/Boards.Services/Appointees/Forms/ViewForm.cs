@@ -12,6 +12,7 @@ namespace Boards.Services.Appointees.Forms
         protected override void CreateSchema(FormSchema fs)
         {
             fs.AddTab("Personal Details", AddPersonDetails);
+            fs.AddTab("Addresses", AddAddressDetails);
             fs.AddTab("Professional Details", AddProfessionalDetails);
             fs.AddTab("Other Details", OtherDetails);
             fs.AddSubGrid("Appointment's", "AppointeeAppointments", x =>
@@ -49,13 +50,16 @@ namespace Boards.Services.Appointees.Forms
                 f.AddEmail("Email1", "Primary Email", true, 30);
                 f.AddEmail("Email2", "Other Email", false, 30);
             });
+           
+
+        }
+        private void AddAddressDetails(FormField field)
+        {
             field.AddDivider("Street Address");
             field.AddAddress("StreetAddress");
             field.AddDivider("Postal Address");
             field.AddAddress("PostalAddress");
-
         }
-
         private void AddProfessionalDetails(FormField field)
         {
             field.AddInput("Biography", "Biography", x =>

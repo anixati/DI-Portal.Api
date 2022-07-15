@@ -70,7 +70,6 @@ namespace DI.Services.Handlers
         public static void UpdateValues<T>(this T entity, IDictionary<string, string> data, FormSchema schema)
         {
             var mapper = new EntityMapper<T>(entity);
-
             var header = schema.Fields.FirstOrDefault(x => x.Layout == LayoutType.Header);
             if (header?.Fields.Count > 0)
             {
@@ -82,7 +81,6 @@ namespace DI.Services.Handlers
 
                 }
             }
-
             foreach (var (key, value) in data)
             {
                 var val = mapper.GetValue(key);
