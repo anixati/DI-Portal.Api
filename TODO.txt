@@ -1,0 +1,7 @@
+
+NOTS
+--
+Roles 
+ - postion type
+ - lead time to appointment 
+- process status

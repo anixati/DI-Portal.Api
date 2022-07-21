@@ -49,6 +49,10 @@ namespace Boards.ApiHost
             return Host.CreateDefaultBuilder(args)
                 .UseSerilog()
                 .UseServiceProviderFactory(new AutofacServiceProviderFactory())
+                .ConfigureAppConfiguration((hc, config) =>
+                {
+                    config.AddJsonFile("reportConfig.json", optional: false, reloadOnChange: true);
+                })
                 .ConfigureWebHostDefaults(webBuilder => { webBuilder.UseStartup<Startup>(); });
         }
 
@@ -58,6 +62,7 @@ namespace Boards.ApiHost
             var _config = new ConfigurationBuilder()
                 .SetBasePath(path)
                 .AddJsonFile("logSettings.json")
+                
                 .Build();
 
             Log.Logger = new LoggerConfiguration()

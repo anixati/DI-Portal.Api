@@ -22,7 +22,7 @@ namespace Boards.ApiHost
         public void ConfigureServices(IServiceCollection services)
         {
             services.InitialiseHost();
-
+            services.AddReportConfig(Configuration);
             services.AddCors(options =>
             {
                 options.AddDefaultPolicy(

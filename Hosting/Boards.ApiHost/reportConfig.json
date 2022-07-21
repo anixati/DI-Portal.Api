@@ -1,0 +1,103 @@
+{
+  "reportConfig": {
+    "reportServer": "http://xd401462/Reports/report/Boards",
+    "reports": [
+      {
+        "id": 101,
+        "title": "Board Membership List",
+        "description": "Board Membership List",
+        "url": "BoardMembershipList",
+        "options": "",
+        "roles": []
+      },
+      {
+        "id": 102,
+        "title": "Current Membership Details",
+        "description": "Board Current Membership Details (Parliamentary) All",
+        "url": "MembershipDetailList",
+        "options": "",
+        "roles": []
+      },
+      {
+        "id": 103,
+        "title": "Current Membership Details",
+        "description": "Board Current Membership Details (Parliamentary) SubReport",
+        "url": "MembershipDetails",
+        "options": "",
+        "roles": []
+      },
+      {
+        "id": 104,
+        "title": "Comprehensive Board Data",
+        "description": "Comprehensive Board Data",
+        "url": "ComprehensiveBoardData",
+        "options": "",
+        "roles": []
+      },
+      {
+        "id": 105,
+        "title": "Current Appointments",
+        "description": "Current appointments for the Communications and Arts Portfolio",
+        "url": "CurrentAppointments",
+        "options": "",
+        "roles": []
+      },
+      {
+        "id": 106,
+        "title": "Appointments and Vacancies",
+        "description": "Departmental Agency Appointments and Vacancies",
+        "url": "AppointmentsAndVacancies",
+        "options": "",
+        "roles": []
+      },
+      {
+        "id": 107,
+        "title": "Vacant Appointments Next 12 Months",
+        "description": "Vacant Appointments Next 12 Months",
+        "url": "VacantAppointmentsNext12",
+        "options": "",
+        "roles": []
+      },
+      {
+        "id": 108,
+        "title": "Gender Balance Report",
+        "description": "Gender Balance Report",
+        "url": "GenderBalance",
+        "options": "",
+        "roles": []
+      },
+      {
+        "id": 109,
+        "title": "Pressing Appointments Report",
+        "description": "Pressing Appointments Report",
+        "url": "PressingAppointments",
+        "options": "",
+        "roles": []
+      },
+      {
+        "id": 110,
+        "title": "Weekly Report Six Month",
+        "description": "Weekly report for six month period",
+        "url": "WeeklyFor6Month",
+        "options": "",
+        "roles": []
+      },
+      {
+        "id": 111,
+        "title": "Weekly Report Twelve Month",
+        "description": "Weekly report for twelve month period",
+        "url": "WeeklyFor12Month",
+        "options": "",
+        "roles": []
+      },
+      {
+        "id": 112,
+        "title": "Whole of Government Boards Changes",
+        "description": "Whole of Government Boards Changes",
+        "url": "WoGChanges",
+        "options": "",
+        "roles": []
+      }
+    ]
+  }
+}

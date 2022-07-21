@@ -1,4 +1,5 @@
-﻿using DI.Domain.Enums;
+﻿using Boards.Services._Shared;
+using DI.Domain.Enums;
 using DI.Forms.Handlers;
 using DI.Forms.Types;
 
@@ -11,6 +12,7 @@ namespace Boards.Services.Ministers.Forms
         {
             fs.AddPage("Personal Details", AddPersonDetails);
             fs.AddPage("Contact Details", AddContactDetails);
+            fs.AddPage("Address Details", AddAddressDetails);
             //fs.AddPage("Professional Details", AddProfessionalDetails);
             //fs.AddPage("Other Details", OtherDetails);
         }
@@ -29,7 +31,13 @@ namespace Boards.Services.Ministers.Forms
             });
             field.AddSelect<GenderEnum>("Gender", "Gender", true);
         }
-
+        private void AddAddressDetails(FormField field)
+        {
+            field.AddDivider("Street Address");
+            field.AddAddress("StreetAddress");
+            field.AddDivider("Postal Address");
+            field.AddAddress("PostalAddress");
+        }
         private void AddContactDetails(FormField field)
         {
             field.AddFieldGroup(f =>

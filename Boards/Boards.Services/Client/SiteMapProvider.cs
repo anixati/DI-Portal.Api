@@ -22,9 +22,11 @@ namespace Boards.Services.Client
             };
             if (rv.Restricted) return rv;
             AddBoards(rv);
-            AddReports(rv);
             if (_user.IsAdmin())
+            {
+                AddReports(rv);
                 AddAdmin(rv);
+            }
             return rv;
         }
 
@@ -48,7 +50,9 @@ namespace Boards.Services.Client
         private static void AddReports(SiteMap rv)
         {
             var link = new NavLink(Routes.Reports, "Reports");
-            link.Add(Routes.ReportDashboard.Key, "Dashboard");
+            link.Add(Routes.ReportDashboard.Key, "Board Data");
+
+
             rv.Navigation.Add(link);
         }
 

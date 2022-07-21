@@ -44,10 +44,16 @@ namespace DI.Domain.Handlers.Generic
             var members = accessor.GetMembers();
             foreach (var op in request.Data.Operations)
             {
-
+                var entKey = op.path;
+                var nested = op.path.Contains('.');
+                if (nested)
+                {
+                    var ix = op.path.IndexOf('.');
+                    entKey = op.path[..ix];
+                }
 
                 var mi = members.FirstOrDefault(x =>
-                    string.Compare($"/{x.Name}", op.path, StringComparison.OrdinalIgnoreCase) == 0);
+                    string.Compare($"/{x.Name}", entKey, StringComparison.OrdinalIgnoreCase) == 0);
                 if (mi == null || op.value == null) continue;
 
                 if (mi.Type.IsClass && typeof(IEntity).IsAssignableFrom(mi.Type))
@@ -71,6 +77,17 @@ namespace DI.Domain.Handlers.Generic
                 }
                 else
                 {
+                    if (nested)
+                    {
+                        op.path = op.path.Replace(".", "/");
+                        var propName = entKey.Substring(1);
+                        var nesProp = accessor[entity, propName];
+                        if (nesProp == null)
+                        {
+                            nesProp = Activator.CreateInstance(mi.Type);
+                            accessor[entity, propName] = nesProp;
+                        }
+                    }
                     patch.Operations.Add(op);
                 }
 

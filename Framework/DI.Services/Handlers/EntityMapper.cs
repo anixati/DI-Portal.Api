@@ -20,7 +20,7 @@ namespace DI.Services.Handlers
             _members = _accessor.GetMembers();
         }
 
-        private static object GetValue(TypeAccessor accessor,object entity,Type type,string propName)
+        private static object GetValue(TypeAccessor accessor, object entity, Type type, string propName)
         {
             if (type == typeof(bool))
             {
@@ -80,7 +80,6 @@ namespace DI.Services.Handlers
             var mi = _members.FirstOrDefault(x =>
                 string.Compare(x.Name, entKey, StringComparison.OrdinalIgnoreCase) == 0);
             if (mi == null) return null;
-
             if (typeof(IEntity).IsAssignableFrom(mi.Type))
             {
                 return GetRefEntityValue(mi, propName);
@@ -88,13 +87,12 @@ namespace DI.Services.Handlers
 
             if (nested)
             {
+                var obj = _accessor[_entity, entKey];
+                if (obj == null) return null;
                 var acc = TypeAccessor.Create(mi.Type);
-
                 var nesMi = acc.GetMembers().FirstOrDefault(x =>
                     string.Compare(x.Name, subKey, StringComparison.OrdinalIgnoreCase) == 0);
-                if (nesMi == null) return null;
-                var obj = _accessor[_entity, entKey];
-                return GetValue(acc, obj, nesMi.Type, subKey);
+                return nesMi == null ? null : GetValue(acc, obj, nesMi.Type, subKey);
             }
 
             return GetValue(_accessor, _entity, mi.Type, propName);
@@ -119,12 +117,12 @@ namespace DI.Services.Handlers
             var ls = "";
             var vp = _accessor[_entity, propName];
             if (vp == null) return null;
-            
+
             var et = vp as IEntity;
             if (et == null) return null;
 
             ls = et.GetName();
-            return JsonConvert.SerializeObject(new {value = rv, label = ls});
+            return JsonConvert.SerializeObject(new { value = rv, label = ls });
         }
     }
 }

@@ -1,4 +1,4 @@
-USE [DI_Boards]
+USE [DI_Boards2]
 GO
 
 SET ANSI_NULLS ON
@@ -18,13 +18,27 @@ WITH EXECUTE AS CALLER
 AS
 BEGIN
     DECLARE @RV VARCHAR(255);
-	SELECT TOP 1 @RV=os.Value FROM [dbo].[OptionSet] os
+	SELECT TOP 1 @RV=os.[Value] FROM [dbo].[OptionSet] os
 		JOIN [dbo].[OptionKeys] ok ON ok.Id= os.OptionKeyId
 		WHERE os.Id = @id AND ok.Code =@code
     RETURN(@RV);
 END;
 GO
 
+DROP FUNCTION IF EXISTS [dbo].[GetCodeLabel]
+GO
+CREATE FUNCTION [dbo].[GetCodeLabel] (@id bigint,@code varchar(100))
+RETURNS VARCHAR(255)
+WITH EXECUTE AS CALLER
+AS
+BEGIN
+    DECLARE @RV VARCHAR(255);
+	SELECT TOP 1 @RV=os.[Label] FROM [dbo].[OptionSet] os
+		JOIN [dbo].[OptionKeys] ok ON ok.Id= os.OptionKeyId
+		WHERE os.Id = @id AND ok.Code =@code
+    RETURN(@RV);
+END;
+GO
 
 
 ---------------------------
@@ -209,7 +223,7 @@ CREATE VIEW  [dbo].[BoardRolesView] AS
 	  brl.[Locked],
 	  brl.[Disabled]
 	  FROM [dbo].[BoardRoles] brl
-	  JOIN [dbo].[Boards] bds on brl.Id = bds.Id 
+	  JOIN [dbo].[Boards] bds on brl.BoardId = bds.Id 
 	  JOIN OptionSet pos On pos.Id = brl.PositionId
 	  LEFT OUTER JOIN [dbo].[Appointee] apt on apt.Id= brl.IncumbentId  AND apt.Deleted=0
 	  WHERE brl.Deleted=0 AND bds.Deleted=0 AND pos.Deleted=0

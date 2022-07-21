@@ -9,7 +9,7 @@ namespace DI.WebApi.Controllers
 {
     [ApiVersionNeutral]
     [Route("documents")]
-   // [Authorize]
+    [Authorize]
     public class DocumentController : GenericController<Activity, ActivityViewModel>
     {
         public DocumentController(ILoggerFactory factory, IServiceContext context) : base(factory, context)

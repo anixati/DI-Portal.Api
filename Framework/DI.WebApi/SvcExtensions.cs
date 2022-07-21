@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Net.Http;
 using System.Threading.Tasks;
+using DI.Reports;
 using DI.WebApi.Middleware;
 using DI.WebApi.Routes;
 using FluentValidation.AspNetCore;
@@ -32,7 +33,15 @@ namespace DI.WebApi
             services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
         }
 
+        #region options
 
+        public static void AddReportConfig(this IServiceCollection services, IConfiguration configuration)
+        {
+            services.Configure<ReportConfig>(configuration.GetSection("reportConfig"));
+        }
+
+
+        #endregion
 
         public static void AddTokenAuthentication(this IServiceCollection services, IConfiguration configuration)
         {

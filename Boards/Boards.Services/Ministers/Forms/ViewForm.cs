@@ -1,4 +1,5 @@
-﻿using Boards.Services.Core;
+﻿using Boards.Services._Shared;
+using Boards.Services.Core;
 using DI.Domain.Enums;
 using DI.Forms.Handlers;
 using DI.Forms.Types;
@@ -11,6 +12,7 @@ namespace Boards.Services.Ministers.Forms
         protected override void CreateSchema(FormSchema fs)
         {
             fs.AddTab("Personal Details", AddPersonDetails);
+            fs.AddTab("Addresses", AddAddressDetails);
             fs.AddSubGrid("Portfolio's", "MinisterPortfolios", x =>
             {
             });
@@ -48,9 +50,12 @@ namespace Boards.Services.Ministers.Forms
 
         private void AddAddressDetails(FormField field)
         {
-
+            field.AddDivider("Street Address");
+            field.AddAddress("StreetAddress");
+            field.AddDivider("Postal Address");
+            field.AddAddress("PostalAddress");
         }
 
-       
+
     }
 }
