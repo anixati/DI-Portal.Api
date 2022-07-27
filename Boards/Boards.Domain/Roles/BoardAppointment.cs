@@ -29,7 +29,7 @@ namespace Boards.Domain.Roles
         public DateTime? EndDate { get; set; }
         [MaxLength(255)] public string BriefNumber { get; set; }
 
-
+        public bool? IsCurrent { get; set; }
         public bool? IsExOfficio { get; set; }
         public bool IsFullTime { get; set; }
         public bool ActingInRole { get; set; }

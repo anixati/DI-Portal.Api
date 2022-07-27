@@ -4,14 +4,16 @@ using Boards.Infrastructure.Domain;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace EFCustomMigrations.Db.Migrations
 {
     [DbContext(typeof(BoardsDbContext))]
-    partial class BoardsDbContextModelSnapshot : ModelSnapshot
+    [Migration("20220725232751_Update_2022-07-26_09-27-41")]
+    partial class Update_20220726_092741
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

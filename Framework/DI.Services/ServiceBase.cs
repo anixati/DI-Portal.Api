@@ -1,4 +1,5 @@
 ﻿using Microsoft.Extensions.Logging;
+using System;
 
 namespace DI.Services
 {
@@ -14,6 +15,11 @@ namespace DI.Services
         protected void Trace(string message)
         {
             Logger.LogDebug($"{message}");
+        }
+
+        protected void HandleError(Exception ex)
+        {
+            Logger.LogCritical($"Error in {GetType().Name} : {ex}");
         }
     }
 }

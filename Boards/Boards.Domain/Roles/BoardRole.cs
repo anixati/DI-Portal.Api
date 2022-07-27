@@ -61,6 +61,7 @@ namespace Boards.Domain.Roles
         public DateTime? MinisterOfficeDate { get; set; }
         public DateTime? MinisterActionDate { get; set; }
 
+        public int LeadTimeToAppoint { get; set; }
 
         public DateStateEnum LetterToPmDateType { get; set; }
         public DateTime? LetterToPmDate { get; set; }

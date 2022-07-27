@@ -4,6 +4,9 @@ using System.Reflection;
 using System.Threading.Tasks;
 using Autofac.Extensions.DependencyInjection;
 using Boards.Infrastructure.Design;
+using Boards.Services;
+using Boards.Services.Jobs;
+using DI.Jobs;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -49,6 +52,10 @@ namespace Boards.ApiHost
             return Host.CreateDefaultBuilder(args)
                 .UseSerilog()
                 .UseServiceProviderFactory(new AutofacServiceProviderFactory())
+                .ConfigureServices((hc,services) => {
+                    var jobAssembly = typeof(BoardsServiceModule).Assembly;
+                    services.SetupJobs(hc.Configuration,jobAssembly.GetJobs);
+                })
                 .ConfigureAppConfiguration((hc, config) =>
                 {
                     config.AddJsonFile("reportConfig.json", optional: false, reloadOnChange: true);

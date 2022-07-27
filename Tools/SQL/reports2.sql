@@ -1,7 +1,4 @@
 
-DROP VIEW IF EXISTS [dbo].[RptCompBoardData]
-GO
-CREATE VIEW  [dbo].[RptCompBoardData] AS 
 	SELECT 
 	bd.Id as [BoardID],
 	bd.Name As [Board],

@@ -5,3 +5,10 @@ Roles
  - postion type
  - lead time to appointment 
 - process status
+
+
+appointments 
+-- 
+- [SemiDiscretionary]
+
+http://xd401462/Reports/report/Boards/CmpbrdData?rs:embed=true
