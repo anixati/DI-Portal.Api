@@ -56,9 +56,9 @@ namespace Boards.Services.Appointees.Forms
         private void AddAddressDetails(FormField field)
         {
             field.AddDivider("Street Address");
-            field.AddAddress("StreetAddress");
+            field.AddAddress("StreetAddress",true);
             field.AddDivider("Postal Address");
-            field.AddAddress("PostalAddress");
+            field.AddAddress("PostalAddress",false);
         }
         private void AddProfessionalDetails(FormField field)
         {

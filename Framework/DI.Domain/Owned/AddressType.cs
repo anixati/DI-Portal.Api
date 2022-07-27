@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using System.ComponentModel;
 
 namespace DI.Domain.Owned
 {
@@ -10,6 +11,7 @@ namespace DI.Domain.Owned
         public string City { get; set; }
         public short Postcode { get; set; }
         public string State { get; set; }
+        [DefaultValue("Australia")]
         public string Country { get; set; }
     }
 }

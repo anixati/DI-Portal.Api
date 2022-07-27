@@ -100,6 +100,19 @@ namespace DI.Forms.Types
         }
 
 
+        public static FormField AddTextList(this FormField fd, string key, string viewId, string title = null, bool required = false,
+           string defaultVal="")
+        {
+            fd.AddInput(key, title, x =>
+            {
+                x.FieldType = FormFieldType.TextList;
+                x.ViewId = viewId;
+                x.Options = defaultVal;
+                if (required)
+                    x.AddRequired($"{title} is required");
+            });
+            return fd;
+        }
         public static FormField AddPickList(this FormField fd, string key, string viewId, string title = null, bool required = false,
             int width = 50)
         {

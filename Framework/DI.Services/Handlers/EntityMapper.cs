@@ -1,4 +1,5 @@
 ﻿using System;
+using System.ComponentModel;
 using System.Linq;
 using DI.Domain.Core;
 using DI.Domain.Options;
@@ -20,8 +21,10 @@ namespace DI.Services.Handlers
             _members = _accessor.GetMembers();
         }
 
-        private static object GetValue(TypeAccessor accessor, object entity, Type type, string propName)
+        private static object GetValue(TypeAccessor accessor, object entity, Member mi, string propName)
         {
+            var type = mi.Type;
+            var hasDefault = mi.IsDefined(typeof(DefaultValueAttribute));
             if (type == typeof(bool))
             {
                 return (bool)accessor[entity, propName] ? "1" : "0";
@@ -60,7 +63,16 @@ namespace DI.Services.Handlers
             }
             else
             {
-                return $"{accessor[entity, propName]}";
+                var rx = accessor[entity, propName];
+                if(rx == null && hasDefault)
+                {
+                    var dv = mi.GetAttribute(typeof(DefaultValueAttribute),true);
+                    if(dv != null)
+                    {
+                        rx= ((DefaultValueAttribute)dv).Value;
+                    }
+                }
+                return $"{rx}";
             }
         }
 
@@ -87,15 +99,34 @@ namespace DI.Services.Handlers
 
             if (nested)
             {
-                var obj = _accessor[_entity, entKey];
-                if (obj == null) return null;
                 var acc = TypeAccessor.Create(mi.Type);
+
+                //var nesAccesor = TypeAccessor.Create(mi.Type);
+                //var nesProp = accessor[entity, entKey];
+
+                //if (nesProp == null)
+                //{
+                //    nesProp = Activator.CreateInstance(mi.Type);
+                //    accessor[entity, entKey] = nesProp;
+                //}
+                //var nesMi = nesAccesor.GetMembers().FirstOrDefault(x => string.Compare(x.Name, subKey, StringComparison.OrdinalIgnoreCase) == 0);
+                //if (nesMi == null) continue;
+
+
+                var obj = _accessor[_entity, entKey];
+                if (obj == null)
+                {
+                    obj = Activator.CreateInstance(mi.Type);
+                    _accessor[_entity, entKey] = obj;
+                  //  return null;
+                }
+                
                 var nesMi = acc.GetMembers().FirstOrDefault(x =>
                     string.Compare(x.Name, subKey, StringComparison.OrdinalIgnoreCase) == 0);
-                return nesMi == null ? null : GetValue(acc, obj, nesMi.Type, subKey);
+                return nesMi == null ? null : GetValue(acc, obj, nesMi, subKey);
             }
 
-            return GetValue(_accessor, _entity, mi.Type, propName);
+            return GetValue(_accessor, _entity, mi, propName);
         }
 
         private object GetRefEntityValue(Member mi, string propName)

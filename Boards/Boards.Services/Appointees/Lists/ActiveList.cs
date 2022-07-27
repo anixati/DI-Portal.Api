@@ -21,7 +21,7 @@ namespace Boards.Services.Appointees.Lists
                 x.Type = ColumnType.HyperLink;
                 x.LinkPath = Routes.Appointee.Path();
             });
-            pt.AddSearchCol("FullName");
+            
             pt.AddSearchCol("Gender");
             pt.AddSearchCol("City");
             pt.AddSearchCol("State");
