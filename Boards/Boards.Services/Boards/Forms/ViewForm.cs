@@ -113,6 +113,7 @@ namespace Boards.Services.Boards.Forms
            
             field.AddFieldGroup(f =>
             {
+                f.AddNumeric("MaxServicePeriod", "Maximum period of each term served by members");
                 f.AddLookup("ResponsibleUser", "ActiveUsers", Routes.Users, "Responsible User", false, 24);
                 f.AddLookup("ApprovedUser", "ActiveUsers", Routes.Users, "Approved User", false, 24);
                 f.AddLookup("AsstSecretary", "SecretaryLookup", Routes.Secretary, "Asst. Secretary", false, 24);

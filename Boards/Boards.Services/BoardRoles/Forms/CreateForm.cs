@@ -87,6 +87,13 @@ namespace Boards.Services.BoardRoles.Forms
         {
             field.AddFieldGroup(f =>
             {
+                f.AddSelect<DateStateEnum>("MinSubDateType", "MinSub date type", true);
+                f.AddDate("MinSubDate", "MinSub date");
+            });
+
+
+            field.AddFieldGroup(f =>
+            {
                 f.AddSelect<DateStateEnum>("LetterToPmDateType", "Letter to PM date type", true);
                 f.AddDate("LetterToPmDate", "Letter to PM date");
             });
@@ -111,7 +118,11 @@ namespace Boards.Services.BoardRoles.Forms
         }
         private void Notes(FormField field)
         {
-
+            field.AddInput("ProcessStatus", "Process Status", x =>
+            {
+                x.AddRule(ValRule.Min(10, "Minimum 10 chars required"));
+                x.FieldType = FormFieldType.Note;
+            });
             field.AddInput("NextSteps", "Next Steps", x =>
             {
                 x.AddRule(ValRule.Min(10, "Minimum 10 chars required"));

@@ -43,6 +43,7 @@ namespace Boards.Domain.Roles
         [Required] public long RemunerationMethodId { get; set; }
         public virtual OptionSet RemunerationMethod { get; set; }
 
+
         [Required, MaxLength(255), Column(Order = 1)]
         public string RemunerationTribunal { get; set; }
         public DateTime? VacantFromDate { get; set; }
@@ -52,8 +53,11 @@ namespace Boards.Domain.Roles
         public bool IsSignAppointment { get; set; }
 
 
-        //-------- Ministerial-----------
         [MaxLength(2000)] public string NextSteps { get; set; }
+
+
+        //-------- Ministerial-----------
+
         [MaxLength(2000)] public string InstrumentLink { get; set; }
         [Required] public string PDMSNumber { get; set; }
         [Required] public long MinSubLocationId { get; set; }
@@ -61,18 +65,29 @@ namespace Boards.Domain.Roles
         public DateTime? MinisterOfficeDate { get; set; }
         public DateTime? MinisterActionDate { get; set; }
 
-        public int LeadTimeToAppoint { get; set; }
+       
 
         public DateStateEnum LetterToPmDateType { get; set; }
         public DateTime? LetterToPmDate { get; set; }
+
         public DateStateEnum ExCoDateType { get; set; }
         public DateTime? ExCoDate { get; set; }
+        
         public DateStateEnum NotifyLetterDateType { get; set; }
         public DateTime? NotifyLetterDate { get; set; }
+        
         public DateStateEnum CabinetDateType { get; set; }
         public DateTime? CabinetDate { get; set; }
 
         [MaxLength(2000)] public string InternalNotes { get; set; }
+
+        
+        [MaxLength(2000)] public string ProcessStatus { get; set; }
+        public int? LeadTimeToAppoint { get; set; }
+        
+        public DateStateEnum MinSubDateType { get; set; }
+        public DateTime? MinSubDate { get; set; }
+
 
         public override string GetName()
         {

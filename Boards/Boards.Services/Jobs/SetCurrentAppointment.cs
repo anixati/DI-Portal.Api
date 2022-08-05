@@ -20,15 +20,27 @@ namespace Boards.Services.Jobs
         protected override async Task ExecuteTask()
         {
             var date = DateTime.Now;
-            var rp = _boardsContext.Repo<BoardAppointment>();
-            foreach (var apt in await rp.GetListAsync(x => x.Disabled == false))
+            var arp = _boardsContext.Repo<BoardAppointment>();
+            //var rrp = _boardsContext.Repo<BoardRole>();
+            foreach (var apt in await arp.GetListAsync(x => x.Disabled == false))
             {
                 if (apt.StartDate <= date && apt.EndDate > date)
                     apt.IsCurrent = true;
                 else
                     apt.IsCurrent = false;
-                await rp.UpdateAsync(apt);
-                
+                await arp.UpdateAsync(apt);
+
+                //if (apt.IsCurrent.GetValueOrDefault())
+                //{
+
+                //    var role = await rrp.FindAsync(x => x.Disabled == false && x.Id == apt.BoardRoleId);
+                //    if (role != null)
+                //    {
+                //        role.IncumbentId = apt.Id;
+                //        await rrp.UpdateAsync(role);
+                //    }
+                //}
+
                 Trace($" Updated {apt.Name}");
             }
         }

@@ -25,8 +25,10 @@ namespace Boards.Services.Appointments.Forms
             
             field.AddFieldGroup(f =>
             {
+                f.AddPickList("Appointer", "Appointer", "Appointer/Approver", true, 50);
                 f.AddDate("StartDate", "Start Date", true, 50);
                 f.AddDate("EndDate", "End Date", false, 50);
+
             });
             field.AddFieldGroup(f =>
             {
@@ -38,6 +40,12 @@ namespace Boards.Services.Appointments.Forms
                 f.AddYesNo("IsExOfficio", "Is ExOfficio", "", true, 30);
                 f.AddYesNo("IsFullTime", "Full Time", "", false, 30);
                 f.AddYesNo("ActingInRole", "Acting", "", false, 30);
+            });
+
+            field.AddFieldGroup(f =>
+            {
+                f.AddYesNo("IsSemiDiscretionary", "Is the position semi discretionary.", "", true, 29);
+                f.AddYesNo("Proposed", "Proposed Appointment", "", false, 29);
             });
         }
 

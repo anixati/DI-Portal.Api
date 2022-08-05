@@ -19,7 +19,7 @@ namespace Boards.Services.Appointments.Forms
             });
 
             fs.AddTab("Appointment", Appointment);
-            fs.AddTab("Other Details", OtherDetails);
+          //  fs.AddTab("Other Details", OtherDetails);
             fs.AddDocGrid(Constants.Entities.BoardAppointment);
         }
 
@@ -47,24 +47,30 @@ namespace Boards.Services.Appointments.Forms
                 f.AddPickList("AppointmentSource", "AppointmentSource", "Appointment Source", true, 29);
                 f.AddPickList("SelectionProcess", "SelectionProcess", "Selection Process", true, 29);
             });
-            //field.AddFieldGroup(f =>
-            //{
-            //    f.AddYesNo("IsExOfficio", "Is ExOfficio", "", true, 29);
-            //    f.AddYesNo("IsFullTime", "Full Time", "", false, 29);
-            //    f.AddYesNo("ActingInRole", "Acting", "", false, 29);
-            //    f.AddYesNo("ExclGenderReport", "Exclude Gender Report", "", false, 29);
-            //});
-           
-            
+            field.AddFieldGroup(f =>
+            {
+                f.AddYesNo("IsExOfficio", "Is ExOfficio", "", true, 29);
+                f.AddYesNo("IsFullTime", "Full Time", "", false, 29);
+                f.AddYesNo("ActingInRole", "Acting", "", false, 29);
+                f.AddYesNo("ExclGenderReport", "Exclude Gender Report", "", false, 29);
+
+            });
+            field.AddFieldGroup(f =>
+            {
+                f.AddPickList("Appointer", "Appointer", "Appointer/Approver", true, 50);
+                f.AddYesNo("IsSemiDiscretionary", "Is the position semi discretionary.", "", true, 29);
+                f.AddYesNo("Proposed", "Proposed Appointment", "", false, 29);
+            });
+
         }
 
-        private void OtherDetails(FormField field)
-        {
-            field.AddYesNo("IsExOfficio", "Is ExOfficio", "", true, 29);
-            field.AddYesNo("IsFullTime", "Full Time", "", false, 29);
-            field.AddYesNo("ActingInRole", "Acting", "", false, 29);
-            field.AddYesNo("ExclGenderReport", "Exclude Gender Report", "", false, 29);
-        }
+        //private void OtherDetails(FormField field)
+        //{
+        //    field.AddYesNo("IsExOfficio", "Is ExOfficio", "", true, 29);
+        //    field.AddYesNo("IsFullTime", "Full Time", "", false, 29);
+        //    field.AddYesNo("ActingInRole", "Acting", "", false, 29);
+        //    field.AddYesNo("ExclGenderReport", "Exclude Gender Report", "", false, 29);
+        //}
 
 
     }

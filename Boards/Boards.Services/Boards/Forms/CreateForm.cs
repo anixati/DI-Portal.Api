@@ -96,6 +96,12 @@ namespace Boards.Services.Boards.Forms
                 f.AddYesNo("ReportingApproved", "Reporting approved", "Please specify",true);
                 f.AddYesNo("ExcludeFromGenderBalance", "Exclude from gender balance", "Please specify",true);
             });
+
+
+            field.AddFieldGroup(f =>
+            {
+                f.AddNumeric("MaxServicePeriod", "Maximum period of each term served by members");
+            });
         }
 
         private void AdminDetails(FormField field)

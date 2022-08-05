@@ -18,14 +18,14 @@
         "options": "",
         "roles": []
       },
-      {
-        "id": 103,
-        "title": "Current Membership Details",
-        "description": "Board Current Membership Details (Parliamentary) SubReport",
-        "url": "MembershipDetails",
-        "options": "",
-        "roles": []
-      },
+      //{
+      //  "id": 103,
+      //  "title": "Current Membership Details",
+      //  "description": "Board Current Membership Details (Parliamentary) SubReport",
+      //  "url": "MembershipDetails",
+      //  "options": "",
+      //  "roles": []
+      //},
       {
         "id": 104,
         "title": "Comprehensive Board Data",
@@ -52,8 +52,8 @@
       },
       {
         "id": 107,
-        "title": "Vacant Appointments Next 12 Months",
-        "description": "Vacant Appointments Next 12 Months",
+        "title": "Expiring and vacant appointments for next 12 months",
+        "description": "Expiring and vacant appointments for next 12 months",
         "url": "VacantAppointmentsNext12",
         "options": "",
         "roles": []
@@ -89,15 +89,16 @@
         "url": "WeeklyFor12Month",
         "options": "",
         "roles": []
-      },
-      {
-        "id": 112,
-        "title": "Whole of Government Boards Changes",
-        "description": "Whole of Government Boards Changes",
-        "url": "WoGChanges",
-        "options": "",
-        "roles": []
       }
+      /////////////////////////////,
+      //{
+      //  "id": 112,
+      //  "title": "Whole of Government Boards Changes",
+      //  "description": "Whole of Government Boards Changes",
+      //  "url": "WoGChanges",
+      //  "options": "",
+      //  "roles": []
+      //}
     ]
   }
 }

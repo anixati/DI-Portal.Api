@@ -46,6 +46,7 @@ namespace Boards.Services.BoardRoles.Forms
 
                 f.AddYesNo("ExcludeFromOrder15", "Exclude from order 15 report", "", true, 35);
                 f.AddYesNo("ExcludeGenderReport", "Exclude from gender report", "", true, 35);
+                f.AddNumeric("LeadTimeToAppoint", "Lead time to appointment");
             });
         }
 
@@ -75,7 +76,11 @@ namespace Boards.Services.BoardRoles.Forms
                 x.AddRule(ValRule.Min(10, "Minimum 10 chars required"));
                 x.FieldType = FormFieldType.Note;
             });
-
+            field.AddInput("ProcessStatus", "Process Status", x =>
+            {
+                x.AddRule(ValRule.Min(10, "Minimum 10 chars required"));
+                x.FieldType = FormFieldType.Note;
+            });
         }
 
         private void MinisterialDetails(FormField field)
@@ -86,6 +91,13 @@ namespace Boards.Services.BoardRoles.Forms
                 f.AddPickList("MinSubLocation", "MinSubLocation", "MinSub Location", true, 29);
                 f.AddDate("MinisterOfficeDate", "Minister Office Date", false, 29);
                 f.AddDate("MinisterActionDate", "Minister Action Date", false, 29);
+            });
+
+
+            field.AddFieldGroup(f =>
+            {
+                f.AddSelect<DateStateEnum>("MinSubDateType", "MinSub date type", true);
+                f.AddDate("MinSubDate", "MinSub date");
             });
 
             field.AddFieldGroup(f =>

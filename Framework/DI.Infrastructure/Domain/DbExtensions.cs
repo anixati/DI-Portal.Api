@@ -104,8 +104,15 @@ namespace DI.Domain
             {
                 var isVirtual = property.GetGetMethod()!.IsVirtual;
                 if (!isVirtual || properties.FirstOrDefault(c => c.Name == property.Name + "Id") == null) continue;
+
+                Console.WriteLine($"{property.Name} -------");
+
                 queryable = queryable.Include(property.Name);
+
+                Console.WriteLine($"ok -------");
             }
+
+            Console.WriteLine($"done--");
             return queryable;
         }
     }

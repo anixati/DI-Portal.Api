@@ -77,5 +77,7 @@ namespace Boards.Domain.Boards
         [MaxLength(50)] public string AsstSecretaryPhone { get; set; }
 
         public List<BoardRole> Roles { get; set; }
+
+        public int? MaxServicePeriod { get; set; }
     }
 }
