@@ -11,10 +11,7 @@ namespace Boards.Services.Ministers.Forms
         protected override void CreateSchema(FormSchema fs)
         {
             fs.AddPage("Personal Details", AddPersonDetails);
-            fs.AddPage("Contact Details", AddContactDetails);
             fs.AddPage("Address Details", AddAddressDetails);
-            //fs.AddPage("Professional Details", AddProfessionalDetails);
-            //fs.AddPage("Other Details", OtherDetails);
         }
 
         private void AddPersonDetails(FormField field)
@@ -23,13 +20,16 @@ namespace Boards.Services.Ministers.Forms
             {
                 f.AddInput("Title", "Title");
                 f.AddInput("FirstName", "First Name", true);
-            });
-            field.AddFieldGroup(f =>
-            {
                 f.AddInput("MiddleName", "Middle Name");
                 f.AddInput("LastName", "Last Name", true);
             });
-            field.AddSelect<GenderEnum>("Gender", "Gender", true);
+            field.AddFieldGroup(f =>
+            {
+                field.AddSelect<GenderEnum>("Gender", "Gender", true);
+                f.AddEmail("Email1", "Email", true);
+                f.AddPhone("HomePhone", "Phone");
+            });
+            
         }
         private void AddAddressDetails(FormField field)
         {
@@ -38,21 +38,6 @@ namespace Boards.Services.Ministers.Forms
             field.AddDivider("Postal Address");
             field.AddAddress("PostalAddress",false);
         }
-        private void AddContactDetails(FormField field)
-        {
-            field.AddFieldGroup(f =>
-            {
-                f.AddEmail("Email1", "Primary Email", true);
-                f.AddEmail("Email2", "other Email");
-            });
-            field.AddFieldGroup(f =>
-            {
-                f.AddPhone("Mobile", "Mobile Number");
-                f.AddPhone("HomePhone", "Phone Number");
-            });
-            field.AddPhone("FaxNumber", "Fax Number");
-        }
-
-        
+     
     }
 }

@@ -22,11 +22,13 @@ namespace Boards.Services._Shared
                 f.AddInput($"{prefix}.Unit", "Unit/No.", required);
                 f.AddInput($"{prefix}.Street", "Street Name", required);
                 f.AddInput($"{prefix}.City", "Suburb/City",required);
+             
+                
             });
             field.AddFieldGroup(f =>
             {
-                f.AddNumeric($"{prefix}.Postcode", "Postcode",required);
-                f.AddTextList($"{prefix}.State","States", "State",required);
+                f.AddNumeric($"{prefix}.Postcode", "Postcode", required); 
+                f.AddTextList($"{prefix}.State", "States", "State", required);
                 f.AddTextList($"{prefix}.Country", "Countries", "Country", required, "Australia");
             });
         }

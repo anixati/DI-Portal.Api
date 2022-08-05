@@ -1,4 +1,5 @@
-﻿using DI.Domain.Enums;
+﻿using Boards.Services._Shared;
+using DI.Domain.Enums;
 using DI.Forms.Handlers;
 using DI.Forms.Types;
 
@@ -11,7 +12,7 @@ namespace Boards.Services.Secretary.Forms
         protected override void CreateSchema(FormSchema fs)
         {
             fs.AddPage("Personal Details", AddPersonDetails);
-            fs.AddPage("Contact Details", AddContactDetails);
+            fs.AddPage("Address Details", AddAddressDetails);
         }
 
         private void AddPersonDetails(FormField field)
@@ -27,21 +28,18 @@ namespace Boards.Services.Secretary.Forms
                 f.AddInput("LastName", "Last Name", true);
             });
             field.AddSelect<GenderEnum>("Gender", "Gender", true);
+            field.AddFieldGroup(f =>
+            {
+                f.AddEmail("Email1", "Email", true);
+                f.AddPhone("HomePhone", "Phone");
+            });
         }
-
-        private void AddContactDetails(FormField field)
+        private void AddAddressDetails(FormField field)
         {
-            field.AddFieldGroup(f =>
-            {
-                f.AddEmail("Email1", "Primary Email", true);
-                f.AddEmail("Email2", "other Email");
-            });
-            field.AddFieldGroup(f =>
-            {
-                f.AddPhone("Mobile", "Mobile Number");
-                f.AddPhone("HomePhone", "Phone Number");
-            });
-            field.AddPhone("FaxNumber", "Fax Number");
+            field.AddDivider("Street Address");
+            field.AddAddress("StreetAddress", true);
+            field.AddDivider("Postal Address");
+            field.AddAddress("PostalAddress", false);
         }
 
         
