@@ -69,9 +69,6 @@ namespace EFCustomMigrations.Db.Migrations
                     b.Property<bool>("Disabled")
                         .HasColumnType("bit");
 
-                    b.Property<long?>("DivisionId")
-                        .HasColumnType("bigint");
-
                     b.Property<long?>("EstablishedByUnderId")
                         .HasColumnType("bigint");
 
@@ -89,11 +86,18 @@ namespace EFCustomMigrations.Db.Migrations
                     b.Property<bool>("Locked")
                         .HasColumnType("bit");
 
+                    b.Property<int?>("MaxServicePeriod")
+                        .HasColumnType("int");
+
                     b.Property<int?>("MaximumMembers")
                         .HasColumnType("int");
 
                     b.Property<int?>("MaximumTerms")
                         .HasColumnType("int");
+
+                    b.Property<string>("MigratedId")
+                        .HasMaxLength(255)
+                        .HasColumnType("nvarchar(255)");
 
                     b.Property<int?>("MinimumMembers")
                         .HasColumnType("int");
@@ -162,8 +166,6 @@ namespace EFCustomMigrations.Db.Migrations
                     b.HasIndex("AsstSecretaryId");
 
                     b.HasIndex("BoardStatusId");
-
-                    b.HasIndex("DivisionId");
 
                     b.HasIndex("EstablishedByUnderId");
 
@@ -437,6 +439,10 @@ namespace EFCustomMigrations.Db.Migrations
                         .HasMaxLength(255)
                         .HasColumnType("nvarchar(255)");
 
+                    b.Property<string>("MigratedId")
+                        .HasMaxLength(255)
+                        .HasColumnType("nvarchar(255)");
+
                     b.Property<string>("MobilePhone")
                         .HasMaxLength(10)
                         .HasColumnType("nvarchar(10)");
@@ -664,7 +670,10 @@ namespace EFCustomMigrations.Db.Migrations
                         .IsRequired()
                         .HasColumnType("decimal(13,2)");
 
-                    b.Property<long>("AppointeeId")
+                    b.Property<long?>("AppointeeId")
+                        .HasColumnType("bigint");
+
+                    b.Property<long?>("AppointerId")
                         .HasColumnType("bigint");
 
                     b.Property<DateTime?>("AppointmentDate")
@@ -715,11 +724,18 @@ namespace EFCustomMigrations.Db.Migrations
                     b.Property<bool>("IsFullTime")
                         .HasColumnType("bit");
 
+                    b.Property<bool?>("IsSemiDiscretionary")
+                        .HasColumnType("bit");
+
                     b.Property<long?>("JudicialId")
                         .HasColumnType("bigint");
 
                     b.Property<bool>("Locked")
                         .HasColumnType("bit");
+
+                    b.Property<string>("MigratedId")
+                        .HasMaxLength(255)
+                        .HasColumnType("nvarchar(255)");
 
                     b.Property<string>("ModifiedBy")
                         .IsRequired()
@@ -736,6 +752,9 @@ namespace EFCustomMigrations.Db.Migrations
 
                     b.Property<int?>("PrevTerms")
                         .HasColumnType("int");
+
+                    b.Property<bool?>("Proposed")
+                        .HasColumnType("bit");
 
                     b.Property<long>("RemunerationPeriodId")
                         .HasColumnType("bigint");
@@ -754,6 +773,8 @@ namespace EFCustomMigrations.Db.Migrations
                     b.HasKey("Id");
 
                     b.HasIndex("AppointeeId");
+
+                    b.HasIndex("AppointerId");
 
                     b.HasIndex("AppointmentSourceId");
 
@@ -776,9 +797,6 @@ namespace EFCustomMigrations.Db.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("bigint")
                         .UseIdentityColumn();
-
-                    b.Property<long>("AppointerId")
-                        .HasColumnType("bigint");
 
                     b.Property<long?>("AssistantSecretaryId")
                         .HasColumnType("bigint");
@@ -847,7 +865,7 @@ namespace EFCustomMigrations.Db.Migrations
                     b.Property<bool>("IsSignAppointment")
                         .HasColumnType("bit");
 
-                    b.Property<int>("LeadTimeToAppoint")
+                    b.Property<int?>("LeadTimeToAppoint")
                         .HasColumnType("int");
 
                     b.Property<DateTime?>("LetterToPmDate")
@@ -858,6 +876,16 @@ namespace EFCustomMigrations.Db.Migrations
 
                     b.Property<bool>("Locked")
                         .HasColumnType("bit");
+
+                    b.Property<string>("MigratedId")
+                        .HasMaxLength(255)
+                        .HasColumnType("nvarchar(255)");
+
+                    b.Property<DateTime?>("MinSubDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int>("MinSubDateType")
+                        .HasColumnType("int");
 
                     b.Property<long>("MinSubLocationId")
                         .HasColumnType("bigint");
@@ -905,6 +933,10 @@ namespace EFCustomMigrations.Db.Migrations
                     b.Property<int>("PositionRemunerated")
                         .HasColumnType("int");
 
+                    b.Property<string>("ProcessStatus")
+                        .HasMaxLength(2000)
+                        .HasColumnType("nvarchar(2000)");
+
                     b.Property<long>("RemunerationMethodId")
                         .HasColumnType("bigint");
 
@@ -912,6 +944,9 @@ namespace EFCustomMigrations.Db.Migrations
                         .IsRequired()
                         .HasMaxLength(255)
                         .HasColumnType("nvarchar(255)");
+
+                    b.Property<long>("RoleAppointerId")
+                        .HasColumnType("bigint");
 
                     b.Property<int?>("Term")
                         .HasColumnType("int");
@@ -926,8 +961,6 @@ namespace EFCustomMigrations.Db.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("AppointerId");
-
                     b.HasIndex("AssistantSecretaryId");
 
                     b.HasIndex("BoardId");
@@ -939,6 +972,8 @@ namespace EFCustomMigrations.Db.Migrations
                     b.HasIndex("PositionId");
 
                     b.HasIndex("RemunerationMethodId");
+
+                    b.HasIndex("RoleAppointerId");
 
                     b.ToTable("BoardRoles");
                 });
@@ -1557,6 +1592,10 @@ namespace EFCustomMigrations.Db.Migrations
                         .HasMaxLength(255)
                         .HasColumnType("nvarchar(255)");
 
+                    b.Property<string>("MigratedId")
+                        .HasMaxLength(255)
+                        .HasColumnType("nvarchar(255)");
+
                     b.Property<string>("MobilePhone")
                         .HasMaxLength(10)
                         .HasColumnType("nvarchar(10)");
@@ -1783,11 +1822,6 @@ namespace EFCustomMigrations.Db.Migrations
                         .HasForeignKey("BoardStatusId")
                         .OnDelete(DeleteBehavior.NoAction);
 
-                    b.HasOne("DI.Domain.Options.OptionSet", "Division")
-                        .WithMany()
-                        .HasForeignKey("DivisionId")
-                        .OnDelete(DeleteBehavior.NoAction);
-
                     b.HasOne("DI.Domain.Options.OptionSet", "EstablishedByUnder")
                         .WithMany()
                         .HasForeignKey("EstablishedByUnderId")
@@ -1823,8 +1857,6 @@ namespace EFCustomMigrations.Db.Migrations
                     b.Navigation("AsstSecretary");
 
                     b.Navigation("BoardStatus");
-
-                    b.Navigation("Division");
 
                     b.Navigation("EstablishedByUnder");
 
@@ -2124,8 +2156,12 @@ namespace EFCustomMigrations.Db.Migrations
                     b.HasOne("Boards.Domain.Contacts.Appointee", "Appointee")
                         .WithMany()
                         .HasForeignKey("AppointeeId")
-                        .OnDelete(DeleteBehavior.NoAction)
-                        .IsRequired();
+                        .OnDelete(DeleteBehavior.NoAction);
+
+                    b.HasOne("DI.Domain.Options.OptionSet", "Appointer")
+                        .WithMany()
+                        .HasForeignKey("AppointerId")
+                        .OnDelete(DeleteBehavior.NoAction);
 
                     b.HasOne("DI.Domain.Options.OptionSet", "AppointmentSource")
                         .WithMany()
@@ -2162,6 +2198,8 @@ namespace EFCustomMigrations.Db.Migrations
 
                     b.Navigation("Appointee");
 
+                    b.Navigation("Appointer");
+
                     b.Navigation("AppointmentSource");
 
                     b.Navigation("Board");
@@ -2177,12 +2215,6 @@ namespace EFCustomMigrations.Db.Migrations
 
             modelBuilder.Entity("Boards.Domain.Roles.BoardRole", b =>
                 {
-                    b.HasOne("DI.Domain.Options.OptionSet", "Appointer")
-                        .WithMany()
-                        .HasForeignKey("AppointerId")
-                        .OnDelete(DeleteBehavior.NoAction)
-                        .IsRequired();
-
                     b.HasOne("Boards.Domain.Contacts.AssistantSecretary", null)
                         .WithMany("Roles")
                         .HasForeignKey("AssistantSecretaryId")
@@ -2217,7 +2249,11 @@ namespace EFCustomMigrations.Db.Migrations
                         .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
 
-                    b.Navigation("Appointer");
+                    b.HasOne("DI.Domain.Options.OptionSet", "RoleAppointer")
+                        .WithMany()
+                        .HasForeignKey("RoleAppointerId")
+                        .OnDelete(DeleteBehavior.NoAction)
+                        .IsRequired();
 
                     b.Navigation("Board");
 
@@ -2228,6 +2264,8 @@ namespace EFCustomMigrations.Db.Migrations
                     b.Navigation("Position");
 
                     b.Navigation("RemunerationMethod");
+
+                    b.Navigation("RoleAppointer");
                 });
 
             modelBuilder.Entity("DI.Domain.Options.OptionSet", b =>

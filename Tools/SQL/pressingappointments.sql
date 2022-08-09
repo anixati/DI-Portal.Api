@@ -43,7 +43,6 @@ SELECT
   ,(CASE WHEN r.[CabinetDateType]=2 THEN CONVERT(nvarchar(12),r.[CabinetDate],103) WHEN r.[CabinetDateType]=1 THEN 'TBA' ELSE 'NA'  END) AS Cabinet
   ,(CASE WHEN r.[ExCoDateType]=2 THEN CONVERT(nvarchar(12),r.[ExCoDate],103) WHEN r.[ExCoDateType]=1 THEN 'TBA' ELSE 'NA'  END) AS ExCo
   ,(CASE WHEN r.[NotifyLetterDateType]=2 THEN CONVERT(nvarchar(12),r.[NotifyLetterDate],103) WHEN r.[NotifyLetterDateType]=1 THEN 'TBA' ELSE 'NA'  END) AS NotificationLetters
-
   ,(SELECT os.[Label] FROM OptionSet os where os.ID=a.AppointmentSourceId) as [CandidateSource]
   ,(SELECT os.[Label] FROM OptionSet os where os.ID=a.SelectionProcessId) as [SelectionProcess]
   ,(SELECT os.[Label] FROM OptionSet os where os.ID=a.JudicialId) as [Judicial]
@@ -61,7 +60,6 @@ SELECT
   ,(SELECT os.[Label] FROM OptionSet os where os.ID=a.AppointerId) as [AppointmentBy]
   ,a.BriefNumber as [BriefNumber]
   ,a.AppointmentDate as [BriefDate]
-
   ,c.Id as [PersonID]
   ,c.FullName as [FullName]
   ,c.Title as [Title]
@@ -76,7 +74,6 @@ SELECT
   ,r.nextsteps as [ProcessNextStep]
   ,fa.ExtraFullname as [Proposed appointee]
   ,fap.Name as [FututreAppoint]
-  
 FROM [dbo].[VwBoards] b 
 LEFT JOIN [dbo].[VwBoardRoles] r on b.Id = r.BoardId
 LEFT JOIN [dbo].[VwBoardAppointments] a on  r.Id = a.BoardRoleId and a.IsCurrent=1

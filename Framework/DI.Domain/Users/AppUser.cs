@@ -25,6 +25,8 @@ namespace DI.Domain.Users
         public bool IsSystem { get; set; }
         public virtual ICollection<TeamUser> UserTeams { get; set; }
         public virtual ICollection<UserRole> UserRoles { get; set; }
+
+        [MaxLength(255)] public string MigratedId { get; set; }
     }
 
     public class UserViewModel : ContactViewModel

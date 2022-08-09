@@ -47,9 +47,9 @@ namespace Boards.Infrastructure.Design
         }
         protected override async Task SetupDomainData()
         {
-            await CreateDummyOpSets();
-            await CreatePortfolios();
-            await CreateDummyAppointees();
+            //await CreateDummyOpSets();
+            //await CreatePortfolios();
+            //await CreateDummyAppointees();
             await CreateDummyUsers();
             await Save();
         }

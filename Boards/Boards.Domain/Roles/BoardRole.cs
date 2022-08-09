@@ -28,8 +28,8 @@ namespace Boards.Domain.Roles
         [Required] public long PositionId { get; set; }
         public OptionSet Position { get; set; }
         
-        [Required] public long AppointerId { get; set; }
-        public OptionSet Appointer { get; set; }
+        [Required] public long RoleAppointerId { get; set; }
+        public OptionSet RoleAppointer { get; set; }
 
         public bool IsFullTime { get; set; }
         public bool? IsExecutive { get; set; }
@@ -102,5 +102,6 @@ namespace Boards.Domain.Roles
             return this;
 
         }
+        [MaxLength(255)] public string MigratedId { get; set; }
     }
 }

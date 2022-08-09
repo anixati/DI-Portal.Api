@@ -59,8 +59,8 @@ namespace Boards.Domain.Boards
         public long? BoardStatusId { get; set; }
         public OptionSet BoardStatus { get; set; }
         
-        public long? DivisionId { get; set; }
-        public OptionSet Division { get; set; }
+        //public long? DivisionId { get; set; }
+        //public OptionSet Division { get; set; }
 
         public long? EstablishedByUnderId { get; set; }
         public OptionSet EstablishedByUnder { get; set; }
@@ -79,5 +79,7 @@ namespace Boards.Domain.Boards
         public List<BoardRole> Roles { get; set; }
 
         public int? MaxServicePeriod { get; set; }
+
+        [MaxLength(255)] public string MigratedId { get; set; }
     }
 }

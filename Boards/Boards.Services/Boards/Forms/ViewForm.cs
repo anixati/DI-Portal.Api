@@ -34,13 +34,14 @@ namespace Boards.Services.Boards.Forms
                     x.FieldType = FormFieldType.Text;
                 });
                 f.AddInput("Acronym", "Acronym", true);
-                f.AddInput("Constitution", "Website");
+               
             });
             field.AddFieldGroup(f =>
             {
                 f.AddLookup("Portfolio", "PortfolioLookup", Routes.Portfolios, "Portfolio", true);
-                f.AddPickList("Division", "Division", "Division");
+               // f.AddPickList("Division", "Division", "Division");
                 f.AddLookup("AppTeam", "AppTeamLookup", Routes.Default, "Team/Division", true);
+                f.AddInput("Constitution", "Website");
             });
             field.AddInput("Description", "Description", x =>
             {

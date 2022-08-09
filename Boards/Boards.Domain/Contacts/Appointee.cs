@@ -28,5 +28,6 @@ namespace Boards.Domain.Contacts
         public virtual OptionSet Experience { get; set; }
         public virtual ICollection<BoardRole> Roles { get; set; }
         public virtual ICollection<AppointeeSkill> AppointeeSkills { get; set; }
+        [MaxLength(255)] public string MigratedId { get; set; }
     }
 }

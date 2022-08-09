@@ -30,6 +30,9 @@ namespace DI.Domain.Core
         [Column(Order = 999)]
         public byte[] Timestamp { get; set; }
 
+
+        
+
         public bool IsTransient => Id == default;
 
         public virtual string GetName()

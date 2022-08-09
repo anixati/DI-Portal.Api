@@ -1,4 +1,4 @@
-USE [DI_Boards2]
+USE [DI_Boards3]
 GO
 /****** Object:  StoredProcedure [acl].[GetUserRoles]    Script Date: 28/07/2022 4:01:29 PM ******/
 DROP PROCEDURE [acl].[GetUserRoles]
@@ -150,7 +150,7 @@ GO
 DROP TRIGGER IF EXISTS [dbo].[TrgSetRoleIncumbent]
 GO
 
-CREATE TRIGGER [dbo].[TrgSetRoleIncumbent] on [dbo].[BoardAppointments]
+CREATE TRIGGER [dbo].[TrgSetRoleIncumbent] ON [dbo].[BoardAppointments]
 FOR UPDATE 
 AS 
 BEGIN
@@ -327,8 +327,8 @@ CREATE VIEW  [dbo].[BoardRolesView] AS
 	  brl.[Name],
 	  pos.[Label] AS Position,
 	  brl.[PositionId],
-	  brl.[AppointerId],
-	 (SELECT os.[Label] FROM OptionSet os where os.ID= brl.[AppointerId]) AS  Appointer,
+	  brl.[RoleAppointerId] AS [AppointerId],
+	 (SELECT os.[Label] FROM OptionSet os where os.ID= brl.RoleAppointerId) AS  Appointer,
 	  brl.[IsFullTime],
 	  brl.[IsExecutive],
 	  brl.[IsExOfficio],
@@ -489,11 +489,14 @@ GO
 /****** Object:  View [dbo].[VwBoardRoles]    Script Date: 28/07/2022 4:01:29 PM ******/
 SET ANSI_NULLS ON
 GO
+
+
+
 SET QUOTED_IDENTIFIER ON
 GO
 CREATE VIEW  [dbo].[VwBoardRoles] AS 
 	SELECT brs.*
-	 ,(SELECT os.[Label] FROM OptionSet os where os.ID=brs.AppointerId) AS AppointerName
+	 ,(SELECT os.[Label] FROM OptionSet os where os.ID=brs.[RoleAppointerId]) AS AppointerName
 	FROM [dbo].[BoardRoles] brs WHERE brs.Deleted=0 AND brs.[Disabled]=0
 GO
 /****** Object:  View [dbo].[VwBoards]    Script Date: 28/07/2022 4:01:29 PM ******/

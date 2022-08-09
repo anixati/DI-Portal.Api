@@ -108,14 +108,14 @@ namespace Boards.Services.Boards.Forms
         {
             field.AddFieldGroup(f =>
             {
+                f.AddPickList("BoardStatus", "BoardStatus", "Board Status");
                 f.AddPickList("OwnerDivision", "OwnerDivision", "Owner Division");
                 f.AddPickList("OwnerPosition", "OwnerPosition", "Owner Position");
             });
-            field.AddFieldGroup(f =>
-            {
-                f.AddPickList("BoardStatus", "BoardStatus", "Board Status");
-                f.AddPickList("Division", "Division", "Division");
-            });
+            //field.AddFieldGroup(f =>
+            //{
+            //    f.AddPickList("Division", "Division", "Division");
+            //});
             field.AddFieldGroup(f =>
             {
                 f.AddLookup("ResponsibleUser", "ActiveUsers", Routes.Users, "Responsible User");

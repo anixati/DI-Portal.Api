@@ -260,6 +260,7 @@ CREATE TABLE [acl].[Users] (
     [LockedOut] bit NOT NULL,
     [AccessFailCount] int NOT NULL,
     [IsSystem] bit NOT NULL,
+    [MigratedId] nvarchar(255) NULL,
     [Locked] bit NOT NULL,
     [Disabled] bit NOT NULL,
     [Deleted] bit NOT NULL,
@@ -403,6 +404,7 @@ CREATE TABLE [Dbo].[Appointee] (
     [ExecutiveSearch] bit NULL,
     [CapabilitiesId] bigint NULL,
     [ExperienceId] bigint NULL,
+    [MigratedId] nvarchar(255) NULL,
     [Locked] bit NOT NULL,
     [Disabled] bit NOT NULL,
     [Deleted] bit NOT NULL,
@@ -461,12 +463,13 @@ CREATE TABLE [Dbo].[Boards] (
     [ReportingApproved] bit NOT NULL,
     [ExcludeFromGenderBalance] bit NOT NULL,
     [BoardStatusId] bigint NULL,
-    [DivisionId] bigint NULL,
     [EstablishedByUnderId] bigint NULL,
     [ApprovedUserId] bigint NULL,
     [ResponsibleUserId] bigint NULL,
     [AsstSecretaryId] bigint NULL,
     [AsstSecretaryPhone] nvarchar(50) NULL,
+    [MaxServicePeriod] int NULL,
+    [MigratedId] nvarchar(255) NULL,
     [Locked] bit NOT NULL,
     [Disabled] bit NOT NULL,
     [Deleted] bit NOT NULL,
@@ -479,7 +482,6 @@ CREATE TABLE [Dbo].[Boards] (
     [Description] nvarchar(2000) NULL,
     CONSTRAINT [PK_Boards] PRIMARY KEY ([Id]),
     CONSTRAINT [FK_Boards_OptionSet_BoardStatusId] FOREIGN KEY ([BoardStatusId]) REFERENCES [Dbo].[OptionSet] ([Id]),
-    CONSTRAINT [FK_Boards_OptionSet_DivisionId] FOREIGN KEY ([DivisionId]) REFERENCES [Dbo].[OptionSet] ([Id]),
     CONSTRAINT [FK_Boards_OptionSet_EstablishedByUnderId] FOREIGN KEY ([EstablishedByUnderId]) REFERENCES [Dbo].[OptionSet] ([Id]),
     CONSTRAINT [FK_Boards_OptionSet_OwnerDivisionId] FOREIGN KEY ([OwnerDivisionId]) REFERENCES [Dbo].[OptionSet] ([Id]),
     CONSTRAINT [FK_Boards_OptionSet_OwnerPositionId] FOREIGN KEY ([OwnerPositionId]) REFERENCES [Dbo].[OptionSet] ([Id]),
@@ -515,7 +517,7 @@ CREATE TABLE [Dbo].[BoardRoles] (
     [BoardId] bigint NOT NULL,
     [IncumbentId] bigint NULL,
     [PositionId] bigint NOT NULL,
-    [AppointerId] bigint NOT NULL,
+    [RoleAppointerId] bigint NOT NULL,
     [IsFullTime] bit NOT NULL,
     [IsExecutive] bit NULL,
     [IsExOfficio] bit NULL,
@@ -545,6 +547,11 @@ CREATE TABLE [Dbo].[BoardRoles] (
     [CabinetDateType] int NOT NULL,
     [CabinetDate] datetime2 NULL,
     [InternalNotes] nvarchar(2000) NULL,
+    [ProcessStatus] nvarchar(2000) NULL,
+    [LeadTimeToAppoint] int NULL,
+    [MinSubDateType] int NOT NULL,
+    [MinSubDate] datetime2 NULL,
+    [MigratedId] nvarchar(255) NULL,
     [AssistantSecretaryId] bigint NULL,
     [Locked] bit NOT NULL,
     [Disabled] bit NOT NULL,
@@ -557,10 +564,10 @@ CREATE TABLE [Dbo].[BoardRoles] (
     CONSTRAINT [PK_BoardRoles] PRIMARY KEY ([Id]),
     CONSTRAINT [FK_BoardRoles_Appointee_IncumbentId] FOREIGN KEY ([IncumbentId]) REFERENCES [Dbo].[Appointee] ([Id]),
     CONSTRAINT [FK_BoardRoles_Boards_BoardId] FOREIGN KEY ([BoardId]) REFERENCES [Dbo].[Boards] ([Id]),
-    CONSTRAINT [FK_BoardRoles_OptionSet_AppointerId] FOREIGN KEY ([AppointerId]) REFERENCES [Dbo].[OptionSet] ([Id]),
     CONSTRAINT [FK_BoardRoles_OptionSet_MinSubLocationId] FOREIGN KEY ([MinSubLocationId]) REFERENCES [Dbo].[OptionSet] ([Id]),
     CONSTRAINT [FK_BoardRoles_OptionSet_PositionId] FOREIGN KEY ([PositionId]) REFERENCES [Dbo].[OptionSet] ([Id]),
     CONSTRAINT [FK_BoardRoles_OptionSet_RemunerationMethodId] FOREIGN KEY ([RemunerationMethodId]) REFERENCES [Dbo].[OptionSet] ([Id]),
+    CONSTRAINT [FK_BoardRoles_OptionSet_RoleAppointerId] FOREIGN KEY ([RoleAppointerId]) REFERENCES [Dbo].[OptionSet] ([Id]),
     CONSTRAINT [FK_BoardRoles_Secretaries_AssistantSecretaryId] FOREIGN KEY ([AssistantSecretaryId]) REFERENCES [Dbo].[Secretaries] ([Id])
 );
 GO
@@ -584,10 +591,11 @@ CREATE TABLE [Dbo].[BoardAppointments] (
     [Name] nvarchar(255) NOT NULL,
     [BoardId] bigint NOT NULL,
     [BoardRoleId] bigint NOT NULL,
-    [AppointeeId] bigint NOT NULL,
+    [AppointeeId] bigint NULL,
     [StartDate] datetime2 NOT NULL,
     [EndDate] datetime2 NULL,
     [BriefNumber] nvarchar(255) NULL,
+    [IsCurrent] bit NULL,
     [IsExOfficio] bit NULL,
     [IsFullTime] bit NOT NULL,
     [ActingInRole] bit NOT NULL,
@@ -600,6 +608,10 @@ CREATE TABLE [Dbo].[BoardAppointments] (
     [AppointmentDate] datetime2 NULL,
     [InitialStartDate] datetime2 NULL,
     [PrevTerms] int NULL,
+    [IsSemiDiscretionary] bit NULL,
+    [Proposed] bit NULL,
+    [AppointerId] bigint NULL,
+    [MigratedId] nvarchar(255) NULL,
     [Locked] bit NOT NULL,
     [Disabled] bit NOT NULL,
     [Deleted] bit NOT NULL,
@@ -612,6 +624,7 @@ CREATE TABLE [Dbo].[BoardAppointments] (
     CONSTRAINT [FK_BoardAppointments_Appointee_AppointeeId] FOREIGN KEY ([AppointeeId]) REFERENCES [Dbo].[Appointee] ([Id]),
     CONSTRAINT [FK_BoardAppointments_BoardRoles_BoardRoleId] FOREIGN KEY ([BoardRoleId]) REFERENCES [Dbo].[BoardRoles] ([Id]),
     CONSTRAINT [FK_BoardAppointments_Boards_BoardId] FOREIGN KEY ([BoardId]) REFERENCES [Dbo].[Boards] ([Id]),
+    CONSTRAINT [FK_BoardAppointments_OptionSet_AppointerId] FOREIGN KEY ([AppointerId]) REFERENCES [Dbo].[OptionSet] ([Id]),
     CONSTRAINT [FK_BoardAppointments_OptionSet_AppointmentSourceId] FOREIGN KEY ([AppointmentSourceId]) REFERENCES [Dbo].[OptionSet] ([Id]),
     CONSTRAINT [FK_BoardAppointments_OptionSet_JudicialId] FOREIGN KEY ([JudicialId]) REFERENCES [Dbo].[OptionSet] ([Id]),
     CONSTRAINT [FK_BoardAppointments_OptionSet_RemunerationPeriodId] FOREIGN KEY ([RemunerationPeriodId]) REFERENCES [Dbo].[OptionSet] ([Id]),
@@ -637,6 +650,9 @@ GO
 CREATE INDEX [IX_BoardAppointments_AppointeeId] ON [Dbo].[BoardAppointments] ([AppointeeId]);
 GO
 
+CREATE INDEX [IX_BoardAppointments_AppointerId] ON [Dbo].[BoardAppointments] ([AppointerId]);
+GO
+
 CREATE INDEX [IX_BoardAppointments_AppointmentSourceId] ON [Dbo].[BoardAppointments] ([AppointmentSourceId]);
 GO
 
@@ -653,9 +669,6 @@ CREATE INDEX [IX_BoardAppointments_RemunerationPeriodId] ON [Dbo].[BoardAppointm
 GO
 
 CREATE INDEX [IX_BoardAppointments_SelectionProcessId] ON [Dbo].[BoardAppointments] ([SelectionProcessId]);
-GO
-
-CREATE INDEX [IX_BoardRoles_AppointerId] ON [Dbo].[BoardRoles] ([AppointerId]);
 GO
 
 CREATE INDEX [IX_BoardRoles_AssistantSecretaryId] ON [Dbo].[BoardRoles] ([AssistantSecretaryId]);
@@ -676,6 +689,9 @@ GO
 CREATE INDEX [IX_BoardRoles_RemunerationMethodId] ON [Dbo].[BoardRoles] ([RemunerationMethodId]);
 GO
 
+CREATE INDEX [IX_BoardRoles_RoleAppointerId] ON [Dbo].[BoardRoles] ([RoleAppointerId]);
+GO
+
 CREATE INDEX [IX_Boards_ApprovedUserId] ON [Dbo].[Boards] ([ApprovedUserId]);
 GO
 
@@ -686,9 +702,6 @@ CREATE INDEX [IX_Boards_AsstSecretaryId] ON [Dbo].[Boards] ([AsstSecretaryId]);
 GO
 
 CREATE INDEX [IX_Boards_BoardStatusId] ON [Dbo].[Boards] ([BoardStatusId]);
-GO
-
-CREATE INDEX [IX_Boards_DivisionId] ON [Dbo].[Boards] ([DivisionId]);
 GO
 
 CREATE INDEX [IX_Boards_EstablishedByUnderId] ON [Dbo].[Boards] ([EstablishedByUnderId]);
@@ -755,7 +768,7 @@ CREATE UNIQUE INDEX [IX_Users_UserId] ON [acl].[Users] ([UserId]);
 GO
 
 INSERT INTO [__EFMigrationsHistory] ([MigrationId], [ProductVersion])
-VALUES (N'20220704022034_Initial_04072022_121947', N'5.0.16');
+VALUES (N'20220809060551_Initial_Migration', N'5.0.16');
 GO
 
 COMMIT;

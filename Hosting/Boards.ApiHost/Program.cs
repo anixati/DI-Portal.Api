@@ -74,10 +74,7 @@ namespace Boards.ApiHost
 
             Log.Logger = new LoggerConfiguration()
                 .ReadFrom.Configuration(_config)
-                //.MinimumLevel.Debug()
-                //.MinimumLevel.Override("Microsoft", LogEventLevel.Information)
                 .Enrich.FromLogContext()
-               // .WriteTo.Console()
                 .CreateLogger();
         }
     }

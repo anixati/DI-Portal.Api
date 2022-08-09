@@ -15,9 +15,12 @@ SELECT
   ,bNumbers.TAS
   ,bNumbers.NT
   ,bNumbers.ACT
-  ,b.new_ownerpositionoptionsname as[OwnerPosition]
-  ,b.new_ownerdivisionoptionname as [OwnerDivision]
-  ,b.new_responsibleofficerusername as[ResponsibleOfficer]
+  --,b.new_ownerpositionoptionsname as[OwnerPosition]
+  --,b.new_ownerdivisionoptionname as [OwnerDivision]
+  --,b.new_responsibleofficerusername as[ResponsibleOfficer]
+  ,'TODO' as [OwnerPosition]
+  ,'TODO' as [OwnerDivision]
+  ,'TODO' as [ResponsibleOfficer]
   ,b.LegislationReference as [LegislationReference]
   ,b.Constitution as [Constitution]
   ,b.NominationCommittee as [NominationCommittee]
@@ -27,38 +30,43 @@ SELECT
   ,b.QuorumRequiredText as [Quorum]
   ,b.Description as [Description]
   ,b.PendingAction as [ActionPending]
-  ,b.new_responsibleas as SESContactOfficer
-  ,b.new_responsibleasphone as SESContactPhone
+  ,'b.new_responsibleas' as SESContactOfficer
+  ,b.AsstSecretaryPhone as SESContactPhone
   ,r.Id as [RoleID]
   ,r.Name as [Role]
   ,case when r.LeadTimeToAppoint is null then 0 else r.LeadTimeToAppoint end as [LeadTimeToAppoint]
   ,r.Term as [TermLimit]
-  ,r.new_appointedbyname as [RoleAppointedBy]
-  ,r.new_typename as [PositionType]
-  ,CASE WHEN r.new_minsub = 'Date' THEN CONVERT(nvarchar(12),r.new_minsubdate,103) ELSE r.new_minsub END as MinSub
-  ,r.new_minsubdate as MinSubDate
-  ,r.new_minsublocationname as MinSubLocation
-  ,r.new_ministerialdecisionby
-  ,CASE WHEN r.new_minlettertopmname = 'Date' THEN convert(nvarchar(12),r.new_minlettertopmdate,103) ELSE r.new_minlettertopmname END as MinLetterToPM
-  ,CASE WHEN r.new_cabinetname = 'Date' THEN convert(nvarchar(12),r.new_cabinetdate,103) ELSE r.new_cabinetname END as Cabinet
-  ,CASE WHEN r.new_exconame = 'Date' THEN convert(nvarchar(12),r.new_excodate,103) ELSE r.new_exconame END as ExCo
-  ,CASE WHEN r.new_notificationlettersname = 'Date' THEN convert(nvarchar(12),r.new_notificationlettersdate,103) ELSE r.new_notificationlettersname END as NotificationLetters
-  ,a.new_sourcename as [CandidateSource]
-  ,a.new_selectionprocessname as [SelectionProcess]
-  ,a.new_judicialname as [Judicial]
-  ,a.new_semidiscretionaryname as [SemiDiscretionary]
-  ,a.new_exofficioname as [ExOfficio]
-  ,case  when a.new_currentappointment is null then r.new_fulltimeparttimename  else a.new_fulltimeparttimename  end [FullTime]
-  ,a.new_remuneration as [Remuneration]
-  ,a.new_remunerationperiodname as[RemunerationPeriod]
-  ,a.new_substantiveactingname as [Acting]
-  ,case when r.new_genderreportablename is null then 'True' else (case when r.new_genderreportablename = 'Yes' then 'True' else 'False' end) end as [GenderReportable]
-  ,a.new_appointmentid as [AppointmentID]
-  ,a.new_startdate as [StartDate]
-  ,CASE WHEN fap.new_enddate is null THEN a.new_enddate ELSE fap.new_enddate END as [EndDate]
-  ,a.new_appointedby as [AppointmentBy]
-  ,a.new_briefnumber as [BriefNumber]
-  ,a.new_appointmentdateutc as [BriefDate]
+  ,'r.new_appointedbyname' as [RoleAppointedBy]
+  ,(SELECT os.[Label] FROM OptionSet os where os.ID=r.PositionId) as [PositionType]
+  --,CASE WHEN r.new_minsub = 'Date' THEN CONVERT(nvarchar(12),r.new_minsubdate,103) ELSE r.new_minsub END as MinSub
+  ,'TODO' as MinSub
+  ,'r.new_minsubdate' as MinSubDate
+  ,(SELECT os.[Label] FROM OptionSet os where os.ID=r.MinSubLocationId)as MinSubLocation
+  ,'TODO' as new_ministerialdecisionby
+  --,CASE WHEN r.new_minlettertopmname = 'Date' THEN convert(nvarchar(12),r.new_minlettertopmdate,103) ELSE r.new_minlettertopmname END as MinLetterToPM
+  --,CASE WHEN r.new_cabinetname = 'Date' THEN convert(nvarchar(12),r.new_cabinetdate,103) ELSE r.new_cabinetname END as Cabinet
+  --,CASE WHEN r.new_exconame = 'Date' THEN convert(nvarchar(12),r.new_excodate,103) ELSE r.new_exconame END as ExCo
+  --,CASE WHEN r.new_notificationlettersname = 'Date' THEN convert(nvarchar(12),r.new_notificationlettersdate,103) ELSE r.new_notificationlettersname END as NotificationLetters
+   ,'TODO' as MinLetterToPM
+  ,'TODO' as Cabinet
+  ,'TODO' as ExCo
+  ,'TODO' as NotificationLette
+  ,(SELECT os.[Label] FROM OptionSet os where os.ID=a.AppointmentSourceId) as [CandidateSource]
+  ,(SELECT os.[Label] FROM OptionSet os where os.ID=a.SelectionProcessId) as [SelectionProcess]
+  ,(SELECT os.[Label] FROM OptionSet os where os.ID=a.JudicialId) as [Judicial]
+  ,'TODO:semidiscretionary' as [SemiDiscretionary]
+  ,a.IsExOfficio as [ExOfficio]
+  ,case  when a.IsCurrent is null then r.IsFullTime  else a.IsFullTime  end [FullTime]
+  ,a.AnnumAmount as [Remuneration]
+  ,(SELECT os.[Label] FROM OptionSet os where os.ID=a.RemunerationPeriodId) as[RemunerationPeriod]
+  ,'TODO:substantiveacting' as [Acting]
+  ,case when r.ExcludeGenderReport is null then 'True' else (case when r.ExcludeGenderReport=1 then 'True' else 'False' end) end as [GenderReportable]
+  ,a.Id as [AppointmentID]
+  ,a.StartDate as [StartDate]
+  ,CASE WHEN fap.EndDate is null THEN a.EndDate ELSE fap.EndDate END as [EndDate]
+  ,'TODO' as [AppointmentBy]
+  ,a.BriefNumber as [BriefNumber]
+  ,a.AppointmentDate as [BriefDate]
   ,c.Id as [PersonID]
   ,c.FullName as [FullName]
   ,c.Title as [Title]
@@ -69,7 +77,7 @@ SELECT
   ,c.GenderName as [Gender]
   ,c.StreetAddress_State as [State]
   ,(select COUNT(*) from [dbo].[VwBoardAppointments] where BoardRoleId in (select id from [dbo].[VwBoardRoles] where BoardID = b.id) and AppointeeId = c.Id) [CurrentTerm]
-  ,r.processstatus as [ProcessStatus]
+  ,'TODO' as [ProcessStatus]
   ,r.nextsteps as [ProcessNextStep]
   ,fa.extrafullname as [Proposed appointee]
   ,fap.Name as [FututreAppoint]
@@ -97,9 +105,9 @@ JOIN(SELECT bd.Id as [BoardID],bd.[Name] as [Board]
 		LEFT JOIN [dbo].[VwAppointee] ap ON ap.Id= ba.AppointeeId
 		GROUP BY bd.Id,bd.[Name]
 ) as bNumbers on b.Id = bNumbers.BoardID 
-where ((a.EndDate >= @DateReport and a.EndDate <= DateAdd(month,6,@DateReport) or r.MinisterActionDate >= @DateReport and r.MinisterActionDate <= DateAdd(month,6,@DateReport)) or (a.StartDate is null ))
-AND (fap.Name is null or fap.EndDate <= DateAdd(month,6,@DateReport))
-order by new_expirydate
+where ((a.EndDate >= @DateReport and a.EndDate <= DateAdd(month,12,@DateReport) or r.MinisterActionDate >= @DateReport and r.MinisterActionDate <= DateAdd(month,12,@DateReport)) or (a.StartDate is null ))
+AND (fap.Name is null or fap.EndDate <= DateAdd(month,12,@DateReport))
+--order by new_expirydate
 
 END
 

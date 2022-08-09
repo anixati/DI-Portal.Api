@@ -21,8 +21,8 @@ namespace DI.Domain
                     connStr.ThrowIfEmpty("Connection string");
 
                     var dboBuilder = new DbContextOptionsBuilder<T>()
-                        .UseSqlServer(connStr, ox => { ox.MigrationsAssembly(assembly.FullName); })
-                        .LogTo(Console.WriteLine,Microsoft.Extensions.Logging.LogLevel.Debug);
+                        .UseSqlServer(connStr, ox => { ox.MigrationsAssembly(assembly.FullName); });
+                     //   .LogTo(Console.WriteLine,Microsoft.Extensions.Logging.LogLevel.Debug);
 
                     // _ = dboBuilder.ReplaceService<IStateManager, DbErrorResolver>();
 

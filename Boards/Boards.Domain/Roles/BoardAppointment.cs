@@ -22,7 +22,7 @@ namespace Boards.Domain.Roles
         [Required] public long BoardRoleId { get; set; }
         public virtual BoardRole BoardRole { get; set; }
 
-        [Required] public long AppointeeId { get; set; }
+        public long? AppointeeId { get; set; }
         public virtual Appointee Appointee { get; set; }
 
         public DateTime StartDate { get; set; }
@@ -70,10 +70,16 @@ namespace Boards.Domain.Roles
 
         public override async Task<IEntity> OnCoreEvent(EntityEvent @event, IDataStore store)
         {
-            var ps = await store.Repo<Appointee>().GetById(this.AppointeeId);
-            if (ps == null) return null;
-            this.Name = ps.FullName;
+
+            if (this.AppointeeId.HasValue)
+            {
+                var ps = await store.Repo<Appointee>().GetById(this.AppointeeId.Value);
+                if (ps == null) return null;
+                this.Name = ps.FullName;
+            }
             return this;
         }
+
+        [MaxLength(255)] public string MigratedId { get; set; }
     }
 }

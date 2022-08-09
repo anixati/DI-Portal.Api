@@ -1,0 +1,8 @@
+{
+  "profiles": {
+    "DataTools": {
+      "commandName": "Project",
+      "commandLineArgs": "-f c:/temp/boardsData.json"
+    }
+  }
+}

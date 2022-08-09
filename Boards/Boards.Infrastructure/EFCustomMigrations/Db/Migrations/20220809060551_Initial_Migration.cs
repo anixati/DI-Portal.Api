@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace EFCustomMigrations.Db.Migrations
 {
-    public partial class Initial_04072022_121947 : Migration
+    public partial class Initial_Migration : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -348,6 +348,7 @@ namespace EFCustomMigrations.Db.Migrations
                     LockedOut = table.Column<bool>(type: "bit", nullable: false),
                     AccessFailCount = table.Column<int>(type: "int", nullable: false),
                     IsSystem = table.Column<bool>(type: "bit", nullable: false),
+                    MigratedId = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: true),
                     Locked = table.Column<bool>(type: "bit", nullable: false),
                     Disabled = table.Column<bool>(type: "bit", nullable: false),
                     Deleted = table.Column<bool>(type: "bit", nullable: false),
@@ -595,6 +596,7 @@ namespace EFCustomMigrations.Db.Migrations
                     ExecutiveSearch = table.Column<bool>(type: "bit", nullable: true),
                     CapabilitiesId = table.Column<long>(type: "bigint", nullable: true),
                     ExperienceId = table.Column<long>(type: "bigint", nullable: true),
+                    MigratedId = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: true),
                     Locked = table.Column<bool>(type: "bit", nullable: false),
                     Disabled = table.Column<bool>(type: "bit", nullable: false),
                     Deleted = table.Column<bool>(type: "bit", nullable: false),
@@ -670,12 +672,13 @@ namespace EFCustomMigrations.Db.Migrations
                     ReportingApproved = table.Column<bool>(type: "bit", nullable: false),
                     ExcludeFromGenderBalance = table.Column<bool>(type: "bit", nullable: false),
                     BoardStatusId = table.Column<long>(type: "bigint", nullable: true),
-                    DivisionId = table.Column<long>(type: "bigint", nullable: true),
                     EstablishedByUnderId = table.Column<long>(type: "bigint", nullable: true),
                     ApprovedUserId = table.Column<long>(type: "bigint", nullable: true),
                     ResponsibleUserId = table.Column<long>(type: "bigint", nullable: true),
                     AsstSecretaryId = table.Column<long>(type: "bigint", nullable: true),
                     AsstSecretaryPhone = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: true),
+                    MaxServicePeriod = table.Column<int>(type: "int", nullable: true),
+                    MigratedId = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: true),
                     Locked = table.Column<bool>(type: "bit", nullable: false),
                     Disabled = table.Column<bool>(type: "bit", nullable: false),
                     Deleted = table.Column<bool>(type: "bit", nullable: false),
@@ -693,12 +696,6 @@ namespace EFCustomMigrations.Db.Migrations
                     table.ForeignKey(
                         name: "FK_Boards_OptionSet_BoardStatusId",
                         column: x => x.BoardStatusId,
-                        principalSchema: "Dbo",
-                        principalTable: "OptionSet",
-                        principalColumn: "Id");
-                    table.ForeignKey(
-                        name: "FK_Boards_OptionSet_DivisionId",
-                        column: x => x.DivisionId,
                         principalSchema: "Dbo",
                         principalTable: "OptionSet",
                         principalColumn: "Id");
@@ -793,7 +790,7 @@ namespace EFCustomMigrations.Db.Migrations
                     BoardId = table.Column<long>(type: "bigint", nullable: false),
                     IncumbentId = table.Column<long>(type: "bigint", nullable: true),
                     PositionId = table.Column<long>(type: "bigint", nullable: false),
-                    AppointerId = table.Column<long>(type: "bigint", nullable: false),
+                    RoleAppointerId = table.Column<long>(type: "bigint", nullable: false),
                     IsFullTime = table.Column<bool>(type: "bit", nullable: false),
                     IsExecutive = table.Column<bool>(type: "bit", nullable: true),
                     IsExOfficio = table.Column<bool>(type: "bit", nullable: true),
@@ -823,6 +820,11 @@ namespace EFCustomMigrations.Db.Migrations
                     CabinetDateType = table.Column<int>(type: "int", nullable: false),
                     CabinetDate = table.Column<DateTime>(type: "datetime2", nullable: true),
                     InternalNotes = table.Column<string>(type: "nvarchar(2000)", maxLength: 2000, nullable: true),
+                    ProcessStatus = table.Column<string>(type: "nvarchar(2000)", maxLength: 2000, nullable: true),
+                    LeadTimeToAppoint = table.Column<int>(type: "int", nullable: true),
+                    MinSubDateType = table.Column<int>(type: "int", nullable: false),
+                    MinSubDate = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    MigratedId = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: true),
                     AssistantSecretaryId = table.Column<long>(type: "bigint", nullable: true),
                     Locked = table.Column<bool>(type: "bit", nullable: false),
                     Disabled = table.Column<bool>(type: "bit", nullable: false),
@@ -849,12 +851,6 @@ namespace EFCustomMigrations.Db.Migrations
                         principalTable: "Boards",
                         principalColumn: "Id");
                     table.ForeignKey(
-                        name: "FK_BoardRoles_OptionSet_AppointerId",
-                        column: x => x.AppointerId,
-                        principalSchema: "Dbo",
-                        principalTable: "OptionSet",
-                        principalColumn: "Id");
-                    table.ForeignKey(
                         name: "FK_BoardRoles_OptionSet_MinSubLocationId",
                         column: x => x.MinSubLocationId,
                         principalSchema: "Dbo",
@@ -869,6 +865,12 @@ namespace EFCustomMigrations.Db.Migrations
                     table.ForeignKey(
                         name: "FK_BoardRoles_OptionSet_RemunerationMethodId",
                         column: x => x.RemunerationMethodId,
+                        principalSchema: "Dbo",
+                        principalTable: "OptionSet",
+                        principalColumn: "Id");
+                    table.ForeignKey(
+                        name: "FK_BoardRoles_OptionSet_RoleAppointerId",
+                        column: x => x.RoleAppointerId,
                         principalSchema: "Dbo",
                         principalTable: "OptionSet",
                         principalColumn: "Id");
@@ -921,10 +923,11 @@ namespace EFCustomMigrations.Db.Migrations
                     Name = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: false),
                     BoardId = table.Column<long>(type: "bigint", nullable: false),
                     BoardRoleId = table.Column<long>(type: "bigint", nullable: false),
-                    AppointeeId = table.Column<long>(type: "bigint", nullable: false),
+                    AppointeeId = table.Column<long>(type: "bigint", nullable: true),
                     StartDate = table.Column<DateTime>(type: "datetime2", nullable: false),
                     EndDate = table.Column<DateTime>(type: "datetime2", nullable: true),
                     BriefNumber = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: true),
+                    IsCurrent = table.Column<bool>(type: "bit", nullable: true),
                     IsExOfficio = table.Column<bool>(type: "bit", nullable: true),
                     IsFullTime = table.Column<bool>(type: "bit", nullable: false),
                     ActingInRole = table.Column<bool>(type: "bit", nullable: false),
@@ -937,6 +940,10 @@ namespace EFCustomMigrations.Db.Migrations
                     AppointmentDate = table.Column<DateTime>(type: "datetime2", nullable: true),
                     InitialStartDate = table.Column<DateTime>(type: "datetime2", nullable: true),
                     PrevTerms = table.Column<int>(type: "int", nullable: true),
+                    IsSemiDiscretionary = table.Column<bool>(type: "bit", nullable: true),
+                    Proposed = table.Column<bool>(type: "bit", nullable: true),
+                    AppointerId = table.Column<long>(type: "bigint", nullable: true),
+                    MigratedId = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: true),
                     Locked = table.Column<bool>(type: "bit", nullable: false),
                     Disabled = table.Column<bool>(type: "bit", nullable: false),
                     Deleted = table.Column<bool>(type: "bit", nullable: false),
@@ -966,6 +973,12 @@ namespace EFCustomMigrations.Db.Migrations
                         column: x => x.BoardId,
                         principalSchema: "Dbo",
                         principalTable: "Boards",
+                        principalColumn: "Id");
+                    table.ForeignKey(
+                        name: "FK_BoardAppointments_OptionSet_AppointerId",
+                        column: x => x.AppointerId,
+                        principalSchema: "Dbo",
+                        principalTable: "OptionSet",
                         principalColumn: "Id");
                     table.ForeignKey(
                         name: "FK_BoardAppointments_OptionSet_AppointmentSourceId",
@@ -1031,6 +1044,12 @@ namespace EFCustomMigrations.Db.Migrations
                 column: "AppointeeId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_BoardAppointments_AppointerId",
+                schema: "Dbo",
+                table: "BoardAppointments",
+                column: "AppointerId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_BoardAppointments_AppointmentSourceId",
                 schema: "Dbo",
                 table: "BoardAppointments",
@@ -1065,12 +1084,6 @@ namespace EFCustomMigrations.Db.Migrations
                 schema: "Dbo",
                 table: "BoardAppointments",
                 column: "SelectionProcessId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_BoardRoles_AppointerId",
-                schema: "Dbo",
-                table: "BoardRoles",
-                column: "AppointerId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_BoardRoles_AssistantSecretaryId",
@@ -1109,6 +1122,12 @@ namespace EFCustomMigrations.Db.Migrations
                 column: "RemunerationMethodId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_BoardRoles_RoleAppointerId",
+                schema: "Dbo",
+                table: "BoardRoles",
+                column: "RoleAppointerId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Boards_ApprovedUserId",
                 schema: "Dbo",
                 table: "Boards",
@@ -1131,12 +1150,6 @@ namespace EFCustomMigrations.Db.Migrations
                 schema: "Dbo",
                 table: "Boards",
                 column: "BoardStatusId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Boards_DivisionId",
-                schema: "Dbo",
-                table: "Boards",
-                column: "DivisionId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Boards_EstablishedByUnderId",
