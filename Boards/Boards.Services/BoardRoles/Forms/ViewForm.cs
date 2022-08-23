@@ -27,98 +27,102 @@ namespace Boards.Services.BoardRoles.Forms
         {
             field.AddFieldGroup(f =>
             {
-                f.AddPickList("Position", "Position", "Position", true, 29);
-                f.AddPickList("Appointer", "Appointer", "Appointer", true, 29);
-                f.AddNumeric("Term", "Term", false, 29);
-                f.AddDate("VacantFromDate", "Vacant from Date", false, 29);
+                f.AddDisabledInput("IncumbentName", "Current Appointee");
+                f.AddPickList("Position", "Position", "Position", true);
+                f.AddPickList("Appointer", "Appointer", "Appointer", true);
+                f.AddNumeric("Term", "Term", false);
+                
 
-            });
-            field.AddDivider("Remuneration Details");
-            field.AddFieldGroup(f =>
-            {
-                f.AddSelect<YesNoOptionEnum>("PositionRemunerated", "Position Remunerated", true, 29);
-                f.AddDecimal("PaAmount", "Remuneration", true, 29);
-                f.AddPickList("RemunerationMethod", "RemunerationMethod", "Remuneration Method", true, 29);
-                f.AddInput("RemunerationTribunal", "Remuneration Tribunal", true, 29);
-              
             });
             field.AddFieldGroup(f =>
             {
-                f.AddInput("NextSteps", "Next Steps", x =>
-                {
-                    x.AddRule(ValRule.Min(10, "Minimum 10 chars required"));
-                    x.FieldType = FormFieldType.Note;
-                });
-                f.AddInput("ProcessStatus", "Process Status", x =>
-                {
-                    x.AddRule(ValRule.Min(10, "Minimum 10 chars required"));
-                    x.FieldType = FormFieldType.Note;
-                });
+                f.AddDisabledInput("IncumbentStartDate", "Start Date");
+                f.AddDisabledInput("IncumbentEndDate", "End Date");
+                f.AddSelect<FullTimeEnum>("IsFullTime", "Is full time", true);
+                f.AddYesNo("IsExOfficio", "Ex Officio", "", false);
+            });
 
+            field.AddFieldGroup(f =>
+            {
+                f.AddSelect<YesNoOptionEnum>("PositionRemunerated", "Position Remunerated", true);
+                f.AddDecimal("PaAmount", "Remuneration", true);
+                f.AddPickList("RemunerationMethod", "RemunerationMethod", "How is remuneration set", true);
+                f.AddYesNo("IsApsEmployee", "APS Employee", "", true);
+            });
+            field.AddFieldGroup(f =>
+            {
+                f.AddYesNo("ExcludeFromOrder15", "Exclude from senate order 15", "", true);
+                f.AddYesNo("ExcludeGenderReport", "Exclude from GB", "", true);
+                f.AddYesNo("IsSignAppointment", "Significant Appointment", "", true);
+                //TODO--------
             });
             field.AddDivider("Ministerial Details");
+
             field.AddFieldGroup(f =>
             {
-                f.AddInput("PDMSNumber", "PDMS Number", true, 29);
-                f.AddPickList("MinSubLocation", "MinSubLocation", "MinSub Location", true, 29);
+                f.AddInput("PDMSNumber", "PDMS Number", true);
+                f.AddPickList("MinSubLocation", "MinSubLocation", "MinSub Location", true);
+                f.AddDate("MinisterOfficeDate", "Date Submission sent to MO", false, 29);
+                f.AddDate("MinisterActionDate", "Minister office due date", false, 29);
             });
+
+            field.AddInput("NextSteps", "Next Steps", x =>
+            {
+                x.AddRule(ValRule.Min(10, "Minimum 10 chars required"));
+                x.FieldType = FormFieldType.Note;
+            });
+            field.AddInput("ProcessStatus", "Process Status", x =>
+            {
+                x.AddRule(ValRule.Min(10, "Minimum 10 chars required"));
+                x.FieldType = FormFieldType.Note;
+            });
+
+            field.AddFieldGroup(f =>
+            {
+                    f.AddSelect<DateStateEnum>("LetterToPmDateType", "Letter to PM date type", false, 29);
+                    f.AddSelect<DateStateEnum>("CabinetDateType", "Cabinet date type", false, 29);
+                    f.AddSelect<DateStateEnum>("ExCoDateType", "ExCo date type", false, 29);
+                    f.AddSelect<DateStateEnum>("NotifyLetterDateType", "Notification letter date type", false, 29);
+            });
+            field.AddFieldGroup(f =>
+            {
+                f.AddDate("LetterToPmDate", "Date Letter sent to PM", false);
+                f.AddDate("CabinetDate", "Date scheduled for Cabinet", false);
+                f.AddDate("ExCoDate", "Date scheduled for Exco", false);
+                f.AddDate("NotifyLetterDate", "Notification letter to appointee", false);
+            });
+
+            field.AddDivider("Sign off details");
+
+            field.AddFieldGroup(f =>
+            {
+                f.AddDate("MinSubDate", "Date Minister signed instrument date");
+                f.AddInput("InstrumentLink", "Instrument Link", true);
+            });
+
+            //------------------------------------------------------
+
+
+            /*
+            f.AddDate("VacantFromDate", "Vacant from Date", false, 29);
+            f.AddNumeric("Term", "Term", false, 29);
+            f.AddDate("VacantFromDate", "Vacant from Date", false, 29);
+          
             field.AddInput("InstrumentLink", "Instrument Link", x =>
             {
                 x.AddRule(ValRule.Min(10, "Minimum 10 chars required"));
                 x.FieldType = FormFieldType.Note;
             });
-            field.AddFieldGroup(f =>
-            {
-                f.AddSelect<DateStateEnum>("MinSubDateType", "MinSub date type", true);
-                f.AddDate("MinSubDate", "MinSub date");
-                f.AddDate("MinisterOfficeDate", "Minister Office Date", false, 29);
-                f.AddDate("MinisterActionDate", "Minister Action Date", false, 29);
-            });
-
-            field.AddFieldGroup(f =>
-            {
-                f.AddSelect<DateStateEnum>("LetterToPmDateType", "Letter to PM date type", false, 29);
-                f.AddDate("LetterToPmDate", "Letter to PM date", false, 29);
-                f.AddSelect<DateStateEnum>("ExCoDateType", "ExCo date type", false, 29);
-                f.AddDate("ExCoDate", "ExCo Date", false, 29);
-            });
-
-            field.AddFieldGroup(f =>
-            {
-                f.AddSelect<DateStateEnum>("NotifyLetterDateType", "Notification letter date type", false, 29);
-                f.AddDate("NotifyLetterDate", "Notification letter date", false, 29);
-                f.AddSelect<DateStateEnum>("CabinetDateType", "Cabinet date type", false, 29);
-                f.AddDate("CabinetDate", "Cabinet date", false, 29);
-            });
-
-
-            field.AddDivider("Reporting Details");
-            field.AddFieldGroup(f =>
-            {
-                f.AddYesNo("IsFullTime", "Is full time", "", true, 35);
+            f.AddSelect<DateStateEnum>("MinSubDateType", "MinSub date type", true);
                 f.AddYesNo("IsExecutive", "Is Executive", "", true, 35);
-                f.AddYesNo("IsExOfficio", "Is Ex-Officio", "", false, 35);
-            });
-            field.AddFieldGroup(f =>
-            {
-                f.AddYesNo("IsApsEmployee", "Is Aps Employee", "", true, 35);
                 f.AddYesNo("IsExNominated", "Is Externally Nominated", "", true, 35);
-                f.AddYesNo("IsSignAppointment", "Significant Appointment", "", true, 35);
-            });
-            field.AddFieldGroup(f =>
-            {
-
-                f.AddYesNo("ExcludeFromOrder15", "Exclude from senate order 15 report", "", true, 35);
-                f.AddYesNo("ExcludeGenderReport", "Exclude from gender balance report", "", true, 35);
                 f.AddNumeric("LeadTimeToAppoint", "Lead time to appointment");
-            });
-
-            field.AddDivider("Other Notes");
             field.AddInput("InternalNotes", "Internal Notes", x =>
             {
                 x.AddRule(ValRule.Min(10, "Minimum 10 chars required"));
                 x.FieldType = FormFieldType.Note;
             });
+            */
         }
 
 

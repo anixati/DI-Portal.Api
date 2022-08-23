@@ -4,6 +4,7 @@ using DI.Jobs;
 using Microsoft.Extensions.Logging;
 using Quartz;
 using System;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace Boards.Services.Jobs
@@ -20,29 +21,104 @@ namespace Boards.Services.Jobs
         protected override async Task ExecuteTask()
         {
             var date = DateTime.Now;
+            var rrp = _boardsContext.Repo<BoardRole>();
             var arp = _boardsContext.Repo<BoardAppointment>();
-            //var rrp = _boardsContext.Repo<BoardRole>();
-            foreach (var apt in await arp.GetListAsync(x => x.Disabled == false))
+            Trace($" ------- Starting SetCurrentAppointment ------- ");
+            var roles = await rrp.GetListAsync(x => x.Disabled == false, true);
+            foreach (var role in roles)
             {
-                if (apt.StartDate <= date && apt.EndDate > date)
-                    apt.IsCurrent = true;
+
+                var appointments = await arp.GetListAsync(x => x.Disabled == false && x.BoardRoleId == role.Id, true);
+
+                if (appointments != null)
+                {
+
+                    var roleAppointments = appointments.OrderByDescending(x => x.StartDate).ToList();
+                    foreach (var apt in roleAppointments)
+                    {
+                        if (!apt.EndDate.HasValue)
+                        {
+                            apt.IsCurrent = true;
+                        }
+                        else
+                        {
+                            apt.IsCurrent = apt.StartDate <= date && apt.EndDate > date;
+                        }
+
+                    }
+
+                    var endDate = roleAppointments.Max(x => x.EndDate);
+
+                    if (roleAppointments.All(x => x.IsCurrent != true))
+                    {
+                        foreach (var apt in roleAppointments)
+                            Trace($" mem  {apt.Name} {apt.Id} - {apt.StartDate} {apt.EndDate} {apt.IsCurrent}");
+                        role.VacantFromDate = endDate ?? date;
+                        role.IncumbentId = null;
+                    }
+                    else
+                    {
+                        var incAppointment =
+                            roleAppointments.FirstOrDefault(x => x.IsCurrent == true && x.EndDate == endDate);
+                        if (incAppointment != null)
+                        {
+                            //role.VacantFromDate = null;
+                            role.IncumbentId =incAppointment.AppointeeId;
+                            role.IncumbentName = incAppointment.Name;
+                            role.IncumbentStartDate = incAppointment.StartDate.ToString("dd MMM yyyy");
+                            role.IncumbentEndDate = incAppointment.EndDate.HasValue
+                                ? incAppointment.EndDate.Value.ToString("dd MMM yyyy")
+                                : "";
+                        }
+
+                    }
+
+                    
+                    arp.UpdateAsync(roleAppointments.ToArray());
+                    await _boardsContext.Store.SaveAsync();
+                }
                 else
-                    apt.IsCurrent = false;
-                await arp.UpdateAsync(apt);
+                {
+                    role.IncumbentId = null;
+                    role.VacantFromDate = date;
+                }
 
-                //if (apt.IsCurrent.GetValueOrDefault())
-                //{
+                if (role.IncumbentId == null)
+                {
+                    role.IncumbentName = string.Empty;
+                    role.IncumbentStartDate = string.Empty;
+                    role.IncumbentEndDate = string.Empty;
+                }
 
-                //    var role = await rrp.FindAsync(x => x.Disabled == false && x.Id == apt.BoardRoleId);
-                //    if (role != null)
-                //    {
-                //        role.IncumbentId = apt.Id;
-                //        await rrp.UpdateAsync(role);
-                //    }
-                //}
 
-                Trace($" Updated {apt.Name}");
+                if (role.VacantFromDate.HasValue)
+                    Trace($" set role vacant for  {role.Name} {role.Id} - {role.BoardId}");
+                await rrp.UpdateAsync(role);
+
             }
+            Trace($" ------- SetCurrentAppointment done ------- ");
+            //var rrp = _boardsContext.Repo<BoardRole>();
+            //foreach (var apt in await arp.GetListAsync(x => x.Disabled == false))
+            //{
+            //    if (apt.StartDate <= date && apt.EndDate > date)
+            //        apt.IsCurrent = true;
+            //    else
+            //        apt.IsCurrent = false;
+            //    await arp.UpdateAsync(apt);
+
+            //    //if (apt.IsCurrent.GetValueOrDefault())
+            //    //{
+
+            //    //    var role = await rrp.FindAsync(x => x.Disabled == false && x.Id == apt.BoardRoleId);
+            //    //    if (role != null)
+            //    //    {
+            //    //        role.IncumbentId = apt.Id;
+            //    //        await rrp.UpdateAsync(role);
+            //    //    }
+            //    //}
+
+            //    Trace($" Updated {apt.Name}");
+            //}
         }
     }
 }

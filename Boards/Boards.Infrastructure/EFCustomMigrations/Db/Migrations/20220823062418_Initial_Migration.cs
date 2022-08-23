@@ -111,6 +111,7 @@ namespace EFCustomMigrations.Db.Migrations
                 {
                     Id = table.Column<long>(type: "bigint", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
+                    MigratedId = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: true),
                     Locked = table.Column<bool>(type: "bit", nullable: false),
                     Disabled = table.Column<bool>(type: "bit", nullable: false),
                     Deleted = table.Column<bool>(type: "bit", nullable: false),
@@ -178,6 +179,7 @@ namespace EFCustomMigrations.Db.Migrations
                 {
                     Id = table.Column<long>(type: "bigint", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
+                    MigratedId = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: true),
                     Locked = table.Column<bool>(type: "bit", nullable: false),
                     Disabled = table.Column<bool>(type: "bit", nullable: false),
                     Deleted = table.Column<bool>(type: "bit", nullable: false),
@@ -426,7 +428,7 @@ namespace EFCustomMigrations.Db.Migrations
                         .Annotation("SqlServer:Identity", "1, 1"),
                     MinisterId = table.Column<long>(type: "bigint", nullable: false),
                     PortfolioId = table.Column<long>(type: "bigint", nullable: false),
-                    StartDate = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    StartDate = table.Column<DateTime>(type: "datetime2", nullable: true),
                     EndDate = table.Column<DateTime>(type: "datetime2", nullable: true),
                     Locked = table.Column<bool>(type: "bit", nullable: false),
                     Disabled = table.Column<bool>(type: "bit", nullable: false),
@@ -791,7 +793,7 @@ namespace EFCustomMigrations.Db.Migrations
                     IncumbentId = table.Column<long>(type: "bigint", nullable: true),
                     PositionId = table.Column<long>(type: "bigint", nullable: false),
                     RoleAppointerId = table.Column<long>(type: "bigint", nullable: false),
-                    IsFullTime = table.Column<bool>(type: "bit", nullable: false),
+                    IsFullTime = table.Column<int>(type: "int", nullable: false),
                     IsExecutive = table.Column<bool>(type: "bit", nullable: true),
                     IsExOfficio = table.Column<bool>(type: "bit", nullable: true),
                     IsApsEmployee = table.Column<bool>(type: "bit", nullable: true),
@@ -824,6 +826,9 @@ namespace EFCustomMigrations.Db.Migrations
                     LeadTimeToAppoint = table.Column<int>(type: "int", nullable: true),
                     MinSubDateType = table.Column<int>(type: "int", nullable: false),
                     MinSubDate = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    IncumbentName = table.Column<string>(type: "nvarchar(500)", maxLength: 500, nullable: true),
+                    IncumbentStartDate = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: true),
+                    IncumbentEndDate = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: true),
                     MigratedId = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: true),
                     AssistantSecretaryId = table.Column<long>(type: "bigint", nullable: true),
                     Locked = table.Column<bool>(type: "bit", nullable: false),
@@ -1007,13 +1012,6 @@ namespace EFCustomMigrations.Db.Migrations
                 });
 
             migrationBuilder.CreateIndex(
-                name: "IX_Activities_EntityName_EntityId",
-                schema: "Dbo",
-                table: "Activities",
-                columns: new[] { "EntityName", "EntityId" },
-                unique: true);
-
-            migrationBuilder.CreateIndex(
                 name: "IX_Appointee_CapabilitiesId",
                 schema: "Dbo",
                 table: "Appointee",
@@ -1180,13 +1178,6 @@ namespace EFCustomMigrations.Db.Migrations
                 schema: "Dbo",
                 table: "Boards",
                 column: "ResponsibleUserId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_DeleteRecords_EntityName_EntityId",
-                schema: "Dbo",
-                table: "DeleteRecords",
-                columns: new[] { "EntityName", "EntityId" },
-                unique: true);
 
             migrationBuilder.CreateIndex(
                 name: "IX_MinisterTerms_MinisterId",

@@ -79,6 +79,7 @@ GO
 
 CREATE TABLE [Dbo].[Ministers] (
     [Id] bigint NOT NULL IDENTITY,
+    [MigratedId] nvarchar(255) NULL,
     [Locked] bit NOT NULL,
     [Disabled] bit NOT NULL,
     [Deleted] bit NOT NULL,
@@ -132,6 +133,7 @@ GO
 
 CREATE TABLE [Dbo].[Portfolios] (
     [Id] bigint NOT NULL IDENTITY,
+    [MigratedId] nvarchar(255) NULL,
     [Locked] bit NOT NULL,
     [Disabled] bit NOT NULL,
     [Deleted] bit NOT NULL,
@@ -319,7 +321,7 @@ CREATE TABLE [Dbo].[MinisterTerms] (
     [Id] bigint NOT NULL IDENTITY,
     [MinisterId] bigint NOT NULL,
     [PortfolioId] bigint NOT NULL,
-    [StartDate] datetime2 NOT NULL,
+    [StartDate] datetime2 NULL,
     [EndDate] datetime2 NULL,
     [Locked] bit NOT NULL,
     [Disabled] bit NOT NULL,
@@ -518,7 +520,7 @@ CREATE TABLE [Dbo].[BoardRoles] (
     [IncumbentId] bigint NULL,
     [PositionId] bigint NOT NULL,
     [RoleAppointerId] bigint NOT NULL,
-    [IsFullTime] bit NOT NULL,
+    [IsFullTime] int NOT NULL,
     [IsExecutive] bit NULL,
     [IsExOfficio] bit NULL,
     [IsApsEmployee] bit NULL,
@@ -551,6 +553,9 @@ CREATE TABLE [Dbo].[BoardRoles] (
     [LeadTimeToAppoint] int NULL,
     [MinSubDateType] int NOT NULL,
     [MinSubDate] datetime2 NULL,
+    [IncumbentName] nvarchar(500) NULL,
+    [IncumbentStartDate] nvarchar(255) NULL,
+    [IncumbentEndDate] nvarchar(255) NULL,
     [MigratedId] nvarchar(255) NULL,
     [AssistantSecretaryId] bigint NULL,
     [Locked] bit NOT NULL,
@@ -630,9 +635,6 @@ CREATE TABLE [Dbo].[BoardAppointments] (
     CONSTRAINT [FK_BoardAppointments_OptionSet_RemunerationPeriodId] FOREIGN KEY ([RemunerationPeriodId]) REFERENCES [Dbo].[OptionSet] ([Id]),
     CONSTRAINT [FK_BoardAppointments_OptionSet_SelectionProcessId] FOREIGN KEY ([SelectionProcessId]) REFERENCES [Dbo].[OptionSet] ([Id])
 );
-GO
-
-CREATE UNIQUE INDEX [IX_Activities_EntityName_EntityId] ON [Dbo].[Activities] ([EntityName], [EntityId]);
 GO
 
 CREATE INDEX [IX_Appointee_CapabilitiesId] ON [Dbo].[Appointee] ([CapabilitiesId]);
@@ -719,9 +721,6 @@ GO
 CREATE INDEX [IX_Boards_ResponsibleUserId] ON [Dbo].[Boards] ([ResponsibleUserId]);
 GO
 
-CREATE UNIQUE INDEX [IX_DeleteRecords_EntityName_EntityId] ON [Dbo].[DeleteRecords] ([EntityName], [EntityId]);
-GO
-
 CREATE INDEX [IX_MinisterTerms_MinisterId] ON [Dbo].[MinisterTerms] ([MinisterId]);
 GO
 
@@ -768,7 +767,7 @@ CREATE UNIQUE INDEX [IX_Users_UserId] ON [acl].[Users] ([UserId]);
 GO
 
 INSERT INTO [__EFMigrationsHistory] ([MigrationId], [ProductVersion])
-VALUES (N'20220809060551_Initial_Migration', N'5.0.16');
+VALUES (N'20220823062418_Initial_Migration', N'5.0.16');
 GO
 
 COMMIT;

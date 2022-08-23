@@ -11,7 +11,7 @@ namespace Boards.Domain.Boards
         public Minister Minister { get; set; }
         public long PortfolioId { get; set; }
         public Portfolio Portfolio { get; set; }
-        public DateTime StartDate { get; set; }
+        public DateTime? StartDate { get; set; }
         public DateTime? EndDate { get; set; }
     }
 }

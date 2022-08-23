@@ -13,4 +13,11 @@
         No,
         UnableToDisclose
     }
+
+
+    public enum FullTimeEnum
+    {
+        FullTime = 0,
+        PartTime
+    }
 }

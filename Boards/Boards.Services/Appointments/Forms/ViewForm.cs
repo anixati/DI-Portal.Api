@@ -25,55 +25,46 @@ namespace Boards.Services.Appointments.Forms
 
         private void Appointment(FormField field)
         {
+
+
             field.AddFieldGroup(f =>
             {
-                f.AddLookup("Appointee", "AppointeeLookup",Routes.Appointee,"Appointees", true);
-                f.AddInput("BriefNumber", "Brief Number", true);
-                f.AddPickList("Appointer", "Appointer", "Appointer/Approver", true, 50);
+                f.AddLookup("Appointee", "AppointeeLookup", Routes.Appointee, "Appointees", true);
+                f.AddDate("StartDate", "Start Date", true);
+                f.AddDate("EndDate", "End Date", false);
+                f.AddPickList("Appointer", "Appointer", "Appointer/Approver", true);
             });
 
             field.AddFieldGroup(f =>
             {
-                f.AddPickList("Judicial", "Judicial", "Judicial", false);
+                f.AddInput("BriefNumber", "Submission Number", true);
                 f.AddPickList("AppointmentSource", "AppointmentSource", "Appointment Source", true);
-                f.AddPickList("SelectionProcess", "SelectionProcess", "Selection Process", true);
+                f.AddPickList("AppointmentSource", "AppointmentSource", "Appointment Source", true);
+                f.AddPickList("Judicial", "Judicial", "Judicial", false);
             });
-            
-            field.AddDivider("Appointment Dates");
+
             field.AddFieldGroup(f =>
             {
-                f.AddDate("StartDate", "Start Date", true);
-                f.AddDate("EndDate", "End Date", false);
-                f.AddDate("AppointmentDate", "Appointment Date", true);
+                f.AddYesNo("IsExOfficio", "Ex Officio", "", true);
+                f.AddYesNo("ExclGenderReport", "Exclude from gender balance", "", false);
+                f.AddDate("AppointmentDate", "Appointment Approval Date", true);
                 f.AddDate("InitialStartDate", "Initial Start Date", false);
             });
 
-            field.AddDivider("Remuneration Details");
             field.AddFieldGroup(f =>
             {
                 f.AddDecimal("AnnumAmount", "Remuneration", true);
                 f.AddPickList("RemunerationPeriod", "RemunerationPeriod", "Remuneration Period", true);
-            });
-
-            field.AddFieldGroup(f =>
-            {
-               
-                f.AddNumeric("PrevTerms", "How many terms the member has previously served? (Not including this appointment)", false);
-            });
-            field.AddDivider("Reporting Details");
-            field.AddFieldGroup(f =>
-            {
-                f.AddYesNo("IsExOfficio", "Is ExOfficio", "", true);
                 f.AddYesNo("IsFullTime", "Full Time", "", false);
-                f.AddYesNo("ActingInRole", "Acting", "", false);
-                f.AddYesNo("IsSemiDiscretionary", "Is the position semi discretionary.", "", true);
-            });
-            field.AddFieldGroup(f =>
-            {
-                f.AddYesNo("ExclGenderReport", "Exclude from gender balance report", "", false);
                 f.AddYesNo("Proposed", "Proposed Appointment", "", false);
             });
 
+            field.AddFieldGroup(f =>
+            {
+                f.AddYesNo("ActingInRole", "Acting", "", false);
+                f.AddYesNo("IsSemiDiscretionary", "Is the position semi discretionary.", "", true);
+                f.AddNumeric("PrevTerms", "How many terms previously served?", false);
+            });
         }
 
         //private void OtherDetails(FormField field)

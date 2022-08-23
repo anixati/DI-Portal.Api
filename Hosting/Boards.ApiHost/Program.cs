@@ -42,9 +42,9 @@ namespace Boards.ApiHost
 
         private static async Task RunHostStartUp(IHost host)
         {
-            using var scope = host.Services.CreateScope();
-            var services = scope.ServiceProvider;
-            await BoardsData.Run(services);
+            //using var scope = host.Services.CreateScope();
+            //var services = scope.ServiceProvider;
+            //await BoardsData.Run(services);
         }
 
         public static IHostBuilder CreateHostBuilder(string[] args)

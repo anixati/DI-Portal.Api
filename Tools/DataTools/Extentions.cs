@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
@@ -10,6 +11,23 @@ namespace DataTools
 {
     public static class Extentions
     {
+        private static T GetText<T>(Enum enumeration) where T : Attribute
+        {
+            var type = enumeration.GetType();
+            var memberInfo = type.GetMember(enumeration.ToString());
+            if (!memberInfo.Any())
+                throw new ArgumentException($"No public members for the argument '{enumeration}'.");
+            var attributes = memberInfo[0].GetCustomAttributes(typeof(T), false);
+            if (attributes == null || attributes.Length != 1)
+                throw new ArgumentException(
+                    $"Can't find an attribute matching '{typeof(T).Name}' for the argument '{enumeration}'");
+            return attributes.Single() as T;
+        }
+        public static string ToDesc(this Enum enumeration)
+        {
+            var attribute = GetText<DescriptionAttribute>(enumeration);
+            return attribute.Description;
+        }
         public static string Get(this Dictionary<string,string > value,string key)
         {
             return value .ContainsKey(key) ? value[key].Trim() : "";
@@ -72,5 +90,13 @@ namespace DataTools
             }
             return null;
         }
+
+        public static bool IsDisabled(this Dictionary<string, string> value,string key = "statecode")
+        {
+            if (!value.ContainsKey(key)) return false;
+            var v = value[key].Trim();
+            return string.Compare(v, "Inactive",StringComparison.OrdinalIgnoreCase) == 0;
+        }
+
     }
 }

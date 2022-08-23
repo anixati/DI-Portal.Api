@@ -50,70 +50,70 @@ namespace Boards.Infrastructure.Design
             //await CreateDummyOpSets();
             //await CreatePortfolios();
             //await CreateDummyAppointees();
-            await CreateDummyUsers();
-            await Save();
+           // await CreateDummyUsers();
+           // await Save();
         }
-        private async Task CreateDummyOpSets()
-        {
-            var rng = new Random();
-            var osk = new string[]
-            {
-                "OwnerDivision", "BoardStatus", "Division", "OwnerPosition", "EstablishedByUnder",
-                "Position", "Appointer", "RemunerationMethod", "MinSubLocation", "RemunerationPeriod",
-                "AppointmentSource", "SelectionProcess", "Judicial","SkillType"
+        //private async Task CreateDummyOpSets()
+        //{
+        //    var rng = new Random();
+        //    var osk = new string[]
+        //    {
+        //        "OwnerDivision", "BoardStatus", "Division", "OwnerPosition", "EstablishedByUnder",
+        //        "Position", "Appointer", "RemunerationMethod", "MinSubLocation", "RemunerationPeriod",
+        //        "AppointmentSource", "SelectionProcess", "Judicial","SkillType"
 
-            };
-            var repo = GetRepo<OptionKey>();
-            var ix = 1;
-            foreach (var jx in osk)
-            {
-                ix++;
+        //    };
+        //    var repo = GetRepo<OptionKey>();
+        //    var ix = 1;
+        //    foreach (var jx in osk)
+        //    {
+        //        ix++;
 
-                var op = await repo.FindAsync(x => EF.Functions.Like(x.Code, $"{jx.ToUpper()}"));
-                if (op != null) continue;
-                op = new OptionKey
-                {
-                    Name = $"{jx}",
-                    Code = $"{jx.ToUpCase()}",
-                    Description = $"{jx} description"
-                };
-                await repo.CreateAsync(op);
-                await Save();
+        //        var op = await repo.FindAsync(x => EF.Functions.Like(x.Code, $"{jx.ToUpper()}"));
+        //        if (op != null) continue;
+        //        op = new OptionKey
+        //        {
+        //            Name = $"{jx}",
+        //            Code = $"{jx.ToUpCase()}",
+        //            Description = $"{jx} description"
+        //        };
+        //        await repo.CreateAsync(op);
+        //        await Save();
 
-                foreach (var i in Enumerable.Range(1, rng.Next(3, 12)))
-                {
-                    var ov = Create(new OptionSet
-                    {
-                        OptionKeyId = op.Id,
-                        Label = $"Option {ix}{i}",
-                        Value = ix + i,
-                        Order = i,
-                        Description =
-                            "Build more reliable software with AI companion"
-                    });
-                }
-            }
-        }
-        private async Task CreatePortfolios()
-        {
-            var rng = new Random();
-            var repo = GetRepo<Portfolio>();
-            var ix = 1;
-            foreach (var i in Enumerable.Range(1, rng.Next(6, 12)))
-            {
-                ix++;
-                var jx = $"Portfolio {ix}";
-                var op = await repo.FindAsync(x => EF.Functions.Like(x.Name, $"{jx}"));
-                if (op != null) continue;
-                op = new Portfolio
-                {
-                    Name = $"{jx}",
-                    Description = $"{jx} description"
-                };
-                await repo.CreateAsync(op);
-                await Save();
-            }
-        }
+        //        foreach (var i in Enumerable.Range(1, rng.Next(3, 12)))
+        //        {
+        //            var ov = Create(new OptionSet
+        //            {
+        //                OptionKeyId = op.Id,
+        //                Label = $"Option {ix}{i}",
+        //                Value = ix + i,
+        //                Order = i,
+        //                Description =
+        //                    "Build more reliable software with AI companion"
+        //            });
+        //        }
+        //    }
+        //}
+        //private async Task CreatePortfolios()
+        //{
+        //    var rng = new Random();
+        //    var repo = GetRepo<Portfolio>();
+        //    var ix = 1;
+        //    foreach (var i in Enumerable.Range(1, rng.Next(6, 12)))
+        //    {
+        //        ix++;
+        //        var jx = $"Portfolio {ix}";
+        //        var op = await repo.FindAsync(x => EF.Functions.Like(x.Name, $"{jx}"));
+        //        if (op != null) continue;
+        //        op = new Portfolio
+        //        {
+        //            Name = $"{jx}",
+        //            Description = $"{jx} description"
+        //        };
+        //        await repo.CreateAsync(op);
+        //        await Save();
+        //    }
+        //}
 
         private async Task CreateDummyUsers()
         {

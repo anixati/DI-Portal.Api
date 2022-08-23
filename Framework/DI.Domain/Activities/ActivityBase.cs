@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace DI.Domain.Activities
 {
-    [Index(nameof(EntityName), nameof(EntityId), IsUnique = true)]
+    //[Index(nameof(EntityName), nameof(EntityId), IsUnique = true)]
     public class ActivityBase : AuditBaseEntity
     {
         [Required, MaxLength(100)] public string EntityName { get; set; }

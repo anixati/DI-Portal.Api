@@ -31,7 +31,7 @@ namespace Boards.Domain.Roles
         [Required] public long RoleAppointerId { get; set; }
         public OptionSet RoleAppointer { get; set; }
 
-        public bool IsFullTime { get; set; }
+        public FullTimeEnum IsFullTime { get; set; }
         public bool? IsExecutive { get; set; }
         public bool? IsExOfficio { get; set; }
         public bool? IsApsEmployee { get; set; }
@@ -87,6 +87,13 @@ namespace Boards.Domain.Roles
         
         public DateStateEnum MinSubDateType { get; set; }
         public DateTime? MinSubDate { get; set; }
+
+
+        [MaxLength(500)] public string IncumbentName { get; set; }
+        [MaxLength(255)] public string IncumbentStartDate { get; set; }
+        [MaxLength(255)] public string IncumbentEndDate { get; set; }
+
+
 
 
         public override string GetName()

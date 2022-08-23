@@ -15,6 +15,7 @@ using DI.Domain.Options;
 using DI.Domain.Owned;
 using DI.Domain.Services;
 using DI.Domain.Users;
+using DI.Security.Core;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Hosting;
@@ -64,8 +65,9 @@ namespace DataTools
 
                 var dataStr = await File.ReadAllTextAsync(fileName, cancellationToken);
                 var data = JsonConvert.DeserializeObject<BoardsData>(dataStr);
-
+                await AddAppData(data);
                 await ImportOptions(data);
+                await ImportPortfolios(data);
                 await ImportUsers(data);
                 await ImportContacts(data);
 
@@ -84,6 +86,148 @@ namespace DataTools
             }
 
         }
+        protected async Task<TK> CreateIfNotExists<TK>(TK entity) where TK : class, INamedEntity
+        {
+            var repo = _db.Repo<TK>();
+            var op = await repo.FindAsync(x => EF.Functions.Like(x.Name, entity.Name)) ??
+                     await repo.CreateAsync(entity);
+            return op;
+        }
+
+        private async Task AddAppData(BoardsData data)
+        {
+
+            var roleRepo = GetRepo<AppRole>();
+            foreach (ApplicationRoles role in Enum.GetValues(typeof(ApplicationRoles)))
+            {
+                var entity = await CreateIfNotExists(new AppRole
+                {
+                    Name = $"{role}",
+                    Code = $"{(int)role}",
+                    Description = role.ToDesc(),
+                    Locked = true,
+                    IsSystem = true
+                });
+            }
+            await Save();
+            var team = await CreateIfNotExists(new AppTeam
+            {
+                Name = $"Default",
+                Description = "Default Team",
+                Locked = true,
+                IsSystem = true
+            });
+            await Save();
+            var users = new string[]
+            {
+                "Admin","Super","View","Contrib"
+            };
+            var usrRepo = GetRepo<AppUser>();
+            var tuRepo = GetRepo<TeamUser>();
+            foreach (var name in users)
+            {
+                var ausr = await usrRepo.FindAsync(x => EF.Functions.Like(x.FirstName, name));
+                if (ausr != null) continue;
+                ausr = new AppUser()
+                {
+                    UserId = name,
+                    Title = "Mr",
+                    FirstName = name,
+                    LastName = $"User",
+                    MiddleName = "",
+                    HomePhone = "0262426242",
+                    FaxNumber = "0236598956",
+                    MobilePhone = "0401642369",
+                    Email1 = $"{name}.User@gmail.com",
+                    SecurityStamp = DateTime.UtcNow.ToString("o"),
+                    PasswordHash = BC.HashPassword("Summer11"),
+                    EmailConfirmed = true,
+                    ChangePassword = true,
+                    Disabled = false,
+                };
+                await usrRepo.CreateAsync(ausr);
+                await Save();
+                await tuRepo.CreateAsync(new TeamUser { AppTeamId = team.Id, AppUserId = ausr.Id });
+                await Save();
+            }
+
+            var ruRepo = GetRepo<UserRole>();
+            var spUser = await usrRepo.FindAsync(x => EF.Functions.Like(x.FirstName, "Super"));
+            var suRole = await roleRepo.FindAsync(x => EF.Functions.Like(x.Name, $"{ApplicationRoles.SysAdmin}"));
+            var suUserRole = await ruRepo.FindAsync(x => x.AppUserId == spUser.Id && x.AppRoleId==suRole.Id);
+            if (suUserRole == null)
+            {
+                await ruRepo.CreateAsync(new UserRole { AppRoleId = suRole.Id, AppUserId = spUser.Id });
+                await Save();
+            }
+
+        }
+
+        private async Task ImportPortfolios(BoardsData data)
+        {
+            Trace($"Importing Board portfolios {data.Portfolios.Count}");
+            var repo = GetRepo<Portfolio>();
+            foreach (var (key, value) in data.Portfolios)
+            {
+                var id = value.Get("doca_portfolioid");
+                var op = await repo.FindAsync(x => x.MigratedId == id);
+                if (op != null) continue;
+                Trace($"Creating {id}");
+
+                op = new Portfolio()
+                {
+                    Name = value.Get("doca_name"),
+                    Description =  value.Get("doca_name"),
+                    MigratedId = id
+                };
+                op.Disabled = value.IsDisabled();
+                await repo.CreateAsync(op);
+                await Save();
+            }
+            
+            Trace($"Importing Board ministers {data.Ministers.Count}");
+            var mrepo = GetRepo<Minister>();
+            var mtrepo = GetRepo<MinisterTerm>();
+
+            foreach (var (key, value) in data.Ministers)
+            {
+                var id = value.Get("doca_ministerid");
+                var op = await mrepo.FindAsync(x => x.MigratedId == id);
+                if (op != null) continue;
+                Trace($"Creating {id}");
+                var names = value.Get("doca_name").Split(new char[]{' '},StringSplitOptions.RemoveEmptyEntries);
+                op = new Minister()
+                {
+                    FirstName = names[0],
+                    LastName = names[1],
+                    MigratedId = id
+                };
+                op.Disabled = value.IsDisabled();
+                op = await mrepo.CreateAsync(op);
+                await Save();
+
+                var rid = value.Get("doca_portfolio");
+                if (!string.IsNullOrEmpty(rid))
+                {
+                    var pf = await repo.FindAsync(x => x.MigratedId == rid.GetRefId());
+                    if (pf != null)
+                    {
+
+                        var mt = await mtrepo.FindAsync(x => x.PortfolioId == pf.Id && x.MinisterId == op.Id);
+                        if (mt == null)
+                        {
+                            mt = new MinisterTerm() {MinisterId = op.Id, PortfolioId = pf.Id};
+                            await mtrepo.CreateAsync(mt);
+                            await Save();
+                        }
+                    }
+                }
+                await Save();
+            }
+
+
+        }
+
 
         private async Task ImportBoardAppointments(BoardsData data)
         {
@@ -164,6 +308,7 @@ namespace DataTools
                     AppointerId = aprid,
 
                 };
+                op.Disabled = value.IsDisabled();
                 await repo.CreateAsync(op);
                 await Save();
             }
@@ -203,6 +348,10 @@ namespace DataTools
                 var pdmsNo = value.Get("new_minsub");
                 var remTbnl = value.Get("new_remunerationtribunaldetermination");
 
+                var ftEnum = value.Get("new_fulltimeparttime") == "true"
+                    ? FullTimeEnum.FullTime
+                    : FullTimeEnum.PartTime;
+
                 op = new BoardRole()
                 {
                     Name = value.Get("new_name"),
@@ -211,7 +360,7 @@ namespace DataTools
                     RoleAppointerId = apbyid.GetValueOrDefault(),
                     MigratedId = id,
 
-                    IsFullTime = value.Get("new_fulltimeparttime") == "true",
+                    IsFullTime = ftEnum,
                     IsExecutive = value.Get("new_execnonexec") == "Executive",
                     IsExOfficio = value.Get("new_exofficio") == "true",
                     IsApsEmployee = value.Get("new_apsemployee") == "true",
@@ -265,7 +414,7 @@ namespace DataTools
 
 
                 };
-
+                op.Disabled = value.IsDisabled();
 
 
                 await repo.CreateAsync(op);
@@ -354,18 +503,7 @@ namespace DataTools
         {
 
             var pfr = GetRepo<Portfolio>();
-            var pf = await pfr.FindAsync(x => x.Name == "Arts");
-            if (pf == null)
-            {
-                pf = new Portfolio()
-                {
-                    Name = "Arts",
-                    Description = "Arts"
-                };
-                await pfr.CreateAsync(pf);
-                await Save();
-            }
-
+           
             var atr = GetRepo<AppTeam>();
             var atm = await atr.FindAsync(x => x.Name == "Default");
             if (atm == null)
@@ -394,6 +532,14 @@ namespace DataTools
                 var v3 = await GetOption(value.Get("new_boardactivestatus"), "BoardStatus");
                 var v4 = await GetOption(value.Get("new_establishedbyunder"), "EstablishedByUnder");
 
+
+                var pf = await pfr.FindAsync(x => EF.Functions.Like(x.Name,"Arts"));
+                var pfref = value.Get("doca_portfolio");
+                if (!string.IsNullOrEmpty(pfref))
+                {
+                    var pfid = pfref.GetRefId();
+                    pf = await pfr.FindAsync(x => x.MigratedId == pfid);
+                }
 
                 op = new Board()
                 {
@@ -437,7 +583,7 @@ namespace DataTools
                 if (secId != null)
                     op.AsstSecretaryId = secId.GetValueOrDefault();
 
-
+                op.Disabled = value.IsDisabled();
                 await repo.CreateAsync(op);
                 await Save();
 
@@ -505,6 +651,7 @@ namespace DataTools
                     //doca_type = value.Get("doca_type"),
                     //jobtitle = value.Get("jobtitle"),
                 };
+                op.Disabled = value.IsDisabled();
                 await repo.CreateAsync(op);
                 await Save();
 
@@ -539,6 +686,7 @@ namespace DataTools
                     EmailConfirmed = true,
                     ChangePassword = true,
                 };
+                op.Disabled = value.IsDisabled();
                 await repo.CreateAsync(op);
                 await Save();
 

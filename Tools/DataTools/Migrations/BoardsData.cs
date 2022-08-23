@@ -12,5 +12,8 @@ namespace DataTools.Migrations
         public Dictionary<string, Dictionary<string, string>> Users { get; set; } = new Dictionary<string, Dictionary<string, string>>();
 
 
+        public Dictionary<string, Dictionary<string, string>> Portfolios { get; set; } = new Dictionary<string, Dictionary<string, string>>();
+        public Dictionary<string, Dictionary<string, string>> Ministers { get; set; } = new Dictionary<string, Dictionary<string, string>>();
+
     }
 }

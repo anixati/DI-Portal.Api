@@ -34,14 +34,8 @@ namespace Boards.Services.Boards.Forms
                     x.FieldType = FormFieldType.Text;
                 });
                 f.AddInput("Acronym", "Acronym", true);
-               
-            });
-            field.AddFieldGroup(f =>
-            {
-                f.AddLookup("Portfolio", "PortfolioLookup", Routes.Portfolios, "Portfolio", true);
-               // f.AddPickList("Division", "Division", "Division");
                 f.AddLookup("AppTeam", "AppTeamLookup", Routes.Default, "Team/Division", true);
-                f.AddInput("Constitution", "Website");
+                f.AddLookup("Portfolio", "PortfolioLookup", Routes.Portfolios, "Portfolio", true);
             });
             field.AddInput("Description", "Description", x =>
             {
@@ -55,60 +49,56 @@ namespace Boards.Services.Boards.Forms
                 x.AddRule(ValRule.Min(10, "Minimum 10 chars required"));
                 x.FieldType = FormFieldType.Note;
             });
+
             field.AddFieldGroup(f =>
             {
-                f.AddPickList("BoardStatus", "BoardStatus", "Board Status");
                 f.AddPickList("OwnerDivision", "OwnerDivision", "Owner Division");
-                f.AddPickList("OwnerPosition", "OwnerPosition", "Owner Position");
-            });
-
-            field.AddFieldGroup(f =>
-            {
-                f.AddInput("NominationCommittee", "Nomination Committee");
+                f.AddInput("NominationCommittee", "Appointed By");
                 f.AddInput("LegislationReference", "Legislation Reference");
-                f.AddPickList("EstablishedByUnder", "EstablishedByUnder", "Established by under");
-            });
-            field.AddInput("EstablishedByUnderText", "Established by under text", x =>
-            {
-                x.AddRule(ValRule.Min(10, "Minimum 10 chars required"));
-                x.FieldType = FormFieldType.Note;
-            });
-
-
-
-            field.AddDivider("Quorum");
-            field.AddFieldGroup(f =>
-            {
-                f.AddInput("QuorumRequired", "Quorum required number");
-                f.AddInput("QuorumRequiredText", "Quorum required text");
-
-            });
-
-            field.AddDivider("Members");
-
-            field.AddFieldGroup(f =>
-            {
-                f.AddNumeric("OptimumMembers", "Optimum members");
                 f.AddNumeric("MaximumTerms", "Maximum terms");
-                f.AddNumeric("MaximumMembers", "Maximum members", true);
+
+            });
+
+            field.AddFieldGroup(f =>
+            {
+                f.AddPickList("EstablishedByUnder", "EstablishedByUnder", "Established by under");
+                f.AddInput("QuorumRequiredText", "Quorum required text");
                 f.AddNumeric("MinimumMembers", "Minimum members", true);
+                f.AddNumeric("MaximumMembers", "Maximum members", true);
 
             });
-            field.AddFieldGroup(f =>
-            {
-                f.AddNumeric("MaxServicePeriod", "Maximum period of each term served by members");
-                f.AddYesNo("ReportingApproved", "Reporting approved", "", true);
-                f.AddYesNo("ExcludeFromGenderBalance", "Exclude from gender balance", "", true);
-            });
 
-            field.AddDivider("Office Details");
 
             field.AddFieldGroup(f =>
             {
-                f.AddLookup("ResponsibleUser", "ActiveUsers", Routes.Users, "Responsible User");
+                f.AddLookup("ResponsibleUser", "ActiveUsers", Routes.Users, "Board Administrator");
                 f.AddLookup("ApprovedUser", "ActiveUsers", Routes.Users, "Approved User");
                 f.AddLookup("AsstSecretary", "SecretaryLookup", Routes.Secretary, "Asst. Secretary");
+                f.AddInput("Constitution", "Website");
             });
+            //--------------------
+
+            //field.AddDivider("XXXXX");
+            //field.AddFieldGroup(f =>
+            //{
+            //    f.AddPickList("BoardStatus", "BoardStatus", "Board Status");
+            //    f.AddPickList("OwnerPosition", "OwnerPosition", "Owner Position");
+            //    f.AddInput("QuorumRequired", "Quorum required number");
+            //    f.AddNumeric("OptimumMembers", "Optimum members");
+            //});
+
+            //field.AddInput("EstablishedByUnderText", "Established by under text", x =>
+            //{
+            //    x.AddRule(ValRule.Min(10, "Minimum 10 chars required"));
+            //    x.FieldType = FormFieldType.Note;
+            //});
+
+            //field.AddFieldGroup(f =>
+            //{
+            //    f.AddNumeric("MaxServicePeriod", "Maximum period of each term served by members");
+            //    f.AddYesNo("ReportingApproved", "Reporting approved", "", true);
+            //    f.AddYesNo("ExcludeFromGenderBalance", "Exclude from gender balance", "", true);
+            //});
 
 
         }

@@ -167,14 +167,23 @@ namespace DI.Forms.Types
         {
             fd.AddInput(key, title, x =>
             {
-                x.Width = width;
                 x.FieldType = FormFieldType.Text;
-
                 if (required)
                     x.AddRequired($"{title} is required");
             });
             return fd;
         }
+
+        public static FormField AddDisabledInput(this FormField fd, string key, string title)
+        {
+            fd.AddInput(key, title, x =>
+            {
+                x.FieldType = FormFieldType.Text;
+                x.Disabled = true;
+            });
+            return fd;
+        }
+
         public static FormField AddNumeric(this FormField fd, string key, string title = null, bool required = false, int min=0,int max= 9999)
         {
             fd.AddInput(key, title, x =>
@@ -211,6 +220,7 @@ namespace DI.Forms.Types
             return fd;
         }
 
+      
         #region Rules
         public static FormField AddRule(this FormField fd, ValRule rule)
         {

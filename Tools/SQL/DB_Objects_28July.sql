@@ -1,4 +1,4 @@
-USE [DI_Boards3]
+USE [DI_Boards4]
 GO
 /****** Object:  StoredProcedure [acl].[GetUserRoles]    Script Date: 28/07/2022 4:01:29 PM ******/
 DROP PROCEDURE [acl].[GetUserRoles]
@@ -147,30 +147,30 @@ GO
 --------------------------------------------------------
 --- Triggers
 --------------------------------------------------------
-DROP TRIGGER IF EXISTS [dbo].[TrgSetRoleIncumbent]
-GO
+--DROP TRIGGER IF EXISTS [dbo].[TrgSetRoleIncumbent]
+--GO
 
-CREATE TRIGGER [dbo].[TrgSetRoleIncumbent] ON [dbo].[BoardAppointments]
-FOR UPDATE 
-AS 
-BEGIN
-set nocount on;
-DECLARE @AppId BIGINT
-SELECT @AppId=ins.ID FROM INSERTED ins;
-IF (UPDATE ([IsCurrent]))  
-BEGIN  
+--CREATE TRIGGER [dbo].[TrgSetRoleIncumbent] ON [dbo].[BoardAppointments]
+--FOR UPDATE 
+--AS 
+--BEGIN
+--set nocount on;
+--DECLARE @AppId BIGINT
+--SELECT @AppId=ins.ID FROM INSERTED ins;
+--IF (UPDATE ([IsCurrent]))  
+--BEGIN  
 
- UPDATE br
- SET br.IncumbentId= ap.Id
- FROM [dbo].[BoardRoles] AS br
- JOIN [dbo].[BoardAppointments] ba ON br.Id=ba.BoardRoleId
- JOIN [dbo].[Appointee] ap ON ap.ID=ba.AppointeeId
- WHERE ba.Id=@AppId AND ba.IsCurrent=1
-END;  
+-- UPDATE br
+-- SET br.IncumbentId= ap.Id
+-- FROM [dbo].[BoardRoles] AS br
+-- JOIN [dbo].[BoardAppointments] ba ON br.Id=ba.BoardRoleId
+-- JOIN [dbo].[Appointee] ap ON ap.ID=ba.AppointeeId
+-- WHERE ba.Id=@AppId AND ba.IsCurrent=1
+--END;  
 
 
-END
-GO
+--END
+--GO
 
 
 

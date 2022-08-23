@@ -10,7 +10,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace EFCustomMigrations.Db.Migrations
 {
     [DbContext(typeof(BoardsDbContext))]
-    [Migration("20220809060551_Initial_Migration")]
+    [Migration("20220823062418_Initial_Migration")]
     partial class Initial_Migration
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -239,6 +239,10 @@ namespace EFCustomMigrations.Db.Migrations
                         .HasMaxLength(255)
                         .HasColumnType("nvarchar(255)");
 
+                    b.Property<string>("MigratedId")
+                        .HasMaxLength(255)
+                        .HasColumnType("nvarchar(255)");
+
                     b.Property<string>("MobilePhone")
                         .HasMaxLength(10)
                         .HasColumnType("nvarchar(10)");
@@ -290,7 +294,7 @@ namespace EFCustomMigrations.Db.Migrations
                     b.Property<long>("PortfolioId")
                         .HasColumnType("bigint");
 
-                    b.Property<DateTime>("StartDate")
+                    b.Property<DateTime?>("StartDate")
                         .HasColumnType("datetime2");
 
                     b.Property<byte[]>("Timestamp")
@@ -334,6 +338,10 @@ namespace EFCustomMigrations.Db.Migrations
 
                     b.Property<bool>("Locked")
                         .HasColumnType("bit");
+
+                    b.Property<string>("MigratedId")
+                        .HasMaxLength(255)
+                        .HasColumnType("nvarchar(255)");
 
                     b.Property<string>("ModifiedBy")
                         .IsRequired()
@@ -838,8 +846,20 @@ namespace EFCustomMigrations.Db.Migrations
                     b.Property<bool?>("ExcludeGenderReport")
                         .HasColumnType("bit");
 
+                    b.Property<string>("IncumbentEndDate")
+                        .HasMaxLength(255)
+                        .HasColumnType("nvarchar(255)");
+
                     b.Property<long?>("IncumbentId")
                         .HasColumnType("bigint");
+
+                    b.Property<string>("IncumbentName")
+                        .HasMaxLength(500)
+                        .HasColumnType("nvarchar(500)");
+
+                    b.Property<string>("IncumbentStartDate")
+                        .HasMaxLength(255)
+                        .HasColumnType("nvarchar(255)");
 
                     b.Property<string>("InstrumentLink")
                         .HasMaxLength(2000)
@@ -861,8 +881,8 @@ namespace EFCustomMigrations.Db.Migrations
                     b.Property<bool?>("IsExecutive")
                         .HasColumnType("bit");
 
-                    b.Property<bool>("IsFullTime")
-                        .HasColumnType("bit");
+                    b.Property<int>("IsFullTime")
+                        .HasColumnType("int");
 
                     b.Property<bool>("IsSignAppointment")
                         .HasColumnType("bit");
@@ -1040,9 +1060,6 @@ namespace EFCustomMigrations.Db.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("EntityName", "EntityId")
-                        .IsUnique();
-
                     b.ToTable("Activities");
                 });
 
@@ -1096,9 +1113,6 @@ namespace EFCustomMigrations.Db.Migrations
                         .HasColumnType("rowversion");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("EntityName", "EntityId")
-                        .IsUnique();
 
                     b.ToTable("DeleteRecords");
                 });
