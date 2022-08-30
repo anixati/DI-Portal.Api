@@ -88,6 +88,11 @@ namespace DI.Domain.Handlers.Generic
                             accessor[entity, propName] = nesProp;
                         }
                     }
+                    else
+                    {
+                        op.value = MapValues(mi.Type, op.value);
+                    }
+
                     patch.Operations.Add(op);
                 }
 
@@ -103,6 +108,44 @@ namespace DI.Domain.Handlers.Generic
             }
             Commit();
             return new DomainResponse(ResponseCode.Updated, "Patched");
+        }
+
+
+
+        private static object MapValues(Type type, object value)
+        {
+
+            if (type == typeof(bool) || type == typeof(bool?))
+            {
+                if (int.TryParse($"{value}", out var rs))
+                    return rs == 1 ? true : false;
+            }
+            else if (type == typeof(int) || type == typeof(int?))
+            {
+                if (int.TryParse($"{value}", out var rs))
+                    return rs;
+            }
+            else if (type == typeof(short) || type == typeof(short?))
+            {
+                if (short.TryParse($"{value}", out var rs))
+                    return rs;
+            }
+            else if (type == typeof(decimal) || type == typeof(decimal?))
+            {
+                if (decimal.TryParse($"{value}", out var rs))
+                    return rs;
+            }
+            else if (type == typeof(DateTime) || type == typeof(DateTime?))
+            {
+                if (DateTime.TryParse($"{value}", out var rs))
+                    return rs;
+            }
+            else if (type.IsEnum)
+            {
+                if (int.TryParse($"{value}", out var rs))
+                    return rs;
+            }
+            return value;
         }
     }
 }

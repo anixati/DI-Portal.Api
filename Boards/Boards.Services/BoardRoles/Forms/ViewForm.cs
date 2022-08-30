@@ -54,7 +54,7 @@ namespace Boards.Services.BoardRoles.Forms
                 f.AddYesNo("ExcludeFromOrder15", "Exclude from senate order 15", "", true);
                 f.AddYesNo("ExcludeGenderReport", "Exclude from GB", "", true);
                 f.AddYesNo("IsSignAppointment", "Significant Appointment", "", true);
-                //TODO--------
+                f.AddYesNo("IsExNominated", "Is Externally Nominated", "", true);
             });
             field.AddDivider("Ministerial Details");
 
@@ -62,6 +62,7 @@ namespace Boards.Services.BoardRoles.Forms
             {
                 f.AddInput("PDMSNumber", "PDMS Number", true);
                 f.AddPickList("MinSubLocation", "MinSubLocation", "MinSub Location", true);
+
                 f.AddDate("MinisterOfficeDate", "Date Submission sent to MO", false, 29);
                 f.AddDate("MinisterActionDate", "Minister office due date", false, 29);
             });

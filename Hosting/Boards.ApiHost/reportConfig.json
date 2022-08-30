@@ -89,7 +89,17 @@
         "url": "WeeklyFor12Month",
         "options": "",
         "roles": []
+      },
+
+      {
+        "id": 112,
+        "title": "Gender balance assessment",
+        "description": "Gender balance assessment",
+        "url": "GenderRatio",
+        "options": "",
+        "roles": []
       }
+
       /////////////////////////////,
       //{
       //  "id": 112,
