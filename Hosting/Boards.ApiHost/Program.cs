@@ -1,5 +1,6 @@
 using System;
 using System.IO;
+using System.Net;
 using System.Reflection;
 using System.Threading.Tasks;
 using Autofac.Extensions.DependencyInjection;
@@ -8,6 +9,7 @@ using Boards.Services;
 using Boards.Services.Jobs;
 using DI.Jobs;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Server.Kestrel.Core;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -42,6 +44,7 @@ namespace Boards.ApiHost
 
         private static async Task RunHostStartUp(IHost host)
         {
+            await Task.Delay(0);
             //using var scope = host.Services.CreateScope();
             //var services = scope.ServiceProvider;
             //await BoardsData.Run(services);
@@ -60,7 +63,25 @@ namespace Boards.ApiHost
                 {
                     config.AddJsonFile("reportConfig.json", optional: false, reloadOnChange: true);
                 })
-                .ConfigureWebHostDefaults(webBuilder => { webBuilder.UseStartup<Startup>(); });
+                .ConfigureWebHostDefaults(webBuilder =>
+                {
+
+
+#if DEBUG
+                    webBuilder.ConfigureKestrel(options =>
+                    {
+                        options.Listen(IPAddress.Any, 5010, listenOptions =>
+                        {
+                            listenOptions.Protocols = HttpProtocols.Http1AndHttp2;
+                            listenOptions.UseHttps(@"C:\Temp\Certs\akdev.pfx", "Welcome1");
+                        });
+                    });
+#endif
+
+
+
+                    webBuilder.UseStartup<Startup>();
+                });
         }
 
         public static void SetupLogger()

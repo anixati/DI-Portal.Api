@@ -1,4 +1,4 @@
-USE [DI_Boards4]
+USE [DI_Boards5]
 GO
 /****** Object:  StoredProcedure [acl].[GetUserRoles]    Script Date: 28/07/2022 4:01:29 PM ******/
 DROP PROCEDURE [acl].[GetUserRoles]
@@ -418,13 +418,8 @@ CREATE VIEW [dbo].[PortfoliosView] AS
                     pf.[Name] AS PortfolioName,
                     pf.[Description] AS [Description],
                     pf.CreatedOn,
-                    (COALESCE(mn.Title+' ','')+mn.FirstName+' '+COALESCE(mn.MiddleName+' ','')+mn.LastName) As Minister,
-                    mt.StartDate,
-                    mt.EndDate,
                     pf.[Disabled]
                     FROM [dbo].[Portfolios] pf
-                    LEFT OUTER JOIN [dbo].[MinisterTerms] mt ON mt.PortfolioId = pf.Id AND mt.Deleted =0
-                    LEFT OUTER JOIN [dbo].[Ministers] mn ON mn.Id = mt.MinisterId AND mn.Deleted =0
                     WHERE pf.Deleted =0
 GO
 /****** Object:  View [dbo].[SecretariesView]    Script Date: 28/07/2022 4:01:29 PM ******/

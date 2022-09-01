@@ -256,11 +256,11 @@ CREATE TABLE [acl].[Users] (
     [Id] bigint NOT NULL IDENTITY,
     [UserId] nvarchar(255) NOT NULL,
     [PasswordHash] nvarchar(max) NOT NULL,
-    [SecurityStamp] nvarchar(max) NOT NULL,
-    [ChangePassword] bit NOT NULL,
-    [EmailConfirmed] bit NOT NULL,
-    [LockedOut] bit NOT NULL,
-    [AccessFailCount] int NOT NULL,
+    [NameId] nvarchar(500) NULL,
+    [Upn] nvarchar(500) NULL,
+    [DisplayName] nvarchar(500) NULL,
+    [AccessRequest] datetime2 NULL,
+    [AccessGranted] datetime2 NULL,
     [IsSystem] bit NOT NULL,
     [MigratedId] nvarchar(255) NULL,
     [Locked] bit NOT NULL,
@@ -767,7 +767,7 @@ CREATE UNIQUE INDEX [IX_Users_UserId] ON [acl].[Users] ([UserId]);
 GO
 
 INSERT INTO [__EFMigrationsHistory] ([MigrationId], [ProductVersion])
-VALUES (N'20220823062418_Initial_Migration', N'5.0.16');
+VALUES (N'20220901044255_Initial_Migration', N'5.0.16');
 GO
 
 COMMIT;

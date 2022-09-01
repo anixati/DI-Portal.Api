@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using DI.Domain.Contacts;
@@ -12,14 +13,12 @@ namespace DI.Domain.Users
     public class AppUser : ContactBaseEntity, ICheckSystemEntity
     {
         [Required] [MaxLength(255)] public virtual string UserId { get; set; }
-
         [Required][MaxLength(int.MaxValue)] public virtual string PasswordHash { get; set; }
-        [Required][MaxLength(int.MaxValue)] public virtual string SecurityStamp { get; set; }
-        public virtual bool ChangePassword { get; set; }
-        public virtual  bool EmailConfirmed { get; set; }
-        public virtual bool LockedOut { get; set; }
-        public virtual int AccessFailCount { get; set; }
-
+        [MaxLength(500)] public virtual string NameId { get; set; }
+        [MaxLength(500)] public virtual string Upn { get; set; }
+        [MaxLength(500)] public virtual string DisplayName { get; set; }
+       public virtual DateTime? AccessRequest { get; set; }
+       public virtual DateTime? AccessGranted { get; set; }
 
         [Required]
         public bool IsSystem { get; set; }

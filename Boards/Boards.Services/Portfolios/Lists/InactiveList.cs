@@ -23,9 +23,9 @@ namespace Boards.Services.Portfolios.Lists
             pt.AddSearchCol("PortfolioName");
             pt.AddSearchCol("Description");
             pt.AddSearchCol("CreatedOn");
-            pt.AddSearchCol("Minister");
-            pt.AddSearchCol("StartDate");
-            pt.AddSearchCol("EndDate");
+            //pt.AddSearchCol("Minister");
+            //pt.AddSearchCol("StartDate");
+            //pt.AddSearchCol("EndDate");
             return pt;
         }
 

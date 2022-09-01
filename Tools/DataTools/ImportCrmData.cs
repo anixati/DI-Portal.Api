@@ -118,9 +118,12 @@ namespace DataTools
                 IsSystem = true
             });
             await Save();
+
+
+
             var users = new string[]
             {
-                "Admin","Super","View","Contrib"
+               "Super"
             };
             var usrRepo = GetRepo<AppUser>();
             var tuRepo = GetRepo<TeamUser>();
@@ -139,11 +142,11 @@ namespace DataTools
                     FaxNumber = "0236598956",
                     MobilePhone = "0401642369",
                     Email1 = $"{name}.User@gmail.com",
-                    SecurityStamp = DateTime.UtcNow.ToString("o"),
                     PasswordHash = BC.HashPassword("Summer11"),
-                    EmailConfirmed = true,
-                    ChangePassword = true,
+                  AccessRequest = DateTime.Now,
+                  AccessGranted = DateTime.Now,
                     Disabled = false,
+                    IsSystem = true 
                 };
                 await usrRepo.CreateAsync(ausr);
                 await Save();
@@ -183,6 +186,17 @@ namespace DataTools
                 op.Disabled = value.IsDisabled();
                 await repo.CreateAsync(op);
                 await Save();
+
+
+                var team = await CreateIfNotExists(new AppTeam
+                {
+                    Name = $"{op.Name} Team",
+                    Description = $"{op.Name} Team",
+                    Locked = true,
+                    IsSystem = true
+                });
+                await Save();
+
             }
             
             Trace($"Importing Board ministers {data.Ministers.Count}");
@@ -666,11 +680,14 @@ namespace DataTools
             var repo = GetRepo<AppUser>();
             foreach (var (key, value) in data.Users)
             {
+
+                var usn = value.Get("domainname");
+                if (string.IsNullOrEmpty(usn)) continue;
                 var fn = value.Get("firstname");
                 if (string.IsNullOrEmpty(fn)) continue;
                 var ln = value.Get("lastname");
                 if (string.IsNullOrEmpty(ln)) continue;
-                var op = await repo.FindAsync(x => x.FirstName == fn && x.LastName == ln);
+                var op = await repo.FindAsync(x => x.UserId == usn);
                 if (op != null) continue;
                 Trace($"Creating {fn} {ln}");
                 op = new AppUser()
@@ -679,14 +696,24 @@ namespace DataTools
                     LastName = ln,
                     MiddleName = value.Get("middlename"),
                     MigratedId = value.Get("systemuserid"),
-                    UserId = $"{fn}.{ln}",
-                    Email1 = $"{fn}.{ln}@infrastructure.gov.au",
-                    SecurityStamp = DateTime.UtcNow.ToString("o"),
-                    PasswordHash = BC.HashPassword("Summer11"),
-                    EmailConfirmed = true,
-                    ChangePassword = true,
+                    UserId = $"{usn}",
+                    PasswordHash = "-",
+                    AccessRequest = null,
+                    AccessGranted = null
                 };
-                op.Disabled = value.IsDisabled();
+                var email = value.Get("internalemailaddress");
+                if (!string.IsNullOrEmpty(email))
+                    op.Email1 = email;
+
+                var isd = value.Get("isdisabled");
+                if (!string.IsNullOrEmpty(isd) && isd == "true")
+                {
+                    op.Disabled = true;
+                }
+                else
+                {
+                    op.Disabled = false;
+                }
                 await repo.CreateAsync(op);
                 await Save();
 
