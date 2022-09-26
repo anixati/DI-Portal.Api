@@ -20,22 +20,22 @@ namespace Boards.Services.BoardRoles.Forms
         {
             field.AddFieldGroup(f =>
             {
-                f.AddPickList("Position", "Position", "Position", true, 50);
-                f.AddPickList("Appointer", "Appointer", "Appointer", true, 50);
+                f.AddPickList("Position", "Position", "Position", true);
+                f.AddPickList("Appointer", "Appointer", "Appointer", true);
             });
             field.AddFieldGroup(f =>
             {
                 f.AddSelect<YesNoOptionEnum>("PositionRemunerated", "Position Remunerated", true);
-                f.AddDecimal("PaAmount", "Per-annum Amount", true, 50);
+                f.AddDecimal("PaAmount", "Per-annum Amount", true);
             });
             field.AddFieldGroup(f =>
             {
-                f.AddPickList("RemunerationMethod", "RemunerationMethod", "Remuneration Method", true, 50);
-                f.AddInput("RemunerationTribunal",  "Remuneration Tribunal", true, 50);
+                f.AddPickList("RemunerationMethod", "RemunerationMethod", "Remuneration Method", true);
+                f.AddInput("RemunerationTribunal",  "Remuneration Tribunal", true);
             });
             field.AddFieldGroup(f =>
             {
-                f.AddDate("VacantFromDate", "Vacant from Date", false, 50);
+                f.AddDate("VacantFromDate", "Vacant from Date", false);
                 f.AddNumeric("Term", "Term");
 
             });
@@ -46,21 +46,21 @@ namespace Boards.Services.BoardRoles.Forms
         {
             field.AddFieldGroup(f =>
             {
-                f.AddYesNo("IsFullTime", "Is full time", "", true,30);
-                f.AddYesNo("IsExecutive", "Is Executive", "", true,30);
-                f.AddYesNo("IsExOfficio", "Is Ex-Officio", "", false,30);
+                f.AddYesNo("IsFullTime", "Is full time", "", true);
+                f.AddYesNo("IsExecutive", "Is Executive", "", true);
+                f.AddYesNo("IsExOfficio", "Is Ex-Officio", "", false);
             });
             field.AddFieldGroup(f =>
             {
-                f.AddYesNo("IsApsEmployee", "Is Aps Employee", "", true,30);
-                f.AddYesNo("IsExNominated", "Is Externally Nominated", "", true,30);
-                f.AddYesNo("IsSignAppointment", "Significant Appointment", "", true,30);
+                f.AddYesNo("IsApsEmployee", "Is Aps Employee", "", true);
+                f.AddYesNo("IsExNominated", "Is Externally Nominated", "", true);
+                f.AddYesNo("IsSignAppointment", "Significant Appointment", "", true);
             });
 
             field.AddFieldGroup(f =>
             {
-                f.AddYesNo("ExcludeFromOrder15", "Exclude from order 15 report", "", true,30);
-                f.AddYesNo("ExcludeGenderReport", "Exclude from gender report", "", true,30);
+                f.AddYesNo("ExcludeFromOrder15", "Exclude from order 15 report", "", true);
+                f.AddYesNo("ExcludeGenderReport", "Exclude from gender report", "", true);
             });
             
         }
@@ -69,13 +69,13 @@ namespace Boards.Services.BoardRoles.Forms
         {
             field.AddFieldGroup(f =>
             {
-                f.AddInput("PDMSNumber", "PDMS Number",true,50);
-                f.AddPickList("MinSubLocation", "MinSubLocation", "MinSub Location", true, 50);
+                f.AddInput("PDMSNumber", "PDMS Number",true);
+                f.AddPickList("MinSubLocation", "MinSubLocation", "MinSub Location", true);
             });
             field.AddFieldGroup(f =>
             {
-                f.AddDate("MinisterOfficeDate", "Minister Office Date", false, 50);
-                f.AddDate("MinisterActionDate", "Minister Action Date", false, 50);
+                f.AddDate("MinisterOfficeDate", "Minister Office Date", false);
+                f.AddDate("MinisterActionDate", "Minister Action Date", false);
             });
             field.AddInput("InstrumentLink", "Instrument Link", x =>
             {

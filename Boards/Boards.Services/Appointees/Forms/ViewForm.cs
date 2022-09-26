@@ -33,17 +33,17 @@ namespace Boards.Services.Appointees.Forms
         {
             field.AddFieldGroup(f =>
             {
-                f.AddInput("Title", "Title", false, 30);
-                f.AddInput("FirstName", "First Name", true, 30);
-                f.AddInput("MiddleName", "Middle Name", false, 30);
-                f.AddInput("LastName", "Last Name", true, 30);
+                f.AddInput("Title", "Title", false);
+                f.AddInput("FirstName", "First Name", true);
+                f.AddInput("MiddleName", "Middle Name", false);
+                f.AddInput("LastName", "Last Name", true);
             });
             field.AddFieldGroup(f =>
             {
                 f.AddInput("PostNominals", "PostNominals");
-                f.AddSelect<GenderEnum>("Gender", "Gender", true, 30);
-                f.AddPhone("HomePhone", "Phone", false, 30);
-                f.AddEmail("Email1", "Email", true, 30);
+                f.AddSelect<GenderEnum>("Gender", "Gender", true);
+                f.AddPhone("HomePhone", "Phone", false);
+                f.AddEmail("Email1", "Email", true);
             });
             field.AddFieldGroup(f =>
             {

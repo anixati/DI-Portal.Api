@@ -9,7 +9,6 @@ namespace Boards.Services.Access.Create
         public override string FormName => $"create_appuser";
         protected override void CreateSchema(FormSchema fs)
         {
-            fs.AddPage("Login Details", AddLoginDetails);
             fs.AddPage("User Details", AddDetails);
         }
 
@@ -31,10 +30,6 @@ namespace Boards.Services.Access.Create
                 f.AddEmail("Email1", "Primary Email", true);
                 f.AddPhone("HomePhone", "Phone Number");
             });
-        }
-        private void AddLoginDetails(FormField field)
-        {
-            field.AddInput("UserId", "UserId",true,80);
         }
 
     }

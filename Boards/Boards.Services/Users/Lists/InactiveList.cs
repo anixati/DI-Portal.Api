@@ -18,7 +18,8 @@ namespace Boards.Services.Users.Lists
                 x.Sortable = true;
                 x.Type = ColumnType.HyperLink;
             });
-            pt.AddSearchCols("Phone", "Email", "CreatedOn");
+            pt.AddSearchCols("Phone", "Email");
+            pt.AddDateColumn("CreatedOn");
             return pt;
         }
 

@@ -40,11 +40,11 @@ namespace DI.Forms.Types
         }
 
         public static FormField AddYesNo(this FormField fd, string key, string title, string desc,
-            bool required = false, int width = 50)
+            bool required = false, bool disabled = false)
         {
             fd.AddInput(key, title, x =>
             {
-                x.Width = width;
+                x.Disabled = disabled;
                 x.FieldType = FormFieldType.YesNo;
                 x.Description = desc;
 
@@ -57,7 +57,7 @@ namespace DI.Forms.Types
         #region Select List
 
         public static FormField AddSelect<T>(this FormField fd, string key, string title = null, bool required = false,
-            int width = 50) where T : struct, IConvertible
+            bool disabled = false) where T : struct, IConvertible
         {
             if (!typeof(T).IsEnum)
                 throw new Exception("must be a enum");
@@ -65,15 +65,15 @@ namespace DI.Forms.Types
             var values = Enum.GetValues(typeof(T));
             var rCol = (from int item in values
                         select new SelectItem($"{item}", Enum.GetName(typeof(T), item))).ToList();
-            return fd.AddSelect(key, rCol, title, required, width);
+            return fd.AddSelect(key, rCol, title, required, disabled);
         }
 
         public static FormField AddSelect(this FormField fd, string key, List<SelectItem> options, string title = null, bool required = false,
-            int width = 50)
+           bool disabled = false)
         {
             fd.AddInput(key, title, x =>
             {
-                x.Width = width;
+                x.Disabled = disabled;
                 x.FieldType = FormFieldType.Select;
                 x.Options = options;
                 if (required)
@@ -86,11 +86,11 @@ namespace DI.Forms.Types
 
 
         public static FormField AddDate(this FormField fd, string key, string title = null, bool required = false,
-            int width = 50)
+            bool disabled = false)
         {
             fd.AddInput(key, title, x =>
             {
-                x.Width = width;
+                x.Disabled = disabled;
                 x.FieldType = FormFieldType.Date;
                 x.Options = $"DD/MM/YYYY";
                 if (required)
@@ -114,11 +114,11 @@ namespace DI.Forms.Types
             return fd;
         }
         public static FormField AddPickList(this FormField fd, string key, string viewId, string title = null, bool required = false,
-            int width = 50)
+           bool disabled = false)
         {
             fd.AddInput(key, title, x =>
             {
-                x.Width = width;
+                x.Disabled = disabled;
                 x.FieldType = FormFieldType.PickList;
                 x.ViewId = viewId;
                 if (required)
@@ -128,11 +128,11 @@ namespace DI.Forms.Types
         }
 
         public static FormField AddLookup(this FormField fd, string key, string viewId, IClientRoute route, string title = null, bool required = false,
-            int width = 50, Action<FormField> configure =null)
+             bool disabled = false, Action<FormField> configure =null)
         {
             fd.AddInput(key, title, x =>
             {
-                x.Width = width;
+                x.Disabled = disabled;
                 x.FieldType = FormFieldType.Lookup;
                 x.ViewId = viewId;
                 x.Options = route.Path();
@@ -163,13 +163,14 @@ namespace DI.Forms.Types
         }
 
         public static FormField AddInput(this FormField fd, string key, string title = null, bool required = false,
-            int width = 50)
+            bool disabled= false)
         {
             fd.AddInput(key, title, x =>
             {
                 x.FieldType = FormFieldType.Text;
                 if (required)
                     x.AddRequired($"{title} is required");
+                x.Disabled = disabled;
             });
             return fd;
         }
@@ -196,11 +197,11 @@ namespace DI.Forms.Types
             return fd;
         }
         public static FormField AddDecimal(this FormField fd, string key, string title = null, bool required = false,
-            int width = 50)
+            bool disabled = false)
         {
             fd.AddInput(key, title, x =>
             {
-                x.Width = width;
+                x.Disabled = disabled;
                 x.FieldType = FormFieldType.Decimal;
                 if (required)
                     x.AddRequired($"{title} is required");
@@ -239,11 +240,11 @@ namespace DI.Forms.Types
         #region contact details
 
         public static FormField AddPhone(this FormField fd, string key, string title = null, bool required = false,
-            int width = 50)
+            bool disabled = false)
         {
             fd.AddInput(key, title, x =>
             {
-                x.Width = width;
+                x.Disabled = disabled;
                 x.FieldType = FormFieldType.Text;
                 if (required)
                     x.AddRequired($"{title} is required");
@@ -252,11 +253,11 @@ namespace DI.Forms.Types
             return fd;
         }
         public static FormField AddEmail(this FormField fd, string key, string title = null, bool required = false,
-            int width = 50)
+             bool disabled = false)
         {
             fd.AddInput(key, title, x =>
             {
-                x.Width = width;
+                x.Disabled = disabled;
                 x.FieldType = FormFieldType.Text;
                 if (required)
                     x.AddRequired($"{title} is required");

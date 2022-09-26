@@ -12,6 +12,6 @@ namespace Boards.Services.Users.Forms
         {
         }
 
-        public override string SchemaKey => "appuser";
+        public override string SchemaKey => "user";
     }
 }

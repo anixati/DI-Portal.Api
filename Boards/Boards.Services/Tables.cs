@@ -32,9 +32,14 @@ namespace Boards.Services
             public static readonly FormKey Skill = new FormKey("skill");
 
             public static readonly FormKey MinisterTerm = new FormKey("ministerterm");
+            public static readonly FormKey User = new FormKey("user");
+
+
             public static readonly FormKey AppUser = new FormKey("appuser");
             public static readonly FormKey AppRole = new FormKey("approle");
             public static readonly FormKey AppTeam = new FormKey("appteam");
+
+
         }
 
         public static class Db

@@ -23,7 +23,8 @@ namespace Boards.Services.Users.Lists
                 x.LinkPath = Routes.Users.Path();
 
             });
-            pt.AddSearchCols("Phone", "Email", "CreatedOn");
+            pt.AddSearchCols("Phone", "Email");
+            pt.AddDateColumn("CreatedOn");
             return pt;
         }
 

@@ -134,6 +134,7 @@ namespace DataTools
                 ausr = new AppUser()
                 {
                     UserId = name,
+                    DisplayName="Administrator",
                     Title = "Mr",
                     FirstName = name,
                     LastName = $"User",

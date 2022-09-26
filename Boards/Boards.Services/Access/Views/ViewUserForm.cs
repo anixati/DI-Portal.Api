@@ -27,28 +27,29 @@ namespace Boards.Services.Access.Views
 
         private void UserDetails(FormField field)
         {
+
             field.AddFieldGroup(f =>
             {
-                f.AddInput("Title", "Title", false, 30);
-                f.AddInput("FirstName", "First Name", true, 30);
-                f.AddInput("LastName", "Last Name", true, 30);
+                f.AddInput("Title", "Title", false);
+                f.AddInput("FirstName", "First Name", true);
+                f.AddInput("MiddleName", "Middle Name", false);
+                f.AddInput("LastName", "Last Name", true);
             });
             field.AddFieldGroup(f =>
             {
-                f.AddInput("MiddleName", "Middle Name", false, 30);
-                f.AddSelect<GenderEnum>("Gender", "Gender", true, 30);
+                f.AddSelect<GenderEnum>("Gender", "Gender", true);
+                f.AddPhone("Mobile", "Mobile Number", false);
+                f.AddPhone("HomePhone", "Phone Number", false);
+                f.AddEmail("Email1", "Email", true);
 
             });
+            field.AddDivider();
             field.AddFieldGroup(f =>
             {
-                f.AddPhone("Mobile", "Mobile Number", false, 30);
-                f.AddPhone("HomePhone", "Phone Number", false, 30);
-                f.AddPhone("FaxNumber", "Fax Number", false, 30);
-            });
-            field.AddFieldGroup(f =>
-            {
-                f.AddEmail("Email1", "Primary Email", true, 30);
-                f.AddEmail("Email2", "Other Email", false, 30);
+                f.AddInput("UserId", "User Id", false,true);
+                f.AddInput("Upn", "Upn", false,true);
+                f.AddInput("DisplayName", "Display Name", false);
+
             });
         }
     }

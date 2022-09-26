@@ -1,4 +1,4 @@
-USE [DI_Boards5]
+USE [DI_Boards]
 GO
 /****** Object:  StoredProcedure [acl].[GetUserRoles]    Script Date: 28/07/2022 4:01:29 PM ******/
 DROP PROCEDURE [acl].[GetUserRoles]

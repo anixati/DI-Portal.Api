@@ -9,7 +9,6 @@ namespace DI.Forms.Types
         public FormField(string key = "")
         {
             Key = string.IsNullOrEmpty(key) ? Guid.NewGuid().ToString("N") : key.Trim();
-            Width = 70;
         }
 
         public string Key { get; }
@@ -21,7 +20,7 @@ namespace DI.Forms.Types
         public bool Readonly { get; set; }
         public object Options { get; set; }
         public object Value { get; set; }
-        public int Width { get; set; }
+        
         public string ViewId { get; set; }
         public bool Required
         {
