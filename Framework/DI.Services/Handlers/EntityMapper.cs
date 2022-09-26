@@ -21,18 +21,25 @@ namespace DI.Services.Handlers
             _members = _accessor.GetMembers();
         }
 
-        private static object GetValue(TypeAccessor accessor, object entity, Member mi, string propName)
+        private static object GetValue(TypeAccessor accessor, object entity, Member mi, string propName, bool format)
         {
             var type = mi.Type;
             var hasDefault = mi.IsDefined(typeof(DefaultValueAttribute));
             if (type == typeof(bool))
             {
-                return (bool)accessor[entity, propName] ? "1" : "0";
+                if (format)
+                    return (bool)accessor[entity, propName] ? "Yes" : "No";
+                else
+                    return (bool)accessor[entity, propName] ? "1" : "0";
             }
             else if (type == typeof(bool?))
             {
                 var rx = (bool?)accessor[entity, propName];
-                return rx.HasValue ? rx.GetValueOrDefault() ? "1" : "0" : "";
+
+                if (format)
+                    return rx.HasValue ? rx.GetValueOrDefault() ? "Yes" : "No" : "";
+                else
+                    return rx.HasValue ? rx.GetValueOrDefault() ? "1" : "0" : "";
             }
             else if (type == typeof(int?))
             {
@@ -64,12 +71,12 @@ namespace DI.Services.Handlers
             else
             {
                 var rx = accessor[entity, propName];
-                if(rx == null && hasDefault)
+                if (rx == null && hasDefault)
                 {
-                    var dv = mi.GetAttribute(typeof(DefaultValueAttribute),true);
-                    if(dv != null)
+                    var dv = mi.GetAttribute(typeof(DefaultValueAttribute), true);
+                    if (dv != null)
                     {
-                        rx= ((DefaultValueAttribute)dv).Value;
+                        rx = ((DefaultValueAttribute)dv).Value;
                     }
                 }
                 return $"{rx}";
@@ -77,7 +84,7 @@ namespace DI.Services.Handlers
         }
 
 
-        public object GetValue(string propName)
+        public object GetValue(string propName, bool format)
         {
             var nested = propName.Contains('.');
             var entKey = propName;
@@ -118,15 +125,15 @@ namespace DI.Services.Handlers
                 {
                     obj = Activator.CreateInstance(mi.Type);
                     _accessor[_entity, entKey] = obj;
-                  //  return null;
+                    //  return null;
                 }
-                
+
                 var nesMi = acc.GetMembers().FirstOrDefault(x =>
                     string.Compare(x.Name, subKey, StringComparison.OrdinalIgnoreCase) == 0);
-                return nesMi == null ? null : GetValue(acc, obj, nesMi, subKey);
+                return nesMi == null ? null : GetValue(acc, obj, nesMi, subKey, format);
             }
 
-            return GetValue(_accessor, _entity, mi, propName);
+            return GetValue(_accessor, _entity, mi, propName, format);
         }
 
         private object GetRefEntityValue(Member mi, string propName)

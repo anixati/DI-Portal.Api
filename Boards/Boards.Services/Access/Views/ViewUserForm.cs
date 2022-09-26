@@ -13,6 +13,7 @@ namespace Boards.Services.Access.Views
             fs.AddHeaders(f =>
             {
                 f.AddLabel("UserId", "User Id");
+                f.AddLabel("IsSystem", "System User");
             });
             fs.AddTab("User Details",UserDetails);
             fs.AddSubGrid("Role's", "UserRoleList", x =>
@@ -24,10 +25,8 @@ namespace Boards.Services.Access.Views
                 x.AddAction("manage", "teamuser", "Manage Teams's");
             });
         }
-
         private void UserDetails(FormField field)
         {
-
             field.AddFieldGroup(f =>
             {
                 f.AddInput("Title", "Title", false);
@@ -46,10 +45,10 @@ namespace Boards.Services.Access.Views
             field.AddDivider();
             field.AddFieldGroup(f =>
             {
-                f.AddInput("UserId", "User Id", false,true);
-                f.AddInput("Upn", "Upn", false,true);
+                f.AddInput("Upn", "Upn", false, true);
+                f.AddDate("AccessRequest", "Access Requested",false, true);
+                f.AddDate("AccessGranted", "Access Granted", false, true);
                 f.AddInput("DisplayName", "Display Name", false);
-
             });
         }
     }

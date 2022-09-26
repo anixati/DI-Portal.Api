@@ -67,27 +67,63 @@ namespace DI.Services.Handlers
             }
         }
 
-        public static void UpdateValues<T>(this T entity, IDictionary<string, string> data, FormSchema schema)
+        public static void UpdateHdrValues<T>(this T entity, IDictionary<string, string> data, FormSchema schema)
         {
             var mapper = new EntityMapper<T>(entity);
-            var header = schema.Fields.FirstOrDefault(x => x.Layout == LayoutType.Header);
-            if (header?.Fields.Count > 0)
-            {
-                foreach (var fd in header?.Fields)
-                {
-                    var val = mapper.GetValue(fd.Key);
-                    if (val == null) continue;
-                    fd.Value = val;
+            //var header = schema.Fields.FirstOrDefault(x => x.Layout == LayoutType.Header);
+            //if (header?.Fields.Count > 0)
+            //{
 
-                }
-            }
+
+            //    foreach (var fd in header?.Fields)
+            //    {
+            //        var val = mapper.GetValue(fd.Key, true);
+            //        if (val == null) continue;
+
+            //        fd.Value = val;
+
+            //    }
+            //}
             foreach (var (key, value) in data)
             {
-                var val = mapper.GetValue(key);
+                var val = mapper.GetValue(key, true);
                 if (val == null) continue;
                 data[key] = $"{val}";
             }
         }
+        public static void UpdateInitValues<T>(this T entity, IDictionary<string, string> data, FormSchema schema)
+        {
+            var mapper = new EntityMapper<T>(entity);
+            foreach (var (key, value) in data)
+            {
+                var val = mapper.GetValue(key, false);
+                if (val == null) continue;
+                data[key] = $"{val}";
+            }
+        }
+
+        //public static void UpdateValues<T>(this T entity, IDictionary<string, string> data, FormSchema schema)
+        //{
+        //    var mapper = new EntityMapper<T>(entity);
+        //    var header = schema.Fields.FirstOrDefault(x => x.Layout == LayoutType.Header);
+        //    if (header?.Fields.Count > 0)
+        //    {
+        //        foreach (var fd in header?.Fields)
+        //        {
+        //            var val = mapper.GetValue(fd.Key, true);
+        //            if (val == null) continue;
+
+        //            fd.Value = val;
+
+        //        }
+        //    }
+        //    foreach (var (key, value) in data)
+        //    {
+        //        var val = mapper.GetValue(key, false);
+        //        if (val == null) continue;
+        //        data[key] = $"{val}";
+        //    }
+        //}
 
 
         public static T CreateEntity<T>(this IDictionary<string, object> data) where T : class, IEntity, new()

@@ -52,8 +52,8 @@ namespace Boards.Services.Core
             var repo = GetRepo<T>();
             var entity = await repo.GetById(entityId, true);
             entity.ThrowIfNull($"Entity not found for given id {entityId}");
-            entity.UpdateValues(result.InitialValues, schema);
-            entity.UpdateValues(result.HdrValues, schema);
+            entity.UpdateInitValues(result.InitialValues, schema);
+            entity.UpdateHdrValues(result.HdrValues, schema);
             //result.InitialValues.MapFromEntity(entity);
             result.SetResult(entity, entity.GetName());
         }
