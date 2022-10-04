@@ -20,56 +20,50 @@ namespace Boards.Services.Appointments.Forms
             field.AddFieldGroup(f =>
             {
                 f.AddLookup("Appointee", "AppointeeLookup", Routes.Appointee, "Appointees", true);
-                f.AddInput("BriefNumber", "Brief Number", true);
+                f.AddInput("BriefNumber", "Brief Number", false);
+                f.AddDate("AppointmentDate", "Appointment Date", false);
             });
-            
+
             field.AddFieldGroup(f =>
             {
-                f.AddPickList("Appointer", "Appointer", "Appointer/Approver", true);
-                f.AddDate("StartDate", "Start Date", true);
+                f.AddPickList("Appointer", "Appointer", "Appointer/Approver", false);
+                f.AddDate("StartDate", "Start Date", false);
                 f.AddDate("EndDate", "End Date", false);
 
             });
             field.AddFieldGroup(f =>
             {
-                f.AddDate("AppointmentDate", "Appointment Date", true);
+                f.AddYesNo("IsSemiDiscretionary", "Is the position semi discretionary.", "", false);
+                f.AddYesNo("Proposed", "Proposed Appointment", "", false);
                 f.AddDate("InitialStartDate", "Initial Start Date", false);
             });
             field.AddFieldGroup(f =>
             {
-                f.AddYesNo("IsExOfficio", "Is ExOfficio", "", true);
+                f.AddYesNo("IsExOfficio", "Is ExOfficio", "", false);
                 f.AddYesNo("IsFullTime", "Full Time", "", false);
                 f.AddYesNo("ActingInRole", "Acting", "", false);
             });
 
-            field.AddFieldGroup(f =>
-            {
-                f.AddYesNo("IsSemiDiscretionary", "Is the position semi discretionary.", "", true);
-                f.AddYesNo("Proposed", "Proposed Appointment", "", false);
-            });
+
         }
 
         private void TypeDetails(FormField field)
         {
             field.AddFieldGroup(f =>
             {
-                f.AddDecimal("AnnumAmount", "Per-annum Amount", true);
-                f.AddPickList("RemunerationPeriod", "RemunerationPeriod", "Remuneration Period", true);
+                f.AddDecimal("AnnumAmount", "Per-annum Amount", false);
+                f.AddPickList("RemunerationPeriod", "RemunerationPeriod", "Remuneration Period", false);
+                f.AddNumeric("PrevTerms", "Previous Terms", false);
             });
             field.AddFieldGroup(f =>
             {
-                f.AddPickList("AppointmentSource", "AppointmentSource", "Appointment Source", true);
-                f.AddPickList("SelectionProcess", "SelectionProcess", "Selection Process", true);
+                f.AddPickList("AppointmentSource", "AppointmentSource", "Appointment Source", false);
+                f.AddPickList("SelectionProcess", "SelectionProcess", "Selection Process", false);
+                f.AddPickList("Judicial", "Judicial", "Judicial", false);
             });
 
-            field.AddFieldGroup(f =>
-            {
-                f.AddPickList("Judicial", "Judicial", "Judicial", false);
-                f.AddNumeric("PrevTerms", "Previous Terms", false);
-              
-            });
             field.AddYesNo("ExclGenderReport", "Exclude Gender Report", "", false);
         }
-        
+
     }
 }

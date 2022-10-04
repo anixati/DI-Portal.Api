@@ -3,11 +3,22 @@
   "iisSettings": {
     "windowsAuthentication": false,
     "anonymousAuthentication": true,
+    "iisExpress": {
+      "applicationUrl": "http://localhost:60020",
+      "sslPort": 44391
+    }
   },
   "profiles": {
+    "IIS Express": {
+      "commandName": "IISExpress",
+      "launchBrowser": true,
+      "environmentVariables": {
+        "ASPNETCORE_ENVIRONMENT": "Development",
+        "ASPNETCORE_HOSTINGSTARTUPASSEMBLIES": "Microsoft.AspNetCore.Mvc.Razor.RuntimeCompilation"
+      }
+    },
     "Boards.ApiHost": {
       "commandName": "Project",
-      "dotnetRunMessages": "true",
       "launchBrowser": false,
       "launchUrl": "swagger",
       "environmentVariables": {

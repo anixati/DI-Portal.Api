@@ -36,7 +36,7 @@ namespace DI.Services.Handlers
 
                 response.Schema = _provider.GetSchema($"manage_{request.Name}");
                 await handler.LoadOptions(response.Schema);
-                var rx = await handler.LoadCreateData(response.Schema, request.EntityId.GetValueOrDefault());
+                var rx = await handler.LoadSelectedData(response.Schema, request.EntityId.GetValueOrDefault());
                 response.InitialValues = rx.InitialValues;
             }
             else //view

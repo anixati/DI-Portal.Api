@@ -26,7 +26,8 @@ namespace CrmDataExtractor
             Data.Contacts = _cx.GetEntity("contact");
             Data.Users = _cx.GetEntity("systemuser");
 
-
+            Data.Portfolios = _cx.GetEntity("doca_portfolio");
+            Data.Ministers = _cx.GetEntity("doca_minister");
         }
 
         private static void LoadOptions()

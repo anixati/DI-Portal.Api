@@ -14,5 +14,6 @@ namespace DI.Forms.Core
         EntityTypeResponse GetEntityType(EntityTypeRequest request);
         Task LoadOptions(FormSchema responseSchema);
         Task<FormActionResult> ManageEntity(IDictionary<string, object> data, long entityId);
+        Task<FormActionResult> LoadSelectedData(FormSchema schema, long entityId);
     }
 }

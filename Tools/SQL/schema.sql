@@ -597,16 +597,16 @@ CREATE TABLE [Dbo].[BoardAppointments] (
     [BoardId] bigint NOT NULL,
     [BoardRoleId] bigint NOT NULL,
     [AppointeeId] bigint NULL,
-    [StartDate] datetime2 NOT NULL,
+    [StartDate] datetime2 NULL,
     [EndDate] datetime2 NULL,
     [BriefNumber] nvarchar(255) NULL,
     [IsCurrent] bit NULL,
     [IsExOfficio] bit NULL,
-    [IsFullTime] bit NOT NULL,
+    [IsFullTime] bit NULL,
     [ActingInRole] bit NOT NULL,
     [ExclGenderReport] bit NULL,
-    [AnnumAmount] decimal(13,2) NOT NULL,
-    [RemunerationPeriodId] bigint NOT NULL,
+    [AnnumAmount] decimal(13,2) NULL,
+    [RemunerationPeriodId] bigint NULL,
     [AppointmentSourceId] bigint NULL,
     [SelectionProcessId] bigint NULL,
     [JudicialId] bigint NULL,
@@ -767,7 +767,7 @@ CREATE UNIQUE INDEX [IX_Users_UserId] ON [acl].[Users] ([UserId]);
 GO
 
 INSERT INTO [__EFMigrationsHistory] ([MigrationId], [ProductVersion])
-VALUES (N'20220901044255_Initial_Migration', N'5.0.16');
+VALUES (N'20220927041717_Initial_Migration', N'5.0.16');
 GO
 
 COMMIT;

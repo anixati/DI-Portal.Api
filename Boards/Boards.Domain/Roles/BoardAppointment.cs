@@ -25,22 +25,22 @@ namespace Boards.Domain.Roles
         public long? AppointeeId { get; set; }
         public virtual Appointee Appointee { get; set; }
 
-        public DateTime StartDate { get; set; }
+        public DateTime? StartDate { get; set; }
         public DateTime? EndDate { get; set; }
         [MaxLength(255)] public string BriefNumber { get; set; }
 
       
         public bool? IsCurrent { get; set; }
         public bool? IsExOfficio { get; set; }
-        public bool IsFullTime { get; set; }
+        public bool? IsFullTime { get; set; }
         public bool ActingInRole { get; set; }
         public bool? ExclGenderReport { get; set; }
 
        
         
-        [Required, Column(TypeName = "decimal(13, 2)")] public decimal? AnnumAmount { get; set; }
+        [ Column(TypeName = "decimal(13, 2)")] public decimal? AnnumAmount { get; set; }
 
-        [Required] public long RemunerationPeriodId { get; set; }
+        public long? RemunerationPeriodId { get; set; }
         public virtual OptionSet RemunerationPeriod { get; set; }
 
         public long? AppointmentSourceId { get; set; }

@@ -65,10 +65,16 @@ namespace DataTools
 
                 var dataStr = await File.ReadAllTextAsync(fileName, cancellationToken);
                 var data = JsonConvert.DeserializeObject<BoardsData>(dataStr);
+                
+                
                 await AddAppData(data);
+
                 await ImportOptions(data);
+                
                 await ImportPortfolios(data);
+                
                 await ImportUsers(data);
+                
                 await ImportContacts(data);
 
                 await ImportBoards(data);
@@ -76,6 +82,9 @@ namespace DataTools
                 await ImportBoardRoles(data);
               
                 await ImportBoardAppointments(data);
+
+                await ImportSkills(data);
+
                 _db.Commit();
                 Trace($"!---Completed---!");
             }
@@ -86,6 +95,9 @@ namespace DataTools
             }
 
         }
+
+      
+
         protected async Task<TK> CreateIfNotExists<TK>(TK entity) where TK : class, INamedEntity
         {
             var repo = _db.Repo<TK>();
@@ -715,6 +727,7 @@ namespace DataTools
                 {
                     op.Disabled = false;
                 }
+                op.Disabled = true;
                 await repo.CreateAsync(op);
                 await Save();
 
@@ -748,10 +761,10 @@ namespace DataTools
                     await Save();
                 }
 
-                var od = 0;
+                var sod = 0;
                 foreach (var (s, value1) in value)
                 {
-                    od++;
+                    sod++;
                     var ov = await osr.FindAsync(x => x.OptionKeyId == op.Id && x.Label == s);
                     if (ov == null)
                     {
@@ -761,7 +774,7 @@ namespace DataTools
                             OptionKeyId = op.Id,
                             Label = $"{s}",
                             Value = int.Parse(value1),
-                            Order = od,
+                            Order = sod,
                             Description = $"{s}"
                         };
                         await osr.CreateAsync(ov);
@@ -769,9 +782,101 @@ namespace DataTools
                     }
                 }
             }
-
+            
+           
             Trace($"Options key count {await osr.CountAsync()}");
             Trace($"Options set count {await okr.CountAsync()}");
+        }
+
+
+        private async Task ImportSkills(BoardsData data)
+        {
+            Trace($"Importing skills");
+            //--- insert skill types
+            var okr = GetRepo<OptionKey>();
+            var osr = GetRepo<OptionSet>();
+            var skop = await okr.FindAsync(x => EF.Functions.Like(x.Code, $"SkillType"));
+            if (skop == null)
+            {
+                Trace($"Creating SkillType");
+                skop = new OptionKey
+                {
+                    Name = $"SkillType",
+                    Code = $"SKILLTYPE",
+                    Description = $"Skill Type"
+                };
+                await okr.CreateAsync(skop);
+                await Save();
+            }
+
+            var sk1 = "Professional skills / Experience";
+            var sk1ov = await osr.FindAsync(x => x.OptionKeyId == skop.Id && x.Label == sk1);
+            if (sk1ov == null)
+            {
+                sk1ov = new OptionSet
+                {
+                    OptionKeyId = skop.Id,
+                    Label = $"{sk1}",
+                    Value = 1,
+                    Order = 1,
+                    Description = $"{sk1}"
+                };
+                await osr.CreateAsync(sk1ov);
+                await Save();
+            }
+
+            //-- insert skills 
+            var skr = GetRepo<Skill>();
+            var pfList = new string[] {"Board Experience", "Accounting/Finance","Business Management","Public Sector", "Community Sector", "Legal", "Governance/Risk/Assurance",
+                            "Marketing/Communications","Creativity/Cultural", "Project Management","Emergency Management/Disaster Recovery" };
+            foreach (var sk in pfList)
+            {
+                var skv = await skr.FindAsync(x => x.SkillTypeId == sk1ov.Id && x.Name == sk);
+                if (skv == null)
+                {
+                    skv = new Skill
+                    {
+                        Name = $"{sk}",
+                        SkillTypeId = sk1ov.Id,
+                        Description = $"{sk}"
+                    };
+                    await skr.CreateAsync(skv);
+                    await Save();
+                }
+            }
+
+            var sk2 = "Industry Specific Skills";
+            var sk2ov = await osr.FindAsync(x => x.OptionKeyId == skop.Id && x.Label == sk2);
+            if (sk2ov == null)
+            {
+                sk2ov = new OptionSet
+                {
+                    OptionKeyId = skop.Id,
+                    Label = $"{sk2}",
+                    Value = 2,
+                    Order = 2,
+                    Description = $"{sk2}"
+                };
+                await osr.CreateAsync(sk2ov);
+                await Save();
+            }
+            var isList = new string[] { "Aviation", "Major Infrastructure", "Transport/Logistics", "Safety", "Environmental/Sustainability","Regional/Remote","Technology", "Engineering", "Communications", "Information Technology" };
+            foreach (var sk in isList)
+            {
+                var skv = await skr.FindAsync(x => x.SkillTypeId == sk2ov.Id && x.Name == sk);
+                if (skv == null)
+                {
+                    skv = new Skill
+                    {
+                        Name = $"{sk}",
+                        SkillTypeId = sk2ov.Id,
+                        Description = $"{sk}"
+                    };
+                    await skr.CreateAsync(skv);
+                    await Save();
+                }
+            }
+            
         }
 
         public async Task StopAsync(CancellationToken cancellationToken)

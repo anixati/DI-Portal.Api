@@ -10,6 +10,7 @@ namespace Boards.Services.Access.Views
         public override string FormName => $"view_appuser";
         protected override void CreateSchema(FormSchema fs)
         {
+            fs.AddAction("grant_access", "Grant Access",  "Enables active directory user to access ");
             fs.AddHeaders(f =>
             {
                 f.AddLabel("UserId", "User Id");

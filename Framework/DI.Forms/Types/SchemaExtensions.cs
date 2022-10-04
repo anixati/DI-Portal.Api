@@ -22,6 +22,27 @@ namespace DI.Forms.Types
             return fs;
         }
 
+        public static FormSchema AddAction(this FormSchema fs,string schema, string label,string desc = "")
+        {
+            var action = new FormAction( schema,label, desc);
+            if (fs.Actions.All(x => x.Schema != action.Schema)) fs.Actions.Add(action);
+            return fs;
+        }
+        public static FormSchema WithAction(this FormSchema fs, string schema, Action<FormAction> Configure)
+        {
+            var fa = fs.Actions.FirstOrDefault(x => x.Schema == schema);
+            if (fa != null)
+                Configure(fa);
+            return fs;
+        }
+
+        public static FormSchema AddHeaders(this FormSchema fs, string action,Action<FormField> Configure)
+        {
+            var field = new FormField { Layout = LayoutType.Header };
+            Configure(field);
+            if (fs.Fields.All(x => x.Key != field.Key)) fs.Fields.Add(field);
+            return fs;
+        }
 
 
         public static FormSchema AddHeaders(this FormSchema fs, Action<FormField> Configure)

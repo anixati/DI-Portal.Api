@@ -63,9 +63,10 @@ namespace Boards.Services.Jobs
                         if (incAppointment != null)
                         {
                             //role.VacantFromDate = null;
-                            role.IncumbentId =incAppointment.AppointeeId;
+                            role.IncumbentId = incAppointment.AppointeeId;
                             role.IncumbentName = incAppointment.Name;
-                            role.IncumbentStartDate = incAppointment.StartDate.ToString("dd MMM yyyy");
+                            role.IncumbentStartDate = incAppointment.StartDate.HasValue ?
+                                incAppointment.StartDate.Value.ToString("dd MMM yyyy") : "";
                             role.IncumbentEndDate = incAppointment.EndDate.HasValue
                                 ? incAppointment.EndDate.Value.ToString("dd MMM yyyy")
                                 : "";
@@ -73,7 +74,7 @@ namespace Boards.Services.Jobs
 
                     }
 
-                    
+
                     arp.UpdateAsync(roleAppointments.ToArray());
                     await _boardsContext.Store.SaveAsync();
                 }

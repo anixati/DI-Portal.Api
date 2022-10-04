@@ -47,6 +47,7 @@ namespace Boards.Services.Core
         }
         #endregion
 
+        #region Load view Data
         protected override async Task LoadData(FormSchema schema, long entityId, FormActionResult result)
         {
             var repo = GetRepo<T>();
@@ -54,9 +55,16 @@ namespace Boards.Services.Core
             entity.ThrowIfNull($"Entity not found for given id {entityId}");
             entity.UpdateInitValues(result.InitialValues, schema);
             entity.UpdateHdrValues(result.HdrValues, schema);
-            //result.InitialValues.MapFromEntity(entity);
+            if (schema.Actions.Count > 0)
+                await SetActionRules(entity, schema);
             result.SetResult(entity, entity.GetName());
         }
+        protected virtual async Task SetActionRules(T entity, FormSchema schema)
+        {
+            await Task.Delay(0);
+        }
+
+        #endregion
 
 
         protected override async Task<FormActionResult> CreateEntity(T entity)

@@ -675,7 +675,6 @@ namespace EFCustomMigrations.Db.Migrations
                         .HasColumnType("bit");
 
                     b.Property<decimal?>("AnnumAmount")
-                        .IsRequired()
                         .HasColumnType("decimal(13,2)");
 
                     b.Property<long?>("AppointeeId")
@@ -729,7 +728,7 @@ namespace EFCustomMigrations.Db.Migrations
                     b.Property<bool?>("IsExOfficio")
                         .HasColumnType("bit");
 
-                    b.Property<bool>("IsFullTime")
+                    b.Property<bool?>("IsFullTime")
                         .HasColumnType("bit");
 
                     b.Property<bool?>("IsSemiDiscretionary")
@@ -764,13 +763,13 @@ namespace EFCustomMigrations.Db.Migrations
                     b.Property<bool?>("Proposed")
                         .HasColumnType("bit");
 
-                    b.Property<long>("RemunerationPeriodId")
+                    b.Property<long?>("RemunerationPeriodId")
                         .HasColumnType("bigint");
 
                     b.Property<long?>("SelectionProcessId")
                         .HasColumnType("bigint");
 
-                    b.Property<DateTime>("StartDate")
+                    b.Property<DateTime?>("StartDate")
                         .HasColumnType("datetime2");
 
                     b.Property<byte[]>("Timestamp")
@@ -2203,8 +2202,7 @@ namespace EFCustomMigrations.Db.Migrations
                     b.HasOne("DI.Domain.Options.OptionSet", "RemunerationPeriod")
                         .WithMany()
                         .HasForeignKey("RemunerationPeriodId")
-                        .OnDelete(DeleteBehavior.NoAction)
-                        .IsRequired();
+                        .OnDelete(DeleteBehavior.NoAction);
 
                     b.HasOne("DI.Domain.Options.OptionSet", "SelectionProcess")
                         .WithMany()

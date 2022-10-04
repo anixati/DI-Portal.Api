@@ -17,6 +17,7 @@ namespace Boards.Services.BoardRoles.Forms
             });
 
             fs.AddTab("Role Details", BoardDetails);
+            fs.AddTab("Ministerial Details", MinisterialDetails);
             fs.AddSubGrid("Appointments", "RoleAppointmentsView", x =>
             {
                 x.AddAction("create", Constants.Forms.BoardAppointment.Key, "New Appointment");
@@ -56,42 +57,7 @@ namespace Boards.Services.BoardRoles.Forms
                 f.AddYesNo("IsSignAppointment", "Significant Appointment", "", true);
                 f.AddYesNo("IsExNominated", "Is Externally Nominated", "", true);
             });
-            field.AddDivider("Ministerial Details");
-
-            field.AddFieldGroup(f =>
-            {
-                f.AddInput("PDMSNumber", "PDMS Number", true);
-                f.AddPickList("MinSubLocation", "MinSubLocation", "MinSub Location", true);
-
-                f.AddDate("MinisterOfficeDate", "Date Submission sent to MO", false);
-                f.AddDate("MinisterActionDate", "Minister office due date", false);
-            });
-
-            field.AddInput("NextSteps", "Next Steps", x =>
-            {
-                x.AddRule(ValRule.Min(10, "Minimum 10 chars required"));
-                x.FieldType = FormFieldType.Note;
-            });
-            field.AddInput("ProcessStatus", "Process Status", x =>
-            {
-                x.AddRule(ValRule.Min(10, "Minimum 10 chars required"));
-                x.FieldType = FormFieldType.Note;
-            });
-
-            field.AddFieldGroup(f =>
-            {
-                    f.AddSelect<DateStateEnum>("LetterToPmDateType", "Letter to PM date type", false);
-                    f.AddSelect<DateStateEnum>("CabinetDateType", "Cabinet date type", false);
-                    f.AddSelect<DateStateEnum>("ExCoDateType", "ExCo date type", false);
-                    f.AddSelect<DateStateEnum>("NotifyLetterDateType", "Notification letter date type", false);
-            });
-            field.AddFieldGroup(f =>
-            {
-                f.AddDate("LetterToPmDate", "Date Letter sent to PM", false);
-                f.AddDate("CabinetDate", "Date scheduled for Cabinet", false);
-                f.AddDate("ExCoDate", "Date scheduled for Exco", false);
-                f.AddDate("NotifyLetterDate", "Notification letter to appointee", false);
-            });
+           
 
             field.AddDivider("Sign off details");
 
@@ -125,8 +91,45 @@ namespace Boards.Services.BoardRoles.Forms
             });
             */
         }
+        private void MinisterialDetails(FormField field)
+        {
+
+            field.AddFieldGroup(f =>
+            {
+                f.AddInput("PDMSNumber", "PDMS Number", true);
+                f.AddPickList("MinSubLocation", "MinSubLocation", "MinSub Location", true);
+
+                f.AddDate("MinisterOfficeDate", "Date Submission sent to MO", false);
+                f.AddDate("MinisterActionDate", "Minister office due date", false);
+            });
+
+            field.AddInput("NextSteps", "Next Steps", x =>
+            {
+                x.AddRule(ValRule.Min(10, "Minimum 10 chars required"));
+                x.FieldType = FormFieldType.Note;
+            });
+            field.AddInput("ProcessStatus", "Process Status", x =>
+            {
+                x.AddRule(ValRule.Min(10, "Minimum 10 chars required"));
+                x.FieldType = FormFieldType.Note;
+            });
+
+            field.AddFieldGroup(f =>
+            {
+                f.AddSelect<DateStateEnum>("LetterToPmDateType", "Letter to PM date type", false);
+                f.AddSelect<DateStateEnum>("CabinetDateType", "Cabinet date type", false);
+                f.AddSelect<DateStateEnum>("ExCoDateType", "ExCo date type", false);
+                f.AddSelect<DateStateEnum>("NotifyLetterDateType", "Notification letter date type", false);
+            });
+            field.AddFieldGroup(f =>
+            {
+                f.AddDate("LetterToPmDate", "Date Letter sent to PM", false);
+                f.AddDate("CabinetDate", "Date scheduled for Cabinet", false);
+                f.AddDate("ExCoDate", "Date scheduled for Exco", false);
+                f.AddDate("NotifyLetterDate", "Notification letter to appointee", false);
+            });
+        }
 
 
-
-    }
+        }
 }

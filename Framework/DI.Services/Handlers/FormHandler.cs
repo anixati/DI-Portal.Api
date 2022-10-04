@@ -94,7 +94,13 @@ namespace DI.Services.Handlers
         {
             await Task.Delay(0);
             throw new NotImplementedException($"Not implemented");
-        } 
+        }
+        public virtual async Task<FormActionResult> LoadSelectedData(FormSchema schema, long entityId)
+        {
+            await Task.Delay(0);
+            throw new NotImplementedException($"Not implemented");
+        }
+
         #endregion
 
     }
