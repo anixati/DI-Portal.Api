@@ -11,7 +11,5 @@ namespace DI.Reports
     {
         public List<Report> Reports { get; set; }
     }
-
-
-
+  
 }

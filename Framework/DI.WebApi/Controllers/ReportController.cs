@@ -13,7 +13,7 @@ namespace DI.WebApi.Controllers
 {
     [ApiVersionNeutral]
     [Route("reports")]
-   // [Authorize]
+    [Authorize]
     public class ReportController : ServiceController
     {
         public ReportController(ILoggerFactory loggerFactory, IServiceContext serviceContext) : base(loggerFactory, serviceContext)
@@ -34,4 +34,5 @@ namespace DI.WebApi.Controllers
             return result.ToResponse();
         }
     }
+
 }
