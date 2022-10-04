@@ -2,6 +2,7 @@
 using Boards.Domain.Boards;
 using Boards.Domain.Roles;
 using DI.Domain.Services;
+using DI.Reports;
 using DI.Security;
 using Microsoft.EntityFrameworkCore;
 
@@ -22,6 +23,7 @@ namespace Boards.Infrastructure.Domain
         public DbSet<Board> Boards { get; set; }
         public DbSet<BoardRole> BoardRoles { get; set; }
         public DbSet<BoardAppointment> BoardAppointments { get; set; }
+        public virtual DbSet<DashboardItem> DashboardItems { get; set; }
 
         protected override void ConfigureModels(ModelBuilder builder)
         {
@@ -32,6 +34,7 @@ namespace Boards.Infrastructure.Domain
             // relationship.DeleteBehavior = DeleteBehavior.NoAction;
              relationship.DeleteBehavior = DeleteBehavior.Cascade;
             }
+            builder.Entity<DashboardItem>(x => x.HasNoKey());
         }
     }
 }

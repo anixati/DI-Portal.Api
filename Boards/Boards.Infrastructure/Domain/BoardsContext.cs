@@ -1,6 +1,11 @@
 ﻿using Boards.Domain;
 using DI.Domain.Core;
 using DI.Domain.Services;
+using DI.Reports;
+using Microsoft.EntityFrameworkCore;
+using System;
+using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace Boards.Infrastructure.Domain
 {
@@ -16,6 +21,12 @@ namespace Boards.Infrastructure.Domain
         public IRepository<T> Repo<T>() where T : class, IEntity
         {
             return _dataStore.Repo<T>();
+        }
+        
+        public async Task<List<DashboardItem>> GetDashboardItems(FormattableString iplSql) 
+        {
+            var rs= await _dataStore.Db.DashboardItems.FromSqlInterpolated(iplSql).ToListAsync();
+            return rs;
         }
     }
 }

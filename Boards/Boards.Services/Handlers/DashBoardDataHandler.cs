@@ -3,10 +3,6 @@ using DI.Reports;
 using DI.Services;
 using MediatR;
 using Microsoft.Extensions.Logging;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -22,11 +18,10 @@ namespace Boards.Services.Handlers
         public  async Task<DashboardDataResponse> Handle(DashboardDataRequest request, CancellationToken cancellationToken)
         {
             var rs = new DashboardDataResponse();
-            await Task.Delay(100);
+            var ls = await _boardsContext
+                .GetDashboardItems($"[dbo].[GetDashBoardData1]");
 
-            rs.Data.Add(new DashboardItem { Title = "test", Description = "dsfsdfsdf", Icon = "se", Value = "20", Result = "-30%", ResultColor = "red" });
-
-
+            rs.Data = ls;
             return rs;
         }
     }

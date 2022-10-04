@@ -12,7 +12,7 @@ namespace DI.WebApi.Controllers
 {
     [ApiVersionNeutral]
     [Route("dashboard")]
-   // [Authorize]
+    [Authorize]
     public class DashboardController : ServiceController
     {
         public DashboardController(ILoggerFactory loggerFactory, IServiceContext serviceContext) : base(loggerFactory, serviceContext)
