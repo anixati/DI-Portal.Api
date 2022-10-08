@@ -60,15 +60,19 @@ namespace Boards.Services.Access.Actions
             //-- assign default team 
             var team = await GetRepo<AppTeam>().FindAsync(x => x.Name == "Default");
             team.ThrowIfNull($"Default team not found");
-            var tmusr =   await GetRepo<TeamUser>().CreateAsync(new TeamUser { AppTeamId = team.Id, AppUserId = user.Id });
+            var teammUser= await GetRepo<TeamUser>().FindAsync(x => x.AppTeamId == team.Id && x.AppUserId == user.Id);
+            if(teammUser == null)
+                teammUser = await GetRepo<TeamUser>().CreateAsync(new TeamUser { AppTeamId = team.Id, AppUserId = user.Id });
             await SaveAsync();
 
             //assign defualt role 
             var role = await GetRepo<AppRole>().FindAsync(x => x.Name == $"{ApplicationRoles.Contributor}");
             role.ThrowIfNull($"contributer role not found");
-            var usrl = await GetRepo<UserRole>().CreateAsync(new UserRole { AppRoleId = role.Id, AppUserId = user.Id }); ;
+            var userRole = await GetRepo<UserRole>().FindAsync(x => x.AppRoleId == role.Id && x.AppUserId == user.Id);
+            if (userRole == null)
+                userRole = await GetRepo<UserRole>().CreateAsync(new UserRole { AppRoleId = role.Id, AppUserId = user.Id });
             await SaveAsync();
-
+            
         }
 
     }

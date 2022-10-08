@@ -6,6 +6,7 @@ using Boards.Services.Core;
 using DI;
 using DI.Domain.Users;
 using DI.Forms.Requests;
+using DI.Forms.Types;
 using Microsoft.Extensions.Logging;
 
 namespace Boards.Services.Access.Handlers
@@ -29,6 +30,21 @@ namespace Boards.Services.Access.Handlers
             user.UserRoles = selection.Select(x => new UserRole {AppUserId = user.Id, AppRoleId = x}).ToList();
             await SaveAsync();
             return new FormActionResult();
+        }
+
+
+        public override async Task<FormActionResult> LoadSelectedData(FormSchema schema, long entityId)
+        {
+            var repo = GetRepo<AppUser>();
+            var rs = new FormActionResult();
+            var entity = await repo.GetById(entityId, "UserRoles");
+            entity.ThrowIfNull($"Entity not found for {entityId}");
+            if (entity.UserRoles.Any())
+            {
+                rs.InitialValues = entity.UserRoles
+                     .ToDictionary(o => $"{o.AppRoleId}", v => "");
+            }
+            return rs;
         }
     }
 }

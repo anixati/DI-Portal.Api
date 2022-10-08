@@ -6,6 +6,7 @@ using Boards.Services.Core;
 using DI;
 using DI.Domain.Users;
 using DI.Forms.Requests;
+using DI.Forms.Types;
 using Microsoft.Extensions.Logging;
 
 namespace Boards.Services.Access.Handlers
@@ -27,6 +28,20 @@ namespace Boards.Services.Access.Handlers
             user.UserTeams = selection.Select(x => new TeamUser { AppUserId = user.Id, AppTeamId = x }).ToList();
             await SaveAsync();
             return new FormActionResult();
+        }
+
+        public override async Task<FormActionResult> LoadSelectedData(FormSchema schema, long entityId)
+        {
+            var repo = GetRepo<AppUser>();
+            var rs = new FormActionResult();
+            var entity = await repo.GetById(entityId, "UserTeams");
+            entity.ThrowIfNull($"Entity not found for {entityId}");
+            if (entity.UserTeams.Any())
+            {
+                rs.InitialValues = entity.UserTeams
+                     .ToDictionary(o => $"{o.AppTeamId}", v => "");
+            }
+            return rs;
         }
     }
 }
