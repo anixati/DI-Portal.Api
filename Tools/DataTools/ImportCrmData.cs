@@ -135,7 +135,7 @@ namespace DataTools
 
             var users = new string[]
             {
-               "Super"
+               "Administrator"
             };
             var usrRepo = GetRepo<AppUser>();
             var tuRepo = GetRepo<TeamUser>();
@@ -155,7 +155,7 @@ namespace DataTools
                     FaxNumber = "0236598956",
                     MobilePhone = "0401642369",
                     Email1 = $"{name}.User@gmail.com",
-                    PasswordHash = BC.HashPassword("Summer11"),
+                    PasswordHash = BC.HashPassword("Welcome2023"),
                   AccessRequest = DateTime.Now,
                   AccessGranted = DateTime.Now,
                     Disabled = false,
@@ -168,7 +168,7 @@ namespace DataTools
             }
 
             var ruRepo = GetRepo<UserRole>();
-            var spUser = await usrRepo.FindAsync(x => EF.Functions.Like(x.FirstName, "Super"));
+            var spUser = await usrRepo.FindAsync(x => EF.Functions.Like(x.FirstName, "Administrator"));
             var suRole = await roleRepo.FindAsync(x => EF.Functions.Like(x.Name, $"{ApplicationRoles.SysAdmin}"));
             var suUserRole = await ruRepo.FindAsync(x => x.AppUserId == spUser.Id && x.AppRoleId==suRole.Id);
             if (suUserRole == null)

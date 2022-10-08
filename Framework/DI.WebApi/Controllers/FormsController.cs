@@ -41,6 +41,14 @@ namespace DI.WebApi.Controllers
             return result.ToResponse();
         }
 
+        [HttpGet("dialog/{name}/{id:long?}")]
+        public async Task<IActionResult> GetDialogSchema([Required] string name, long? id)
+        {
+            var result = await ExecuteTask(async x => await x.Send(new DialogSchemaRequest { Name = name, EntityId = id }));
+            return result.ToResponse();
+        }
+
+
         [HttpGet("manage/{name}/{id:long}")]
         public async Task<IActionResult> GetManageSchema([Required] string name, long id)
         {
@@ -69,6 +77,17 @@ namespace DI.WebApi.Controllers
             return result.ToResponse();
         }
 
+        [HttpPost("dialog")]
+        public virtual async Task<IActionResult> SubmitDialogForm([FromBody] FormDataRequest request)
+        {
+            var result = await ExecuteTask(async x => await x.Send(new DialogActionRequest
+            {
+                SchemaKey = request.Schema,
+                EntityId = request.EntityId.GetValueOrDefault(),
+                Data = request.Data
+            }));
+            return result.ToResponse();
+        }
 
         [HttpPost("manage")]
         public virtual async Task<IActionResult> SubmitManageForm([FromBody] FormDataRequest request)

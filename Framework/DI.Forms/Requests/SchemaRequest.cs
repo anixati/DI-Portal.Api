@@ -6,7 +6,8 @@ namespace DI.Forms.Requests
     {
         Create=0,
         View,
-        Manage
+        Manage,
+        Dialog
     }
 
     public class FormSchemaRequest : IRequest<FormSchemaResponse>

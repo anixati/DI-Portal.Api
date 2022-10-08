@@ -10,9 +10,9 @@ using Microsoft.Extensions.Logging;
 
 namespace DI.Services.Handlers
 {
-    public abstract class FormHandler<T> : ServiceBase, IFormActionHandler where T : class, IEntity, new()
+    public abstract class FormHandlerBase<T> : ServiceBase, IFormActionHandler where T : class, IEntity, new()
     {
-        protected FormHandler(ILoggerFactory logFactory) : base(logFactory)
+        protected FormHandlerBase(ILoggerFactory logFactory) : base(logFactory)
         {
         }
 

@@ -1,26 +1,39 @@
-﻿using DI.Extensions;
+﻿using Boards.Domain;
+using DI.Domain.Users;
+using DI.Extensions;
 using DI.Security;
 using DI.Site;
+using System.Threading.Tasks;
 
 namespace Boards.Services.Client
 {
     public class SiteMapProvider : ISiteMapProvider
     {
         private readonly IIdentity _user;
-
-        public SiteMapProvider(IIdentityProvider provider)
+        private readonly IBoardsContext _boardsContext;
+        public SiteMapProvider(IIdentityProvider provider, IBoardsContext boardsContext)
         {
             _user = provider.GetIdentity();
+            _boardsContext = boardsContext;
         }
 
-        public SiteMap Create()
+        public async Task<SiteMap> Create()
         {
             var rv = new SiteMap
             {
                 Logo = "Boards",
-                Restricted = !_user.HasRoles()
+                Restricted = true,
             };
-            if (rv.Restricted) return rv;
+            if(_user== null) return rv;
+
+            var usrRepo = _boardsContext.Repo<AppUser>();
+            if(!long.TryParse(_user.UserId,out var userId)) return rv;
+
+            var user = await usrRepo.FindAsync(userId, false);
+            if (user == null) return rv;
+            if(!user.AccessGranted.HasValue) return rv;
+            if (!_user.HasRoles()) return rv;
+            rv.Restricted = false;
             AddBoards(rv);
             if (_user.IsAdmin())
             {
@@ -60,7 +73,7 @@ namespace Boards.Services.Client
         {
             var link = new NavLink(Routes.Admin, "Admin");
             link.Add(Routes.AdminDashboard.Key, "Dashboard");
-            link.Add("options", "Options");
+            if (_user.IsSysAdmin()) link.Add("options", "Options");
             link.Add("logs", "Audit logs");
 
             if (_user.IsSysAdmin())

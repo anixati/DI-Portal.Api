@@ -5,9 +5,8 @@ using DI.Forms.Types;
 
 namespace DI.Forms.Core
 {
-    public interface IFormActionHandler
+    public interface IFormActionHandler : IActionHandler
     {
-        string SchemaKey { get; }
         Task<FormActionResult> LoadViewData(FormSchema schema, long entityId);
         Task<FormActionResult> LoadCreateData(FormSchema schema, long? entityId);
         Task<FormActionResult> CreateEntity(IDictionary<string, object> data, long? entityId);

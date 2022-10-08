@@ -18,4 +18,11 @@ namespace DI.Forms.Handlers
 
         protected virtual FormType FormType => FormType.Wizard;
     }
+
+    public abstract class DialogBuilder : FormBuilder
+    {
+       
+
+        protected override FormType FormType => FormType.Dialog;
+    }
 }

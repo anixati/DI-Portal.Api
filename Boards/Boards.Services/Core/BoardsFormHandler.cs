@@ -18,7 +18,7 @@ using Microsoft.Extensions.Logging;
 
 namespace Boards.Services.Core
 {
-    public abstract class BoardsFormHandler<T> : FormHandler<T> where T : class, IEntity, new()
+    public abstract class BoardsFormHandler<T> : FormHandlerBase<T> where T : class, IEntity, new()
     {
         private readonly IBoardsContext _boardsContext;
         protected BoardsFormHandler(ILoggerFactory logFactory, IBoardsContext boardsContext) : base(logFactory)

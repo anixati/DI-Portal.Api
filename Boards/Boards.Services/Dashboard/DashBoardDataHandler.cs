@@ -6,7 +6,7 @@ using Microsoft.Extensions.Logging;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace Boards.Services.Handlers
+namespace Boards.Services.Dashboard
 {
     public class DashBoardDataHandler : ServiceBase, IRequestHandler<DashboardDataRequest, DashboardDataResponse>
     {
@@ -15,7 +15,7 @@ namespace Boards.Services.Handlers
         {
             _boardsContext = boardsContext;
         }
-        public  async Task<DashboardDataResponse> Handle(DashboardDataRequest request, CancellationToken cancellationToken)
+        public async Task<DashboardDataResponse> Handle(DashboardDataRequest request, CancellationToken cancellationToken)
         {
             var rs = new DashboardDataResponse();
             var ls = await _boardsContext

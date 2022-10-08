@@ -8,7 +8,7 @@ using Microsoft.Extensions.Logging;
 
 namespace DI.Services.Handlers
 {
-    public class ChangeEntityHandler : ActionHandlerBase, IRequestHandler<EntityTypeRequest, EntityTypeResponse>
+    public class ChangeEntityHandler : ActionHandlerBase<IFormActionHandler>, IRequestHandler<EntityTypeRequest, EntityTypeResponse>
     {
 
         public ChangeEntityHandler(IEnumerable<IFormActionHandler> handlers, ILoggerFactory loggerFactory)

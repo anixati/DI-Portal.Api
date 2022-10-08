@@ -1,7 +1,9 @@
-﻿namespace DI.Site
+﻿using System.Threading.Tasks;
+
+namespace DI.Site
 {
     public interface ISiteMapProvider
     {
-        SiteMap Create();
+        Task<SiteMap> Create();
     }
 }

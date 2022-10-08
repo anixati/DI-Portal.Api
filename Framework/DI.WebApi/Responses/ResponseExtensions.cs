@@ -43,6 +43,9 @@ namespace DI.WebApi.Responses
                             {StatusCode = StatusCodes.Status500InternalServerError};
                     case ResponseCode.Duplicate:
                         return new ObjectResult(response) {StatusCode = StatusCodes.Status400BadRequest};
+                    case ResponseCode.ValidationFail:
+                        return new ObjectResult(response) { StatusCode = StatusCodes.Status409Conflict };
+
                     case ResponseCode.Updated:
                     case ResponseCode.Disabled:
                     case ResponseCode.Enabled:

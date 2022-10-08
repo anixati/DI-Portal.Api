@@ -9,11 +9,21 @@ namespace Boards.Services.Access.Create
         public override string FormName => $"create_appuser";
         protected override void CreateSchema(FormSchema fs)
         {
+            fs.AddPage("Login Details", LoginDetails);
             fs.AddPage("User Details", AddDetails);
         }
+        private void LoginDetails(FormField field)
+        {
+            field.AddFieldGroup(f =>
+            {
+                f.AddInput("UserId", "User Id");
+            });
 
+        }
+          
         private void AddDetails(FormField field)
         {
+
             field.AddFieldGroup(f =>
             {
                 f.AddInput("Title", "Title");
@@ -24,10 +34,10 @@ namespace Boards.Services.Access.Create
                 f.AddInput("MiddleName", "Middle Name");
                 f.AddInput("LastName", "Last Name", true);
             });
-            field.AddSelect<GenderEnum>("Gender", "Gender", true);
+            field.AddSelect<GenderEnum>("Gender", "Gender", false);
             field.AddFieldGroup(f =>
             {
-                f.AddEmail("Email1", "Primary Email", true);
+                f.AddEmail("Email1", "Primary Email", false);
                 f.AddPhone("HomePhone", "Phone Number");
             });
         }

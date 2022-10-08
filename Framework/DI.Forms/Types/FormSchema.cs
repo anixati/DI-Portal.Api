@@ -23,6 +23,7 @@ namespace DI.Forms.Types
     {
       Default=0,
       Wizard,
-      MultiSelect
+      MultiSelect,
+      Dialog
     }
 }

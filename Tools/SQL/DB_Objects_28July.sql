@@ -2,6 +2,10 @@
 /****** Object:  StoredProcedure [acl].[GetUserRoles]    Script Date: 28/07/2022 4:01:29 PM ******/
 DROP PROCEDURE [acl].[GetUserRoles]
 GO
+DROP PROCEDURE [dbo].[GetDashBoardData1]
+GO
+
+
 /****** Object:  View [dbo].[VwUsers]    Script Date: 28/07/2022 4:01:29 PM ******/
 DROP VIEW [dbo].[VwUsers]
 GO
@@ -110,34 +114,6 @@ END;
 GO
 
 
-
---------------------------------------------------------
---- PROCEDURES
---------------------------------------------------------
-
-/****** Object:  StoredProcedure [acl].[GetUserRoles]    Script Date: 28/07/2022 4:01:29 PM ******/
-SET ANSI_NULLS ON
-GO
-SET QUOTED_IDENTIFIER ON
-GO
-CREATE PROCEDURE[acl].[GetUserRoles]
-    @userId nvarchar(255)
-AS   
-    SET NOCOUNT ON;  
-   	SELECT rls.Code
-	FROM [acl].[UserRoles] urs
-	JOIN [acl].[Users] usr ON usr.Id = urs.AppUserId AND usr.Deleted=0 AND usr.Disabled=0
-	JOIN [acl].[Roles] rls ON rls.Id = urs.AppRoleId AND rls.Deleted=0 AND rls.Disabled=0
-	WHERE urs.Deleted=0 AND urs.Disabled=0 AND usr.UserId= @userId
-	UNION
-	SELECT rls.Code
-	FROM [acl].[TeamUsers] tur
-	JOIN [acl].[Users] usr ON usr.Id = tur.AppUserId AND usr.Deleted=0 AND usr.Disabled=0
-	JOIN [acl].[TeamRoles] trs ON trs.AppTeamId=tur.AppTeamId AND trs.Deleted=0 AND trs.Disabled=0
-	JOIN [acl].[Roles] rls ON rls.Id = trs.AppRoleId AND rls.Deleted=0 AND rls.Disabled=0
-	WHERE tur.Deleted=0 AND tur.Disabled=0 AND usr.UserId= @userId
-
-GO
 
 
 
@@ -551,5 +527,67 @@ CREATE VIEW  [dbo].[vwBoardCounts] AS
 	LEFT JOIN [dbo].[VwAppointee] ap ON ap.Id= ba.AppointeeId
 	GROUP BY bd.Id,bd.[Name]
 
+GO
+
+
+--------------------------------------------------------
+--- PROCEDURES
+--------------------------------------------------------
+
+/****** Object:  StoredProcedure [acl].[GetUserRoles]    Script Date: 28/07/2022 4:01:29 PM ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE PROCEDURE[acl].[GetUserRoles]
+    @userId nvarchar(255)
+AS   
+    SET NOCOUNT ON;  
+   	SELECT rls.Code
+	FROM [acl].[UserRoles] urs
+	JOIN [acl].[Users] usr ON usr.Id = urs.AppUserId AND usr.Deleted=0 AND usr.Disabled=0
+	JOIN [acl].[Roles] rls ON rls.Id = urs.AppRoleId AND rls.Deleted=0 AND rls.Disabled=0
+	WHERE urs.Deleted=0 AND urs.Disabled=0 AND usr.UserId= @userId
+	UNION
+	SELECT rls.Code
+	FROM [acl].[TeamUsers] tur
+	JOIN [acl].[Users] usr ON usr.Id = tur.AppUserId AND usr.Deleted=0 AND usr.Disabled=0
+	JOIN [acl].[TeamRoles] trs ON trs.AppTeamId=tur.AppTeamId AND trs.Deleted=0 AND trs.Disabled=0
+	JOIN [acl].[Roles] rls ON rls.Id = trs.AppRoleId AND rls.Deleted=0 AND rls.Disabled=0
+	WHERE tur.Deleted=0 AND tur.Disabled=0 AND usr.UserId= @userId
+
+GO
+
+
+CREATE PROCEDURE [dbo].[GetDashBoardData1]
+AS   
+    SET NOCOUNT ON;  
+   	
+	SELECT 
+	'Boards' AS Title,
+	'Total Boards' AS [Description],
+	Cast(Count(*) as varchar(10)) AS [Value],
+	'with '+(SELECT Cast(Count(*) as varchar(10)) FROM [dbo].[VwBoardRoles] )+' active roles' AS Result,
+	'' AS ResultColor,
+	'' AS Icon
+	From [dbo].[VwBoards]
+	UNION ----//
+	SELECT 
+	'Female' AS Title,
+	'Total female appointees' AS [Description],
+	Cast(Count(*) as varchar(10)) AS [Value],
+	'Out of '+(SELECT Cast(Count(*) as varchar(10)) FROM [dbo].[VwAppointee] ) AS Result,
+	'' AS ResultColor,
+	'' AS Icon
+	From [dbo].[VwAppointee] rx WHERE rx.Gender=2
+		UNION ----//
+	SELECT 
+	'Male' AS Title,
+	'Total male appointees' AS [Description],
+	Cast(Count(*) as varchar(10)) AS [Value],
+	'Out of '+(SELECT Cast(Count(*) as varchar(10)) FROM [dbo].[VwAppointee] ) AS Result,
+	'' AS ResultColor,
+	'' AS Icon
+	From [dbo].[VwAppointee] rx WHERE rx.Gender=1
 GO
 

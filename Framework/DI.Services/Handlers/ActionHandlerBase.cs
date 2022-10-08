@@ -6,15 +6,15 @@ using Microsoft.Extensions.Logging;
 
 namespace DI.Services.Handlers
 {
-    public abstract class ActionHandlerBase : ServiceBase
+    public abstract class ActionHandlerBase<T> : ServiceBase where T:class,IActionHandler
     {
-        private static readonly ConcurrentDictionary<string, Lazy<IFormActionHandler>> _actions = new();
-        protected ActionHandlerBase(IEnumerable<IFormActionHandler> handlers, ILoggerFactory logFactory) : base(logFactory)
+        private static readonly ConcurrentDictionary<string, Lazy<T>> _actions = new();
+        protected ActionHandlerBase(IEnumerable<T> handlers, ILoggerFactory logFactory) : base(logFactory)
         {
             foreach (var fb in handlers)
-                _actions[$"{fb.SchemaKey.ToLower().Trim()}"] = new Lazy<IFormActionHandler>(() => fb);
+                _actions[$"{fb.SchemaKey.ToLower().Trim()}"] = new Lazy<T>(() => fb);
         }
-        protected IFormActionHandler GetHandler(string key)
+        protected T GetHandler(string key)
         {
             if (string.IsNullOrEmpty(key))
                 throw new Exception("form handler key is required");

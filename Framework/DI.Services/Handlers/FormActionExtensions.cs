@@ -1,17 +1,16 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using DI.Domain.Core;
+﻿using DI.Domain.Core;
 using DI.Domain.Options;
 using DI.Forms;
 using DI.Forms.Requests;
 using DI.Forms.Types;
 using FastMember;
-using Newtonsoft.Json;
+using System;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace DI.Services.Handlers
 {
-    public static class FormActions
+    public static class FormActionExtensions
     {
 
         public static void LoadOptions(this FormSchema schema, Dictionary<string, OptionFieldConfig> map)
@@ -89,7 +88,7 @@ namespace DI.Services.Handlers
         }
 
 
-        public static T CreateEntity<T>(this IDictionary<string, object> data) where T : class, IEntity, new()
+        public static T CreateEntity<T>(this IDictionary<string, object> data) where T : class,  new()
         {
             var accessor = TypeAccessor.Create(typeof(T));
             var members = accessor.GetMembers();

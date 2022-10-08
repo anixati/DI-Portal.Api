@@ -8,7 +8,7 @@ using Microsoft.Extensions.Logging;
 
 namespace DI.Services.Handlers
 {
-    public class CreateEntityHandler : ActionHandlerBase, IRequestHandler<FormActionRequest, FormActionResult>
+    public class CreateEntityHandler : ActionHandlerBase<IFormActionHandler>, IRequestHandler<FormActionRequest, FormActionResult>
     {
 
         public CreateEntityHandler(IEnumerable<IFormActionHandler> handlers, ILoggerFactory loggerFactory)
@@ -35,4 +35,5 @@ namespace DI.Services.Handlers
             return result;
         }
     }
+
 }

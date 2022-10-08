@@ -36,7 +36,36 @@ namespace Boards.Services.Access.Lists
             return ("FullName", false);
         }
     }
+    public class InactiveUserList : QrySchema
+    {
+        public override string SchemaName => "InactiveUserList";
+        public override string Title => "In-active Users";
 
+        protected override Table CreateEntity()
+        {
+            var pt = Table.Create(Constants.Db.UsersView);
+            pt.Column("FullName", "Name", "Name", x =>
+            {
+                x.Searchable = true;
+                x.Sortable = true;
+                x.Type = ColumnType.HyperLink;
+                x.LinkPath = Routes.UserAdmin.Path();
+            });
+            pt.AddSearchCols("UserId", "Email");
+            pt.AddDateColumn("CreatedOn");
+            return pt;
+        }
+
+        protected override void ConfigureQry(QryState qs)
+        {
+            qs.Where("Disabled", "=", "1");
+        }
+
+        protected override (string, bool) GetDefaultSort()
+        {
+            return ("FullName", false);
+        }
+    }
 
 
     public class UserRoleList : QrySchema

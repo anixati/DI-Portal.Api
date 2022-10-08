@@ -8,7 +8,7 @@ using Microsoft.Extensions.Logging;
 
 namespace DI.Services.Handlers
 {
-    public class FormSchemaHandler : ActionHandlerBase, IRequestHandler<FormSchemaRequest, FormSchemaResponse>
+    public class FormSchemaHandler : ActionHandlerBase<IFormActionHandler>, IRequestHandler<FormSchemaRequest, FormSchemaResponse>
     {
         private readonly IFormProvider _provider;
 

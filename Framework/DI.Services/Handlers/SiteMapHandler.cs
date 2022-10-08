@@ -17,8 +17,8 @@ namespace DI.Services.Handlers
 
         public async Task<SiteMap> Handle(SiteMapRequest request, CancellationToken cancellationToken)
         {
-            await Task.Delay(0);
-            return _provider.Create();
+           var rs = await _provider.Create();
+            return rs;
         }
     }
 }
