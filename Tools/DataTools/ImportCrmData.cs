@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Threading;
@@ -65,25 +66,27 @@ namespace DataTools
 
                 var dataStr = await File.ReadAllTextAsync(fileName, cancellationToken);
                 var data = JsonConvert.DeserializeObject<BoardsData>(dataStr);
-                
-                
-                await AddAppData(data);
 
-                await ImportOptions(data);
-                
-                await ImportPortfolios(data);
-                
-                await ImportUsers(data);
-                
-                await ImportContacts(data);
 
-                await ImportBoards(data);
+                //await AddAppData(data);
 
-                await ImportBoardRoles(data);
-              
-                await ImportBoardAppointments(data);
+                //await ImportOptions(data);
 
-                await ImportSkills(data);
+                //await ImportPortfolios(data);
+
+                //await ImportUsers(data);
+
+                //await ImportContacts(data);
+
+                //await ImportBoards(data);
+
+                //await ImportBoardRoles(data);
+
+                //await ImportBoardAppointments(data);
+
+                //await ImportSkills(data);
+
+                await ImportTestUsers(data);
 
                 _db.Commit();
                 Trace($"!---Completed---!");
@@ -96,8 +99,58 @@ namespace DataTools
 
         }
 
-      
+        List<string> TestUsers = new List<string> {"Courtney Schmitzer","Lauren Collins","James Grainger","Simon Gordon","Felicity Salmi","Michael Hester","Olivia Freund"};
+        private async Task ImportTestUsers(BoardsData data)
+        {
+            var usrRepo = GetRepo<AppUser>();
+            var team = await GetRepo<AppTeam>().FindAsync(x => x.Name == "Default");
+            var role = await GetRepo<AppRole>().FindAsync(x => EF.Functions.Like(x.Name, $"{ApplicationRoles.Contributor}"));
+            foreach (var usr in TestUsers)
+            {
+                var names = usr.Split(" ", StringSplitOptions.RemoveEmptyEntries);
+                var ausr = await usrRepo.FindAsync(x => EF.Functions.Like(x.FirstName, names[0]));
+                Console.WriteLine($" -- ${names[0]}");
+                if (ausr != null)
+                {
+                    ausr = new AppUser()
+                    {
+                        UserId = names[0],
+                        DisplayName = usr,
+                        Title = "Mr",
+                        FirstName = names[0],
+                        LastName = names[1],
+                        MiddleName = "",
+                        HomePhone = "0262426242",
+                        FaxNumber = "0236598956",
+                        MobilePhone = "0401642369",
+                        Email1 = $"{usr}@.infrastructure.gov.com",
+                        PasswordHash = BC.HashPassword("Welcome2023"),
+                        AccessRequest = DateTime.Now,
+                        AccessGranted = DateTime.Now,
+                        Disabled = false,
+                        IsSystem = true
+                    };
+                    await usrRepo.CreateAsync(ausr);
+                    await Save();
+                }
+                else {
+                    ausr.AccessGranted = DateTime.Now;
+                    ausr.Disabled= false;
+                    ausr.PasswordHash = BC.HashPassword("Welcome2023");
+                    ausr.IsSystem = true;
 
+                    await usrRepo.UpdateAsync(ausr);
+                    await Save();
+                }
+                await GetRepo<TeamUser>().CreateAsync(new TeamUser { AppTeamId = team.Id, AppUserId = ausr.Id });
+                await Save();
+
+                await GetRepo<UserRole>().CreateAsync(new UserRole { AppRoleId = role.Id, AppUserId = ausr.Id });
+                await Save();
+                Console.WriteLine($" -- ");
+            }
+
+        }
         protected async Task<TK> CreateIfNotExists<TK>(TK entity) where TK : class, INamedEntity
         {
             var repo = _db.Repo<TK>();
@@ -146,7 +199,7 @@ namespace DataTools
                 ausr = new AppUser()
                 {
                     UserId = name,
-                    DisplayName="Administrator",
+                    DisplayName = "Administrator",
                     Title = "Mr",
                     FirstName = name,
                     LastName = $"User",
@@ -156,10 +209,10 @@ namespace DataTools
                     MobilePhone = "0401642369",
                     Email1 = $"{name}.User@gmail.com",
                     PasswordHash = BC.HashPassword("Welcome2023"),
-                  AccessRequest = DateTime.Now,
-                  AccessGranted = DateTime.Now,
+                    AccessRequest = DateTime.Now,
+                    AccessGranted = DateTime.Now,
                     Disabled = false,
-                    IsSystem = true 
+                    IsSystem = true
                 };
                 await usrRepo.CreateAsync(ausr);
                 await Save();
@@ -170,7 +223,7 @@ namespace DataTools
             var ruRepo = GetRepo<UserRole>();
             var spUser = await usrRepo.FindAsync(x => EF.Functions.Like(x.FirstName, "Administrator"));
             var suRole = await roleRepo.FindAsync(x => EF.Functions.Like(x.Name, $"{ApplicationRoles.SysAdmin}"));
-            var suUserRole = await ruRepo.FindAsync(x => x.AppUserId == spUser.Id && x.AppRoleId==suRole.Id);
+            var suUserRole = await ruRepo.FindAsync(x => x.AppUserId == spUser.Id && x.AppRoleId == suRole.Id);
             if (suUserRole == null)
             {
                 await ruRepo.CreateAsync(new UserRole { AppRoleId = suRole.Id, AppUserId = spUser.Id });
@@ -193,7 +246,7 @@ namespace DataTools
                 op = new Portfolio()
                 {
                     Name = value.Get("doca_name"),
-                    Description =  value.Get("doca_name"),
+                    Description = value.Get("doca_name"),
                     MigratedId = id
                 };
                 op.Disabled = value.IsDisabled();
@@ -211,7 +264,7 @@ namespace DataTools
                 await Save();
 
             }
-            
+
             Trace($"Importing Board ministers {data.Ministers.Count}");
             var mrepo = GetRepo<Minister>();
             var mtrepo = GetRepo<MinisterTerm>();
@@ -222,7 +275,7 @@ namespace DataTools
                 var op = await mrepo.FindAsync(x => x.MigratedId == id);
                 if (op != null) continue;
                 Trace($"Creating {id}");
-                var names = value.Get("doca_name").Split(new char[]{' '},StringSplitOptions.RemoveEmptyEntries);
+                var names = value.Get("doca_name").Split(new char[] { ' ' }, StringSplitOptions.RemoveEmptyEntries);
                 op = new Minister()
                 {
                     FirstName = names[0],
@@ -243,7 +296,7 @@ namespace DataTools
                         var mt = await mtrepo.FindAsync(x => x.PortfolioId == pf.Id && x.MinisterId == op.Id);
                         if (mt == null)
                         {
-                            mt = new MinisterTerm() {MinisterId = op.Id, PortfolioId = pf.Id};
+                            mt = new MinisterTerm() { MinisterId = op.Id, PortfolioId = pf.Id };
                             await mtrepo.CreateAsync(mt);
                             await Save();
                         }
@@ -274,7 +327,7 @@ namespace DataTools
 
                 long bid = 0;
                 var rid = value.Get("new_roleappointmentid");
-                if(string.IsNullOrEmpty(rid)) continue;
+                if (string.IsNullOrEmpty(rid)) continue;
 
                 if (string.IsNullOrEmpty(boardId))
                 {
@@ -282,10 +335,10 @@ namespace DataTools
                 }
                 else
                 {
-                     bid = await GetBoardId(boardId.GetRefId());
+                    bid = await GetBoardId(boardId.GetRefId());
                 }
 
-             
+
 
                 var brid = await GetBoardRoleId(rid.GetRefId());
                 var apeid = await GetContactId(value.Get("new_contactappointmentid").GetRefId());
@@ -330,8 +383,8 @@ namespace DataTools
                     AppointmentDate = value.Get("new_appointmentdate").ToDate(),
                     InitialStartDate = value.Get("new_initialstartdatefirstappointed").ToDate(),
                     PrevTerms = value.Get("new_numberoftermsserved").ToInt(),
-                    IsSemiDiscretionary = value.Get("new_semidiscretionary")=="true",
-                    Proposed = value.Get("new_proposed")=="true",
+                    IsSemiDiscretionary = value.Get("new_semidiscretionary") == "true",
+                    Proposed = value.Get("new_proposed") == "true",
                     AppointerId = aprid,
 
                 };
@@ -530,7 +583,7 @@ namespace DataTools
         {
 
             var pfr = GetRepo<Portfolio>();
-           
+
             var atr = GetRepo<AppTeam>();
             var atm = await atr.FindAsync(x => x.Name == "Default");
             if (atm == null)
@@ -560,7 +613,7 @@ namespace DataTools
                 var v4 = await GetOption(value.Get("new_establishedbyunder"), "EstablishedByUnder");
 
 
-                var pf = await pfr.FindAsync(x => EF.Functions.Like(x.Name,"Arts"));
+                var pf = await pfr.FindAsync(x => EF.Functions.Like(x.Name, "Arts"));
                 var pfref = value.Get("doca_portfolio");
                 if (!string.IsNullOrEmpty(pfref))
                 {
@@ -630,13 +683,13 @@ namespace DataTools
                 var name = value.Get("fullname");
                 if (string.IsNullOrEmpty(fn))
                 {
-                    var names = name.Split(new char[] {' '}, StringSplitOptions.RemoveEmptyEntries);
+                    var names = name.Split(new char[] { ' ' }, StringSplitOptions.RemoveEmptyEntries);
                     fn = names[0];
                     ln = names.Length >= 1 ? names[1] : value.Get("lastname");
                 }
 
                 if (string.IsNullOrEmpty(ln)) continue;
-                
+
                 var op = await repo.FindAsync(x => x.MigratedId == id);
                 if (op != null) continue;
                 Trace($"Creating {fn} {ln} {value.Get("territorycode")}");
@@ -782,8 +835,8 @@ namespace DataTools
                     }
                 }
             }
-            
-           
+
+
             Trace($"Options key count {await osr.CountAsync()}");
             Trace($"Options set count {await okr.CountAsync()}");
         }
@@ -860,7 +913,7 @@ namespace DataTools
                 await osr.CreateAsync(sk2ov);
                 await Save();
             }
-            var isList = new string[] { "Aviation", "Major Infrastructure", "Transport/Logistics", "Safety", "Environmental/Sustainability","Regional/Remote","Technology", "Engineering", "Communications", "Information Technology" };
+            var isList = new string[] { "Aviation", "Major Infrastructure", "Transport/Logistics", "Safety", "Environmental/Sustainability", "Regional/Remote", "Technology", "Engineering", "Communications", "Information Technology" };
             foreach (var sk in isList)
             {
                 var skv = await skr.FindAsync(x => x.SkillTypeId == sk2ov.Id && x.Name == sk);
@@ -876,7 +929,7 @@ namespace DataTools
                     await Save();
                 }
             }
-            
+
         }
 
         public async Task StopAsync(CancellationToken cancellationToken)

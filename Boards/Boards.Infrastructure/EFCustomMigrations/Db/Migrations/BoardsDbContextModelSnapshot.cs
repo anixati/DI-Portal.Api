@@ -1813,6 +1813,29 @@ namespace EFCustomMigrations.Db.Migrations
                     b.ToTable("UserRoles", "acl");
                 });
 
+            modelBuilder.Entity("DI.Reports.DashboardItem", b =>
+                {
+                    b.Property<string>("Description")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Icon")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Result")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("ResultColor")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Title")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Value")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.ToTable("DashboardItems");
+                });
+
             modelBuilder.Entity("Boards.Domain.Boards.Board", b =>
                 {
                     b.HasOne("DI.Domain.Users.AppTeam", "AppTeam")

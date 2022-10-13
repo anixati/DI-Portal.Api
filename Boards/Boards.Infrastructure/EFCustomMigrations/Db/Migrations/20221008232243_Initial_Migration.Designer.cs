@@ -10,7 +10,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace EFCustomMigrations.Db.Migrations
 {
     [DbContext(typeof(BoardsDbContext))]
-    [Migration("20220927041717_Initial_Migration")]
+    [Migration("20221008232243_Initial_Migration")]
     partial class Initial_Migration
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -1813,6 +1813,29 @@ namespace EFCustomMigrations.Db.Migrations
                     b.HasIndex("AppUserId");
 
                     b.ToTable("UserRoles", "acl");
+                });
+
+            modelBuilder.Entity("DI.Reports.DashboardItem", b =>
+                {
+                    b.Property<string>("Description")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Icon")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Result")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("ResultColor")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Title")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Value")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.ToTable("DashboardItems");
                 });
 
             modelBuilder.Entity("Boards.Domain.Boards.Board", b =>

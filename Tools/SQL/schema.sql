@@ -60,6 +60,16 @@ CREATE TABLE [Dbo].[AutoNumbers] (
 );
 GO
 
+CREATE TABLE [Dbo].[DashboardItems] (
+    [Title] nvarchar(max) NULL,
+    [Description] nvarchar(max) NULL,
+    [Value] nvarchar(max) NULL,
+    [Result] nvarchar(max) NULL,
+    [ResultColor] nvarchar(max) NULL,
+    [Icon] nvarchar(max) NULL
+);
+GO
+
 CREATE TABLE [Dbo].[DeleteRecords] (
     [Id] bigint NOT NULL IDENTITY,
     [Notes] nvarchar(500) NULL,
@@ -767,7 +777,7 @@ CREATE UNIQUE INDEX [IX_Users_UserId] ON [acl].[Users] ([UserId]);
 GO
 
 INSERT INTO [__EFMigrationsHistory] ([MigrationId], [ProductVersion])
-VALUES (N'20220927041717_Initial_Migration', N'5.0.16');
+VALUES (N'20221008232243_Initial_Migration', N'5.0.16');
 GO
 
 COMMIT;

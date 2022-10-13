@@ -81,6 +81,22 @@ namespace EFCustomMigrations.Db.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "DashboardItems",
+                schema: "Dbo",
+                columns: table => new
+                {
+                    Title = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Description = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Value = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Result = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    ResultColor = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Icon = table.Column<string>(type: "nvarchar(max)", nullable: true)
+                },
+                constraints: table =>
+                {
+                });
+
+            migrationBuilder.CreateTable(
                 name: "DeleteRecords",
                 schema: "Dbo",
                 columns: table => new
@@ -1293,6 +1309,10 @@ namespace EFCustomMigrations.Db.Migrations
 
             migrationBuilder.DropTable(
                 name: "BoardAppointments",
+                schema: "Dbo");
+
+            migrationBuilder.DropTable(
+                name: "DashboardItems",
                 schema: "Dbo");
 
             migrationBuilder.DropTable(
