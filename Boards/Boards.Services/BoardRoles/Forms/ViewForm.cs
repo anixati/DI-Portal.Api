@@ -39,7 +39,7 @@ namespace Boards.Services.BoardRoles.Forms
             {
                 f.AddDisabledInput("IncumbentStartDate", "Start Date");
                 f.AddDisabledInput("IncumbentEndDate", "End Date");
-                f.AddSelect<FullTimeEnum>("IsFullTime", "Is full time", true);
+                f.AddSelect<FullTimeEnum>("IsFullTime", "Is full time", false);
                 f.AddYesNo("IsExOfficio", "Ex Officio", "", false);
             });
 
@@ -53,7 +53,7 @@ namespace Boards.Services.BoardRoles.Forms
             field.AddFieldGroup(f =>
             {
                 f.AddYesNo("ExcludeFromOrder15", "Exclude from senate order 15", "", true);
-                f.AddYesNo("ExcludeGenderReport", "Exclude from GB", "", true);
+                f.AddYesNo("ExcludeGenderReport", "Exclude from gender balance", "", true);
                 f.AddYesNo("IsSignAppointment", "Significant Appointment", "", true);
                 f.AddYesNo("IsExNominated", "Is Externally Nominated", "", true);
             });

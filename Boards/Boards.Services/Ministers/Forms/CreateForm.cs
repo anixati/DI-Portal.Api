@@ -26,7 +26,7 @@ namespace Boards.Services.Ministers.Forms
             field.AddFieldGroup(f =>
             {
                 field.AddSelect<GenderEnum>("Gender", "Gender", true);
-                f.AddEmail("Email1", "Email", true);
+                f.AddEmail("Email1", "Email", false);
                 f.AddPhone("HomePhone", "Phone");
             });
             
@@ -34,7 +34,7 @@ namespace Boards.Services.Ministers.Forms
         private void AddAddressDetails(FormField field)
         {
             field.AddDivider("Street Address");
-            field.AddAddress("StreetAddress",true);
+            field.AddAddress("StreetAddress", false);
             field.AddDivider("Postal Address");
             field.AddAddress("PostalAddress",false);
         }

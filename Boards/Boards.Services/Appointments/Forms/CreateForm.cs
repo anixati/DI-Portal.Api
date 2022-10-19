@@ -40,7 +40,7 @@ namespace Boards.Services.Appointments.Forms
             field.AddFieldGroup(f =>
             {
                 f.AddYesNo("IsExOfficio", "Is ExOfficio", "", false);
-                f.AddYesNo("IsFullTime", "Full Time", "", false);
+                f.AddSelect<FullTimeEnum>("IsFullTime", "Is full time", false);
                 f.AddYesNo("ActingInRole", "Acting", "", false);
             });
 

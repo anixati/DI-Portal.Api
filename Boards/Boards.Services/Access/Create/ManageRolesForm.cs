@@ -11,7 +11,7 @@ namespace Boards.Services.Access.Create
 
         protected override void CreateSchema(FormSchema fs)
         {
-            fs.Options = new List<SelectItem> {new("RolesList", "Select Role's")};
+            fs.Options = new List<SelectItem> {new("RolesList", "Select Roles")};
         }
     }
 
@@ -22,7 +22,7 @@ namespace Boards.Services.Access.Create
 
         protected override void CreateSchema(FormSchema fs)
         {
-            fs.Options = new List<SelectItem> { new("TeamsList", "Select Team's") };
+            fs.Options = new List<SelectItem> { new("TeamsList", "Select Teams") };
         }
     }
 
@@ -34,7 +34,7 @@ namespace Boards.Services.Access.Create
 
         protected override void CreateSchema(FormSchema fs)
         {
-            fs.Options = new List<SelectItem> { new("RolesList", "Select Role's") };
+            fs.Options = new List<SelectItem> { new("RolesList", "Select Roles") };
         }
     }
 }

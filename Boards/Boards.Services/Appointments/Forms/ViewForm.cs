@@ -55,14 +55,14 @@ namespace Boards.Services.Appointments.Forms
             {
                 f.AddDecimal("AnnumAmount", "Remuneration", true);
                 f.AddPickList("RemunerationPeriod", "RemunerationPeriod", "Remuneration Period", true);
-                f.AddYesNo("IsFullTime", "Full Time", "", false);
+                f.AddSelect<FullTimeEnum>("IsFullTime", "Is full time", false);
                 f.AddYesNo("Proposed", "Proposed Appointment", "", false);
             });
 
             field.AddFieldGroup(f =>
             {
                 f.AddYesNo("ActingInRole", "Acting", "", false);
-                f.AddYesNo("IsSemiDiscretionary", "Is the position semi discretionary.", "", true);
+                f.AddYesNo("IsSemiDiscretionary", "Is the position semi discretionary.", "", false);
                 f.AddNumeric("PrevTerms", "How many terms previously served?", false);
             });
         }

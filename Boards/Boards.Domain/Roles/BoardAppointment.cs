@@ -4,6 +4,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 using System.Threading.Tasks;
 using Boards.Domain.Boards;
 using Boards.Domain.Contacts;
+using Boards.Domain.Shared;
 using DI.Domain.Core;
 using DI.Domain.Enums;
 using DI.Domain.Options;
@@ -32,12 +33,11 @@ namespace Boards.Domain.Roles
       
         public bool? IsCurrent { get; set; }
         public bool? IsExOfficio { get; set; }
-        public bool? IsFullTime { get; set; }
         public bool ActingInRole { get; set; }
         public bool? ExclGenderReport { get; set; }
 
-       
-        
+        public FullTimeEnum IsFullTime { get; set; }
+
         [ Column(TypeName = "decimal(13, 2)")] public decimal? AnnumAmount { get; set; }
 
         public long? RemunerationPeriodId { get; set; }

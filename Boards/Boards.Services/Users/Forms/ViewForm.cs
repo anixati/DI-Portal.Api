@@ -10,10 +10,10 @@ namespace Boards.Services.Users.Forms
         protected override void CreateSchema(FormSchema fs)
         {
             fs.AddTab("Personal Details", AddPersonDetails);
-            fs.AddSubGrid("Approved by Boards's", "ApprovedUserBoards", x =>
+            fs.AddSubGrid("Approved by Boards", "ApprovedUserBoards", x =>
             {
             });
-            fs.AddSubGrid("Resp. Officer Boards's", "RespOfficerBoards", x =>
+            fs.AddSubGrid("Resp. Officer Boards", "RespOfficerBoards", x =>
             {
             });
         }
@@ -32,7 +32,7 @@ namespace Boards.Services.Users.Forms
                 f.AddSelect<GenderEnum>("Gender", "Gender", true);
                 f.AddPhone("Mobile", "Mobile Number", false);
                 f.AddPhone("HomePhone", "Phone Number", false);
-                f.AddEmail("Email1", "Email", true);
+                f.AddEmail("Email1", "Email", false);
 
             });
             field.AddDivider();

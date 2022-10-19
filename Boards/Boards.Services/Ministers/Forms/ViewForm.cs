@@ -12,7 +12,7 @@ namespace Boards.Services.Ministers.Forms
         protected override void CreateSchema(FormSchema fs)
         {
             fs.AddTab("Personal Details", AddPersonDetails);
-            fs.AddSubGrid("Portfolio's", "MinisterPortfolios", x =>
+            fs.AddSubGrid("Portfolios", "MinisterPortfolios", x =>
             {
             });
             fs.AddDocGrid(Constants.Entities.Minister);
@@ -32,11 +32,11 @@ namespace Boards.Services.Ministers.Forms
             {
                 f.AddSelect<GenderEnum>("Gender", "Gender", true);
                 f.AddPhone("HomePhone", "Phone", false);
-                f.AddEmail("Email1", "Email", true);
+                f.AddEmail("Email1", "Email", false);
 
             });
             field.AddDivider("Street Address");
-            field.AddAddress("StreetAddress", true);
+            field.AddAddress("StreetAddress", false);
             field.AddDivider("Postal Address");
             field.AddAddress("PostalAddress", false);
         }

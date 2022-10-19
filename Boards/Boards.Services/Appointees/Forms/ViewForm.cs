@@ -13,12 +13,12 @@ namespace Boards.Services.Appointees.Forms
         {
             fs.AddTab("Personal Details", AddPersonDetails);
             fs.AddTab("Addresses", AddAddressDetails);
-            fs.AddSubGrid("Appointment's", "AppointeeAppointments", x =>
+            fs.AddSubGrid("Appointments", "AppointeeAppointments", x =>
             {
             });
-            fs.AddSubGrid("Skill's", "AppointeeSkills", x =>
+            fs.AddSubGrid("Skills", "AppointeeSkills", x =>
             {
-                x.AddAction("manage", "appointeeskill", "Manage Skill's");
+                x.AddAction("manage", "appointeeskill", "Manage Skills");
             });
             fs.AddDocGrid(Constants.Entities.Appointee);
         }
@@ -43,12 +43,12 @@ namespace Boards.Services.Appointees.Forms
                 f.AddInput("PostNominals", "PostNominals");
                 f.AddSelect<GenderEnum>("Gender", "Gender", true);
                 f.AddPhone("HomePhone", "Phone", false);
-                f.AddEmail("Email1", "Email", true);
+                f.AddEmail("Email1", "Email", false);
             });
             field.AddFieldGroup(f =>
             {
-                f.AddYesNo("IsRegional", "Regional", "", true);
-                f.AddYesNo("IsAboriginal", "Aboriginal", "", true);
+                f.AddYesNo("IsRegional", "Regional", "", false);
+                f.AddYesNo("IsAboriginal", "Aboriginal", "", false);
                 f.AddYesNo("IsDisabled", "Disabled", "");
                 f.AddYesNo("ExecutiveSearch", "Executive", "");
             });
@@ -56,8 +56,6 @@ namespace Boards.Services.Appointees.Forms
             field.AddDivider("Professional Details");
             field.AddInput("Biography", "Biography", x =>
             {
-                x.AddRequired("Biography is required");
-                x.AddRule(ValRule.Min(10, "Minimum 10 chars required"));
                 x.FieldType = FormFieldType.Note;
             });
 

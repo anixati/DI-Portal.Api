@@ -11,7 +11,7 @@ namespace Boards.Services.Appointees.Forms
 
         protected override void CreateSchema(FormSchema fs)
         {
-            fs.Options = new List<SelectItem> { new("ActiveSkills", "Select Skill's") };
+            fs.Options = new List<SelectItem> { new("ActiveSkills", "Select Skills") };
         }
 
         

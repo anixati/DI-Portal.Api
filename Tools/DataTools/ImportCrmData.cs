@@ -68,23 +68,23 @@ namespace DataTools
                 var data = JsonConvert.DeserializeObject<BoardsData>(dataStr);
 
 
-                //await AddAppData(data);
+                await AddAppData(data);
 
-                //await ImportOptions(data);
+                await ImportOptions(data);
 
-                //await ImportPortfolios(data);
+                await ImportPortfolios(data);
 
-                //await ImportUsers(data);
+                await ImportUsers(data);
 
-                //await ImportContacts(data);
+                await ImportContacts(data);
 
-                //await ImportBoards(data);
+                await ImportBoards(data);
 
-                //await ImportBoardRoles(data);
+                await ImportBoardRoles(data);
 
-                //await ImportBoardAppointments(data);
+                await ImportBoardAppointments(data);
 
-                //await ImportSkills(data);
+                await ImportSkills(data);
 
                 await ImportTestUsers(data);
 
@@ -360,6 +360,10 @@ namespace DataTools
                     name = "N/A";
                 }
 
+                var ftEnum = value.Get("new_fulltimeparttime") == "true"
+                   ? FullTimeEnum.FullTime
+                   : FullTimeEnum.PartTime;
+
                 op = new BoardAppointment()
                 {
                     Name = name,
@@ -376,7 +380,8 @@ namespace DataTools
                     BriefNumber = value.Get("new_briefnumber"),
                     IsCurrent = value.Get("new_currentappointment") == "true",
                     IsExOfficio = value.Get("new_enddate") == "",
-                    IsFullTime = value.Get("new_fulltimeparttime") == "true",
+                    IsFullTime = ftEnum,// value.Get("new_fulltimeparttime") == "true",
+
                     ActingInRole = value.Get("new_substantiveacting") == "true",
                     ExclGenderReport = value.Get("new_genderreportable") == "true",
                     AnnumAmount = rem.GetValueOrDefault(),

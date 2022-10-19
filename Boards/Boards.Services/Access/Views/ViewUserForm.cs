@@ -17,13 +17,13 @@ namespace Boards.Services.Access.Views
                 f.AddLabel("IsSystem", "System User");
             });
             fs.AddTab("User Details",UserDetails);
-            fs.AddSubGrid("Role's", "UserRoleList", x =>
+            fs.AddSubGrid("Roles", "UserRoleList", x =>
             {
-                x.AddAction("manage", "userrole", "Manage Role's");
+                x.AddAction("manage", "userrole", "Manage Roles");
             });
-            fs.AddSubGrid("Teams's", "UserTeamList", x =>
+            fs.AddSubGrid("Teams", "UserTeamList", x =>
             {
-                x.AddAction("manage", "teamuser", "Manage Teams's");
+                x.AddAction("manage", "teamuser", "Manage Teams");
             });
         }
         private void UserDetails(FormField field)

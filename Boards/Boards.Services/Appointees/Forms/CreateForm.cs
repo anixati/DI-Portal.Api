@@ -36,7 +36,7 @@ namespace Boards.Services.Appointees.Forms
         {
             field.AddFieldGroup(f =>
             {
-                f.AddEmail("Email1", "Primary Email", true);
+                f.AddEmail("Email1", "Primary Email", false);
                 f.AddEmail("Email2", "other Email");
             });
             field.AddFieldGroup(f =>
@@ -59,8 +59,7 @@ namespace Boards.Services.Appointees.Forms
         {
             field.AddInput("Biography", "Biography", x =>
             {
-                x.AddRequired("Biography is required");
-                x.AddRule(ValRule.Min(10, "Minimum 10 chars required"));
+             
                 x.FieldType = FormFieldType.Note;
             });
             field.AddInput("PostNominals", "PostNominals");
@@ -75,8 +74,8 @@ namespace Boards.Services.Appointees.Forms
         {
             field.AddFieldGroup(f =>
             {
-                f.AddYesNo("IsRegional", "Regional", "Please specify", true);
-                f.AddYesNo("IsAboriginal", "Aboriginal", "Please specify", true);
+                f.AddYesNo("IsRegional", "Regional", "Please specify", false);
+                f.AddYesNo("IsAboriginal", "Aboriginal", "Please specify", false);
             });
 
             field.AddFieldGroup(f =>

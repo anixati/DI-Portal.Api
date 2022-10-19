@@ -1,4 +1,6 @@
-﻿namespace Boards.Domain.Shared
+﻿using System.ComponentModel;
+
+namespace Boards.Domain.Shared
 {
     public enum DateStateEnum
     {
@@ -17,7 +19,11 @@
 
     public enum FullTimeEnum
     {
-        FullTime = 0,
+        [Description("--")]
+        NA=0,
+        [Description("Full time")]
+        FullTime,
+        [Description("Part time")]
         PartTime
     }
 }

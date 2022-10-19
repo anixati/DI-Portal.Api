@@ -37,7 +37,7 @@ namespace Boards.Services.Secretary.Forms
         private void AddAddressDetails(FormField field)
         {
             field.AddDivider("Street Address");
-            field.AddAddress("StreetAddress", true);
+            field.AddAddress("StreetAddress", false);
             field.AddDivider("Postal Address");
             field.AddAddress("PostalAddress", false);
         }

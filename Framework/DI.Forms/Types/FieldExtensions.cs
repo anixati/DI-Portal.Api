@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
+using System.Reflection;
 using Newtonsoft.Json;
 
 namespace DI.Forms.Types
@@ -63,8 +65,21 @@ namespace DI.Forms.Types
                 throw new Exception("must be a enum");
 
             var values = Enum.GetValues(typeof(T));
-            var rCol = (from int item in values
-                        select new SelectItem($"{item}", Enum.GetName(typeof(T), item))).ToList();
+
+            var rCol = new List<SelectItem>();
+            foreach (var value in values)
+            {
+                var desc = Enum.GetName(typeof(T), value);
+                var fi = typeof(T).GetField(value.ToString());
+                var attributes = (DescriptionAttribute[])fi.GetCustomAttributes(typeof(DescriptionAttribute), false);
+                if (attributes != null && attributes.Length > 0)
+                    desc= attributes[0].Description;
+                rCol.Add(new SelectItem($"{value}", desc));
+            }
+
+
+           // var rCol = (from int item in values
+              //          select new SelectItem($"{item}", Enumerations.GetEnumDescription((MyEnum)value)).ToList();
             return fd.AddSelect(key, rCol, title, required, disabled);
         }
 

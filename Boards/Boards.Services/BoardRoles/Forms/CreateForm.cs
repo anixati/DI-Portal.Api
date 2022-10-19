@@ -46,7 +46,7 @@ namespace Boards.Services.BoardRoles.Forms
         {
             field.AddFieldGroup(f =>
             {
-                f.AddYesNo("IsFullTime", "Is full time", "", true);
+                f.AddSelect<FullTimeEnum>("IsFullTime", "Is full time", false);
                 f.AddYesNo("IsExecutive", "Is Executive", "", true);
                 f.AddYesNo("IsExOfficio", "Is Ex-Officio", "", false);
             });

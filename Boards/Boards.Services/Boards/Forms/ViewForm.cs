@@ -33,7 +33,7 @@ namespace Boards.Services.Boards.Forms
                     x.AddRule(ValRule.Min(5, "Minimum 5 chars required"));
                     x.FieldType = FormFieldType.Text;
                 });
-                f.AddInput("Acronym", "Acronym", true);
+                f.AddInput("Acronym", "Acronym", false);
                 f.AddLookup("AppTeam", "AppTeamLookup", Routes.Default, "Team/Division", true);
                 f.AddLookup("Portfolio", "PortfolioLookup", Routes.Portfolios, "Portfolio", true);
             });
