@@ -55,7 +55,7 @@ namespace Boards.Services.Boards.Forms
                 f.AddPickList("OwnerDivision", "OwnerDivision", "Owner Division");
                 f.AddInput("NominationCommittee", "Appointed By");
                 f.AddInput("LegislationReference", "Legislation Reference");
-                f.AddNumeric("MaximumTerms", "Maximum terms");
+                f.AddNumeric("MaximumTerms", "Total maximum years of service");
 
             });
 

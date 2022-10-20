@@ -21,28 +21,28 @@ namespace Boards.Services.Appointments.Forms
             {
                 f.AddLookup("Appointee", "AppointeeLookup", Routes.Appointee, "Appointees", true);
                 f.AddInput("BriefNumber", "Brief Number", false);
-                f.AddDate("AppointmentDate", "Appointment Date", false);
-            });
-
-            field.AddFieldGroup(f =>
-            {
                 f.AddPickList("Appointer", "Appointer", "Appointer/Approver", false);
-                f.AddDate("StartDate", "Start Date", false);
-                f.AddDate("EndDate", "End Date", false);
-
+               
             });
             field.AddFieldGroup(f =>
             {
-                f.AddYesNo("IsSemiDiscretionary", "Is the position semi discretionary.", "", false);
                 f.AddYesNo("Proposed", "Proposed Appointment", "", false);
-                f.AddDate("InitialStartDate", "Initial Start Date", false);
+                f.AddDate("InitialStartDate", "Initial Start Date - Firts Appointed", false);
+                f.AddDate("StartDate", "Start Date", false);
+               
             });
             field.AddFieldGroup(f =>
             {
-                f.AddYesNo("IsExOfficio", "Is ExOfficio", "", false);
-                f.AddSelect<FullTimeEnum>("IsFullTime", "Is full time", false);
-                f.AddYesNo("ActingInRole", "Acting", "", false);
+                f.AddDate("AppointmentDate", "Appointment Date (Instrument signed on)", false);
+                f.AddYesNo("EndDateUnknown", "End Date Unknown", "", false);
+                f.AddDate("EndDate", "End Date", false);
             });
+            field.AddFieldGroup(f =>
+            {
+                f.AddYesNo("ActingInRole", "Acting in the role", "", false);
+                f.AddNumeric("PrevTerms", "How many terms previously served?", false);
+            });
+          
 
 
         }
@@ -62,7 +62,7 @@ namespace Boards.Services.Appointments.Forms
                 f.AddPickList("Judicial", "Judicial", "Judicial", false);
             });
 
-            field.AddYesNo("ExclGenderReport", "Exclude Gender Report", "", false);
+            field.AddYesNo("ExclGenderReport", "Exclude from Gender Balance Report", "", false);
         }
 
     }

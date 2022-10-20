@@ -84,7 +84,7 @@ namespace Boards.Services.Boards.Forms
             field.AddFieldGroup(f =>
             {
                 f.AddNumeric("OptimumMembers", "Optimum members");
-                f.AddNumeric("MaximumTerms", "Maximum terms");
+                f.AddNumeric("MaximumTerms", "Total maximum years of service");
             });
             field.AddFieldGroup(f =>
             {

@@ -18,7 +18,7 @@ namespace Boards.Infrastructure.Design
         {
             var dbCtxType = typeof(BoardsDbContext);
             var ctxAssembly = dbCtxType.Assembly;
-            var connStr = "Server=XD401462;Database=DI_Boards27Sep;Trusted_Connection=True;Pooling=true;";
+            var connStr = "Server=XD401462;Database=DI_BoardsOct20;Trusted_Connection=True;Pooling=true;";
             var dbOptions = new DbContextOptionsBuilder<BoardsDbContext>()
                 .UseSqlServer(connStr, ox => { ox.MigrationsAssembly(ctxAssembly.FullName); })
                 .Options;

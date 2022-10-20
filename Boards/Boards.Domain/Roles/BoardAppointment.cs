@@ -28,6 +28,7 @@ namespace Boards.Domain.Roles
 
         public DateTime? StartDate { get; set; }
         public DateTime? EndDate { get; set; }
+        public bool EndDateUnknown { get; set; }
         [MaxLength(255)] public string BriefNumber { get; set; }
 
       
@@ -77,9 +78,29 @@ namespace Boards.Domain.Roles
                 if (ps == null) return null;
                 this.Name = ps.FullName;
             }
+            if(@event== EntityEvent.Update)
+            {
+                UpdateProposed();
+            }
             return this;
         }
 
         [MaxLength(255)] public string MigratedId { get; set; }
+
+
+        public void UpdateProposed()
+        {
+            if (Proposed.HasValue && Proposed.Value == true)
+            {
+                StartDate = null;
+                EndDate = null;
+                AppointmentDate = null;
+                InitialStartDate = null;
+            }
+            if (EndDateUnknown == true)
+            {
+                EndDate = null;
+            }
+        }
     }
 }

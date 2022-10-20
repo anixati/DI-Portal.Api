@@ -27,6 +27,8 @@ namespace Boards.Services.Appointments.Forms
             entity.BoardRoleId = brl.Id;
             entity.BoardId = brl.BoardId;
             await SetName(entity, data);
+            entity.UpdateProposed();
+          
         }
 
         private async Task SetName(BoardAppointment entity, IDictionary<string, object> data)

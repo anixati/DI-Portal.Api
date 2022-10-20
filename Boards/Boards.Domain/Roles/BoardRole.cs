@@ -44,7 +44,7 @@ namespace Boards.Domain.Roles
         public virtual OptionSet RemunerationMethod { get; set; }
 
 
-        [Required, MaxLength(255), Column(Order = 1)]
+        [MaxLength(255), Column(Order = 1)]
         public string RemunerationTribunal { get; set; }
         public DateTime? VacantFromDate { get; set; }
 
@@ -59,8 +59,8 @@ namespace Boards.Domain.Roles
         //-------- Ministerial-----------
 
         [MaxLength(2000)] public string InstrumentLink { get; set; }
-        [Required] public string PDMSNumber { get; set; }
-        [Required] public long MinSubLocationId { get; set; }
+       public string PDMSNumber { get; set; }
+         public long MinSubLocationId { get; set; }
         public virtual OptionSet MinSubLocation { get; set; }
         public DateTime? MinisterOfficeDate { get; set; }
         public DateTime? MinisterActionDate { get; set; }

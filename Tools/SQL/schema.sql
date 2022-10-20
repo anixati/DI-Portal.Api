@@ -539,14 +539,14 @@ CREATE TABLE [Dbo].[BoardRoles] (
     [PositionRemunerated] int NOT NULL,
     [PaAmount] decimal(13,2) NOT NULL,
     [RemunerationMethodId] bigint NOT NULL,
-    [RemunerationTribunal] nvarchar(255) NOT NULL,
+    [RemunerationTribunal] nvarchar(255) NULL,
     [VacantFromDate] datetime2 NULL,
     [ExcludeFromOrder15] bit NULL,
     [ExcludeGenderReport] bit NULL,
     [IsSignAppointment] bit NOT NULL,
     [NextSteps] nvarchar(2000) NULL,
     [InstrumentLink] nvarchar(2000) NULL,
-    [PDMSNumber] nvarchar(max) NOT NULL,
+    [PDMSNumber] nvarchar(max) NULL,
     [MinSubLocationId] bigint NOT NULL,
     [MinisterOfficeDate] datetime2 NULL,
     [MinisterActionDate] datetime2 NULL,
@@ -609,12 +609,13 @@ CREATE TABLE [Dbo].[BoardAppointments] (
     [AppointeeId] bigint NULL,
     [StartDate] datetime2 NULL,
     [EndDate] datetime2 NULL,
+    [EndDateUnknown] bit NOT NULL,
     [BriefNumber] nvarchar(255) NULL,
     [IsCurrent] bit NULL,
     [IsExOfficio] bit NULL,
-    [IsFullTime] bit NULL,
     [ActingInRole] bit NOT NULL,
     [ExclGenderReport] bit NULL,
+    [IsFullTime] int NOT NULL,
     [AnnumAmount] decimal(13,2) NULL,
     [RemunerationPeriodId] bigint NULL,
     [AppointmentSourceId] bigint NULL,
@@ -777,7 +778,7 @@ CREATE UNIQUE INDEX [IX_Users_UserId] ON [acl].[Users] ([UserId]);
 GO
 
 INSERT INTO [__EFMigrationsHistory] ([MigrationId], [ProductVersion])
-VALUES (N'20221008232243_Initial_Migration', N'5.0.16');
+VALUES (N'20221020004018_Initial_Migration', N'5.0.16');
 GO
 
 COMMIT;

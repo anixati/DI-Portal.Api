@@ -10,7 +10,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace EFCustomMigrations.Db.Migrations
 {
     [DbContext(typeof(BoardsDbContext))]
-    [Migration("20221008232243_Initial_Migration")]
+    [Migration("20221020004018_Initial_Migration")]
     partial class Initial_Migration
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -718,6 +718,9 @@ namespace EFCustomMigrations.Db.Migrations
                     b.Property<DateTime?>("EndDate")
                         .HasColumnType("datetime2");
 
+                    b.Property<bool>("EndDateUnknown")
+                        .HasColumnType("bit");
+
                     b.Property<bool?>("ExclGenderReport")
                         .HasColumnType("bit");
 
@@ -730,8 +733,8 @@ namespace EFCustomMigrations.Db.Migrations
                     b.Property<bool?>("IsExOfficio")
                         .HasColumnType("bit");
 
-                    b.Property<bool?>("IsFullTime")
-                        .HasColumnType("bit");
+                    b.Property<int>("IsFullTime")
+                        .HasColumnType("int");
 
                     b.Property<bool?>("IsSemiDiscretionary")
                         .HasColumnType("bit");
@@ -941,7 +944,6 @@ namespace EFCustomMigrations.Db.Migrations
                         .HasColumnType("int");
 
                     b.Property<string>("PDMSNumber")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<decimal?>("PaAmount")
@@ -962,7 +964,6 @@ namespace EFCustomMigrations.Db.Migrations
                         .HasColumnType("bigint");
 
                     b.Property<string>("RemunerationTribunal")
-                        .IsRequired()
                         .HasMaxLength(255)
                         .HasColumnType("nvarchar(255)");
 
