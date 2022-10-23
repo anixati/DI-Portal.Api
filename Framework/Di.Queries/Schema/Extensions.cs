@@ -45,6 +45,7 @@ namespace Di.Qry.Schema
 
             return table;
         }
+
         public static Table AddHiddenCols(this Table table, params string[] cols)
         {
             if (cols == null) return table;
@@ -62,6 +63,7 @@ namespace Di.Qry.Schema
             table.Column(colName, accessor, string.Empty, true, true);
             return table;
         }
+
         public static Table AddDateColumn(this Table table, string colName, string accessor = "", string header = "",
             bool searchable = false, bool sortable = false)
         {
@@ -73,6 +75,7 @@ namespace Di.Qry.Schema
             });
             return table;
         }
+
         public static Table Column(this Table table, string colName, string accessor = "", string header = "",
             bool searchable = false, bool sortable = false)
         {
@@ -83,7 +86,6 @@ namespace Di.Qry.Schema
             });
             return table;
         }
-
 
         public static Table CalColumn(this Table table, string colExp, string accessor, string header,
             Action<GridColumn> configure = null)

@@ -5,10 +5,10 @@ using Di.Qry.Schema.Types;
 
 namespace Boards.Services.Appointments.Lists
 {
-    public class RoleAppointmentsList : QrySchema
+    public class AppointeeAppointments : QrySchema
     {
-        public override string SchemaName => "RoleAppointmentsView";
-        public override string Title => "Role Appointments";
+        public override string SchemaName => "AppointeeAppointments";
+        public override string Title => "Appointments";
         protected override Table CreateEntity()
         {
             var pt = Table.Create(Constants.Db.AppointmentsView);
@@ -21,31 +21,31 @@ namespace Boards.Services.Appointments.Lists
                 x.LinkId = "Id";
                 x.LinkPath = Routes.Appointment.Path();
             });
-            //pt.Column("BoardName", "BoardName", "Board", x =>
-            //{
-            //    x.Searchable = true;
-            //    x.Sortable = true;
-            //    x.Type = ColumnType.HyperLink;
-            //    x.LinkId = "BoardId";
-            //    x.LinkPath = Routes.Boards.Path();
-            //});
-
-            //pt.Column("RoleName", "RoleName", "Role", x =>
-            //{
-            //    x.Searchable = true;
-            //    x.Sortable = true;
-            //    x.Type = ColumnType.HyperLink;
-            //    x.LinkId = "BoardRoleId";
-            //    x.LinkPath = Routes.Roles.Path();
-            //});
-            pt.Column("AppointeeName", "AppointeeName", "Appointee", x =>
+            pt.Column("BoardName", "BoardName", "Board", x =>
             {
                 x.Searchable = true;
                 x.Sortable = true;
                 x.Type = ColumnType.HyperLink;
-                x.LinkId = "AppointeeId";
-                x.LinkPath = Routes.Appointee.Path();
+                x.LinkId = "BoardId";
+                x.LinkPath = Routes.Boards.Path();
             });
+
+            pt.Column("RoleName", "RoleName", "Role", x =>
+            {
+                x.Searchable = true;
+                x.Sortable = true;
+                x.Type = ColumnType.HyperLink;
+                x.LinkId = "BoardRoleId";
+                x.LinkPath = Routes.Roles.Path();
+            });
+            //pt.Column("AppointeeName", "AppointeeName", "Appointee", x =>
+            //{
+            //    x.Searchable = true;
+            //    x.Sortable = true;
+            //    x.Type = ColumnType.HyperLink;
+            //    x.LinkId = "AppointeeId";
+            //    x.LinkPath = Routes.Appointee.Path();
+            //});
 
             pt.AddSearchCols("BriefNumber");
 
@@ -60,7 +60,7 @@ namespace Boards.Services.Appointments.Lists
         protected override void ConfigureQry(QryState qs)
         {
             qs.Where("Disabled", "=", "0");
-            qs.ParentId = "BoardRoleId";
+            qs.ParentId = "AppointeeId";
         }
         protected override (string, bool) GetDefaultSort()
         {

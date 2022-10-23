@@ -29,7 +29,11 @@ namespace Boards.Services.BoardRoles.Lists
                 x.LinkId = "IncumbentId";
                 x.LinkPath = Routes.Appointee.Path(); ;
             });
-            pt.AddSearchCols("Appointer", "IsFullTime", "IsExecutive", "IsApsEmployee", "IsExOfficio", "Term");
+            pt.AddSearchCols("IncumbentGender", "Appointer", "ActingInRole","ExcludeGenderBalance");
+
+
+            pt.AddDateColumn("StartDate");
+            pt.AddDateColumn("EndDate");
             return pt;
         }
 

@@ -277,6 +277,8 @@ CREATE VIEW  [dbo].[AppointmentsView] AS
 	  bap.BriefNumber,
 	  bap.StartDate,
 	  bap.EndDate,
+	  bap.AppointmentDate,
+	  (CASE bap.ActingInRole WHEN 1 THEN 'Yes' ELSE 'No' END)  AS ActingInRole,
 	  bap.[Locked],
 	  bap.[Disabled]
 	  FROM BoardAppointments bap
