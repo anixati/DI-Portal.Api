@@ -25,17 +25,20 @@ namespace Boards.Services.Boards.Forms
 
         private void BoardDetails(FormField field)
         {
-            field.AddFieldGroup(f =>
-            {
-                f.AddInput("Name", "Name", x =>
+
+            field.AddInput("Name", "Name", x =>
                 {
                     x.AddRequired("Name is required");
                     x.AddRule(ValRule.Min(5, "Minimum 5 chars required"));
                     x.FieldType = FormFieldType.Text;
                 });
+            field.AddFieldGroup(f =>
+            {
+
                 f.AddInput("Acronym", "Acronym", false);
                 f.AddLookup("AppTeam", "AppTeamLookup", Routes.Default, "Team/Division", true);
                 f.AddLookup("Portfolio", "PortfolioLookup", Routes.Portfolios, "Portfolio", true);
+                f.AddYesNo("ReportingApproved", "Approved for reporting", "", true);
             });
             field.AddInput("Description", "Description", x =>
             {
@@ -78,7 +81,7 @@ namespace Boards.Services.Boards.Forms
             });
             //--------------------
 
-            //field.AddDivider("XXXXX");
+            // field.AddDivider(" ");
             //field.AddFieldGroup(f =>
             //{
             //    f.AddPickList("BoardStatus", "BoardStatus", "Board Status");
@@ -93,12 +96,11 @@ namespace Boards.Services.Boards.Forms
             //    x.FieldType = FormFieldType.Note;
             //});
 
-            //field.AddFieldGroup(f =>
-            //{
-            //    f.AddNumeric("MaxServicePeriod", "Maximum period of each term served by members");
-            //    f.AddYesNo("ReportingApproved", "Reporting approved", "", true);
-            //    f.AddYesNo("ExcludeFromGenderBalance", "Exclude from gender balance", "", true);
-            //});
+            field.AddFieldGroup(f =>
+            {
+
+                // f.AddYesNo("ExcludeFromGenderBalance", "Exclude from gender balance", "", true);
+            });
 
 
         }

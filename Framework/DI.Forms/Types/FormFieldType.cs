@@ -15,9 +15,11 @@
         SubGrid=10,
         Decimal = 11,
         TextList=12,
+        Filler = 13,
         Action =21,
         Link=22,
         Label=23,
         Documents = 24,
+        ExtLink = 25,
     }
 }

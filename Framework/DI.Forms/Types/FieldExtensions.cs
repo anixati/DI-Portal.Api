@@ -177,6 +177,17 @@ namespace DI.Forms.Types
             return fd;
         }
 
+        public static FormField AddExtLink(this FormField fd, string key, string value, string desc,string title = null)
+        {
+            fd.AddInput(key, title, x =>
+            {
+                x.Description = desc;
+                x.FieldType = FormFieldType.ExtLink;
+                x.Options = value;
+            });
+            return fd;
+        }
+
         public static FormField AddInput(this FormField fd, string key, string title = null, bool required = false,
             bool disabled= false)
         {
@@ -186,6 +197,16 @@ namespace DI.Forms.Types
                 if (required)
                     x.AddRequired($"{title} is required");
                 x.Disabled = disabled;
+            });
+            return fd;
+        }
+
+        public static FormField AddFiller(this FormField fd)
+        {
+            fd.AddInput(Guid.NewGuid().ToString("N"), " ", x =>
+            {
+                x.FieldType = FormFieldType.Filler;
+                x.Disabled = true;
             });
             return fd;
         }

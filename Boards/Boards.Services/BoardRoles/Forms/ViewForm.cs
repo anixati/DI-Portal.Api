@@ -64,7 +64,8 @@ namespace Boards.Services.BoardRoles.Forms
             field.AddFieldGroup(f =>
             {
                 f.AddDate("MinSubDate", "Date Minister signed instrument date");
-                f.AddInput("InstrumentLink", "Instrument Link", true);
+              //  f.AddInput("InstrumentLink", "Instrument Link", true);
+                f.AddExtLink("InstrumentLink", GetConfigValue("SharePoint"), "Open work space", "Instrument Link");
             });
 
             //------------------------------------------------------

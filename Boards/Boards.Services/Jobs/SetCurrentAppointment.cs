@@ -25,9 +25,9 @@ namespace Boards.Services.Jobs
             var arp = _boardsContext.Repo<BoardAppointment>();
             Trace($" ------- Starting SetCurrentAppointment ------- ");
             var roles = await rrp.GetListAsync(x => x.Disabled == false, true);
-            foreach (var role in roles)
+            foreach (var role in roles.OrderBy(x=>x.BoardId))
             {
-
+                Trace($"- B:{role.BoardId} R:{role.Id} ");
                 var appointments = await arp.GetListAsync(x => x.Disabled == false && x.BoardRoleId == role.Id, true);
 
                 if (appointments != null)
@@ -44,34 +44,20 @@ namespace Boards.Services.Jobs
                         {
                             apt.IsCurrent = apt.StartDate <= date && apt.EndDate > date;
                         }
+                      
 
                     }
 
-                    var endDate = roleAppointments.Max(x => x.EndDate);
-
-                    if (roleAppointments.All(x => x.IsCurrent != true))
+                    var incumbant = roleAppointments.FirstOrDefault(x => x.IsCurrent.GetValueOrDefault() ==true);
+                    if (incumbant != null)
                     {
-                        foreach (var apt in roleAppointments)
-                            Trace($" mem  {apt.Name} {apt.Id} - {apt.StartDate} {apt.EndDate} {apt.IsCurrent}");
-                        role.VacantFromDate = endDate ?? date;
-                        role.IncumbentId = null;
-                    }
-                    else
-                    {
-                        var incAppointment =
-                            roleAppointments.FirstOrDefault(x => x.IsCurrent == true && x.EndDate == endDate);
-                        if (incAppointment != null)
-                        {
-                            //role.VacantFromDate = null;
-                            role.IncumbentId = incAppointment.AppointeeId;
-                            role.IncumbentName = incAppointment.Name;
-                            role.IncumbentStartDate = incAppointment.StartDate.HasValue ?
-                                incAppointment.StartDate.Value.ToString("dd MMM yyyy") : "";
-                            role.IncumbentEndDate = incAppointment.EndDate.HasValue
-                                ? incAppointment.EndDate.Value.ToString("dd MMM yyyy")
-                                : "";
-                        }
-
+                        role.IncumbentId = incumbant.AppointeeId;
+                        role.IncumbentName = incumbant.Name;
+                        role.IncumbentStartDate = incumbant.StartDate.HasValue ?
+                            incumbant.StartDate.Value.ToString("dd MMM yyyy") : "";
+                        role.IncumbentEndDate = incumbant.EndDate.HasValue
+                            ? incumbant.EndDate.Value.ToString("dd MMM yyyy")
+                            : "";
                     }
 
 
@@ -81,7 +67,6 @@ namespace Boards.Services.Jobs
                 else
                 {
                     role.IncumbentId = null;
-                    role.VacantFromDate = date;
                 }
 
                 if (role.IncumbentId == null)
@@ -90,11 +75,23 @@ namespace Boards.Services.Jobs
                     role.IncumbentStartDate = string.Empty;
                     role.IncumbentEndDate = string.Empty;
                 }
-
-
-                if (role.VacantFromDate.HasValue)
-                    Trace($" set role vacant for  {role.Name} {role.Id} - {role.BoardId}");
+                Trace($"Incumb:{role.IncumbentName} ");
                 await rrp.UpdateAsync(role);
+
+                //calculate vacant from date
+                if (appointments != null && role.IncumbentId == null)
+                {
+                    var endDate = appointments.Max(x => x.EndDate);
+                    if (endDate.HasValue && endDate.Value < DateTime.Now)
+                    {
+                        Trace($" Adding vacant date for   {role.Name} {role.Id} - {endDate}");
+                        role.VacantFromDate = endDate ?? date;
+                        role.VacantFromDate = endDate;
+                        await rrp.UpdateAsync(role);
+                    }
+
+                }
+               
 
             }
             Trace($" ------- SetCurrentAppointment done ------- ");

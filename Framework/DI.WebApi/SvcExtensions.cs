@@ -35,8 +35,9 @@ namespace DI.WebApi
 
         #region options
 
-        public static void AddReportConfig(this IServiceCollection services, IConfiguration configuration)
+        public static void AddOptionsConfig(this IServiceCollection services, IConfiguration configuration)
         {
+            services.Configure<AppSettings>(configuration.GetSection("AppSettings"));
             services.Configure<ReportConfig>(configuration.GetSection("reportConfig"));
         }
 

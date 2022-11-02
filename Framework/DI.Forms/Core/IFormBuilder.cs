@@ -3,6 +3,6 @@
     public interface IFormBuilder
     {
         string FormName { get; }
-        IFormState Create();
+        IFormState Create(AppSettings settings);
     }
 }

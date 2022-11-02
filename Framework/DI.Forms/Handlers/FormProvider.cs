@@ -1,11 +1,13 @@
 ﻿using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
+using System.ComponentModel.Design;
 using System.Linq;
 using System.Threading.Tasks;
 using DI.Forms.Core;
 using DI.Forms.Types;
 using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Options;
 
 namespace DI.Forms.Handlers
 {
@@ -14,11 +16,11 @@ namespace DI.Forms.Handlers
         private static readonly ConcurrentDictionary<string, Lazy<IFormState>> States = new();
         private readonly IEnumerable<IFormBuilder> _builders;
 
-        public FormProvider(IEnumerable<IFormBuilder> builders, ILoggerFactory logFactory) : base(logFactory)
+        public FormProvider(IEnumerable<IFormBuilder> builders, ILoggerFactory logFactory,IOptions<AppSettings> options) : base(logFactory)
         {
             _builders = builders;
             foreach (var fb in _builders)
-                States[$"{fb.FormName.ToLower().Trim()}"] = new Lazy<IFormState>(() => fb.Create());
+                States[$"{fb.FormName.ToLower().Trim()}"] = new Lazy<IFormState>(() => fb.Create(options.Value));
         }
 
         public List<string> GetSchemas()

@@ -39,8 +39,8 @@ namespace Boards.Services.Appointments.Forms
             {
                 f.AddInput("BriefNumber", "Submission Number", true);
                 f.AddPickList("AppointmentSource", "AppointmentSource", "Appointment Source", true);
-                f.AddPickList("AppointmentSource", "AppointmentSource", "Appointment Source", true);
                 f.AddPickList("Judicial", "Judicial", "Judicial", false);
+                f.AddYesNo("ActingInRole", "Acting", "", false);
             });
 
             field.AddFieldGroup(f =>
@@ -61,9 +61,11 @@ namespace Boards.Services.Appointments.Forms
 
             field.AddFieldGroup(f =>
             {
-                f.AddYesNo("ActingInRole", "Acting", "", false);
+               
                 f.AddYesNo("IsSemiDiscretionary", "Is the position semi discretionary.", "", false);
                 f.AddNumeric("PrevTerms", "How many terms previously served?", false);
+                f.AddFiller();
+                f.AddFiller();
             });
         }
 
