@@ -22,7 +22,7 @@ namespace CrmDataExtractor
 
         public void Save()
         {
-            var path = $"{Path.GetTempPath()}\\{Guid.NewGuid().ToString("N")}.json";
+            var path = $"c:\\temp\\{Guid.NewGuid().ToString("N")}.json";
             var json = JsonConvert.SerializeObject(this, Formatting.Indented);
             File.WriteAllText(path, json);
             Process.Start(path);

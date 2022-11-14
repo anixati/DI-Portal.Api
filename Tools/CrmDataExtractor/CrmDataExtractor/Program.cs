@@ -15,6 +15,7 @@ namespace CrmDataExtractor
             try
             {
                 DataTasks.Execute();
+                Console.WriteLine($"Done");
             }
             catch (Exception ex) 
             {

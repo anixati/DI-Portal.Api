@@ -97,8 +97,8 @@ namespace Boards.Services.BoardRoles.Forms
 
             field.AddFieldGroup(f =>
             {
-                f.AddInput("PDMSNumber", "PDMS Number", true);
-                f.AddPickList("MinSubLocation", "MinSubLocation", "MinSub Location", true);
+                f.AddInput("PDMSNumber", "PDMS Number", false);
+                f.AddPickList("MinSubLocation", "MinSubLocation", "MinSub Location", false);
 
                 f.AddDate("MinisterOfficeDate", "Date Submission sent to MO", false);
                 f.AddDate("MinisterActionDate", "Minister office due date", false);

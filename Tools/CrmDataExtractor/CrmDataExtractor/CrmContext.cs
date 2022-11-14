@@ -92,6 +92,8 @@ namespace CrmDataExtractor
 
         public Dictionary<string, Dictionary<string, string>> GetEntity(string entityName)
         {
+
+            Console.WriteLine($" Getting {entityName} Data:");
             var rv = new Dictionary<string, Dictionary<string, string>>();
             var query = new QueryExpression(entityName)
             {
@@ -107,7 +109,7 @@ namespace CrmDataExtractor
                 var key = et.Id.ToString("N");
                 var avl = new Dictionary<string, string>();
 
-                Console.WriteLine("------ /n/n");
+                Console.Write(".");
                 foreach (var atb in et.Attributes)
                 {
                     var val = et.ToString(atb.Key);
@@ -115,6 +117,7 @@ namespace CrmDataExtractor
                 }
                 rv[key] = avl;
             }
+            Console.WriteLine($"Done!");
             return rv;
         }
 

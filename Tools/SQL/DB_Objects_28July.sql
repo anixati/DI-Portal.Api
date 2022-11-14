@@ -295,6 +295,7 @@ SET QUOTED_IDENTIFIER ON
 GO
 
 
+
 CREATE VIEW  [dbo].[BoardRolesView] AS 
 	  SELECT 
 	  brl.Id,
@@ -306,6 +307,11 @@ CREATE VIEW  [dbo].[BoardRolesView] AS
 	  brl.[PositionId],
 	  brl.[RoleAppointerId] AS [AppointerId],
 	 (SELECT os.[Label] FROM OptionSet os where os.ID= brl.RoleAppointerId) AS  Appointer,
+	 (case apt.Gender when 1 then 'Male' when 2 then 'Female' else 'NA' end) As IncumbentGender,
+	 (case brl.[ExcludeGenderReport] when 1 then 'Yes' ELSE 'No' end)  AS ExcludeGenderBalance,
+	 (CASE ba.ActingInRole WHEN 1 THEN 'Yes' ELSE 'No' END)  AS ActingInRole,
+	  ba.StartDate,
+	  ba.EndDate,
 	  brl.[IsFullTime],
 	  brl.[IsExecutive],
 	  brl.[IsExOfficio],
@@ -340,6 +346,8 @@ CREATE VIEW  [dbo].[BoardRolesView] AS
 	  LEFT JOIN dbo.BoardAppointments ba on brl.Id = ba.BoardRoleId and ba.StartDate <= GETDATE() and ba.EndDate > GETDATE() and ba.Deleted=0
 	  LEFT OUTER JOIN [dbo].[Appointee] apt on ba.AppointeeId = apt.Id AND apt.Deleted=0
 	  WHERE brl.Deleted=0 AND bds.Deleted=0 AND pos.Deleted=0
+
+
 
 
 GO

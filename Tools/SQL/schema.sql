@@ -543,11 +543,11 @@ CREATE TABLE [Dbo].[BoardRoles] (
     [VacantFromDate] datetime2 NULL,
     [ExcludeFromOrder15] bit NULL,
     [ExcludeGenderReport] bit NULL,
-    [IsSignAppointment] bit NOT NULL,
+    [IsSignAppointment] bit NULL,
     [NextSteps] nvarchar(2000) NULL,
     [InstrumentLink] nvarchar(2000) NULL,
     [PDMSNumber] nvarchar(max) NULL,
-    [MinSubLocationId] bigint NOT NULL,
+    [MinSubLocationId] bigint NULL,
     [MinisterOfficeDate] datetime2 NULL,
     [MinisterActionDate] datetime2 NULL,
     [LetterToPmDateType] int NOT NULL,
@@ -778,7 +778,7 @@ CREATE UNIQUE INDEX [IX_Users_UserId] ON [acl].[Users] ([UserId]);
 GO
 
 INSERT INTO [__EFMigrationsHistory] ([MigrationId], [ProductVersion])
-VALUES (N'20221020004018_Initial_Migration', N'5.0.16');
+VALUES (N'20221104062811_Initial_Migration', N'5.0.16');
 GO
 
 COMMIT;

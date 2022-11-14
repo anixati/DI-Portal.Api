@@ -28,6 +28,10 @@ namespace CrmDataExtractor
             if (valueType == typeof(string)) return (string) value;
 
             if (valueType == typeof(DateTime)) return ((DateTime) value).ToString("dd/MM/yyyy hh:mm tt Z");
+            if (valueType == typeof(Money))
+            {
+                return ((Money) value).Value.ToString("#.##");
+            }
 
             if (valueType == typeof(AliasedValue))
             {

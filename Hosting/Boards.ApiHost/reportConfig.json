@@ -76,16 +76,16 @@
       },
       {
         "id": 110,
-        "title": "Weekly Report Six Month",
-        "description": "Weekly report for six month period",
+        "title": "Six Month Outlook",
+        "description": "Outlook for six month period",
         "url": "WeeklyFor6Month",
         "options": "",
         "roles": []
       },
       {
         "id": 111,
-        "title": "Weekly Report Twelve Month",
-        "description": "Weekly report for twelve month period",
+        "title": "Twelve Month Outlook",
+        "description": "outlook for twelve month period",
         "url": "WeeklyFor12Month",
         "options": "",
         "roles": []

@@ -10,7 +10,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace EFCustomMigrations.Db.Migrations
 {
     [DbContext(typeof(BoardsDbContext))]
-    [Migration("20221020004018_Initial_Migration")]
+    [Migration("20221104062811_Initial_Migration")]
     partial class Initial_Migration
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -886,7 +886,7 @@ namespace EFCustomMigrations.Db.Migrations
                     b.Property<int>("IsFullTime")
                         .HasColumnType("int");
 
-                    b.Property<bool>("IsSignAppointment")
+                    b.Property<bool?>("IsSignAppointment")
                         .HasColumnType("bit");
 
                     b.Property<int?>("LeadTimeToAppoint")
@@ -911,7 +911,7 @@ namespace EFCustomMigrations.Db.Migrations
                     b.Property<int>("MinSubDateType")
                         .HasColumnType("int");
 
-                    b.Property<long>("MinSubLocationId")
+                    b.Property<long?>("MinSubLocationId")
                         .HasColumnType("bigint");
 
                     b.Property<DateTime?>("MinisterActionDate")
@@ -2273,8 +2273,7 @@ namespace EFCustomMigrations.Db.Migrations
                     b.HasOne("DI.Domain.Options.OptionSet", "MinSubLocation")
                         .WithMany()
                         .HasForeignKey("MinSubLocationId")
-                        .OnDelete(DeleteBehavior.NoAction)
-                        .IsRequired();
+                        .OnDelete(DeleteBehavior.NoAction);
 
                     b.HasOne("DI.Domain.Options.OptionSet", "Position")
                         .WithMany()
