@@ -17,7 +17,8 @@ namespace DI.Domain.Users
         [MaxLength(500)] public virtual string NameId { get; set; }
         [MaxLength(500)] public virtual string Upn { get; set; }
         [MaxLength(500)] public virtual string DisplayName { get; set; }
-       public virtual DateTime? AccessRequest { get; set; }
+        [MaxLength(500)] public string JobRole { get; set; }
+        public virtual DateTime? AccessRequest { get; set; }
        public virtual DateTime? AccessGranted { get; set; }
 
         [Required]

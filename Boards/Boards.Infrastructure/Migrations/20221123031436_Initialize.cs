@@ -1,9 +1,9 @@
 ﻿using System;
 using Microsoft.EntityFrameworkCore.Migrations;
 
-namespace EFCustomMigrations.Db.Migrations
+namespace Boards.Infrastructure.Migrations
 {
-    public partial class Initial_Migration : Migration
+    public partial class Initialize : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -363,6 +363,7 @@ namespace EFCustomMigrations.Db.Migrations
                     NameId = table.Column<string>(type: "nvarchar(500)", maxLength: 500, nullable: true),
                     Upn = table.Column<string>(type: "nvarchar(500)", maxLength: 500, nullable: true),
                     DisplayName = table.Column<string>(type: "nvarchar(500)", maxLength: 500, nullable: true),
+                    JobRole = table.Column<string>(type: "nvarchar(500)", maxLength: 500, nullable: true),
                     AccessRequest = table.Column<DateTime>(type: "datetime2", nullable: true),
                     AccessGranted = table.Column<DateTime>(type: "datetime2", nullable: true),
                     IsSystem = table.Column<bool>(type: "bit", nullable: false),

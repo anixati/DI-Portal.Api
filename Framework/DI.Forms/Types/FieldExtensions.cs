@@ -74,7 +74,7 @@ namespace DI.Forms.Types
                 var attributes = (DescriptionAttribute[])fi.GetCustomAttributes(typeof(DescriptionAttribute), false);
                 if (attributes != null && attributes.Length > 0)
                     desc= attributes[0].Description;
-                rCol.Add(new SelectItem($"{value}", desc));
+                rCol.Add(new SelectItem($"{(int)value}", desc));
             }
 
 

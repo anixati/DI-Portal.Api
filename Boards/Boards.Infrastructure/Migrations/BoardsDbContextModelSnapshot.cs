@@ -4,16 +4,14 @@ using Boards.Infrastructure.Domain;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
-using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
-namespace EFCustomMigrations.Db.Migrations
+namespace Boards.Infrastructure.Migrations
 {
     [DbContext(typeof(BoardsDbContext))]
-    [Migration("20221104062811_Initial_Migration")]
-    partial class Initial_Migration
+    partial class BoardsDbContextModelSnapshot : ModelSnapshot
     {
-        protected override void BuildTargetModel(ModelBuilder modelBuilder)
+        protected override void BuildModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -1593,6 +1591,10 @@ namespace EFCustomMigrations.Db.Migrations
 
                     b.Property<bool>("IsSystem")
                         .HasColumnType("bit");
+
+                    b.Property<string>("JobRole")
+                        .HasMaxLength(500)
+                        .HasColumnType("nvarchar(500)");
 
                     b.Property<string>("LastName")
                         .IsRequired()

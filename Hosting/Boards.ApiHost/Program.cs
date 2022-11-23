@@ -1,20 +1,16 @@
+using Autofac.Extensions.DependencyInjection;
+using Boards.Services;
+using DI.Jobs;
+using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Server.Kestrel.Core;
+using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Hosting;
+using Serilog;
 using System;
 using System.IO;
 using System.Net;
 using System.Reflection;
 using System.Threading.Tasks;
-using Autofac.Extensions.DependencyInjection;
-using Boards.Infrastructure.Design;
-using Boards.Services;
-using Boards.Services.Jobs;
-using DI.Jobs;
-using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Server.Kestrel.Core;
-using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Hosting;
-using Serilog;
-using Serilog.Events;
 
 namespace Boards.ApiHost
 {

@@ -10,6 +10,7 @@ using Boards.Domain.Roles;
 using Boards.Domain.Shared;
 using Boards.Infrastructure.Domain;
 using DataTools.Migrations;
+using DI;
 using DI.Domain.Core;
 using DI.Domain.Enums;
 using DI.Domain.Options;
@@ -86,7 +87,7 @@ namespace DataTools
 
                 await ImportSkills(data);
 
-                await ImportTestUsers(data);
+                // await ImportTestUsers(data);
 
                 _db.Commit();
                 Trace($"!---Completed---!");
@@ -99,7 +100,7 @@ namespace DataTools
 
         }
 
-        List<string> TestUsers = new List<string> {"Courtney Schmitzer","Lauren Collins","James Grainger","Simon Gordon","Felicity Salmi","Michael Hester","Olivia Freund"};
+        List<string> TestUsers = new List<string> { "Courtney Schmitzer", "Lauren Collins", "James Grainger", "Simon Gordon", "Felicity Salmi", "Michael Hester", "Olivia Freund" };
         private async Task ImportTestUsers(BoardsData data)
         {
             var usrRepo = GetRepo<AppUser>();
@@ -133,9 +134,10 @@ namespace DataTools
                     await usrRepo.CreateAsync(ausr);
                     await Save();
                 }
-                else {
+                else
+                {
                     ausr.AccessGranted = DateTime.Now;
-                    ausr.Disabled= false;
+                    ausr.Disabled = false;
                     ausr.PasswordHash = BC.HashPassword("Welcome2023");
                     ausr.IsSystem = true;
 
@@ -507,83 +509,6 @@ namespace DataTools
             }
         }
 
-
-        private async Task<long?> GetContactId(string id)
-        {
-            var repo = GetRepo<Appointee>();
-            var et = await repo.FindAsync(x => x.MigratedId == id);
-            return et?.Id;
-        }
-        private async Task<long> GetBoardRoleId(string id)
-        {
-            var repo = GetRepo<BoardRole>();
-            var et = await repo.FindAsync(x => x.MigratedId == id);
-            return et.Id;
-        }
-        private async Task<long> GetBoardId(string id)
-        {
-            var repo = GetRepo<Board>();
-            var et = await repo.FindAsync(x => x.MigratedId == id);
-            return et.Id;
-        }
-        private async Task<long?> GetUserId(string id)
-        {
-            var repo = GetRepo<AppUser>();
-            var et = await repo.FindAsync(x => x.MigratedId == id);
-            return et?.Id;
-        }
-
-        private async Task<long?> GetOption(string label, string name)
-        {
-            var repo = GetRepo<OptionKey>();
-            var et = await repo.FindAsync(x => x.Name == name);
-            if (et == null) throw new Exception($"unknown option key");
-
-
-            var osr = GetRepo<OptionSet>();
-
-            if (string.IsNullOrEmpty(label))
-            {
-                var dfo = await osr.GetListAsync(x => x.OptionKeyId == et.Id);
-                return dfo.First().Id;
-            }
-
-            var osv = await osr.FindAsync(x => x.OptionKeyId == et.Id && x.Label == label);
-            if (osv != null)
-            {
-                return osv.Id;
-            }
-
-            return null;
-        }
-
-        private async Task<long?> GetSec(string label)
-        {
-            if (string.IsNullOrEmpty(label)) return null;
-            var rx = label.Split(new char[] { ' ' }, StringSplitOptions.RemoveEmptyEntries);
-            var fn = rx[0];
-            var ln = "";
-            if (rx.Length > 0) ln = rx[1];
-
-
-            var repo = GetRepo<AssistantSecretary>();
-            var et = await repo.FindAsync(x => x.FirstName == fn && x.LastName == ln);
-            if (et == null)
-            {
-                et = new AssistantSecretary()
-                {
-                    FirstName = fn,
-                    LastName = ln
-
-                };
-                await repo.CreateAsync(et);
-                await Save();
-
-            }
-            return et.Id;
-        }
-
-
         private async Task ImportBoards(BoardsData data)
         {
 
@@ -745,55 +670,6 @@ namespace DataTools
 
         }
 
-        private async Task ImportUsers(BoardsData data)
-        {
-            Trace($"Importing Users {data.Users.Count}");
-            var repo = GetRepo<AppUser>();
-            foreach (var (key, value) in data.Users)
-            {
-
-                var usn = value.Get("domainname");
-                if (string.IsNullOrEmpty(usn)) continue;
-                var fn = value.Get("firstname");
-                if (string.IsNullOrEmpty(fn)) continue;
-                var ln = value.Get("lastname");
-                if (string.IsNullOrEmpty(ln)) continue;
-                var op = await repo.FindAsync(x => x.UserId == usn);
-                if (op != null) continue;
-                Trace($"Creating {fn} {ln}");
-                op = new AppUser()
-                {
-                    FirstName = $"{fn}",
-                    LastName = ln,
-                    MiddleName = value.Get("middlename"),
-                    MigratedId = value.Get("systemuserid"),
-                    UserId = $"{usn}",
-                    PasswordHash = "-",
-                    AccessRequest = null,
-                    AccessGranted = null
-                };
-                var email = value.Get("internalemailaddress");
-                if (!string.IsNullOrEmpty(email))
-                    op.Email1 = email;
-
-                var isd = value.Get("isdisabled");
-                if (!string.IsNullOrEmpty(isd) && isd == "true")
-                {
-                    op.Disabled = true;
-                }
-                else
-                {
-                    op.Disabled = false;
-                }
-                op.Disabled = true;
-                await repo.CreateAsync(op);
-                await Save();
-
-            }
-
-        }
-
-
         private async Task ImportOptions(BoardsData data)
         {
             Trace($"Importing Options {data.Options.Count}");
@@ -845,7 +721,6 @@ namespace DataTools
             Trace($"Options key count {await osr.CountAsync()}");
             Trace($"Options set count {await okr.CountAsync()}");
         }
-
 
         private async Task ImportSkills(BoardsData data)
         {
@@ -936,6 +811,174 @@ namespace DataTools
             }
 
         }
+
+        private async Task ImportUsers(BoardsData data)
+        {
+            Trace($"Importing Users {data.Users.Count}");
+            var repo = GetRepo<AppUser>();
+
+            var team = await GetRepo<AppTeam>().FindAsync(x => x.Name == "Default");
+            team.ThrowIfNull($"Default team not found");
+
+            var role = await GetRepo<AppRole>().FindAsync(x => x.Name == $"{ApplicationRoles.Contributor}");
+            role.ThrowIfNull($"contributer role not found");
+
+            foreach (var (key, value) in data.Users)
+            {
+
+                var usn = value.Get("domainname");
+                if (string.IsNullOrEmpty(usn)) continue;
+
+                var userId = usn;
+                if (usn.Contains("\\"))
+                {
+                    userId = usn.Substring(usn.LastIndexOf("\\", StringComparison.Ordinal) + 1);
+                }
+
+
+                var fn = value.Get("firstname");
+                if (string.IsNullOrEmpty(fn)) continue;
+                var ln = value.Get("lastname");
+                if (string.IsNullOrEmpty(ln)) continue;
+                var op = await repo.FindAsync(x => x.UserId == userId);
+                if (op != null) continue;
+
+                var disabled = value.Get("isdisabled") == "true" ? true : false;
+
+                DateTime? grantDate = disabled ? null : DateTime.Now;
+
+                Trace($"Creating {fn} {ln}");
+                op = new AppUser()
+                {
+                    FirstName = $"{fn}",
+                    LastName = ln,
+                    MiddleName = value.Get("middlename"),
+                    MigratedId = value.Get("systemuserid"),
+                    UserId = $"{userId}",
+                    PasswordHash = "-",
+                    AccessRequest = grantDate,
+                    AccessGranted = grantDate,
+                    Disabled = disabled
+                };
+                var email = value.Get("internalemailaddress");
+                if (!string.IsNullOrEmpty(email))
+                    op.Email1 = email;
+
+                var fullname = value.Get("fullname");
+                if (!string.IsNullOrEmpty(fullname))
+                    op.DisplayName = fullname;
+
+
+                await repo.CreateAsync(op);
+                await Save();
+
+                if (disabled == false)
+                {
+                    //-- assign default team 
+
+                    var teammUser = await GetRepo<TeamUser>()
+                        .FindAsync(x => x.AppTeamId == team.Id && x.AppUserId == op.Id);
+                    if (teammUser == null)
+                        teammUser = await GetRepo<TeamUser>()
+                            .CreateAsync(new TeamUser {AppTeamId = team.Id, AppUserId = op.Id});
+                    await Save();
+
+                    //assign defualt role 
+
+
+                    var userRole = await GetRepo<UserRole>()
+                        .FindAsync(x => x.AppRoleId == role.Id && x.AppUserId == op.Id);
+                    if (userRole == null)
+                        userRole = await GetRepo<UserRole>()
+                            .CreateAsync(new UserRole {AppRoleId = role.Id, AppUserId = op.Id});
+                    await Save();
+                }
+
+            }
+
+        }
+
+
+        #region Utils
+
+        private async Task<long?> GetContactId(string id)
+        {
+            var repo = GetRepo<Appointee>();
+            var et = await repo.FindAsync(x => x.MigratedId == id);
+            return et?.Id;
+        }
+        private async Task<long> GetBoardRoleId(string id)
+        {
+            var repo = GetRepo<BoardRole>();
+            var et = await repo.FindAsync(x => x.MigratedId == id);
+            return et.Id;
+        }
+        private async Task<long> GetBoardId(string id)
+        {
+            var repo = GetRepo<Board>();
+            var et = await repo.FindAsync(x => x.MigratedId == id);
+            return et.Id;
+        }
+        private async Task<long?> GetUserId(string id)
+        {
+            var repo = GetRepo<AppUser>();
+            var et = await repo.FindAsync(x => x.MigratedId == id);
+            return et?.Id;
+        }
+
+        private async Task<long?> GetOption(string label, string name)
+        {
+            var repo = GetRepo<OptionKey>();
+            var et = await repo.FindAsync(x => x.Name == name);
+            if (et == null) throw new Exception($"unknown option key");
+
+
+            var osr = GetRepo<OptionSet>();
+
+            if (string.IsNullOrEmpty(label))
+            {
+                var dfo = await osr.GetListAsync(x => x.OptionKeyId == et.Id);
+                return dfo.First().Id;
+            }
+
+            var osv = await osr.FindAsync(x => x.OptionKeyId == et.Id && x.Label == label);
+            if (osv != null)
+            {
+                return osv.Id;
+            }
+
+            return null;
+        }
+
+        private async Task<long?> GetSec(string label)
+        {
+            if (string.IsNullOrEmpty(label)) return null;
+            var rx = label.Split(new char[] { ' ' }, StringSplitOptions.RemoveEmptyEntries);
+            var fn = rx[0];
+            var ln = "";
+            if (rx.Length > 0) ln = rx[1];
+
+
+            var repo = GetRepo<AssistantSecretary>();
+            var et = await repo.FindAsync(x => x.FirstName == fn && x.LastName == ln);
+            if (et == null)
+            {
+                et = new AssistantSecretary()
+                {
+                    FirstName = fn,
+                    LastName = ln
+
+                };
+                await repo.CreateAsync(et);
+                await Save();
+
+            }
+            return et.Id;
+        }
+
+
+        #endregion
+
 
         public async Task StopAsync(CancellationToken cancellationToken)
         {
