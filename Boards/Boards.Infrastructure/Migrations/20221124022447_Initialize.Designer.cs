@@ -10,7 +10,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Boards.Infrastructure.Migrations
 {
     [DbContext(typeof(BoardsDbContext))]
-    [Migration("20221123031436_Initialize")]
+    [Migration("20221124022447_Initialize")]
     partial class Initialize
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -402,8 +402,8 @@ namespace Boards.Infrastructure.Migrations
                         .HasMaxLength(50)
                         .HasColumnType("nvarchar(50)");
 
-                    b.Property<bool?>("ExecutiveSearch")
-                        .HasColumnType("bit");
+                    b.Property<int>("ExecutiveSearch")
+                        .HasColumnType("int");
 
                     b.Property<long?>("ExperienceId")
                         .HasColumnType("bigint");
@@ -424,14 +424,17 @@ namespace Boards.Infrastructure.Migrations
                         .HasMaxLength(10)
                         .HasColumnType("nvarchar(10)");
 
-                    b.Property<bool?>("IsAboriginal")
-                        .HasColumnType("bit");
+                    b.Property<int>("IsAboriginal")
+                        .HasColumnType("int");
 
-                    b.Property<bool?>("IsDisabled")
-                        .HasColumnType("bit");
+                    b.Property<int>("IsCAlDBackground")
+                        .HasColumnType("int");
 
-                    b.Property<bool?>("IsRegional")
-                        .HasColumnType("bit");
+                    b.Property<int>("IsDisabled")
+                        .HasColumnType("int");
+
+                    b.Property<int>("IsRegional")
+                        .HasColumnType("int");
 
                     b.Property<string>("LastName")
                         .IsRequired()

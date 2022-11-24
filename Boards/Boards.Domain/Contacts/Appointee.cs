@@ -2,6 +2,7 @@
 using System.ComponentModel.DataAnnotations;
 using Boards.Domain.Roles;
 using DI.Domain.Contacts;
+using DI.Domain.Enums;
 using DI.Domain.Options;
 
 namespace Boards.Domain.Contacts
@@ -16,10 +17,11 @@ namespace Boards.Domain.Contacts
 
         [MaxLength(255)] public string LinkedInProfile { get; set; }
 
-        public bool? IsRegional { get; set; }
-        public bool? IsAboriginal { get; set; }
-        public bool? IsDisabled { get; set; }
-        public bool? ExecutiveSearch { get; set; }
+        public RegionalEnum IsRegional { get; set; }
+        public YesNoExEnum IsAboriginal { get; set; }
+        public YesNoExEnum IsDisabled { get; set; }
+        public YesNoExEnum IsCAlDBackground { get; set; }
+        public YesNoEnum ExecutiveSearch { get; set; }
 
         public long? CapabilitiesId { get; set; }
         public virtual OptionSet Capabilities { get; set; }

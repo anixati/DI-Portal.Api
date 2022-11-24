@@ -4,6 +4,8 @@
     {
         Na = 0,
         Male,
-        Female
+        Female,
+        Indeterminate,
+        ChoseNotToSay
     }
 }

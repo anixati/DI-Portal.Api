@@ -47,11 +47,26 @@ namespace Boards.Services.Appointees.Forms
             });
             field.AddFieldGroup(f =>
             {
-                f.AddYesNo("IsRegional", "Regional", "", false);
-                f.AddYesNo("IsAboriginal", "Aboriginal", "", false);
-                f.AddYesNo("IsDisabled", "Disabled", "");
-                f.AddYesNo("ExecutiveSearch", "Executive", "");
+                f.AddSelect<YesNoExEnum>("IsRegional", "Regional", true);
+                f.AddSelect<YesNoExEnum>("IsAboriginal", "Aboriginal/Torres Strait Islander", true);
+                f.AddSelect<YesNoExEnum>("IsDisabled", "Disabled", true);
+                f.AddSelect<YesNoExEnum>("IsCAlDBackground", "CAlD Background", true);
             });
+            field.AddFieldGroup(f =>
+            {
+                f.AddSelect<YesNoEnum>("ExecutiveSearch", "Executive Search", true);
+                f.AddFiller();
+                f.AddFiller();
+                f.AddFiller();
+
+            });
+            //field.AddFieldGroup(f =>
+            //{
+            //    f.AddYesNo("IsRegional", "Regional", "", false);
+            //    f.AddYesNo("IsAboriginal", "Aboriginal", "", false);
+            //    f.AddYesNo("IsDisabled", "Disabled", "");
+            //    f.AddYesNo("ExecutiveSearch", "Executive", "");
+            //});
 
             field.AddDivider("Professional Details");
             field.AddInput("Biography", "Biography", x =>

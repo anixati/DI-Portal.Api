@@ -11,6 +11,7 @@ using Boards.Domain.Shared;
 using Boards.Infrastructure.Domain;
 using DataTools.Migrations;
 using DI;
+using DI.Actions;
 using DI.Domain.Core;
 using DI.Domain.Enums;
 using DI.Domain.Options;
@@ -652,10 +653,10 @@ namespace DataTools
                     HomePhone = value.Get("mobilephone").Limit(10),
                     //= value.Get(""),
                     StreetAddress = at,
-                    IsRegional = value.Get("new_regionalmetro") != "Metro",
-                    IsAboriginal = value.Get("new_culturalbackground") != "No",
-                    IsDisabled = value.Get("new_disabilitystatus") != "No",
-                    ExecutiveSearch = value.Get("new_identificationmethod") == "Executive Search",
+                    IsRegional = GetRegionalEnum(value.Get("new_regionalmetro")),
+                    IsAboriginal = GetYesNoEx(value.Get("new_culturalbackground")),
+                    IsDisabled = GetYesNoEx(value.Get("new_disabilitystatus")),
+                    ExecutiveSearch = value.Get("new_identificationmethod") == "Executive Search"?YesNoEnum.Yes:YesNoEnum.No,
                     //FaxNumber=value.Get("new_personalinterestdec")
                     //birthdate = value.Get("birthdate"),
                     //doca_type = value.Get("doca_type"),
@@ -668,6 +669,18 @@ namespace DataTools
             }
 
 
+        }
+        private RegionalEnum GetRegionalEnum(string value)
+        {
+            if (value == "Regional") return RegionalEnum.Regional;
+            if (value == "Metro") return RegionalEnum.Metro;
+            return RegionalEnum.Na;
+        }
+        private YesNoExEnum GetYesNoEx(string value)
+        {
+            if (value == "No") return YesNoExEnum.No;
+            if (value == "Yes") return YesNoExEnum.Yes;
+            return YesNoExEnum.Na;
         }
 
         private async Task ImportOptions(BoardsData data)
