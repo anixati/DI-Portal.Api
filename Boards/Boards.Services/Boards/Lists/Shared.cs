@@ -20,6 +20,7 @@ namespace Boards.Services.Boards.Lists
                 x.LinkPath = Routes.Boards.Path();
             });
             pt.AddSearchCol("Acronym");
+           
             pt.Column("Portfolio", "Portfolio", "Portfolio", x =>
             {
                 x.Searchable = true;
@@ -28,8 +29,7 @@ namespace Boards.Services.Boards.Lists
                 x.LinkId = "PortfolioId";
                 x.LinkPath = Routes.Portfolios.Path();
             });
-            pt.AddSearchCol("OwnerDivision");
-            pt.AddSearchCol("OwnerPosition");
+            pt.AddSearchCols("OwnerDivision|Division", "OwnerPosition|Position");
             pt.Column("RespOfficer", "RespOfficer", "Resp Officer", x =>
             {
                 x.Searchable = true;
@@ -46,6 +46,7 @@ namespace Boards.Services.Boards.Lists
                 x.LinkId = "AsstSecretaryId";
                 x.LinkPath = Routes.Secretary.Path();
             });
+            pt.AddSearchCol("Approved");
             return pt;
         }
     }

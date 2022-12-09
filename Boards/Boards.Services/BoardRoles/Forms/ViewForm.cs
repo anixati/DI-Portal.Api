@@ -30,7 +30,7 @@ namespace Boards.Services.BoardRoles.Forms
             {
                 f.AddDisabledInput("IncumbentName", "Current Appointee");
                 f.AddPickList("Position", "Position", "Position", true);
-                f.AddPickList("Appointer", "Appointer", "Appointer", true);
+                f.AddPickList("RoleAppointer", "RoleAppointer", "Appointer", true);
                 f.AddNumeric("Term", "Term", false);
                 
 
@@ -109,11 +109,11 @@ namespace Boards.Services.BoardRoles.Forms
                 x.AddRule(ValRule.Min(10, "Minimum 10 chars required"));
                 x.FieldType = FormFieldType.Note;
             });
-            field.AddInput("ProcessStatus", "Process Status", x =>
-            {
-                x.AddRule(ValRule.Min(10, "Minimum 10 chars required"));
-                x.FieldType = FormFieldType.Note;
-            });
+            //field.AddInput("ProcessStatus", "Process Status", x =>
+            //{
+            //    x.AddRule(ValRule.Min(10, "Minimum 10 chars required"));
+            //    x.FieldType = FormFieldType.Note;
+            //});
 
             field.AddFieldGroup(f =>
             {

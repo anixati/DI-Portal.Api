@@ -21,7 +21,7 @@ namespace Boards.Services.BoardRoles.Forms
             field.AddFieldGroup(f =>
             {
                 f.AddPickList("Position", "Position", "Position", true);
-                f.AddPickList("Appointer", "Appointer", "Appointer", true);
+                f.AddPickList("RoleAppointer", "RoleAppointer", "Appointer", true);
             });
             field.AddFieldGroup(f =>
             {
@@ -110,19 +110,20 @@ namespace Boards.Services.BoardRoles.Forms
                 f.AddDate("NotifyLetterDate", "Notification letter date");
             });
 
+        }
+        private void Notes(FormField field)
+        {
+
             field.AddFieldGroup(f =>
             {
                 f.AddSelect<DateStateEnum>("CabinetDateType", "Cabinet date type", true);
                 f.AddDate("CabinetDate", "Cabinet date");
             });
-        }
-        private void Notes(FormField field)
-        {
-            field.AddInput("ProcessStatus", "Process Status", x =>
-            {
-                x.AddRule(ValRule.Min(10, "Minimum 10 chars required"));
-                x.FieldType = FormFieldType.Note;
-            });
+            //field.AddInput("ProcessStatus", "Process Status", x =>
+            //{
+            //    x.AddRule(ValRule.Min(10, "Minimum 10 chars required"));
+            //    x.FieldType = FormFieldType.Note;
+            //});
             field.AddInput("NextSteps", "Next Steps", x =>
             {
                 x.AddRule(ValRule.Min(10, "Minimum 10 chars required"));
