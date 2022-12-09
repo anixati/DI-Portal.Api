@@ -218,7 +218,7 @@ CREATE VIEW  [dbo].[AppointeeSkillsView] AS
    skl.[Name] AS Skill,
    (SELECT os.[Label] FROM OptionSet os where os.ID= skl.[SkillTypeId]) AS SkillType,
    (COALESCE(apt.Title+' ','')+apt.FirstName+' '+apt.LastName) As FullName,
-   (case apt.Gender when 1 then 'Male' when 2 then 'Female' else 'NA' end) As Gender,
+   (case apt.Gender when 1 then 'Male' when 2 then 'Female' when 3 then 'Indeterminate' when 4 then 'Chose not to say' else 'NA' end) As Gender,
    apt.HomePhone AS Phone,
    apt.Email1 as Email,
    apt.StreetAddress_City AS City,
@@ -240,7 +240,7 @@ CREATE VIEW [dbo].[AppointeesView] AS
                     SELECT 
                     ap.Id,
                     (COALESCE(ap.Title+' ','')+ap.FirstName+' '+COALESCE(ap.MiddleName+' ','')+ap.LastName) As FullName,
-                    (case ap.Gender when 1 then 'Male' when 2 then 'Female' else 'NA' end) As Gender,
+                    (case ap.Gender when 1 then 'Male' when 2 then 'Female' when 3 then 'Indeterminate' when 4 then 'Chose not to say' else 'NA' end) As Gender,
                     ap.HomePhone AS Phone,
                     ap.MobilePhone AS Mobile,
                     ap.FaxNumber As Fax,
@@ -307,7 +307,7 @@ CREATE VIEW  [dbo].[BoardRolesView] AS
 	  brl.[PositionId],
 	  brl.[RoleAppointerId] AS [AppointerId],
 	 (SELECT os.[Label] FROM OptionSet os where os.ID= brl.RoleAppointerId) AS  Appointer,
-	 (case apt.Gender when 1 then 'Male' when 2 then 'Female' else 'NA' end) As IncumbentGender,
+	 (case apt.Gender when 1 then 'Male' when 2 then 'Female' when 3 then 'Indeterminate' when 4 then 'Chose not to say' else 'NA' end) As IncumbentGender,
 	 (case brl.[ExcludeGenderReport] when 1 then 'Yes' ELSE 'No' end)  AS ExcludeGenderBalance,
 	 (CASE ba.ActingInRole WHEN 1 THEN 'Yes' ELSE 'No' END)  AS ActingInRole,
 	  ba.StartDate,
@@ -360,7 +360,7 @@ CREATE VIEW [dbo].[MinistersView] AS
                     SELECT 
                     mns.Id,
                     (COALESCE(mns.Title+' ','')+mns.FirstName+' '+COALESCE(mns.MiddleName+' ','')+mns.LastName) As FullName,
-                    (case mns.Gender when 1 then 'Male' when 2 then 'Female' else 'NA' end) As Gender,
+                    (case mns.Gender when 1 then 'Male' when 2 then 'Female' when 3 then 'Indeterminate' when 4 then 'Chose not to say' else 'NA' end) As Gender,
                     mns.HomePhone AS Phone,
                     mns.MobilePhone AS Mobile,
                     mns.FaxNumber As Fax,
@@ -416,7 +416,7 @@ CREATE VIEW [dbo].[SecretariesView] AS
                     SELECT 
                     mns.Id,
                     (COALESCE(mns.Title+' ','')+mns.FirstName+' '+COALESCE(mns.MiddleName+' ','')+mns.LastName) As FullName,
-                    (case mns.Gender when 1 then 'Male' when 2 then 'Female' else 'NA' end) As Gender,
+                    (case mns.Gender when 1 then 'Male' when 2 then 'Female' when 3 then 'Indeterminate' when 4 then 'Chose not to say' else 'NA' end) As Gender,
                     mns.HomePhone AS Phone,
                     mns.MobilePhone AS Mobile,
                     mns.FaxNumber As Fax,
@@ -452,7 +452,14 @@ GO
 CREATE VIEW  [dbo].[VwAppointee] AS 
 	SELECT 
 	(COALESCE(app.Title+' ','')+app.FirstName+' '+COALESCE(app.MiddleName+' ','')+app.LastName) As FullName,
-	(CASE WHEN app.Gender=1 THEN 'Male' WHEN app.Gender=2 THEN 'Female' ELSE '' END)AS GenderName,
+	(CASE app.Gender when 1 then 'Male' when 2 then 'Female' when 3 then 'Indeterminate' when 4 then 'Chose not to say' else 'NA' END) AS GenderName,
+
+
+	(CASE app.IsRegional when 1 then 'Regional' when 2 then 'Metro' when 3 then 'Chose not to say'  else 'NA' END) AS Regional,
+	(CASE app.IsAboriginal when 1 then 'Yes' when 2 then 'No' when 3 then 'Chose not to say'  else 'NA' END) AS Aboriginal,
+	(CASE app.IsDisabled when 1 then 'Yes' when 2 then 'No' when 3 then 'Chose not to say'  else 'NA' END) AS DisabledPerson,
+	(CASE app.IsCAlDBackground when 1 then 'Yes' when 2 then 'No' when 3 then 'Chose not to say'  else 'NA' END) AS CAlDBackground,
+	(CASE app.ExecutiveSearch when 1 then 'Yes'  else 'No' END) AS ExecSearch,
 	app.*
 	FROM [dbo].[Appointee] app WHERE app.Deleted=0 AND app.[Disabled]=0
 GO

@@ -31,10 +31,10 @@ namespace Boards.Infrastructure.Domain
             foreach (var relationship in builder.Model.GetEntityTypes().SelectMany(e => e.GetForeignKeys()))
             {
                 //enable in runtime
-            relationship.DeleteBehavior = DeleteBehavior.NoAction;
+            //relationship.DeleteBehavior = DeleteBehavior.NoAction;
             
             //enable only on design
-            // relationship.DeleteBehavior = DeleteBehavior.Cascade;
+             relationship.DeleteBehavior = DeleteBehavior.Cascade;
             }
             builder.Entity<DashboardItem>(x => x.HasNoKey());
         }

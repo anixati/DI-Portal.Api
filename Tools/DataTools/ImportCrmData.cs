@@ -856,7 +856,7 @@ namespace DataTools
                 var op = await repo.FindAsync(x => x.UserId == userId);
                 if (op != null) continue;
 
-                var disabled = value.Get("isdisabled") == "true" ? true : false;
+                var disabled = false;//value.Get("isdisabled") == "true" ? true : false;
 
                 DateTime? grantDate = disabled ? null : DateTime.Now;
 
