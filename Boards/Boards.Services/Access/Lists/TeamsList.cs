@@ -75,7 +75,7 @@ namespace Boards.Services.Access.Lists
             {
                 lk.CalColumn("CONCAT(se.FirstName,' ',se.LastName)", "Name", "Name", x =>
                 {
-                    x.Searchable = true;
+                    x.Searchable = false;
                     x.Sortable = true;
                     x.Type = ColumnType.HyperLink;
                     x.LinkId = "AppUserId";

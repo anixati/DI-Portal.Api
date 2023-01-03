@@ -106,7 +106,7 @@ namespace Boards.Services.BoardRoles.Forms
 
             field.AddInput("NextSteps", "Next Steps", x =>
             {
-                x.AddRule(ValRule.Min(10, "Minimum 10 chars required"));
+                //x.AddRule(ValRule.Min(10, "Minimum 10 chars required"));
                 x.FieldType = FormFieldType.Note;
             });
             //field.AddInput("ProcessStatus", "Process Status", x =>

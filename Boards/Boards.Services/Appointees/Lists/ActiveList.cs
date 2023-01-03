@@ -26,7 +26,7 @@ namespace Boards.Services.Appointees.Lists
             pt.AddSearchCol("City");
             pt.AddSearchCol("State");
             pt.AddSearchCol("Aboriginal");
-            pt.AddSearchCol("Handicapped");
+            pt.AddSearchColumn("Handicapped|Disabled");
             pt.AddSearchCol("Regional");
             pt.AddSearchCol("Executive");
             pt.AddSearchCol("Capability");

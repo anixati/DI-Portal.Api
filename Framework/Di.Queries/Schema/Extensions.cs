@@ -33,16 +33,7 @@ namespace Di.Qry.Schema
         {
             if (cols == null) return table;
             foreach (var colName in cols)
-                if (colName.Contains("|"))
-                {
-                    var cs = colName.Split(new[] { "|" }, StringSplitOptions.RemoveEmptyEntries);
-                    table.AddSearchCol(cs[0], cs[1]);
-                }
-                else
-                {
-                    table.AddSearchCol(colName);
-                }
-
+              table.AddSearchColumn(colName);
             return table;
         }
 
@@ -55,6 +46,19 @@ namespace Di.Qry.Schema
                     x.Type = ColumnType.Hidden;
                 });
 
+            return table;
+        }
+        public static Table AddSearchColumn(this Table table, string colName)
+        {
+            if (colName.Contains("|"))
+            {
+                var cs = colName.Split(new[] { "|" }, StringSplitOptions.RemoveEmptyEntries);
+                table.AddSearchCol(cs[0], cs[1]);
+            }
+            else
+            {
+                table.AddSearchCol(colName);
+            }
             return table;
         }
 
