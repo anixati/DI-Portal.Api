@@ -47,9 +47,8 @@ namespace Boards.Services.Boards.Forms
                 x.FieldType = FormFieldType.Note;
             });
 
-            field.AddInput("Summary", "Summary", x =>
+            field.AddInput("Summary", "Current summary", x =>
             {
-                x.AddRule(ValRule.Min(10, "Minimum 10 chars required"));
                 x.FieldType = FormFieldType.Note;
             });
 
