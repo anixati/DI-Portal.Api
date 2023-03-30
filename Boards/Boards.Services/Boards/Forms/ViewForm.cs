@@ -1,7 +1,5 @@
 ﻿using Boards.Services.Client;
 using Boards.Services.Core;
-using DI.Domain.Enums;
-using DI.Forms.Handlers;
 using DI.Forms.Types;
 
 namespace Boards.Services.Boards.Forms
@@ -9,32 +7,26 @@ namespace Boards.Services.Boards.Forms
     public class ViewForm : BoardForms
     {
         public override string FormName => Constants.Forms.Boards.View;
+
         protected override void CreateSchema(FormSchema fs)
         {
             fs.AddTab("Board Details", BoardDetails);
-            fs.AddSubGrid("Roles", "BoardRolesView", x =>
-            {
-                x.AddAction("create", Constants.Forms.BoardRole.Key, "New Role");
-            });
-            fs.AddSubGrid("Appointments", "BoardAppointmentsView", x =>
-            {
-
-            });
+            fs.AddSubGrid("Roles", "BoardRolesView",
+                x => { x.AddAction("create", Constants.Forms.BoardRole.Key, "New Role"); });
+            fs.AddSubGrid("Appointments", "BoardAppointmentsView", x => { });
             fs.AddDocGrid(Constants.Entities.Board);
         }
 
         private void BoardDetails(FormField field)
         {
-
             field.AddInput("Name", "Name", x =>
-                {
-                    x.AddRequired("Name is required");
-                    x.AddRule(ValRule.Min(5, "Minimum 5 chars required"));
-                    x.FieldType = FormFieldType.Text;
-                });
+            {
+                x.AddRequired("Name is required");
+                x.AddRule(ValRule.Min(5, "Minimum 5 chars required"));
+                x.FieldType = FormFieldType.Text;
+            });
             field.AddFieldGroup(f =>
             {
-
                 f.AddInput("Acronym", "Acronym", false);
                 f.AddLookup("AppTeam", "AppTeamLookup", Routes.Default, "Team/Division", true);
                 f.AddLookup("Portfolio", "PortfolioLookup", Routes.Portfolios, "Portfolio", true);
@@ -47,10 +39,7 @@ namespace Boards.Services.Boards.Forms
                 x.FieldType = FormFieldType.Note;
             });
 
-            field.AddInput("Summary", "Current summary", x =>
-            {
-                x.FieldType = FormFieldType.Note;
-            });
+            field.AddInput("Summary", "Current summary", x => { x.FieldType = FormFieldType.Note; });
 
             field.AddFieldGroup(f =>
             {
@@ -58,7 +47,6 @@ namespace Boards.Services.Boards.Forms
                 f.AddInput("NominationCommittee", "Appointed By");
                 f.AddInput("LegislationReference", "Legislation Reference");
                 f.AddNumeric("MaximumTerms", "Total maximum years of service");
-
             });
 
             field.AddFieldGroup(f =>
@@ -67,7 +55,6 @@ namespace Boards.Services.Boards.Forms
                 f.AddInput("QuorumRequiredText", "Quorum required text");
                 f.AddNumeric("MinimumMembers", "Minimum members", true);
                 f.AddNumeric("MaximumMembers", "Maximum members", true);
-
             });
 
 
@@ -97,13 +84,8 @@ namespace Boards.Services.Boards.Forms
 
             field.AddFieldGroup(f =>
             {
-
                 // f.AddYesNo("ExcludeFromGenderBalance", "Exclude from gender balance", "", true);
             });
-
-
         }
-
-
     }
 }

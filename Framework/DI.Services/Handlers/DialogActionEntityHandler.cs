@@ -8,9 +8,9 @@ using Microsoft.Extensions.Logging;
 
 namespace DI.Services.Handlers
 {
-    public class DialogActionHandler : ActionHandlerBase<IDialogHandler>, IRequestHandler<DialogActionRequest, DialogActionResponse>
+    public class DialogActionHandler : ActionHandlerBase<IDialogHandler>,
+        IRequestHandler<DialogActionRequest, DialogActionResponse>
     {
-
         public DialogActionHandler(IEnumerable<IDialogHandler> handlers, ILoggerFactory loggerFactory)
             : base(handlers, loggerFactory)
         {

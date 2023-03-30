@@ -40,10 +40,8 @@ namespace Boards.Services.Access.Handlers
             var entity = await repo.GetById(entityId, "UserRoles");
             entity.ThrowIfNull($"Entity not found for {entityId}");
             if (entity.UserRoles.Any())
-            {
                 rs.InitialValues = entity.UserRoles
-                     .ToDictionary(o => $"{o.AppRoleId}", v => "");
-            }
+                    .ToDictionary(o => $"{o.AppRoleId}", v => "");
             return rs;
         }
     }

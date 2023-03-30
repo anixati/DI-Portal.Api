@@ -27,9 +27,10 @@ namespace Boards.Services.BoardRoles.Lists
                 x.Sortable = true;
                 x.Type = ColumnType.HyperLink;
                 x.LinkId = "IncumbentId";
-                x.LinkPath = Routes.Appointee.Path(); ;
+                x.LinkPath = Routes.Appointee.Path();
+                ;
             });
-            pt.AddSearchCols("IncumbentGender", "Appointer", "ActingInRole","ExcludeGenderBalance");
+            pt.AddSearchCols("IncumbentGender", "Appointer", "ActingInRole", "ExcludeGenderBalance");
 
 
             pt.AddDateColumn("StartDate");
@@ -42,6 +43,7 @@ namespace Boards.Services.BoardRoles.Lists
             qs.Where("Disabled", "=", "0");
             qs.ParentId = "BoardId";
         }
+
         protected override (string, bool) GetDefaultSort()
         {
             return ("Name", false);

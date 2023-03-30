@@ -2,33 +2,13 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
-using System.Reflection;
 using Newtonsoft.Json;
 
 namespace DI.Forms.Types
 {
     public static class FieldExtensions
     {
-        #region Layouts
-        public static FormField AddDivider(this FormField fd, string title = "")
-        {
-            var field = new FormField { Layout = LayoutType.Divider, Title = title };
-            if (fd.Fields.All(x => x.Key != field.Key)) fd.Fields.Add(field);
-            return fd;
-        }
-
-        public static FormField AddFieldGroup(this FormField fd, Action<FormField> Configure)
-        {
-            var field = new FormField { Layout = LayoutType.FieldGroup };
-            Configure(field);
-            if (fd.Fields.All(x => x.Key != field.Key)) fd.Fields.Add(field);
-            return fd;
-        }
-
-        #endregion
-
-
-        public static FormField AddAction(this FormField fd, string key, string viewId, string title ="")
+        public static FormField AddAction(this FormField fd, string key, string viewId, string title = "")
         {
             var field = new FormField(key)
             {
@@ -36,7 +16,7 @@ namespace DI.Forms.Types
                 FieldType = FormFieldType.Action,
                 Title = string.IsNullOrEmpty(title) ? key : title,
                 ViewId = viewId
-        };
+            };
             if (fd.Fields.All(x => x.Key != field.Key)) fd.Fields.Add(field);
             return fd;
         }
@@ -56,49 +36,6 @@ namespace DI.Forms.Types
             return fd;
         }
 
-        #region Select List
-
-        public static FormField AddSelect<T>(this FormField fd, string key, string title = null, bool required = false,
-            bool disabled = false) where T : struct, IConvertible
-        {
-            if (!typeof(T).IsEnum)
-                throw new Exception("must be a enum");
-
-            var values = Enum.GetValues(typeof(T));
-
-            var rCol = new List<SelectItem>();
-            foreach (var value in values)
-            {
-                var desc = Enum.GetName(typeof(T), value);
-                var fi = typeof(T).GetField(value.ToString());
-                var attributes = (DescriptionAttribute[])fi.GetCustomAttributes(typeof(DescriptionAttribute), false);
-                if (attributes != null && attributes.Length > 0)
-                    desc= attributes[0].Description;
-                rCol.Add(new SelectItem($"{(int)value}", desc));
-            }
-
-
-           // var rCol = (from int item in values
-              //          select new SelectItem($"{item}", Enumerations.GetEnumDescription((MyEnum)value)).ToList();
-            return fd.AddSelect(key, rCol, title, required, disabled);
-        }
-
-        public static FormField AddSelect(this FormField fd, string key, List<SelectItem> options, string title = null, bool required = false,
-           bool disabled = false)
-        {
-            fd.AddInput(key, title, x =>
-            {
-                x.Disabled = disabled;
-                x.FieldType = FormFieldType.Select;
-                x.Options = options;
-                if (required)
-                    x.AddRequired($"{title} is required");
-            });
-            return fd;
-        }
-
-        #endregion
-
 
         public static FormField AddDate(this FormField fd, string key, string title = null, bool required = false,
             bool disabled = false)
@@ -107,7 +44,7 @@ namespace DI.Forms.Types
             {
                 x.Disabled = disabled;
                 x.FieldType = FormFieldType.Date;
-                x.Options = $"DD/MM/YYYY";
+                x.Options = "DD/MM/YYYY";
                 if (required)
                     x.AddRequired($"{title} is required");
             });
@@ -115,8 +52,9 @@ namespace DI.Forms.Types
         }
 
 
-        public static FormField AddTextList(this FormField fd, string key, string viewId, string title = null, bool required = false,
-           string defaultVal="")
+        public static FormField AddTextList(this FormField fd, string key, string viewId, string title = null,
+            bool required = false,
+            string defaultVal = "")
         {
             fd.AddInput(key, title, x =>
             {
@@ -128,8 +66,10 @@ namespace DI.Forms.Types
             });
             return fd;
         }
-        public static FormField AddPickList(this FormField fd, string key, string viewId, string title = null, bool required = false,
-           bool disabled = false)
+
+        public static FormField AddPickList(this FormField fd, string key, string viewId, string title = null,
+            bool required = false,
+            bool disabled = false)
         {
             fd.AddInput(key, title, x =>
             {
@@ -142,8 +82,9 @@ namespace DI.Forms.Types
             return fd;
         }
 
-        public static FormField AddLookup(this FormField fd, string key, string viewId, IClientRoute route, string title = null, bool required = false,
-             bool disabled = false, Action<FormField> configure =null)
+        public static FormField AddLookup(this FormField fd, string key, string viewId, IClientRoute route,
+            string title = null, bool required = false,
+            bool disabled = false, Action<FormField> configure = null)
         {
             fd.AddInput(key, title, x =>
             {
@@ -158,16 +99,14 @@ namespace DI.Forms.Types
             });
             return fd;
         }
+
         public static FormField AddLabel(this FormField fd, string key, string title = null)
         {
-            fd.AddInput(key, title, x =>
-            {
-                x.FieldType = FormFieldType.Label;
-            });
+            fd.AddInput(key, title, x => { x.FieldType = FormFieldType.Label; });
             return fd;
         }
 
-        public static FormField AddLink(this FormField fd, string key,  IClientRoute route, string title = null )
+        public static FormField AddLink(this FormField fd, string key, IClientRoute route, string title = null)
         {
             fd.AddInput(key, title, x =>
             {
@@ -177,7 +116,8 @@ namespace DI.Forms.Types
             return fd;
         }
 
-        public static FormField AddExtLink(this FormField fd, string key, string value, string desc,string title = null)
+        public static FormField AddExtLink(this FormField fd, string key, string value, string desc,
+            string title = null)
         {
             fd.AddInput(key, title, x =>
             {
@@ -189,7 +129,7 @@ namespace DI.Forms.Types
         }
 
         public static FormField AddInput(this FormField fd, string key, string title = null, bool required = false,
-            bool disabled= false)
+            bool disabled = false)
         {
             fd.AddInput(key, title, x =>
             {
@@ -221,17 +161,19 @@ namespace DI.Forms.Types
             return fd;
         }
 
-        public static FormField AddNumeric(this FormField fd, string key, string title = null, bool required = false, int min=0,int max= 9999)
+        public static FormField AddNumeric(this FormField fd, string key, string title = null, bool required = false,
+            int min = 0, int max = 9999)
         {
             fd.AddInput(key, title, x =>
             {
                 x.FieldType = FormFieldType.Number;
                 if (required)
                     x.AddRequired($"{title} is required");
-                x.Options = JsonConvert.SerializeObject(new {min = min, max = max});
+                x.Options = JsonConvert.SerializeObject(new {min, max});
             });
             return fd;
         }
+
         public static FormField AddDecimal(this FormField fd, string key, string title = null, bool required = false,
             bool disabled = false)
         {
@@ -244,6 +186,7 @@ namespace DI.Forms.Types
             });
             return fd;
         }
+
         public static FormField AddInput(this FormField fd, string key, string title, Action<FormField> configure)
         {
             var field = new FormField(key)
@@ -257,8 +200,72 @@ namespace DI.Forms.Types
             return fd;
         }
 
-      
+        #region Layouts
+
+        public static FormField AddDivider(this FormField fd, string title = "")
+        {
+            var field = new FormField {Layout = LayoutType.Divider, Title = title};
+            if (fd.Fields.All(x => x.Key != field.Key)) fd.Fields.Add(field);
+            return fd;
+        }
+
+        public static FormField AddFieldGroup(this FormField fd, Action<FormField> Configure)
+        {
+            var field = new FormField {Layout = LayoutType.FieldGroup};
+            Configure(field);
+            if (fd.Fields.All(x => x.Key != field.Key)) fd.Fields.Add(field);
+            return fd;
+        }
+
+        #endregion
+
+        #region Select List
+
+        public static FormField AddSelect<T>(this FormField fd, string key, string title = null, bool required = false,
+            bool disabled = false) where T : struct, IConvertible
+        {
+            if (!typeof(T).IsEnum)
+                throw new Exception("must be a enum");
+
+            var values = Enum.GetValues(typeof(T));
+
+            var rCol = new List<SelectItem>();
+            foreach (var value in values)
+            {
+                var desc = Enum.GetName(typeof(T), value);
+                var fi = typeof(T).GetField(value.ToString());
+                var attributes = (DescriptionAttribute[]) fi.GetCustomAttributes(typeof(DescriptionAttribute), false);
+                if (attributes != null && attributes.Length > 0)
+                    desc = attributes[0].Description;
+                rCol.Add(new SelectItem($"{(int) value}", desc));
+            }
+
+
+            // var rCol = (from int item in values
+            //          select new SelectItem($"{item}", Enumerations.GetEnumDescription((MyEnum)value)).ToList();
+            return fd.AddSelect(key, rCol, title, required, disabled);
+        }
+
+        public static FormField AddSelect(this FormField fd, string key, List<SelectItem> options, string title = null,
+            bool required = false,
+            bool disabled = false)
+        {
+            fd.AddInput(key, title, x =>
+            {
+                x.Disabled = disabled;
+                x.FieldType = FormFieldType.Select;
+                x.Options = options;
+                if (required)
+                    x.AddRequired($"{title} is required");
+            });
+            return fd;
+        }
+
+        #endregion
+
+
         #region Rules
+
         public static FormField AddRule(this FormField fd, ValRule rule)
         {
             fd.Rules.Add(rule);
@@ -270,6 +277,7 @@ namespace DI.Forms.Types
             fd.AddRule(ValRule.Required(message));
             return fd;
         }
+
         #endregion
 
 
@@ -284,12 +292,15 @@ namespace DI.Forms.Types
                 x.FieldType = FormFieldType.Text;
                 if (required)
                     x.AddRequired($"{title} is required");
-                x.AddRule(ValRule.Regex("/^((\\+[1-9]{1,4}[ \\-]*)|(\\([0-9]{2,3}\\)[ \\-]*)|([0-9]{2,4})[ \\-]*)*?[0-9]{3,4}?[ \\-]*[0-9]{3,4}?$/", $"{title} is invalid"));
+                x.AddRule(ValRule.Regex(
+                    "/^((\\+[1-9]{1,4}[ \\-]*)|(\\([0-9]{2,3}\\)[ \\-]*)|([0-9]{2,4})[ \\-]*)*?[0-9]{3,4}?[ \\-]*[0-9]{3,4}?$/",
+                    $"{title} is invalid"));
             });
             return fd;
         }
+
         public static FormField AddEmail(this FormField fd, string key, string title = null, bool required = false,
-             bool disabled = false)
+            bool disabled = false)
         {
             fd.AddInput(key, title, x =>
             {
@@ -301,7 +312,6 @@ namespace DI.Forms.Types
             });
             return fd;
         }
-
 
         #endregion
     }

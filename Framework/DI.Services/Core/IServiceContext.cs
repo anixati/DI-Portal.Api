@@ -39,6 +39,5 @@ namespace DI.Services.Core
 
         Task<ActionResponse> ChangeStatus<T>(Entity.ChangeState<T> request)
             where T : class, IEntity;
-
     }
 }

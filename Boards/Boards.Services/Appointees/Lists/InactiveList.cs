@@ -1,5 +1,4 @@
 ﻿using Boards.Services.Client;
-using Boards.Services.Core;
 using Di.Qry.Core;
 using Di.Qry.Schema;
 using Di.Qry.Schema.Types;
@@ -20,7 +19,6 @@ namespace Boards.Services.Appointees.Lists
                 x.Sortable = true;
                 x.Type = ColumnType.HyperLink;
                 x.LinkPath = Routes.Appointee.Path();
-
             });
             pt.AddSearchCol("Gender");
 

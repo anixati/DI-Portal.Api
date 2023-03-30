@@ -9,6 +9,7 @@ namespace Boards.Services.Skills.Lists
     {
         public override string SchemaName => "SkillAppointee";
         public override string Title => "Appointees";
+
         protected override Table CreateEntity()
         {
             var pt = Table.Create("AppointeeSkillsView", "asv");
@@ -24,11 +25,13 @@ namespace Boards.Services.Skills.Lists
             pt.AddSearchCol("SkillType");
             return pt;
         }
+
         protected override void ConfigureQry(QryState qs)
         {
             qs.Where("Disabled", "=", "0");
             qs.ParentId = "SkillId";
         }
+
         protected override (string, bool) GetDefaultSort()
         {
             return ("FullName", false);

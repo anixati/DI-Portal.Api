@@ -16,7 +16,7 @@ namespace Boards.Services.Appointees.Lists
                 x.Searchable = true;
                 x.Sortable = true;
             });
-            pf.AddSearchCols( "Gender");
+            pf.AddSearchCols("Gender");
             return pf;
         }
 

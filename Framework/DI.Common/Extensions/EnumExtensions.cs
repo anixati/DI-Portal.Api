@@ -1,8 +1,11 @@
-﻿using System.Collections.Generic;
+﻿
+
+// ReSharper disable once CheckNamespace
+
+using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
 
-// ReSharper disable once CheckNamespace
 namespace System
 {
     public static class EnumExtensions

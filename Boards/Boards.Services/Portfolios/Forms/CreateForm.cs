@@ -6,11 +6,12 @@ namespace Boards.Services.Portfolios.Forms
     public class CreateForm : FormBuilder
     {
         public override string FormName => Constants.Forms.Portfolio.Create;
+
         protected override void CreateSchema(FormSchema fs)
         {
             fs.AddPage("Portfolio Details", AddPersonDetails);
             //fs.AddPage("Minister Details", AddContactDetails);
-           // fs.AddPage("Current Boards", AddContactDetails);
+            // fs.AddPage("Current Boards", AddContactDetails);
         }
 
         private void AddPersonDetails(FormField field)
@@ -27,13 +28,10 @@ namespace Boards.Services.Portfolios.Forms
                 x.AddRule(ValRule.Min(10, "Minimum 10 chars required"));
                 x.FieldType = FormFieldType.Note;
             });
-
         }
 
         private void AddContactDetails(FormField field)
         {
         }
-
-        
     }
 }

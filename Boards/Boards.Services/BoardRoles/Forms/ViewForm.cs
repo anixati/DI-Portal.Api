@@ -1,7 +1,6 @@
 ﻿using Boards.Domain.Shared;
 using Boards.Services.Client;
 using Boards.Services.Core;
-using DI.Forms.Handlers;
 using DI.Forms.Types;
 
 namespace Boards.Services.BoardRoles.Forms
@@ -9,21 +8,18 @@ namespace Boards.Services.BoardRoles.Forms
     public class ViewForm : BoardForms
     {
         public override string FormName => Constants.Forms.BoardRole.View;
+
         protected override void CreateSchema(FormSchema fs)
         {
-            fs.AddHeaders(f =>
-            {
-                f.AddLink("Board",  Routes.Boards, "Board");
-            });
+            fs.AddHeaders(f => { f.AddLink("Board", Routes.Boards, "Board"); });
 
             fs.AddTab("Role Details", BoardDetails);
             fs.AddTab("Ministerial Details", MinisterialDetails);
-            fs.AddSubGrid("Appointments", "RoleAppointmentsView", x =>
-            {
-                x.AddAction("create", Constants.Forms.BoardAppointment.Key, "New Appointment");
-            });
+            fs.AddSubGrid("Appointments", "RoleAppointmentsView",
+                x => { x.AddAction("create", Constants.Forms.BoardAppointment.Key, "New Appointment"); });
             fs.AddDocGrid(Constants.Entities.BoardRole);
         }
+
         private void BoardDetails(FormField field)
         {
             field.AddFieldGroup(f =>
@@ -32,8 +28,6 @@ namespace Boards.Services.BoardRoles.Forms
                 f.AddPickList("Position", "Position", "Position", true);
                 f.AddPickList("RoleAppointer", "RoleAppointer", "Appointer", true);
                 f.AddNumeric("Term", "Term", false);
-                
-
             });
             field.AddFieldGroup(f =>
             {
@@ -57,14 +51,14 @@ namespace Boards.Services.BoardRoles.Forms
                 f.AddYesNo("IsSignAppointment", "Significant Appointment", "", true);
                 f.AddYesNo("IsExNominated", "Is Externally Nominated", "", true);
             });
-           
+
 
             field.AddDivider("Sign off details");
 
             field.AddFieldGroup(f =>
             {
                 f.AddDate("MinSubDate", "Date Minister signed instrument date");
-              //  f.AddInput("InstrumentLink", "Instrument Link", true);
+                //  f.AddInput("InstrumentLink", "Instrument Link", true);
                 f.AddExtLink("InstrumentLink", GetConfigValue("SharePoint"), "Open work space", "Instrument Link");
             });
 
@@ -92,9 +86,9 @@ namespace Boards.Services.BoardRoles.Forms
             });
             */
         }
+
         private void MinisterialDetails(FormField field)
         {
-
             field.AddFieldGroup(f =>
             {
                 f.AddInput("PDMSNumber", "PDMS Number", false);
@@ -130,7 +124,5 @@ namespace Boards.Services.BoardRoles.Forms
                 f.AddDate("NotifyLetterDate", "Notification letter to appointee", false);
             });
         }
-
-
-        }
+    }
 }

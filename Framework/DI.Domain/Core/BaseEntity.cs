@@ -6,7 +6,7 @@ using DI.Domain.Services;
 
 namespace DI.Domain.Core
 {
-    public abstract class BaseEntity : IEntity,IEntityEvent
+    public abstract class BaseEntity : IEntity, IEntityEvent
     {
         [Key] [NoPatch] [Column(Order = 0)] public long Id { get; set; }
 
@@ -30,8 +30,6 @@ namespace DI.Domain.Core
         [Column(Order = 999)]
         public byte[] Timestamp { get; set; }
 
-
-        
 
         public bool IsTransient => Id == default;
 

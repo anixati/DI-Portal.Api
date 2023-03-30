@@ -9,13 +9,8 @@ namespace DI.Reports
     }
 
 
-
     public class ReportConfig
     {
-        public ReportConfig()
-        {
-
-        }
         public string ReportServer { get; set; }
         public List<Report> Reports { get; set; }
     }

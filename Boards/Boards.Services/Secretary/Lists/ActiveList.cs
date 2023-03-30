@@ -20,7 +20,7 @@ namespace Boards.Services.Secretary.Lists
                 x.Type = ColumnType.HyperLink;
                 x.LinkPath = Routes.Minister.Path();
             });
-           
+
             pt.AddSearchCol("Gender");
             pt.AddSearchCol("Phone");
             pt.AddSearchCol("Mobile");

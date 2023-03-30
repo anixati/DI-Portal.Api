@@ -5,7 +5,8 @@ namespace Boards.Services.Access.Create
 {
     public class CreateTeamForm : FormBuilder
     {
-        public override string FormName => $"create_appteam";
+        public override string FormName => "create_appteam";
+
         protected override void CreateSchema(FormSchema fs)
         {
             fs.AddPage("Team Details", AddDetails);

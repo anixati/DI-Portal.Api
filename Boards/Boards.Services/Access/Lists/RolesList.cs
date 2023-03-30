@@ -1,5 +1,4 @@
 ﻿using Boards.Services.Client;
-using Boards.Services.Core;
 using Di.Qry.Core;
 using Di.Qry.Schema;
 using Di.Qry.Schema.Types;
@@ -10,9 +9,10 @@ namespace Boards.Services.Access.Lists
     {
         public override string SchemaName => "RolesList";
         public override string Title => "Application Roles";
+
         protected override Table CreateEntity()
         {
-            var tb = Table.Create("Roles", "pe","","acl");
+            var tb = Table.Create("Roles", "pe", "", "acl");
             tb.Column("Name", "Name", "Name", x =>
             {
                 x.Searchable = true;
@@ -24,9 +24,11 @@ namespace Boards.Services.Access.Lists
             tb.AddDateColumn("CreatedOn");
             return tb;
         }
+
         protected override void ConfigureQry(QryState qs)
         {
         }
+
         protected override (string, bool) GetDefaultSort()
         {
             return ("Name", false);
@@ -41,7 +43,6 @@ namespace Boards.Services.Access.Lists
 
         protected override Table CreateEntity()
         {
-
             var tb = Table.Create("UserRoles", "pe", "", "acl");
             tb.AddHiddenCols("AppUserId", "AppRoleId");
             var link = tb.InnerJoin("Users", "se", "Id", "AppUserId", lk =>
@@ -57,10 +58,12 @@ namespace Boards.Services.Access.Lists
             }, "acl");
             return tb;
         }
+
         protected override void ConfigureQry(QryState qs)
         {
             qs.ParentId = "AppRoleId";
         }
+
         protected override (string, bool) GetDefaultSort()
         {
             return ("AppRoleId", false);
@@ -75,7 +78,6 @@ namespace Boards.Services.Access.Lists
 
         protected override Table CreateEntity()
         {
-
             var tb = Table.Create("TeamRoles", "pe", "", "acl");
             tb.AddHiddenCols("AppTeamId", "AppRoleId");
             var link = tb.InnerJoin("Teams", "se", "Id", "AppTeamId", lk =>
@@ -91,14 +93,15 @@ namespace Boards.Services.Access.Lists
             }, "acl");
             return tb;
         }
+
         protected override void ConfigureQry(QryState qs)
         {
             qs.ParentId = "AppRoleId";
         }
+
         protected override (string, bool) GetDefaultSort()
         {
             return ("AppRoleId", false);
         }
     }
-
 }

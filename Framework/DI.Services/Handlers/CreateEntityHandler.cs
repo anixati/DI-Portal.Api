@@ -8,9 +8,9 @@ using Microsoft.Extensions.Logging;
 
 namespace DI.Services.Handlers
 {
-    public class CreateEntityHandler : ActionHandlerBase<IFormActionHandler>, IRequestHandler<FormActionRequest, FormActionResult>
+    public class CreateEntityHandler : ActionHandlerBase<IFormActionHandler>,
+        IRequestHandler<FormActionRequest, FormActionResult>
     {
-
         public CreateEntityHandler(IEnumerable<IFormActionHandler> handlers, ILoggerFactory loggerFactory)
             : base(handlers, loggerFactory)
         {
@@ -29,11 +29,11 @@ namespace DI.Services.Handlers
             var result = await handler.ManageEntity(request.Data, request.EntityId.GetValueOrDefault());
             return result;
         }
+
         private static async Task<FormActionResult> CreateEntity(FormActionRequest request, IFormActionHandler handler)
         {
             var result = await handler.CreateEntity(request.Data, request.EntityId);
             return result;
         }
     }
-
 }

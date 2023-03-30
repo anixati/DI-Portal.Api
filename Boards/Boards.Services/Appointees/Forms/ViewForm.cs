@@ -1,7 +1,6 @@
 ﻿using Boards.Services._Shared;
 using Boards.Services.Core;
 using DI.Domain.Enums;
-using DI.Forms.Handlers;
 using DI.Forms.Types;
 
 namespace Boards.Services.Appointees.Forms
@@ -9,19 +8,17 @@ namespace Boards.Services.Appointees.Forms
     public class ViewForm : BoardForms
     {
         public override string FormName => Constants.Forms.Appointee.View;
+
         protected override void CreateSchema(FormSchema fs)
         {
             fs.AddTab("Personal Details", AddPersonDetails);
             fs.AddTab("Addresses", AddAddressDetails);
-            fs.AddSubGrid("Appointments", "AppointeeAppointments", x =>
-            {
-            });
-            fs.AddSubGrid("Skills", "AppointeeSkills", x =>
-            {
-                x.AddAction("manage", "appointeeskill", "Manage Skills");
-            });
+            fs.AddSubGrid("Appointments", "AppointeeAppointments", x => { });
+            fs.AddSubGrid("Skills", "AppointeeSkills",
+                x => { x.AddAction("manage", "appointeeskill", "Manage Skills"); });
             fs.AddDocGrid(Constants.Entities.Appointee);
         }
+
         private void AddAddressDetails(FormField field)
         {
             field.AddDivider("Street Address");
@@ -29,6 +26,7 @@ namespace Boards.Services.Appointees.Forms
             field.AddDivider("Postal Address");
             field.AddAddress("PostalAddress", false);
         }
+
         private void AddPersonDetails(FormField field)
         {
             field.AddFieldGroup(f =>
@@ -58,7 +56,6 @@ namespace Boards.Services.Appointees.Forms
                 f.AddFiller();
                 f.AddFiller();
                 f.AddFiller();
-
             });
             //field.AddFieldGroup(f =>
             //{
@@ -69,18 +66,13 @@ namespace Boards.Services.Appointees.Forms
             //});
 
             field.AddDivider("Professional Details");
-            field.AddInput("Biography", "Biography", x =>
-            {
-                x.FieldType = FormFieldType.Note;
-            });
+            field.AddInput("Biography", "Biography", x => { x.FieldType = FormFieldType.Note; });
 
             field.AddFieldGroup(f =>
             {
                 f.AddInput("ResumeLink", "Resume Link");
                 f.AddInput("LinkedInProfile", "LinkedIn Profile");
             });
-
-
         }
     }
 }

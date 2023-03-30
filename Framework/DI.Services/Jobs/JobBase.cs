@@ -1,8 +1,8 @@
-﻿using DI.Services;
+﻿using System;
+using System.Threading.Tasks;
+using DI.Services;
 using Microsoft.Extensions.Logging;
 using Quartz;
-using System;
-using System.Threading.Tasks;
 
 namespace DI.Jobs
 {
@@ -10,7 +10,6 @@ namespace DI.Jobs
     {
         protected JobBase(ILoggerFactory logFactory) : base(logFactory)
         {
-            
         }
 
         public async Task Execute(IJobExecutionContext context)

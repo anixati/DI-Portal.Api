@@ -21,15 +21,13 @@ namespace DI.Services.Handlers
         {
             await Task.Delay(0);
             if (!request.Id.HasValue)
-            {
                 return new ReportListResponse
                 {
                     Reports = _provider.GetReports()
                 };
-            }
 
             var rp = _provider.GetReport(request.Id.GetValueOrDefault());
-            rp.ThrowIfNull($"No report found for given id ");
+            rp.ThrowIfNull("No report found for given id ");
             return new ReportListResponse
             {
                 Reports = new List<Report> {rp}

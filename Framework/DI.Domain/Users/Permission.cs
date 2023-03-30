@@ -20,8 +20,5 @@ namespace DI.Domain.Users
         public bool Update { get; set; }
         public bool Delete { get; set; }
         public int Mask { get; set; }
-
-
-
     }
 }

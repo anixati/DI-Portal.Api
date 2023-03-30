@@ -2,11 +2,9 @@
 using System.ComponentModel.DataAnnotations;
 using System.Threading.Tasks;
 using DI.Actions;
-using DI.Domain.Config;
 using DI.Domain.Requests;
 using DI.Forms.Requests;
 using DI.Requests;
-using DI.Response;
 using DI.Services.Core;
 using DI.WebApi.Core;
 using DI.WebApi.Responses;
@@ -37,14 +35,16 @@ namespace DI.WebApi.Controllers
         [HttpGet("create/{name}/{id:long?}")]
         public async Task<IActionResult> GetCreateSchema([Required] string name, long? id)
         {
-            var result = await ExecuteTask(async x => await x.Send(new FormSchemaRequest {Name = name, EntityId = id ,Type = ActionType.Create}));
+            var result = await ExecuteTask(async x =>
+                await x.Send(new FormSchemaRequest {Name = name, EntityId = id, Type = ActionType.Create}));
             return result.ToResponse();
         }
 
         [HttpGet("dialog/{name}/{id:long?}")]
         public async Task<IActionResult> GetDialogSchema([Required] string name, long? id)
         {
-            var result = await ExecuteTask(async x => await x.Send(new DialogSchemaRequest { Name = name, EntityId = id }));
+            var result =
+                await ExecuteTask(async x => await x.Send(new DialogSchemaRequest {Name = name, EntityId = id}));
             return result.ToResponse();
         }
 
@@ -52,7 +52,8 @@ namespace DI.WebApi.Controllers
         [HttpGet("manage/{name}/{id:long}")]
         public async Task<IActionResult> GetManageSchema([Required] string name, long id)
         {
-            var result = await ExecuteTask(async x => await x.Send(new FormSchemaRequest { Name = name, EntityId = id, Type = ActionType.Manage }));
+            var result = await ExecuteTask(async x =>
+                await x.Send(new FormSchemaRequest {Name = name, EntityId = id, Type = ActionType.Manage}));
             return result.ToResponse();
         }
 
@@ -60,7 +61,8 @@ namespace DI.WebApi.Controllers
         [HttpGet("view/{name}/{id}")]
         public async Task<IActionResult> GetViewSchema([Required] string name, [Required] long id)
         {
-            var result = await ExecuteTask(async x => await x.Send(new FormSchemaRequest {Name = name, EntityId = id, Type = ActionType.View }));
+            var result = await ExecuteTask(async x =>
+                await x.Send(new FormSchemaRequest {Name = name, EntityId = id, Type = ActionType.View}));
             return result.ToResponse();
         }
 
@@ -124,13 +126,14 @@ namespace DI.WebApi.Controllers
 
 
         [HttpPost("change/{name}")]
-        public virtual async Task<IActionResult> SubmitChangeForm([Required] string name, [FromBody] SetStatusAction action)
+        public virtual async Task<IActionResult> SubmitChangeForm([Required] string name,
+            [FromBody] SetStatusAction action)
         {
             var etResp = await Send(new EntityTypeRequest
             {
                 SchemaKey = name
             });
-            var rx = CreateStateRequest(etResp.EntityType,action.Action,action.Id,action.Reason);
+            var rx = CreateStateRequest(etResp.EntityType, action.Action, action.Id, action.Reason);
             var result = await ExecuteTask(async x => await x.ChangeStatus(rx));
             return result.ToResponse();
         }

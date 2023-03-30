@@ -24,11 +24,11 @@ namespace Boards.Services.Client
         public static readonly IClientRoute Groups = ClientRoute.New("groups");
         public static readonly IClientRoute Users = ClientRoute.New("appusers");
 
-        public static readonly IClientRoute ReportDashboard = ClientRoute.New("dashboard", Reports);
-        public static readonly IClientRoute AdminDashboard = ClientRoute.New("dashboard", Admin);
+        public static readonly IClientRoute ReportDashboard = ClientRoute.New("dashboard");
+        public static readonly IClientRoute AdminDashboard = ClientRoute.New("dashboard");
 
-        public static readonly IClientRoute UserAdmin = ClientRoute.New("users", Admin);
-        public static readonly IClientRoute RoleAdmin = ClientRoute.New("roles", Admin);
-        public static readonly IClientRoute TeamAdmin = ClientRoute.New("teams", Admin);
+        public static readonly IClientRoute UserAdmin = ClientRoute.New("users");
+        public static readonly IClientRoute RoleAdmin = ClientRoute.New("roles");
+        public static readonly IClientRoute TeamAdmin = ClientRoute.New("teams");
     }
 }

@@ -23,7 +23,7 @@ namespace Boards.Services.Portfolios.Lists
             pt.AddSearchCol("PortfolioName");
             pt.AddSearchCol("Description");
             pt.AddDateColumn("CreatedOn");
-           // pt.AddSearchCol("Minister");
+            // pt.AddSearchCol("Minister");
             //pt.AddSearchCol("StartDate");
             //pt.AddSearchCol("EndDate");
             return pt;

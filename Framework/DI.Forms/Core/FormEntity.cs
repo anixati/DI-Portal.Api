@@ -2,11 +2,9 @@
 
 namespace DI.Forms.Core
 {
-
-
     public enum FormCmdAcl
     {
-        None=0,
+        None = 0,
         Update = 1 << 0, // 1
         Delete = 1 << 1, // 2
         Lock = 1 << 2, // 4
@@ -14,13 +12,11 @@ namespace DI.Forms.Core
         Enable = 1 << 4, // 16
         Disable = 1 << 5, // 32
         Dialog = 1 << 6, // 64
-        All = ~(~0 << 7),
+        All = ~(~0 << 7)
     }
 
     public class FormEntity
     {
-        public string Title { get; }
-
         public FormEntity(string title, IEntity entity)
         {
             Title = title;
@@ -28,8 +24,9 @@ namespace DI.Forms.Core
             Locked = entity.Locked;
             Disabled = entity.Disabled;
             Deleted = entity.Deleted;
-
         }
+
+        public string Title { get; }
 
         public long Id { get; }
 

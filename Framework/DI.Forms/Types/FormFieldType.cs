@@ -11,15 +11,15 @@
         Date = 6,
         Select = 7,
         Lookup = 8,
-        PickList=9,
-        SubGrid=10,
+        PickList = 9,
+        SubGrid = 10,
         Decimal = 11,
-        TextList=12,
+        TextList = 12,
         Filler = 13,
-        Action =21,
-        Link=22,
-        Label=23,
+        Action = 21,
+        Link = 22,
+        Label = 23,
         Documents = 24,
-        ExtLink = 25,
+        ExtLink = 25
     }
 }

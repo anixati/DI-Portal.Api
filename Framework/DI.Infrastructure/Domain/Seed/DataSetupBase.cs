@@ -6,7 +6,6 @@ using DI.Domain.Services;
 using DI.Domain.Users;
 using DI.Security.Core;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.DependencyInjection;
 
 namespace DI.Domain.Seed
 {
@@ -82,13 +81,15 @@ namespace DI.Domain.Seed
             {
                 var entity = await CreateIfNotExists(new AppRole
                 {
-                    Name = $"{role}", Code = $"{(int)role}", Description = role.ToDesc(), Locked = true,IsSystem = true
+                    Name = $"{role}", Code = $"{(int) role}", Description = role.ToDesc(), Locked = true,
+                    IsSystem = true
                 });
             }
+
             await Save();
             var team = await CreateIfNotExists(new AppTeam
             {
-                Name = $"Default",
+                Name = "Default",
                 Description = "Default Team",
                 Locked = true,
                 IsSystem = true

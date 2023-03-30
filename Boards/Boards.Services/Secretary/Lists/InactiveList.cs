@@ -19,7 +19,6 @@ namespace Boards.Services.Secretary.Lists
                 x.Sortable = true;
                 x.Type = ColumnType.HyperLink;
                 x.LinkPath = Routes.Minister.Path();
-
             });
             pt.AddSearchCol("FullName");
             pt.AddSearchCol("Gender");

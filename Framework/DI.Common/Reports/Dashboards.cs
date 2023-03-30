@@ -1,5 +1,5 @@
-﻿using MediatR;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
+using MediatR;
 
 namespace DI.Reports
 {
@@ -7,6 +7,7 @@ namespace DI.Reports
     {
         public int DashboardId { get; set; }
     }
+
     public class DashboardDataResponse
     {
         public List<DashboardItem> Data { get; set; } = new();
@@ -21,6 +22,4 @@ namespace DI.Reports
         public string ResultColor { get; set; }
         public string Icon { get; set; }
     }
-
-
 }

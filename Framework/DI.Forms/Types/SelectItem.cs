@@ -9,6 +9,6 @@
         }
 
         public string Label { get; }
-        public string Value { get;  }
+        public string Value { get; }
     }
 }

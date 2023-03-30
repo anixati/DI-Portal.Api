@@ -1,9 +1,7 @@
 ﻿using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
-using System.ComponentModel.Design;
 using System.Linq;
-using System.Threading.Tasks;
 using DI.Forms.Core;
 using DI.Forms.Types;
 using Microsoft.Extensions.Logging;
@@ -16,7 +14,8 @@ namespace DI.Forms.Handlers
         private static readonly ConcurrentDictionary<string, Lazy<IFormState>> States = new();
         private readonly IEnumerable<IFormBuilder> _builders;
 
-        public FormProvider(IEnumerable<IFormBuilder> builders, ILoggerFactory logFactory,IOptions<AppSettings> options) : base(logFactory)
+        public FormProvider(IEnumerable<IFormBuilder> builders, ILoggerFactory logFactory,
+            IOptions<AppSettings> options) : base(logFactory)
         {
             _builders = builders;
             foreach (var fb in _builders)

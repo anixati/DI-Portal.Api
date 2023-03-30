@@ -10,7 +10,6 @@ namespace DI.Forms
 {
     public static class FormExtensions
     {
-
         public static SelectItem ConvertToOption(this object value)
         {
             var inObj = $"{value}";

@@ -6,24 +6,21 @@ namespace Boards.Services.Access.Create
 {
     public class CreateUserForm : FormBuilder
     {
-        public override string FormName => $"create_appuser";
+        public override string FormName => "create_appuser";
+
         protected override void CreateSchema(FormSchema fs)
         {
             fs.AddPage("Login Details", LoginDetails);
             fs.AddPage("User Details", AddDetails);
         }
+
         private void LoginDetails(FormField field)
         {
-            field.AddFieldGroup(f =>
-            {
-                f.AddInput("UserId", "User Id");
-            });
-
+            field.AddFieldGroup(f => { f.AddInput("UserId", "User Id"); });
         }
-          
+
         private void AddDetails(FormField field)
         {
-
             field.AddFieldGroup(f =>
             {
                 f.AddInput("Title", "Title");
@@ -41,6 +38,5 @@ namespace Boards.Services.Access.Create
                 f.AddPhone("HomePhone", "Phone Number");
             });
         }
-
     }
 }

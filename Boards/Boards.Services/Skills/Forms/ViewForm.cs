@@ -6,14 +6,11 @@ namespace Boards.Services.Skills.Forms
     public class ViewForm : BoardForms
     {
         public override string FormName => Constants.Forms.Skill.View;
+
         protected override void CreateSchema(FormSchema fs)
         {
             fs.AddTab("Skill Details", AddPersonDetails);
-            fs.AddSubGrid("Appointees", "SkillAppointee", x =>
-            {
-
-            });
-
+            fs.AddSubGrid("Appointees", "SkillAppointee", x => { });
         }
 
         private void AddPersonDetails(FormField field)

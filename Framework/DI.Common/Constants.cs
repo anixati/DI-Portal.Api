@@ -21,5 +21,4 @@ namespace DI
     {
         public Dictionary<string, string> Map { get; set; } = new Dictionary<string, string>();
     }
-
 }

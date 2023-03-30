@@ -15,17 +15,16 @@ namespace DI.WebApi.Controllers
     [Authorize]
     public class DashboardController : ServiceController
     {
-        public DashboardController(ILoggerFactory loggerFactory, IServiceContext serviceContext) : base(loggerFactory, serviceContext)
+        public DashboardController(ILoggerFactory loggerFactory, IServiceContext serviceContext) : base(loggerFactory,
+            serviceContext)
         {
         }
 
         [HttpGet("{id:int}")]
         public async Task<IActionResult> GetData([Required] int id)
         {
-            var result = await ExecuteTask(async x => await x.Send(new DashboardDataRequest { DashboardId= id}));
+            var result = await ExecuteTask(async x => await x.Send(new DashboardDataRequest {DashboardId = id}));
             return result.ToResponse();
         }
-
     }
-
 }

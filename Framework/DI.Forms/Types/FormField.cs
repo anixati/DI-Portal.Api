@@ -20,8 +20,9 @@ namespace DI.Forms.Types
         public bool Readonly { get; set; }
         public object Options { get; set; }
         public object Value { get; set; }
-        
+
         public string ViewId { get; set; }
+
         public bool Required
         {
             get

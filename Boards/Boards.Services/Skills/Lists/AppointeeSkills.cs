@@ -9,10 +9,11 @@ namespace Boards.Services.Skills.Lists
     {
         public override string SchemaName => "AppointeeSkills";
         public override string Title => "Skills";
+
         protected override Table CreateEntity()
         {
-            var pt = Table.Create("AppointeeSkillsView","asv");
-            pt.AddHiddenCols( "SkillId", "AppointeeId");
+            var pt = Table.Create("AppointeeSkillsView", "asv");
+            pt.AddHiddenCols("SkillId", "AppointeeId");
             pt.Column("Skill", "Skill", "Skill", x =>
             {
                 x.Searchable = true;
@@ -24,11 +25,13 @@ namespace Boards.Services.Skills.Lists
             pt.AddSearchCol("SkillType");
             return pt;
         }
+
         protected override void ConfigureQry(QryState qs)
         {
             qs.Where("Disabled", "=", "0");
             qs.ParentId = "AppointeeId";
         }
+
         protected override (string, bool) GetDefaultSort()
         {
             return ("Skill", false);

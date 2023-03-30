@@ -1,13 +1,13 @@
-﻿using Autofac;
+﻿using System;
+using Autofac;
 using Boards.Domain;
 using Boards.Domain.Boards;
 using Boards.Infrastructure.Domain;
-using Di.Qry;
 using DI.Domain;
 using DI.Domain.Core;
 using DI.Forms;
+using Di.Qry;
 using DI.Security;
-using System;
 
 namespace Boards.Infrastructure
 {

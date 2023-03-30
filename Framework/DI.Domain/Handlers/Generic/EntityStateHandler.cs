@@ -29,10 +29,8 @@ namespace DI.Domain.Handlers.Generic
             var entity = await repo.GetById(request.Id);
             entity.ThrowIfNull("no record found!");
             if (entity is ICheckSystemEntity sysEntity)
-            {
                 if (sysEntity.IsSystem && request.Action == StatusAction.Delete)
-                    throw new Exception($"System entities cannot be deleted ");
-            }
+                    throw new Exception("System entities cannot be deleted ");
             EntityStateMachine.Set(entity, request.Action);
 
             var ue = await repo.UpdateAsync(entity);
@@ -44,7 +42,6 @@ namespace DI.Domain.Handlers.Generic
                 EntityId = erf.Id,
                 EntityName = erf.Name,
                 Notes = request.Reason
-                    
             });
 
             return new ActionResponse(code, $"{code}", ue.Id);

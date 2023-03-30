@@ -1,12 +1,10 @@
 ﻿using Boards.Services.Client;
-using Boards.Services.Core;
 using Di.Qry.Core;
 using Di.Qry.Schema;
 using Di.Qry.Schema.Types;
 
 namespace Boards.Services.Appointments.Lists
 {
-
     public static class Shared
     {
         public static Table Default()
@@ -50,6 +48,5 @@ namespace Boards.Services.Appointments.Lists
 
             return pt;
         }
-
     }
 }

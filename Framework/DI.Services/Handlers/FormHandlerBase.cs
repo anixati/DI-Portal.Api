@@ -19,6 +19,7 @@ namespace DI.Services.Handlers
         public abstract string SchemaKey { get; }
 
         #region View Handle
+
         public async Task<FormActionResult> LoadViewData(FormSchema schema, long entityId)
         {
             var rs = new FormActionResult();
@@ -65,7 +66,6 @@ namespace DI.Services.Handlers
             responseSchema.LoadOptions(map);
         }
 
-       
 
         protected abstract Task LoadOptionSets(Dictionary<string, OptionFieldConfig> map);
 
@@ -73,6 +73,7 @@ namespace DI.Services.Handlers
         {
             await Task.Delay(0);
         }
+
         protected abstract Task<FormActionResult> CreateEntity(T entity);
 
         #endregion
@@ -81,11 +82,11 @@ namespace DI.Services.Handlers
 
         public async Task<FormActionResult> ManageEntity(IDictionary<string, object> data, long entityId)
         {
-            data.ThrowIfNull($"Input data is null");
-            var selection = data.Keys.Select(s => new { rs = long.TryParse(s, out var value), value })
+            data.ThrowIfNull("Input data is null");
+            var selection = data.Keys.Select(s => new {rs = long.TryParse(s, out var value), value})
                 .Where(p => p.rs)
                 .Select(p => p.value).ToList();
-            selection.ThrowIfNull($"Input data is null");
+            selection.ThrowIfNull("Input data is null");
             var rs = await CreateIntersection(entityId, selection);
             return rs;
         }
@@ -93,15 +94,15 @@ namespace DI.Services.Handlers
         protected virtual async Task<FormActionResult> CreateIntersection(long entityId, List<long> selection)
         {
             await Task.Delay(0);
-            throw new NotImplementedException($"Not implemented");
+            throw new NotImplementedException("Not implemented");
         }
+
         public virtual async Task<FormActionResult> LoadSelectedData(FormSchema schema, long entityId)
         {
             await Task.Delay(0);
-            throw new NotImplementedException($"Not implemented");
+            throw new NotImplementedException("Not implemented");
         }
 
         #endregion
-
     }
 }

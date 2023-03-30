@@ -1,6 +1,4 @@
-﻿using Boards.Domain.Shared;
-using Boards.Services.Client;
-using Boards.Services.Core;
+﻿using Boards.Services.Client;
 using DI.Forms.Handlers;
 using DI.Forms.Types;
 
@@ -9,6 +7,7 @@ namespace Boards.Services.Appointments.Forms
     public class CreateForm : FormBuilder
     {
         public override string FormName => Constants.Forms.BoardAppointment.Create;
+
         protected override void CreateSchema(FormSchema fs)
         {
             fs.AddPage("Appointment Details", AddDetails);
@@ -22,14 +21,12 @@ namespace Boards.Services.Appointments.Forms
                 f.AddLookup("Appointee", "AppointeeLookup", Routes.Appointee, "Appointees", true);
                 f.AddInput("BriefNumber", "Brief Number", false);
                 f.AddPickList("Appointer", "Appointer", "Appointer/Approver", false);
-               
             });
             field.AddFieldGroup(f =>
             {
                 f.AddYesNo("Proposed", "Proposed Appointment", "", false);
                 f.AddDate("InitialStartDate", "Initial Start Date - Firts Appointed", false);
                 f.AddDate("StartDate", "Start Date", false);
-               
             });
             field.AddFieldGroup(f =>
             {
@@ -42,9 +39,6 @@ namespace Boards.Services.Appointments.Forms
                 f.AddYesNo("ActingInRole", "Acting in the role", "", false);
                 f.AddNumeric("PrevTerms", "How many terms previously served?", false);
             });
-          
-
-
         }
 
         private void TypeDetails(FormField field)
@@ -64,6 +58,5 @@ namespace Boards.Services.Appointments.Forms
 
             field.AddYesNo("ExclGenderReport", "Exclude from Gender Balance Report", "", false);
         }
-
     }
 }

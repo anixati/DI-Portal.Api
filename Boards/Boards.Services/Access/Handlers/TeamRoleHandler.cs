@@ -16,7 +16,9 @@ namespace Boards.Services.Access.Handlers
         public TeamRoleHandler(ILoggerFactory logFactory, IBoardsContext context) : base(logFactory, context)
         {
         }
+
         public override string SchemaKey => "teamrole";
+
         protected override async Task<FormActionResult> CreateIntersection(long entityId, List<long> selection)
         {
             var usrRepo = GetRepo<AppTeam>();
@@ -25,7 +27,7 @@ namespace Boards.Services.Access.Handlers
             if (entity.TeamRoles.Any())
                 entity.TeamRoles.Clear();
             await SaveAsync();
-            entity.TeamRoles = selection.Select(x => new TeamRole { AppTeamId = entity.Id, AppRoleId = x }).ToList();
+            entity.TeamRoles = selection.Select(x => new TeamRole {AppTeamId = entity.Id, AppRoleId = x}).ToList();
             await SaveAsync();
             return new FormActionResult();
         }
@@ -37,10 +39,8 @@ namespace Boards.Services.Access.Handlers
             var entity = await repo.GetById(entityId, "TeamRoles");
             entity.ThrowIfNull($"Entity not found for {entityId}");
             if (entity.TeamRoles.Any())
-            {
                 rs.InitialValues = entity.TeamRoles
-                     .ToDictionary(o => $"{o.AppRoleId}", v => "");
-            }
+                    .ToDictionary(o => $"{o.AppRoleId}", v => "");
             return rs;
         }
     }

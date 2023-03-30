@@ -5,7 +5,7 @@ namespace DI.Forms.Handlers
 {
     public class FormState : IFormState
     {
-        public FormState(string name,FormType formType)
+        public FormState(string name, FormType formType)
         {
             Schema = new FormSchema(name, formType);
         }

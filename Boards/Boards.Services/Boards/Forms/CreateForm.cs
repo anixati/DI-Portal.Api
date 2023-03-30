@@ -1,6 +1,4 @@
 ﻿using Boards.Services.Client;
-using Boards.Services.Core;
-using DI.Domain.Enums;
 using DI.Forms.Handlers;
 using DI.Forms.Types;
 
@@ -9,6 +7,7 @@ namespace Boards.Services.Boards.Forms
     public class CreateForm : FormBuilder
     {
         public override string FormName => Constants.Forms.Boards.Create;
+
         protected override void CreateSchema(FormSchema fs)
         {
             fs.AddPage("Board Details", AddDetails);
@@ -42,9 +41,9 @@ namespace Boards.Services.Boards.Forms
                 x.FieldType = FormFieldType.Note;
             });
         }
+
         private void ComitteeDetails(FormField field)
         {
-
             field.AddFieldGroup(f =>
             {
                 f.AddInput("NominationCommittee", "Nomination Committee");
@@ -71,11 +70,10 @@ namespace Boards.Services.Boards.Forms
                 x.AddRule(ValRule.Min(10, "Minimum 10 chars required"));
                 x.FieldType = FormFieldType.Note;
             });
-         
         }
+
         private void QuorumDetails(FormField field)
         {
-            
             field.AddFieldGroup(f =>
             {
                 f.AddInput("QuorumRequired", "Quorum required number");
@@ -88,13 +86,13 @@ namespace Boards.Services.Boards.Forms
             });
             field.AddFieldGroup(f =>
             {
-                f.AddNumeric("MaximumMembers", "Maximum members",true);
-                f.AddNumeric("MinimumMembers", "Minimum members",true);
+                f.AddNumeric("MaximumMembers", "Maximum members", true);
+                f.AddNumeric("MinimumMembers", "Minimum members", true);
             });
             field.AddFieldGroup(f =>
             {
-                f.AddYesNo("ReportingApproved", "Reporting approved", "Please specify",true);
-                f.AddYesNo("ExcludeFromGenderBalance", "Exclude from gender balance", "Please specify",true);
+                f.AddYesNo("ReportingApproved", "Reporting approved", "Please specify", true);
+                f.AddYesNo("ExcludeFromGenderBalance", "Exclude from gender balance", "Please specify", true);
             });
 
 
@@ -122,7 +120,6 @@ namespace Boards.Services.Boards.Forms
                 f.AddLookup("ApprovedUser", "ActiveUsers", Routes.Users, "Approved User");
             });
             field.AddLookup("AsstSecretary", "SecretaryLookup", Routes.Secretary, "Asst. Secretary");
-          
         }
     }
 }

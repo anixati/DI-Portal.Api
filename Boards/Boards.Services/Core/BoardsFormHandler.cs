@@ -1,20 +1,15 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Threading;
 using System.Threading.Tasks;
 using Boards.Domain;
-using Boards.Domain.Contacts;
 using DI;
 using DI.Domain.Core;
 using DI.Domain.Options;
 using DI.Domain.Services;
-using DI.Extensions;
 using DI.Forms;
 using DI.Forms.Core;
 using DI.Forms.Requests;
 using DI.Forms.Types;
-using DI.Security;
 using DI.Security.Core;
 using DI.Services.Handlers;
 using Microsoft.EntityFrameworkCore;
@@ -24,33 +19,12 @@ namespace Boards.Services.Core
 {
     public abstract class BoardsFormHandler<T> : FormHandlerBase<T> where T : class, IEntity, new()
     {
-        private readonly IBoardsContext _boardsContext; 
-        protected BoardsFormHandler( ILoggerFactory logFactory, IBoardsContext boardsContext) : base(logFactory)
+        private readonly IBoardsContext _boardsContext;
+
+        protected BoardsFormHandler(ILoggerFactory logFactory, IBoardsContext boardsContext) : base(logFactory)
         {
             _boardsContext = boardsContext;
         }
-            
-
-        #region Repos
-        protected IRepository<TK> GetRepo<TK>() where TK : class, IEntity
-        {
-            return _boardsContext.Store.Repo<TK>();
-        }
-        protected async Task SaveAsync()
-        {
-            await _boardsContext.Store.SaveAsync();
-        }
-
-        protected void Commit()
-        {
-            _boardsContext.Store.Commit();
-        }
-
-        protected void Rollback()
-        {
-            _boardsContext.Store.Rollback();
-        }
-        #endregion
 
         #region Security
 
@@ -58,40 +32,12 @@ namespace Boards.Services.Core
         {
             await Task.Delay(1);
             var acl = FormCmdAcl.None;
-            if (_boardsContext.User.IsInRole(ApplicationRoles.SysAdmin))
-            {
-                acl = FormCmdAcl.All;
-            }
+            if (_boardsContext.User.IsInRole(ApplicationRoles.SysAdmin)) acl = FormCmdAcl.All;
             if (_boardsContext.User.IsInRole(ApplicationRoles.Admin))
-            {
                 acl = FormCmdAcl.Update | FormCmdAcl.Enable | FormCmdAcl.Disable | FormCmdAcl.Lock | FormCmdAcl.UnLock;
-            }
             if (_boardsContext.User.IsInRole(ApplicationRoles.Contributor))
-            {
                 acl = FormCmdAcl.Update | FormCmdAcl.Enable | FormCmdAcl.Disable;
-            }
-            result.Entity.CmdAcl = (int)acl;
-        }
-        #endregion
-
-
-        #region Load view Data
-        protected override async Task LoadData(FormSchema schema, long entityId, FormActionResult result)
-        {
-
-            var repo = GetRepo<T>();
-            var entity = await repo.GetById(entityId, true);
-            entity.ThrowIfNull($"Entity not found for given id {entityId}");
-            entity.UpdateInitValues(result.InitialValues, schema);
-            entity.UpdateHdrValues(result.HdrValues, schema);
-            if (schema.Actions.Count > 0)
-                await SetActionRules(entity, schema);
-            result.SetResult(entity, entity.GetName());
-            await SetSecurity(result);
-        }
-        protected virtual async Task SetActionRules(T entity, FormSchema schema)
-        {
-            await Task.Delay(0);
+            result.Entity.CmdAcl = (int) acl;
         }
 
         #endregion
@@ -110,13 +56,11 @@ namespace Boards.Services.Core
             var repo = GetRepo<OptionKey>();
             foreach (var (_, value) in map)
             {
-
                 var rs = await repo.Query().Include(x => x.Values).Where(x => x.Code == value.Code)
                     .FirstOrDefaultAsync();
                 if (rs != null && rs.Values != null && rs.Values.Any())
                     value.Options = rs.Values.Select(x => new SelectItem($"{x.Id}", $"{x.Label}"))
                         .ToList();
-
             }
         }
 
@@ -138,5 +82,52 @@ namespace Boards.Services.Core
             return null;
         }
 
+
+        #region Repos
+
+        protected IRepository<TK> GetRepo<TK>() where TK : class, IEntity
+        {
+            return _boardsContext.Store.Repo<TK>();
+        }
+
+        protected async Task SaveAsync()
+        {
+            await _boardsContext.Store.SaveAsync();
+        }
+
+        protected void Commit()
+        {
+            _boardsContext.Store.Commit();
+        }
+
+        protected void Rollback()
+        {
+            _boardsContext.Store.Rollback();
+        }
+
+        #endregion
+
+
+        #region Load view Data
+
+        protected override async Task LoadData(FormSchema schema, long entityId, FormActionResult result)
+        {
+            var repo = GetRepo<T>();
+            var entity = await repo.GetById(entityId, true);
+            entity.ThrowIfNull($"Entity not found for given id {entityId}");
+            entity.UpdateInitValues(result.InitialValues, schema);
+            entity.UpdateHdrValues(result.HdrValues, schema);
+            if (schema.Actions.Count > 0)
+                await SetActionRules(entity, schema);
+            result.SetResult(entity, entity.GetName());
+            await SetSecurity(result);
+        }
+
+        protected virtual async Task SetActionRules(T entity, FormSchema schema)
+        {
+            await Task.Delay(0);
+        }
+
+        #endregion
     }
 }

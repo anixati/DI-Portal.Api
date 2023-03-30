@@ -1,8 +1,6 @@
-﻿using AutoMapper.Internal;
-using Boards.Domain.Shared;
+﻿using Boards.Domain.Shared;
 using Boards.Services.Client;
 using Boards.Services.Core;
-using DI.Forms.Handlers;
 using DI.Forms.Types;
 
 namespace Boards.Services.Appointments.Forms
@@ -10,6 +8,7 @@ namespace Boards.Services.Appointments.Forms
     public class ViewForm : BoardForms
     {
         public override string FormName => Constants.Forms.BoardAppointment.View;
+
         protected override void CreateSchema(FormSchema fs)
         {
             fs.AddHeaders(f =>
@@ -19,14 +18,12 @@ namespace Boards.Services.Appointments.Forms
             });
 
             fs.AddTab("Appointment", Appointment);
-          //  fs.AddTab("Other Details", OtherDetails);
+            //  fs.AddTab("Other Details", OtherDetails);
             fs.AddDocGrid(Constants.Entities.BoardAppointment);
         }
 
         private void Appointment(FormField field)
         {
-
-
             field.AddFieldGroup(f =>
             {
                 f.AddLookup("Appointee", "AppointeeLookup", Routes.Appointee, "Appointees", true);
@@ -61,7 +58,6 @@ namespace Boards.Services.Appointments.Forms
 
             field.AddFieldGroup(f =>
             {
-               
                 f.AddYesNo("IsSemiDiscretionary", "Is the position semi discretionary.", "", false);
                 f.AddNumeric("PrevTerms", "How many terms previously served?", false);
                 f.AddFiller();
@@ -76,7 +72,5 @@ namespace Boards.Services.Appointments.Forms
         //    field.AddYesNo("ActingInRole", "Acting", "", false);
         //    field.AddYesNo("ExclGenderReport", "Exclude Gender Report", "", false);
         //}
-
-
     }
 }

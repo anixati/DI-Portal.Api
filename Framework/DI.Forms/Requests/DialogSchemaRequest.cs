@@ -7,6 +7,4 @@ namespace DI.Forms.Requests
         public long? EntityId { get; set; }
         public string Name { get; set; }
     }
-
-
 }

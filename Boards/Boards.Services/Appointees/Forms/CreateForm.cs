@@ -8,6 +8,7 @@ namespace Boards.Services.Appointees.Forms
     public class CreateForm : FormBuilder
     {
         public override string FormName => Constants.Forms.Appointee.Create;
+
         protected override void CreateSchema(FormSchema fs)
         {
             fs.AddPage("Personal Details", AddPersonDetails);
@@ -50,18 +51,14 @@ namespace Boards.Services.Appointees.Forms
         private void AddAddressDetails(FormField field)
         {
             field.AddDivider("Street Address");
-            field.AddAddress("StreetAddress",true);
+            field.AddAddress("StreetAddress", true);
             field.AddDivider("Postal Address");
-            field.AddAddress("PostalAddress",false);
+            field.AddAddress("PostalAddress", false);
         }
 
         private void AddProfessionalDetails(FormField field)
         {
-            field.AddInput("Biography", "Biography", x =>
-            {
-             
-                x.FieldType = FormFieldType.Note;
-            });
+            field.AddInput("Biography", "Biography", x => { x.FieldType = FormFieldType.Note; });
             field.AddInput("PostNominals", "PostNominals");
             field.AddFieldGroup(f =>
             {

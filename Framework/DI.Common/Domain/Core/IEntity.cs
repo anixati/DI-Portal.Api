@@ -25,14 +25,15 @@ namespace DI.Domain.Core
         }
 
         public long Id { get; }
-        public string Name { get;  }
-
+        public string Name { get; }
     }
 
 
     public enum EntityEvent
     {
-        Update = 0, Create, Delete
+        Update = 0,
+        Create,
+        Delete
     }
 
     public interface IEntityEvent

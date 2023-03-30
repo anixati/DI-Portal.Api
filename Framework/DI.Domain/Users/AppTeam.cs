@@ -6,13 +6,12 @@ using DI.Domain.Core;
 namespace DI.Domain.Users
 {
     [Table("Teams", Schema = Constants.SecuritySchema)]
-    public class AppTeam : NamedBaseEntity,ICheckSystemEntity
+    public class AppTeam : NamedBaseEntity, ICheckSystemEntity
     {
-
-        [Required]
-        public bool IsSystem { get; set; }
         public virtual ICollection<TeamUser> TeamUsers { get; set; }
         public virtual ICollection<TeamRole> TeamRoles { get; set; }
+
+        [Required] public bool IsSystem { get; set; }
     }
 
     public class TeamViewModel : NamedViewModel

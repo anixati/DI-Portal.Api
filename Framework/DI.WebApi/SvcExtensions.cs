@@ -41,7 +41,6 @@ namespace DI.WebApi
             services.Configure<ReportConfig>(configuration.GetSection("reportConfig"));
         }
 
-
         #endregion
 
         public static void AddTokenAuthentication(this IServiceCollection services, IConfiguration configuration)
@@ -60,19 +59,19 @@ namespace DI.WebApi
                         ValidateLifetime = true,
                         //ValidateIssuerSigningKey = true,
                         ValidIssuer = configuration["JWT:Issuer"],
-                        ValidAudience = configuration["JWT:Audience"],
+                        ValidAudience = configuration["JWT:Audience"]
                     };
 
 
                     options.Authority = configuration["JWT:Issuer"];
                     options.RequireHttpsMetadata = false;
                     // allow self-signed SSL certs
-                    options.BackchannelHttpHandler = new HttpClientHandler { ServerCertificateCustomValidationCallback = delegate { return true; } };
+                    options.BackchannelHttpHandler = new HttpClientHandler
+                        {ServerCertificateCustomValidationCallback = delegate { return true; }};
                     // the scope id of this api
                     options.Audience = configuration["JWT:Audience"];
                 });
         }
-
 
 
         public static void SetupExceptionMiddleware(this IApplicationBuilder app)
@@ -96,9 +95,7 @@ namespace DI.WebApi
                     //mo.ModelBinderProviders.Insert(0, new EntityBinderProvider());
                     mo.UseRoutePrefix(config.RoutePrefix + "/v{version:apiVersion}");
                     mo.AddConventions();
-                    
                 })
-                
                 .AddFluentValidation(fv => config.Validation(fv));
         }
 

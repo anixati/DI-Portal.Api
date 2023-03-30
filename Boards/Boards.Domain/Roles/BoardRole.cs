@@ -2,7 +2,6 @@
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Threading.Tasks;
-using Autofac.Features.ResolveAnything;
 using Boards.Domain.Boards;
 using Boards.Domain.Contacts;
 using Boards.Domain.Shared;
@@ -14,8 +13,9 @@ namespace Boards.Domain.Roles
 {
     public class BoardRole : AuditBaseEntity
     {
-
-        [Required, MaxLength(255), Column(Order = 1)]
+        [Required]
+        [MaxLength(255)]
+        [Column(Order = 1)]
         public string Name { get; set; }
 
         [Required] public long BoardId { get; set; }
@@ -39,13 +39,17 @@ namespace Boards.Domain.Roles
         public int? Term { get; set; }
 
         [Required] public YesNoOptionEnum PositionRemunerated { get; set; }
-        [Required, Column(TypeName = "decimal(13, 2)")] public decimal? PaAmount { get; set; }
+
+        [Required]
+        [Column(TypeName = "decimal(13, 2)")]
+        public decimal? PaAmount { get; set; }
+
         [Required] public long RemunerationMethodId { get; set; }
         public virtual OptionSet RemunerationMethod { get; set; }
 
 
-        [MaxLength(255), Column(Order = 1)]
-        public string RemunerationTribunal { get; set; }
+        [MaxLength(255)] [Column(Order = 1)] public string RemunerationTribunal { get; set; }
+
         public DateTime? VacantFromDate { get; set; }
 
         public bool? ExcludeFromOrder15 { get; set; }
@@ -65,7 +69,6 @@ namespace Boards.Domain.Roles
         public virtual OptionSet MinSubLocation { get; set; }
         public DateTime? MinisterOfficeDate { get; set; }
         public DateTime? MinisterActionDate { get; set; }
-
 
 
         public DateStateEnum LetterToPmDateType { get; set; }
@@ -93,8 +96,7 @@ namespace Boards.Domain.Roles
         [MaxLength(500)] public string IncumbentName { get; set; }
         [MaxLength(255)] public string IncumbentStartDate { get; set; }
         [MaxLength(255)] public string IncumbentEndDate { get; set; }
-
-
+        [MaxLength(255)] public string MigratedId { get; set; }
 
 
         public override string GetName()
@@ -104,12 +106,10 @@ namespace Boards.Domain.Roles
 
         public override async Task<IEntity> OnCoreEvent(EntityEvent @event, IDataStore store)
         {
-            var ps = await store.Repo<OptionSet>().GetById(this.PositionId);
+            var ps = await store.Repo<OptionSet>().GetById(PositionId);
             if (ps == null) return null;
-            this.Name = ps.Label;
+            Name = ps.Label;
             return this;
-
         }
-        [MaxLength(255)] public string MigratedId { get; set; }
     }
 }

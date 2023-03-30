@@ -34,7 +34,7 @@ namespace DI.WebApi.Responses
                         return new ObjectResult(response.Messages) {StatusCode = StatusCodes.Status400BadRequest};
                     case ResponseCode.UnAuthorized:
                         return new OkObjectResult(response);
-                       // return new UnauthorizedObjectResult(response);
+                    // return new UnauthorizedObjectResult(response);
                     case ResponseCode.ServerError:
                         return new ObjectResult(response)
                             {StatusCode = StatusCodes.Status500InternalServerError};
@@ -44,7 +44,7 @@ namespace DI.WebApi.Responses
                     case ResponseCode.Duplicate:
                         return new ObjectResult(response) {StatusCode = StatusCodes.Status400BadRequest};
                     case ResponseCode.ValidationFail:
-                        return new ObjectResult(response) { StatusCode = StatusCodes.Status409Conflict };
+                        return new ObjectResult(response) {StatusCode = StatusCodes.Status409Conflict};
 
                     case ResponseCode.Updated:
                     case ResponseCode.Disabled:

@@ -37,10 +37,12 @@ namespace DI.Response
         {
             return Error(exception.ToExceptionMessages(), status);
         }
+
         public static IApiResponse Error(DataValidationException exception)
         {
             return Error(exception.Errors, ResponseCode.ValidationFail);
         }
+
         public static IApiResponse Error(AccessDeniedException exception)
         {
             return Error(exception.Message, ResponseCode.UnAuthorized);

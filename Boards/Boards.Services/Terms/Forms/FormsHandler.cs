@@ -8,11 +8,13 @@ using Microsoft.Extensions.Logging;
 
 namespace Boards.Services.Terms.Forms
 {
-    public class FormsHandler : BoardsFormHandler<Domain.Boards.MinisterTerm>
+    public class FormsHandler : BoardsFormHandler<MinisterTerm>
     {
         public FormsHandler(ILoggerFactory logFactory, IBoardsContext context) : base(logFactory, context)
         {
         }
+
+        public override string SchemaKey => "ministerterm";
 
 
         protected override async Task LoadCreateData(FormSchema schema, long? entityId, FormActionResult result)
@@ -22,8 +24,6 @@ namespace Boards.Services.Terms.Forms
             var pf = await repo.GetById(entityId.GetValueOrDefault());
             if (pf != null)
                 result.SetLookupValue("Portfolio", $"{pf.Name}", $"{pf.Id}");
-
         }
-        public override string SchemaKey => "ministerterm";
     }
 }

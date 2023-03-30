@@ -5,7 +5,8 @@ namespace Boards.Services.Access.Create
 {
     public class CreateRoleForm : FormBuilder
     {
-        public override string FormName => $"create_approle";
+        public override string FormName => "create_approle";
+
         protected override void CreateSchema(FormSchema fs)
         {
             fs.AddPage("Role Details", AddDetails);

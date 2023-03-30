@@ -5,7 +5,6 @@ using Di.Qry.Schema.Types;
 
 namespace Boards.Services.Users.Lists
 {
-
     public class ActiveList : QrySchema
     {
         public override string SchemaName => "ActiveUsers";
@@ -21,7 +20,6 @@ namespace Boards.Services.Users.Lists
                 x.Type = ColumnType.HyperLink;
                 x.LinkId = "Id";
                 x.LinkPath = Routes.Users.Path();
-
             });
             pt.AddSearchCols("Phone", "Email");
             pt.AddDateColumn("CreatedOn");
@@ -38,5 +36,4 @@ namespace Boards.Services.Users.Lists
             return ("FullName", false);
         }
     }
-    
 }

@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using Boards.Domain.Contacts;
 using DI.Services.Handlers;
@@ -12,7 +11,8 @@ namespace Framework.Tests
         [Fact]
         public void Ensure_LoadEntityfromDataDict()
         {
-            var payload = @"{""IsRegional"":""1"",""IsAboriginal"":""1"",""IsDisabled"":"""",""ExecutiveSearch"":""0"",""Biography"":""fwefwefwefwefwefwe"",""PostNominals"":""wef"",""ResumeLink"":""wef"",""LinkedInProfile"":"""",""0c8934df39304707886f55eea978c3ee"":"""",""StreetAddress.Unit"":""wqr"",""StreetAddress.Street"":""qwqwrqwqwr"",""StreetAddress.City"":""qwrqwrqw"",""StreetAddress.Postcode"":4123,""StreetAddress.State"":""asfsf"",""StreetAddress.Country"":""sdfsdgsdg"",""707f4cdbc59740fca4ed773b779a5f07"":"""",""PostalAddress.Unit"":"""",""PostalAddress.Street"":"""",""PostalAddress.City"":"""",""PostalAddress.Postcode"":"""",""PostalAddress.State"":"""",""PostalAddress.Country"":"""",""Email1"":""aa@hh.com"",""Email2"":"""",""Mobile"":"""",""HomePhone"":"""",""FaxNumber"":"""",""Title"":"""",""FirstName"":""ERWERWER"",""MiddleName"":""WERWERWQE"",""LastName"":""RWERWER"",""Gender"":""1""}";
+            var payload =
+                @"{""IsRegional"":""1"",""IsAboriginal"":""1"",""IsDisabled"":"""",""ExecutiveSearch"":""0"",""Biography"":""fwefwefwefwefwefwe"",""PostNominals"":""wef"",""ResumeLink"":""wef"",""LinkedInProfile"":"""",""0c8934df39304707886f55eea978c3ee"":"""",""StreetAddress.Unit"":""wqr"",""StreetAddress.Street"":""qwqwrqwqwr"",""StreetAddress.City"":""qwrqwrqw"",""StreetAddress.Postcode"":4123,""StreetAddress.State"":""asfsf"",""StreetAddress.Country"":""sdfsdgsdg"",""707f4cdbc59740fca4ed773b779a5f07"":"""",""PostalAddress.Unit"":"""",""PostalAddress.Street"":"""",""PostalAddress.City"":"""",""PostalAddress.Postcode"":"""",""PostalAddress.State"":"""",""PostalAddress.Country"":"""",""Email1"":""aa@hh.com"",""Email2"":"""",""Mobile"":"""",""HomePhone"":"""",""FaxNumber"":"""",""Title"":"""",""FirstName"":""ERWERWER"",""MiddleName"":""WERWERWQE"",""LastName"":""RWERWER"",""Gender"":""1""}";
 
             //covert to dict 
 
@@ -21,8 +21,6 @@ namespace Framework.Tests
 
             var entity = data.CreateEntity<Appointee>();
             Assert.NotNull(entity);
-
-
         }
     }
 }

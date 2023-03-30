@@ -14,16 +14,16 @@ namespace DI.Forms.Types
         public FormType FormType { get; }
 
         public List<FormAction> Actions { get; set; } = new();
-        public List<SelectItem> Options { get; set; } 
+        public List<SelectItem> Options { get; set; }
         public List<FormField> Fields { get; set; } = new();
     }
 
 
     public enum FormType
     {
-      Default=0,
-      Wizard,
-      MultiSelect,
-      Dialog
+        Default = 0,
+        Wizard,
+        MultiSelect,
+        Dialog
     }
 }

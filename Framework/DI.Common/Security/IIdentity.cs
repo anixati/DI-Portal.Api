@@ -19,8 +19,9 @@ namespace DI.Security
 
     public class UserIdentity : IIdentity
     {
+        private int[] _roleList;
         private ApplicationRoles? _roles;
-        private int[] _roleList = null;
+
         public UserIdentity(string userId, string name, string roles)
         {
             UserId = userId;
@@ -32,18 +33,11 @@ namespace DI.Security
                 AppUserId = null;
         }
 
-        private void SetupRoles(string roles)
-        {
-            if (string.IsNullOrEmpty(roles)) return;
-            var rids = roles.Split('|', StringSplitOptions.RemoveEmptyEntries);
-            _roleList = rids.Select((s, i) => int.TryParse(s, out i) ? i : 0).ToArray();
-            var rs = _roleList.Aggregate((x, y) => x | y);
-            _roles = (ApplicationRoles)rs;
-        }
         public bool IsInRole(ApplicationRoles role)
         {
             return _roles.HasValue && _roles.Value.HasFlag(role);
         }
+
         public bool IsInRole(int role)
         {
             return _roleList != null && _roleList.Any(x => x == role);
@@ -67,5 +61,14 @@ namespace DI.Security
         public long? AppUserId { get; }
         public string UserId { get; }
         public string Name { get; }
+
+        private void SetupRoles(string roles)
+        {
+            if (string.IsNullOrEmpty(roles)) return;
+            var rids = roles.Split('|', StringSplitOptions.RemoveEmptyEntries);
+            _roleList = rids.Select((s, i) => int.TryParse(s, out i) ? i : 0).ToArray();
+            var rs = _roleList.Aggregate((x, y) => x | y);
+            _roles = (ApplicationRoles) rs;
+        }
     }
 }

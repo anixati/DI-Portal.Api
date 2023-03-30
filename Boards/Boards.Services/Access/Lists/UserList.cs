@@ -1,5 +1,4 @@
 ﻿using Boards.Services.Client;
-using Boards.Services.Core;
 using Di.Qry.Core;
 using Di.Qry.Schema;
 using Di.Qry.Schema.Types;
@@ -21,7 +20,7 @@ namespace Boards.Services.Access.Lists
                 x.Type = ColumnType.HyperLink;
                 x.LinkPath = Routes.UserAdmin.Path();
             });
-            pt.AddSearchCols("UserId","Email");
+            pt.AddSearchCols("UserId", "Email");
             pt.AddDateColumn("CreatedOn");
             return pt;
         }
@@ -36,6 +35,7 @@ namespace Boards.Services.Access.Lists
             return ("FullName", false);
         }
     }
+
     public class InactiveUserList : QrySchema
     {
         public override string SchemaName => "InactiveUserList";
@@ -75,7 +75,6 @@ namespace Boards.Services.Access.Lists
 
         protected override Table CreateEntity()
         {
-
             var tb = Table.Create("UserRoles", "pe", "", "acl");
             tb.AddHiddenCols("AppUserId", "AppRoleId");
             var link = tb.InnerJoin("Roles", "se", "Id", "AppRoleId", x =>
@@ -91,10 +90,12 @@ namespace Boards.Services.Access.Lists
             }, "acl");
             return tb;
         }
+
         protected override void ConfigureQry(QryState qs)
         {
             qs.ParentId = "AppUserId";
         }
+
         protected override (string, bool) GetDefaultSort()
         {
             return ("AppUserId", false);
@@ -109,7 +110,6 @@ namespace Boards.Services.Access.Lists
 
         protected override Table CreateEntity()
         {
-
             var tb = Table.Create("TeamUsers", "pe", "", "acl");
             tb.AddHiddenCols("AppUserId", "AppTeamId");
             var link = tb.InnerJoin("Teams", "se", "Id", "AppTeamId", x =>
@@ -125,10 +125,12 @@ namespace Boards.Services.Access.Lists
             }, "acl");
             return tb;
         }
+
         protected override void ConfigureQry(QryState qs)
         {
             qs.ParentId = "AppUserId";
         }
+
         protected override (string, bool) GetDefaultSort()
         {
             return ("AppUserId", false);

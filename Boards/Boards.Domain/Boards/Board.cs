@@ -1,6 +1,5 @@
 ﻿using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
 using Boards.Domain.Contacts;
 using Boards.Domain.Roles;
 using DI.Domain.Core;
@@ -26,7 +25,6 @@ namespace Boards.Domain.Boards
 
         [MaxLength(2000)] public string EstablishedByUnderText { get; set; }
 
-       
 
         [MaxLength(255)] public string NominationCommittee { get; set; }
 
@@ -58,13 +56,13 @@ namespace Boards.Domain.Boards
 
         public long? BoardStatusId { get; set; }
         public OptionSet BoardStatus { get; set; }
-        
+
         //public long? DivisionId { get; set; }
         //public OptionSet Division { get; set; }
 
         public long? EstablishedByUnderId { get; set; }
         public OptionSet EstablishedByUnder { get; set; }
-        
+
 
         public long? ApprovedUserId { get; set; }
         public virtual AppUser ApprovedUser { get; set; }

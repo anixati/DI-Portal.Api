@@ -19,11 +19,8 @@ namespace Boards.Domain.Shared
 
     public enum FullTimeEnum
     {
-        [Description("--")]
-        NA=0,
-        [Description("Full time")]
-        FullTime,
-        [Description("Part time")]
-        PartTime
+        [Description("--")] NA = 0,
+        [Description("Full time")] FullTime,
+        [Description("Part time")] PartTime
     }
 }

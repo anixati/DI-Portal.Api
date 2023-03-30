@@ -5,16 +5,13 @@ namespace Boards.Services.Access.Views
 {
     public class ViewRoleForm : BoardForms
     {
-        public override string FormName => $"view_approle";
+        public override string FormName => "view_approle";
+
         protected override void CreateSchema(FormSchema fs)
         {
             fs.AddTab("Role Details", UserDetails);
-            fs.AddSubGrid("Teams", "RoleTeamList", x =>
-            {
-            });
-            fs.AddSubGrid("Users", "RoleUserList", x =>
-            {
-            });
+            fs.AddSubGrid("Teams", "RoleTeamList", x => { });
+            fs.AddSubGrid("Users", "RoleUserList", x => { });
         }
 
         private void UserDetails(FormField field)

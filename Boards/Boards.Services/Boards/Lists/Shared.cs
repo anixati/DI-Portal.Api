@@ -20,7 +20,7 @@ namespace Boards.Services.Boards.Lists
                 x.LinkPath = Routes.Boards.Path();
             });
             pt.AddSearchCol("Acronym");
-           
+
             pt.Column("Portfolio", "Portfolio", "Portfolio", x =>
             {
                 x.Searchable = true;

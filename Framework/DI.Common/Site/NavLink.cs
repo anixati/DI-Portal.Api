@@ -11,12 +11,12 @@ namespace DI.Site
             Label = label;
         }
 
-        public string Route { get;  }
-        public string Label { get;  }
+        public string Route { get; }
+        public string Label { get; }
         public string Icon { get; set; }
         public List<NavLink> Links { get; set; } = new();
 
-        public NavLink Add(string route, string label,Action<NavLink> setup = null)
+        public NavLink Add(string route, string label, Action<NavLink> setup = null)
         {
             var link = new NavLink(route, label);
             setup?.Invoke(link);

@@ -17,7 +17,9 @@ namespace DI.Services.Queries
         private readonly IQryDataSource _dataSource;
         private readonly IQryProvider _provider;
         private readonly ISecurityContext _securityContext;
-        public QueryHandler(IQryProvider provider, IQryDataSource handler, ILoggerFactory loggerFactory, ISecurityContext securityContext)
+
+        public QueryHandler(IQryProvider provider, IQryDataSource handler, ILoggerFactory loggerFactory,
+            ISecurityContext securityContext)
             : base(loggerFactory)
         {
             _provider = provider;
@@ -48,7 +50,7 @@ namespace DI.Services.Queries
             if (qs == null)
                 throw new Exception("Unable to get query state");
 
-           
+
             var pagedContext = await qs.Compile(request, _securityContext);
 
             Trace(pagedContext.DataQry.QueryString);

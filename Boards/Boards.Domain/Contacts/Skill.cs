@@ -7,7 +7,7 @@ namespace Boards.Domain.Contacts
 {
     public class Skill : NamedBaseEntity
     {
-        [Required]public long SkillTypeId { get; set; }
+        [Required] public long SkillTypeId { get; set; }
         public OptionSet SkillType { get; set; }
         public virtual ICollection<AppointeeSkill> AppointeeSkills { get; set; }
     }

@@ -7,6 +7,4 @@ namespace DI.Forms.Requests
         public object InitialValues { get; set; }
         public FormSchema Schema { get; set; }
     }
-
-
 }

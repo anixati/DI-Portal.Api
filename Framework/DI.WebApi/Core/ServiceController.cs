@@ -35,6 +35,7 @@ namespace DI.WebApi.Core
                 return version;
             return 1;
         }
+
         public async Task<T> Send<T>(IRequest<T> request)
         {
             return await _serviceContext.Send(request);
@@ -55,7 +56,7 @@ namespace DI.WebApi.Core
             }
             catch (DataValidationException dex)
             {
-                return ApiResponse.Error(dex,ResponseCode.ValidationFail);
+                return ApiResponse.Error(dex, ResponseCode.ValidationFail);
             }
             catch (BuisnessException bex)
             {

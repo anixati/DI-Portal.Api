@@ -1,6 +1,5 @@
 ﻿using System;
 using Autofac;
-using Boards.Services.Core;
 using DI.Services.Core;
 
 namespace Boards.Services
@@ -16,8 +15,6 @@ namespace Boards.Services
 
             builder.RegisterAssemblyTypes(moduleAssembly)
                 .AsImplementedInterfaces();
-
-
 
 
             builder.AddMappings(moduleType);

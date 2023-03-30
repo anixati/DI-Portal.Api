@@ -7,6 +7,7 @@ namespace Boards.Services.BoardRoles.Forms
     public class CreateForm : FormBuilder
     {
         public override string FormName => Constants.Forms.BoardRole.Create;
+
         protected override void CreateSchema(FormSchema fs)
         {
             fs.AddPage("Role Details", AddDetails);
@@ -31,15 +32,13 @@ namespace Boards.Services.BoardRoles.Forms
             field.AddFieldGroup(f =>
             {
                 f.AddPickList("RemunerationMethod", "RemunerationMethod", "Remuneration Method", true);
-                f.AddInput("RemunerationTribunal",  "Remuneration Tribunal", true);
+                f.AddInput("RemunerationTribunal", "Remuneration Tribunal", true);
             });
             field.AddFieldGroup(f =>
             {
                 f.AddDate("VacantFromDate", "Vacant from Date", false);
                 f.AddNumeric("Term", "Term");
-
             });
-          
         }
 
         private void TypeDetails(FormField field)
@@ -62,14 +61,13 @@ namespace Boards.Services.BoardRoles.Forms
                 f.AddYesNo("ExcludeFromOrder15", "Exclude from order 15 report", "", true);
                 f.AddYesNo("ExcludeGenderReport", "Exclude from gender report", "", true);
             });
-            
         }
 
         private void MinisterialDetails(FormField field)
         {
             field.AddFieldGroup(f =>
             {
-                f.AddInput("PDMSNumber", "PDMS Number",true);
+                f.AddInput("PDMSNumber", "PDMS Number", true);
                 f.AddPickList("MinSubLocation", "MinSubLocation", "MinSub Location", true);
             });
             field.AddFieldGroup(f =>
@@ -83,6 +81,7 @@ namespace Boards.Services.BoardRoles.Forms
                 x.FieldType = FormFieldType.Note;
             });
         }
+
         private void MinisterialDates(FormField field)
         {
             field.AddFieldGroup(f =>
@@ -109,11 +108,10 @@ namespace Boards.Services.BoardRoles.Forms
                 f.AddSelect<DateStateEnum>("NotifyLetterDateType", "Notification letter date type", true);
                 f.AddDate("NotifyLetterDate", "Notification letter date");
             });
-
         }
+
         private void Notes(FormField field)
         {
-
             field.AddFieldGroup(f =>
             {
                 f.AddSelect<DateStateEnum>("CabinetDateType", "Cabinet date type", true);

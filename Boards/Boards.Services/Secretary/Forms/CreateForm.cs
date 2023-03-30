@@ -34,6 +34,7 @@ namespace Boards.Services.Secretary.Forms
                 f.AddPhone("HomePhone", "Phone");
             });
         }
+
         private void AddAddressDetails(FormField field)
         {
             field.AddDivider("Street Address");
@@ -41,7 +42,5 @@ namespace Boards.Services.Secretary.Forms
             field.AddDivider("Postal Address");
             field.AddAddress("PostalAddress", false);
         }
-
-        
     }
 }

@@ -4,7 +4,7 @@ namespace DI.Forms.Requests
 {
     public enum ActionType
     {
-        Create=0,
+        Create = 0,
         View,
         Manage,
         Dialog

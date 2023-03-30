@@ -9,6 +9,7 @@ namespace Boards.Services.Appointments.Lists
     {
         public override string SchemaName => "RoleAppointmentsView";
         public override string Title => "Role Appointments";
+
         protected override Table CreateEntity()
         {
             var pt = Table.Create(Constants.Db.AppointmentsView);
@@ -57,11 +58,13 @@ namespace Boards.Services.Appointments.Lists
 
             return pt;
         }
+
         protected override void ConfigureQry(QryState qs)
         {
             qs.Where("Disabled", "=", "0");
             qs.ParentId = "BoardRoleId";
         }
+
         protected override (string, bool) GetDefaultSort()
         {
             return ("Name", false);

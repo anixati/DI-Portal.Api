@@ -40,7 +40,6 @@ namespace Boards.Services.Terms.Lists
         {
             qs.Where("Disabled", "=", "0");
             qs.ParentId = "MinisterId";
-
         }
 
         protected override (string, bool) GetDefaultSort()

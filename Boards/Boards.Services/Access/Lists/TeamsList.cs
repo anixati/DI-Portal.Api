@@ -1,5 +1,4 @@
 ﻿using Boards.Services.Client;
-using Boards.Services.Core;
 using Di.Qry.Core;
 using Di.Qry.Schema;
 using Di.Qry.Schema.Types;
@@ -10,33 +9,7 @@ namespace Boards.Services.Access.Lists
     {
         public override string SchemaName => "TeamsList";
         public override string Title => "Application Teams";
-        protected override Table CreateEntity()
-        {
-            var tb = Table.Create("Teams", "pe","","acl");
-            tb.Column("Name", "Name", "Name", x =>
-            {
-                x.Searchable = true;
-                x.Sortable = true;
-                x.Type = ColumnType.HyperLink;
-                x.LinkPath = Routes.TeamAdmin.Path();
-            });
-            tb.AddDateColumn("CreatedOn");
-            return tb;
-        }
-        protected override void ConfigureQry(QryState qs)
-        {
-        }
-        protected override (string, bool) GetDefaultSort()
-        {
-            return ("Name", false);
-        }
-    }
 
-
-    public class AppTeamLookup : QrySchema
-    {
-        public override string SchemaName => "AppTeamLookup";
-        public override string Title => "Teams";
         protected override Table CreateEntity()
         {
             var tb = Table.Create("Teams", "pe", "", "acl");
@@ -50,15 +23,46 @@ namespace Boards.Services.Access.Lists
             tb.AddDateColumn("CreatedOn");
             return tb;
         }
+
         protected override void ConfigureQry(QryState qs)
         {
         }
+
         protected override (string, bool) GetDefaultSort()
         {
             return ("Name", false);
         }
     }
 
+
+    public class AppTeamLookup : QrySchema
+    {
+        public override string SchemaName => "AppTeamLookup";
+        public override string Title => "Teams";
+
+        protected override Table CreateEntity()
+        {
+            var tb = Table.Create("Teams", "pe", "", "acl");
+            tb.Column("Name", "Name", "Name", x =>
+            {
+                x.Searchable = true;
+                x.Sortable = true;
+                x.Type = ColumnType.HyperLink;
+                x.LinkPath = Routes.TeamAdmin.Path();
+            });
+            tb.AddDateColumn("CreatedOn");
+            return tb;
+        }
+
+        protected override void ConfigureQry(QryState qs)
+        {
+        }
+
+        protected override (string, bool) GetDefaultSort()
+        {
+            return ("Name", false);
+        }
+    }
 
 
     public class TeamUserList : QrySchema
@@ -68,7 +72,6 @@ namespace Boards.Services.Access.Lists
 
         protected override Table CreateEntity()
         {
-
             var tb = Table.Create("TeamUsers", "pe", "", "acl");
             tb.AddHiddenCols("AppUserId", "AppTeamId");
             var link = tb.InnerJoin("Users", "se", "Id", "AppUserId", lk =>
@@ -84,10 +87,12 @@ namespace Boards.Services.Access.Lists
             }, "acl");
             return tb;
         }
+
         protected override void ConfigureQry(QryState qs)
         {
             qs.ParentId = "AppTeamId";
         }
+
         protected override (string, bool) GetDefaultSort()
         {
             return ("AppTeamId", false);
@@ -102,7 +107,6 @@ namespace Boards.Services.Access.Lists
 
         protected override Table CreateEntity()
         {
-
             var tb = Table.Create("TeamRoles", "pe", "", "acl");
             tb.AddHiddenCols("AppTeamId", "AppRoleId");
             var link = tb.InnerJoin("Roles", "se", "Id", "AppRoleId", lk =>
@@ -118,10 +122,12 @@ namespace Boards.Services.Access.Lists
             }, "acl");
             return tb;
         }
+
         protected override void ConfigureQry(QryState qs)
         {
             qs.ParentId = "AppTeamId";
         }
+
         protected override (string, bool) GetDefaultSort()
         {
             return ("AppTeamId", false);

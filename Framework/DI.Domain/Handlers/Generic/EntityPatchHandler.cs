@@ -15,7 +15,6 @@ using FastMember;
 using MediatR;
 using Microsoft.AspNetCore.JsonPatch;
 using Microsoft.AspNetCore.JsonPatch.Operations;
-using Newtonsoft.Json;
 
 namespace DI.Domain.Handlers.Generic
 {
@@ -59,7 +58,8 @@ namespace DI.Domain.Handlers.Generic
                 if (mi.Type.IsClass && typeof(IEntity).IsAssignableFrom(mi.Type))
                 {
                     var idKey = $"{mi.Name}Id";
-                    var idMemType = members.FirstOrDefault(x => string.Compare(x.Name, idKey, StringComparison.OrdinalIgnoreCase) == 0);
+                    var idMemType = members.FirstOrDefault(x =>
+                        string.Compare(x.Name, idKey, StringComparison.OrdinalIgnoreCase) == 0);
                     if (idMemType == null) continue;
 
                     if (mi.Type == typeof(OptionSet))
@@ -95,26 +95,21 @@ namespace DI.Domain.Handlers.Generic
 
                     patch.Operations.Add(op);
                 }
-
-
             }
+
             patch.ApplyTo(entity);
 
             var result = await Repository.UpdateAsync(entity);
             if (result != null)
-            {
-                if (await ((IEntityEvent)result).OnCoreEvent(EntityEvent.Update, Store) is T rs)
+                if (await ((IEntityEvent) result).OnCoreEvent(EntityEvent.Update, Store) is T rs)
                     await Repository.UpdateAsync(rs);
-            }
             Commit();
             return new DomainResponse(ResponseCode.Updated, "Patched");
         }
 
 
-
         private static object MapValues(Type type, object value)
         {
-
             if (type == typeof(bool) || type == typeof(bool?))
             {
                 if (int.TryParse($"{value}", out var rs))
@@ -145,6 +140,7 @@ namespace DI.Domain.Handlers.Generic
                 if (int.TryParse($"{value}", out var rs))
                     return rs;
             }
+
             return value;
         }
     }

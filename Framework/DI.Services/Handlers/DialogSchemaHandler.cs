@@ -8,15 +8,16 @@ using Microsoft.Extensions.Logging;
 
 namespace DI.Services.Handlers
 {
-    public class DialogSchemaHandler : ActionHandlerBase<IDialogHandler>, IRequestHandler<DialogSchemaRequest, DialogSchemaResponse>
+    public class DialogSchemaHandler : ActionHandlerBase<IDialogHandler>,
+        IRequestHandler<DialogSchemaRequest, DialogSchemaResponse>
     {
         private readonly IFormProvider _provider;
 
-        public DialogSchemaHandler(IFormProvider provider, IEnumerable<IDialogHandler> handlers, ILoggerFactory loggerFactory)
+        public DialogSchemaHandler(IFormProvider provider, IEnumerable<IDialogHandler> handlers,
+            ILoggerFactory loggerFactory)
             : base(handlers, loggerFactory)
         {
             _provider = provider;
-
         }
 
         public async Task<DialogSchemaResponse> Handle(DialogSchemaRequest request, CancellationToken cancellationToken)

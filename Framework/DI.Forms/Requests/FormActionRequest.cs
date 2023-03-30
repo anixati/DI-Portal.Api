@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using MediatR;
-using Microsoft.AspNetCore.JsonPatch;
 
 namespace DI.Forms.Requests
 {
@@ -24,13 +23,13 @@ namespace DI.Forms.Requests
     {
         public bool Failed { get; set; }
         public string Result { get; set; }
-    
     }
 
     public class EntityTypeRequest : IRequest<EntityTypeResponse>
     {
         public string SchemaKey { get; set; }
     }
+
     public class EntityTypeResponse
     {
         public Type EntityType { get; set; }

@@ -1,11 +1,11 @@
-﻿using Boards.Domain;
+﻿using System.Threading.Tasks;
+using Boards.Domain;
 using Boards.Services.Core;
 using DI.Domain.Users;
 using DI.Exceptions;
 using DI.Forms.Requests;
 using DI.Forms.Types;
 using Microsoft.Extensions.Logging;
-using System.Threading.Tasks;
 using BC = BCrypt.Net.BCrypt;
 
 namespace Boards.Services.Access.Handlers
@@ -15,6 +15,7 @@ namespace Boards.Services.Access.Handlers
         public AppUserHandler(ILoggerFactory logFactory, IBoardsContext context) : base(logFactory, context)
         {
         }
+
         public override string SchemaKey => "appuser";
 
         protected override async Task SetActionRules(AppUser entity, FormSchema schema)
@@ -33,11 +34,10 @@ namespace Boards.Services.Access.Handlers
             entity.PasswordHash = BC.HashPassword("Welcome2023");
             entity.IsSystem = false;
             entity.AccessRequest = System.DateTime.Now;
-            entity.AccessGranted= System.DateTime.Now;
+            entity.AccessGranted = System.DateTime.Now;
             var rs = await repo.CreateAsync(entity);
             await SaveAsync();
             return new FormActionResult(rs);
-
         }
     }
 }

@@ -1,10 +1,10 @@
-﻿using DI.Domain.Core;
+﻿using System;
+using System.Collections.Generic;
+using System.Threading.Tasks;
+using DI.Domain.Core;
 using DI.Domain.Services;
 using DI.Reports;
 using DI.Security;
-using System;
-using System.Collections.Generic;
-using System.Threading.Tasks;
 
 namespace Boards.Domain
 {

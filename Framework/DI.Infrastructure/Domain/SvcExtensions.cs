@@ -1,5 +1,4 @@
-﻿using System;
-using System.Reflection;
+﻿using System.Reflection;
 using Autofac;
 using DI.Domain.Services;
 using DI.Security;
@@ -22,7 +21,7 @@ namespace DI.Domain
 
                     var dboBuilder = new DbContextOptionsBuilder<T>()
                         .UseSqlServer(connStr, ox => { ox.MigrationsAssembly(assembly.FullName); });
-                     //   .LogTo(Console.WriteLine,Microsoft.Extensions.Logging.LogLevel.Debug);
+                    //   .LogTo(Console.WriteLine,Microsoft.Extensions.Logging.LogLevel.Debug);
 
                     // _ = dboBuilder.ReplaceService<IStateManager, DbErrorResolver>();
 

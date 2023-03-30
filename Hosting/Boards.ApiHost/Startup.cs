@@ -37,7 +37,7 @@ namespace Boards.ApiHost
             services.AddApiControllers(x => x.RoutePrefix = "brds")
                 .AddNewtonsoftJson()
                 .AddEndpoints(Modules.GetControllers);
-                
+
 
             services.AddSwaggerGen(c =>
             {

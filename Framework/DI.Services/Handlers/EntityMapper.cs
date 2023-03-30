@@ -11,8 +11,8 @@ namespace DI.Services.Handlers
     public class EntityMapper<T>
     {
         private readonly TypeAccessor _accessor;
-        private readonly MemberSet _members;
         private readonly T _entity;
+        private readonly MemberSet _members;
 
         public EntityMapper(T entity)
         {
@@ -28,57 +28,56 @@ namespace DI.Services.Handlers
             if (type == typeof(bool))
             {
                 if (format)
-                    return (bool)accessor[entity, propName] ? "Yes" : "No";
-                else
-                    return (bool)accessor[entity, propName] ? "1" : "0";
+                    return (bool) accessor[entity, propName] ? "Yes" : "No";
+                return (bool) accessor[entity, propName] ? "1" : "0";
             }
-            else if (type == typeof(bool?))
+
+            if (type == typeof(bool?))
             {
-                var rx = (bool?)accessor[entity, propName];
+                var rx = (bool?) accessor[entity, propName];
 
                 if (format)
                     return rx.HasValue ? rx.GetValueOrDefault() ? "Yes" : "No" : "";
-                else
-                    return rx.HasValue ? rx.GetValueOrDefault() ? "1" : "0" : "";
+                return rx.HasValue ? rx.GetValueOrDefault() ? "1" : "0" : "";
             }
-            else if (type == typeof(int?))
+
+            if (type == typeof(int?))
             {
-                var rx = (int?)accessor[entity, propName];
+                var rx = (int?) accessor[entity, propName];
                 return rx.HasValue ? $"{rx.GetValueOrDefault()}" : "";
             }
-            else if (type == typeof(int))
+
+            if (type == typeof(int))
             {
-                var rx = (int)accessor[entity, propName];
+                var rx = (int) accessor[entity, propName];
                 return $"{rx}";
-
             }
-            else if (type == typeof(DateTime?))
+
+            if (type == typeof(DateTime?))
             {
-                var rx = (DateTime?)accessor[entity, propName];
+                var rx = (DateTime?) accessor[entity, propName];
                 return rx.HasValue ? $"{rx:o}" : "";
-
             }
-            else if (type == typeof(DateTime))
+
+            if (type == typeof(DateTime))
             {
-                var rx = (DateTime)accessor[entity, propName];
+                var rx = (DateTime) accessor[entity, propName];
                 return $"{rx:o}";
+            }
 
-            }
-            else if (type.IsEnum)
+            if (type.IsEnum)
             {
-                return $"{(int)accessor[entity, propName]}";
+                return $"{(int) accessor[entity, propName]}";
             }
-            else
+
             {
                 var rx = accessor[entity, propName];
                 if (rx == null && hasDefault)
                 {
                     var dv = mi.GetAttribute(typeof(DefaultValueAttribute), true);
-                    if (dv != null)
-                    {
-                        rx = ((DefaultValueAttribute)dv).Value;
-                    }
+                    if (dv != null) rx = ((DefaultValueAttribute) dv).Value;
                 }
+
                 return $"{rx}";
             }
         }
@@ -99,10 +98,7 @@ namespace DI.Services.Handlers
             var mi = _members.FirstOrDefault(x =>
                 string.Compare(x.Name, entKey, StringComparison.OrdinalIgnoreCase) == 0);
             if (mi == null) return null;
-            if (typeof(IEntity).IsAssignableFrom(mi.Type))
-            {
-                return GetRefEntityValue(mi, propName);
-            }
+            if (typeof(IEntity).IsAssignableFrom(mi.Type)) return GetRefEntityValue(mi, propName);
 
             if (nested)
             {
@@ -160,7 +156,7 @@ namespace DI.Services.Handlers
             if (et == null) return null;
 
             ls = et.GetName();
-            return JsonConvert.SerializeObject(new { value = rv, label = ls });
+            return JsonConvert.SerializeObject(new {value = rv, label = ls});
         }
     }
 }

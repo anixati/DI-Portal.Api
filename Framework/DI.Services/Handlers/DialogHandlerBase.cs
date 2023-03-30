@@ -1,11 +1,11 @@
-﻿using DI.Domain.Core;
+﻿using System;
+using System.Collections.Generic;
+using System.Threading.Tasks;
+using DI.Domain.Core;
 using DI.Exceptions;
 using DI.Forms.Core;
 using DI.Forms.Requests;
 using Microsoft.Extensions.Logging;
-using System;
-using System.Collections.Generic;
-using System.Threading.Tasks;
 
 namespace DI.Services.Handlers
 {
@@ -23,7 +23,8 @@ namespace DI.Services.Handlers
 
             try
             {
-                if (request == null || request.Data == null || request.Data.Count == 0) throw new BuisnessException($"Invalid request");
+                if (request == null || request.Data == null || request.Data.Count == 0)
+                    throw new BuisnessException("Invalid request");
                 var model = request.Data.CreateEntity<T>();
                 await OnExecute(model, request.Data, request.EntityId);
                 rs.Result = "Done!";

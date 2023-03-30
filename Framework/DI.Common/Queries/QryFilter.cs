@@ -4,7 +4,7 @@ using System.Linq;
 
 namespace DI.Queries
 {
-    public class QryFilter 
+    public class QryFilter
     {
         public List<QryFilter> Rules { get; set; }
 

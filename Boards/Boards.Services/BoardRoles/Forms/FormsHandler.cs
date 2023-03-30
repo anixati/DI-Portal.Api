@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Boards.Domain;
-using Boards.Domain.Boards;
 using Boards.Domain.Roles;
 using Boards.Services.Core;
 using Microsoft.Extensions.Logging;
@@ -15,10 +14,12 @@ namespace Boards.Services.BoardRoles.Forms
         {
         }
 
+        public override string SchemaKey => "boardrole";
+
         protected override async Task OnPreCreate(BoardRole entity, IDictionary<string, object> data, long? entityId)
         {
             if (!entityId.HasValue)
-                throw new Exception($"Board id is required");
+                throw new Exception("Board id is required");
             entity.BoardId = entityId.GetValueOrDefault();
             await SetName(entity, data);
         }
@@ -26,12 +27,8 @@ namespace Boards.Services.BoardRoles.Forms
         private async Task SetName(BoardRole entity, IDictionary<string, object> data)
         {
             if (data.ContainsKey("Position") && data["Position"] != null)
-            {
                 if (long.TryParse($"{data["Position"]}", out var posId))
                     entity.Name = await GetOpSetLabel(posId);
-            }
         }
-
-        public override string SchemaKey => "boardrole";
     }
 }

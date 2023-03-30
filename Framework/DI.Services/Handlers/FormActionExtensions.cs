@@ -1,18 +1,17 @@
-﻿using DI.Domain.Core;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using DI.Domain.Core;
 using DI.Domain.Options;
 using DI.Forms;
 using DI.Forms.Requests;
 using DI.Forms.Types;
 using FastMember;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 
 namespace DI.Services.Handlers
 {
     public static class FormActionExtensions
     {
-
         public static void LoadOptions(this FormSchema schema, Dictionary<string, OptionFieldConfig> map)
         {
             LoadOptions(schema.Fields, map);
@@ -76,6 +75,7 @@ namespace DI.Services.Handlers
                 data[key] = $"{val}";
             }
         }
+
         public static void UpdateInitValues<T>(this T entity, IDictionary<string, string> data, FormSchema schema)
         {
             var mapper = new EntityMapper<T>(entity);
@@ -88,7 +88,7 @@ namespace DI.Services.Handlers
         }
 
 
-        public static T CreateEntity<T>(this IDictionary<string, object> data) where T : class,  new()
+        public static T CreateEntity<T>(this IDictionary<string, object> data) where T : class, new()
         {
             var accessor = TypeAccessor.Create(typeof(T));
             var members = accessor.GetMembers();
@@ -100,19 +100,20 @@ namespace DI.Services.Handlers
                 var subKey = string.Empty;
                 if (nested)
                 {
-
                     var ix = key.IndexOf('.');
                     subKey = key[(ix + 1)..];
                     entKey = key[..ix];
                 }
 
-                var mi = members.FirstOrDefault(x => string.Compare(x.Name, entKey, StringComparison.OrdinalIgnoreCase) == 0);
+                var mi = members.FirstOrDefault(x =>
+                    string.Compare(x.Name, entKey, StringComparison.OrdinalIgnoreCase) == 0);
                 if (mi == null || value == null) continue;
 
                 if (mi.Type.IsClass && typeof(IEntity).IsAssignableFrom(mi.Type))
                 {
                     var idKey = $"{mi.Name}Id";
-                    var idMemType = members.FirstOrDefault(x => string.Compare(x.Name, idKey, StringComparison.OrdinalIgnoreCase) == 0);
+                    var idMemType = members.FirstOrDefault(x =>
+                        string.Compare(x.Name, idKey, StringComparison.OrdinalIgnoreCase) == 0);
                     if (idMemType == null) continue;
 
                     if (mi.Type == typeof(OptionSet))
@@ -140,22 +141,24 @@ namespace DI.Services.Handlers
                             nesProp = Activator.CreateInstance(mi.Type);
                             accessor[entity, entKey] = nesProp;
                         }
-                        var nesMi = nesAccesor.GetMembers().FirstOrDefault(x => string.Compare(x.Name, subKey, StringComparison.OrdinalIgnoreCase) == 0);
-                        if (nesMi == null ) continue;
+
+                        var nesMi = nesAccesor.GetMembers().FirstOrDefault(x =>
+                            string.Compare(x.Name, subKey, StringComparison.OrdinalIgnoreCase) == 0);
+                        if (nesMi == null) continue;
                         MapValues(nesProp, nesMi.Type, nesAccesor, subKey, value);
                     }
                     else
                     {
-                        MapValues(entity,mi.Type,accessor,key,value);
+                        MapValues(entity, mi.Type, accessor, key, value);
                     }
                 }
             }
+
             return entity;
         }
 
         private static void MapValues<T>(T entity, Type type, TypeAccessor accessor, string key, object value)
         {
-
             if (type == typeof(bool) || type == typeof(bool?))
             {
                 if (int.TryParse($"{value}", out var rs))
@@ -191,7 +194,5 @@ namespace DI.Services.Handlers
                 accessor[entity, key] = value;
             }
         }
-
-
     }
 }

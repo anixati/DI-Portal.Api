@@ -6,7 +6,6 @@ using Boards.Domain.Boards;
 using Boards.Domain.Contacts;
 using Boards.Domain.Shared;
 using DI.Domain.Core;
-using DI.Domain.Enums;
 using DI.Domain.Options;
 using DI.Domain.Services;
 
@@ -14,9 +13,11 @@ namespace Boards.Domain.Roles
 {
     public class BoardAppointment : AuditBaseEntity
     {
-        [Required, MaxLength(255), Column(Order = 1)]
+        [Required]
+        [MaxLength(255)]
+        [Column(Order = 1)]
         public string Name { get; set; }
-        
+
         [Required] public long BoardId { get; set; }
         public virtual Board Board { get; set; }
 
@@ -31,7 +32,7 @@ namespace Boards.Domain.Roles
         public bool EndDateUnknown { get; set; }
         [MaxLength(255)] public string BriefNumber { get; set; }
 
-      
+
         public bool? IsCurrent { get; set; }
         public bool? IsExOfficio { get; set; }
         public bool ActingInRole { get; set; }
@@ -39,7 +40,7 @@ namespace Boards.Domain.Roles
 
         public FullTimeEnum IsFullTime { get; set; }
 
-        [ Column(TypeName = "decimal(13, 2)")] public decimal? AnnumAmount { get; set; }
+        [Column(TypeName = "decimal(13, 2)")] public decimal? AnnumAmount { get; set; }
 
         public long? RemunerationPeriodId { get; set; }
         public virtual OptionSet RemunerationPeriod { get; set; }
@@ -49,7 +50,7 @@ namespace Boards.Domain.Roles
 
         public long? SelectionProcessId { get; set; }
         public virtual OptionSet SelectionProcess { get; set; }
-        
+
         public long? JudicialId { get; set; }
         public virtual OptionSet Judicial { get; set; }
 
@@ -64,6 +65,8 @@ namespace Boards.Domain.Roles
         public long? AppointerId { get; set; }
         public virtual OptionSet Appointer { get; set; }
 
+        [MaxLength(255)] public string MigratedId { get; set; }
+
         public override string GetName()
         {
             return Name;
@@ -71,21 +74,16 @@ namespace Boards.Domain.Roles
 
         public override async Task<IEntity> OnCoreEvent(EntityEvent @event, IDataStore store)
         {
-
-            if (this.AppointeeId.HasValue)
+            if (AppointeeId.HasValue)
             {
-                var ps = await store.Repo<Appointee>().GetById(this.AppointeeId.Value);
+                var ps = await store.Repo<Appointee>().GetById(AppointeeId.Value);
                 if (ps == null) return null;
-                this.Name = ps.FullName;
+                Name = ps.FullName;
             }
-            if(@event== EntityEvent.Update)
-            {
-                UpdateProposed();
-            }
+
+            if (@event == EntityEvent.Update) UpdateProposed();
             return this;
         }
-
-        [MaxLength(255)] public string MigratedId { get; set; }
 
 
         public void UpdateProposed()
@@ -97,10 +95,8 @@ namespace Boards.Domain.Roles
                 AppointmentDate = null;
                 InitialStartDate = null;
             }
-            if (EndDateUnknown == true)
-            {
-                EndDate = null;
-            }
+
+            if (EndDateUnknown == true) EndDate = null;
         }
     }
 }

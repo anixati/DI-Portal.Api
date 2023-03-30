@@ -1,7 +1,6 @@
 ﻿using Boards.Domain;
 using Boards.Domain.Contacts;
 using Boards.Services.Core;
-using DI.Domain.Users;
 using Microsoft.Extensions.Logging;
 
 namespace Boards.Services.Appointees.Forms

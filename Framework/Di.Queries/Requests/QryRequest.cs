@@ -1,7 +1,7 @@
-﻿using Di.Qry.Core;
-using MediatR;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
+using Di.Qry.Core;
 using DI.Queries;
+using MediatR;
 
 namespace Di.Qry.Requests
 {
@@ -22,7 +22,7 @@ namespace Di.Qry.Requests
             return !string.IsNullOrEmpty(SearchStr);
         }
 
-        public QryFilter Filter { get; set; } = new QryFilter();
+        public QryFilter Filter { get; set; } = new();
 
         public PageInfo PageInfo { get; set; } = new();
         public List<SortInfo> SortInfos { get; set; } = new();

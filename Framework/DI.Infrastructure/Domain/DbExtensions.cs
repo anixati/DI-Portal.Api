@@ -96,6 +96,7 @@ namespace DI.Domain
                 entityType.SetQueryFilter(lambdaExpression);
             }
         }
+
         public static IQueryable<T> IncludeAll<T>(this IQueryable<T> queryable) where T : class
         {
             var type = typeof(T);
@@ -109,10 +110,10 @@ namespace DI.Domain
 
                 queryable = queryable.Include(property.Name);
 
-                Console.WriteLine($"ok -------");
+                Console.WriteLine("ok -------");
             }
 
-            Console.WriteLine($"done--");
+            Console.WriteLine("done--");
             return queryable;
         }
     }

@@ -8,6 +8,7 @@ namespace Boards.Services.Ministers.Forms
     public class CreateForm : FormBuilder
     {
         public override string FormName => Constants.Forms.Minister.Create;
+
         protected override void CreateSchema(FormSchema fs)
         {
             fs.AddPage("Personal Details", AddPersonDetails);
@@ -29,15 +30,14 @@ namespace Boards.Services.Ministers.Forms
                 f.AddEmail("Email1", "Email", false);
                 f.AddPhone("HomePhone", "Phone");
             });
-            
         }
+
         private void AddAddressDetails(FormField field)
         {
             field.AddDivider("Street Address");
             field.AddAddress("StreetAddress", false);
             field.AddDivider("Postal Address");
-            field.AddAddress("PostalAddress",false);
+            field.AddAddress("PostalAddress", false);
         }
-     
     }
 }

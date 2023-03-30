@@ -2,10 +2,8 @@
 
 namespace Boards.Services
 {
-   
     public static class Constants
     {
-
         public static class Entities
         {
             public static readonly string Board = "Board";
@@ -15,31 +13,27 @@ namespace Boards.Services
             public static readonly string Minister = "Minister";
             public static readonly string Portfolio = "Portfolio";
             public static readonly string AssistantSecretary = "AssistantSecretary";
-
         }
 
         public static class Forms
         {
+            public static readonly FormKey Boards = new("board");
+            public static readonly FormKey BoardRole = new("boardrole");
+            public static readonly FormKey BoardAppointment = new("boardappointment");
 
-            public static readonly FormKey Boards = new FormKey("board");
-            public static readonly FormKey BoardRole = new FormKey("boardrole");
-            public static readonly FormKey BoardAppointment = new FormKey("boardappointment");
+            public static readonly FormKey Appointee = new("appointee");
+            public static readonly FormKey Minister = new("minister");
+            public static readonly FormKey Secretary = new("secretary");
+            public static readonly FormKey Portfolio = new("portfolio");
+            public static readonly FormKey Skill = new("skill");
 
-            public static readonly FormKey Appointee = new FormKey("appointee");
-            public static readonly FormKey Minister = new FormKey("minister");
-            public static readonly FormKey Secretary = new FormKey("secretary");
-            public static readonly FormKey Portfolio = new FormKey("portfolio");
-            public static readonly FormKey Skill = new FormKey("skill");
-
-            public static readonly FormKey MinisterTerm = new FormKey("ministerterm");
-            public static readonly FormKey User = new FormKey("user");
-
-
-            public static readonly FormKey AppUser = new FormKey("appuser");
-            public static readonly FormKey AppRole = new FormKey("approle");
-            public static readonly FormKey AppTeam = new FormKey("appteam");
+            public static readonly FormKey MinisterTerm = new("ministerterm");
+            public static readonly FormKey User = new("user");
 
 
+            public static readonly FormKey AppUser = new("appuser");
+            public static readonly FormKey AppRole = new("approle");
+            public static readonly FormKey AppTeam = new("appteam");
         }
 
         public static class Db
@@ -58,9 +52,5 @@ namespace Boards.Services
 
             public static readonly TableKey UsersView = new("ActiveUsersView", "uvw");
         }
-
-
-       
-
     }
 }

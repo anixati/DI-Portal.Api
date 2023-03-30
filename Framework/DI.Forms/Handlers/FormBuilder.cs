@@ -1,13 +1,14 @@
 ﻿using DI.Forms.Core;
 using DI.Forms.Types;
-using System.Runtime;
 
 namespace DI.Forms.Handlers
 {
     public abstract class FormBuilder : IFormBuilder
     {
+        private AppSettings _settings;
+
+        protected virtual FormType FormType => FormType.Wizard;
         public abstract string FormName { get; }
-        private AppSettings _settings = null;
 
 
         public IFormState Create(AppSettings settings)
@@ -17,6 +18,7 @@ namespace DI.Forms.Handlers
             CreateSchema(fs.Schema);
             return fs;
         }
+
         protected virtual void CreateSchema(FormSchema fsSchema)
         {
         }
@@ -27,14 +29,10 @@ namespace DI.Forms.Handlers
                 return _settings.Map[key];
             return string.Empty;
         }
-
-        protected virtual FormType FormType => FormType.Wizard;
     }
 
     public abstract class DialogBuilder : FormBuilder
     {
-       
-
         protected override FormType FormType => FormType.Dialog;
     }
 }

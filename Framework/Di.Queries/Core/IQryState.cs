@@ -9,7 +9,7 @@ namespace Di.Qry.Core
         string Title { get; }
         List<GridColumn> GetQryColumns();
         Dictionary<string, IQryField> GetQryFields();
-        Task<IPagedContext> Compile(IQryRequest request,ISecurityContext securityContext);
+        Task<IPagedContext> Compile(IQryRequest request, ISecurityContext securityContext);
         IQryContext Compile();
     }
 }

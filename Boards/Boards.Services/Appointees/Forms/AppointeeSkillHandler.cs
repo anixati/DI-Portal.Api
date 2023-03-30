@@ -27,7 +27,8 @@ namespace Boards.Services.Appointees.Forms
             if (entity.AppointeeSkills.Any())
                 entity.AppointeeSkills.Clear();
             await SaveAsync();
-            entity.AppointeeSkills = selection.Select(x => new AppointeeSkill { AppointeeId = entity.Id, SkillId = x }).ToList();
+            entity.AppointeeSkills = selection.Select(x => new AppointeeSkill {AppointeeId = entity.Id, SkillId = x})
+                .ToList();
             await SaveAsync();
             return new FormActionResult();
         }
@@ -39,12 +40,9 @@ namespace Boards.Services.Appointees.Forms
             var entity = await repo.GetById(entityId, "AppointeeSkills");
             entity.ThrowIfNull($"Entity not found for {entityId}");
             if (entity.AppointeeSkills.Any())
-            {
-               rs.InitialValues = entity.AppointeeSkills
+                rs.InitialValues = entity.AppointeeSkills
                     .ToDictionary(o => $"{o.SkillId}", v => "");
-            }
             return rs;
         }
-
     }
 }

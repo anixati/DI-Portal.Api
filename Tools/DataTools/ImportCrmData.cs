@@ -11,7 +11,6 @@ using Boards.Domain.Shared;
 using Boards.Infrastructure.Domain;
 using DataTools.Migrations;
 using DI;
-using DI.Actions;
 using DI.Domain.Core;
 using DI.Domain.Enums;
 using DI.Domain.Options;
@@ -30,10 +29,18 @@ namespace DataTools
 {
     public class ImportCrmDataService : IHostedService
     {
-        private readonly ILogger _logger;
         private readonly IConfiguration _config;
         protected readonly IDataStore<BoardsDbContext> _db;
-        public ImportCrmDataService(ILoggerFactory logFactory, IConfiguration configuration, IDataStore<BoardsDbContext> db)
+        private readonly ILogger _logger;
+
+        private readonly List<string> TestUsers = new List<string>
+        {
+            "Courtney Schmitzer", "Lauren Collins", "James Grainger", "Simon Gordon", "Felicity Salmi",
+            "Michael Hester", "Olivia Freund"
+        };
+
+        public ImportCrmDataService(ILoggerFactory logFactory, IConfiguration configuration,
+            IDataStore<BoardsDbContext> db)
         {
             _logger = logFactory.CreateLogger(GetType().Name);
             _config = configuration;
@@ -44,10 +51,12 @@ namespace DataTools
         {
             _logger.LogInformation($"  {msg}");
         }
+
         protected IRepository<TK> GetRepo<TK>() where TK : class, IEntity
         {
             return _db.Repo<TK>();
         }
+
         protected async Task Save()
         {
             await _db.SaveAsync();
@@ -91,22 +100,21 @@ namespace DataTools
                 // await ImportTestUsers(data);
 
                 _db.Commit();
-                Trace($"!---Completed---!");
+                Trace("!---Completed---!");
             }
             catch (Exception ex)
             {
                 _db.Rollback();
                 _logger.LogError(ex, "Error!");
             }
-
         }
 
-        List<string> TestUsers = new List<string> { "Courtney Schmitzer", "Lauren Collins", "James Grainger", "Simon Gordon", "Felicity Salmi", "Michael Hester", "Olivia Freund" };
         private async Task ImportTestUsers(BoardsData data)
         {
             var usrRepo = GetRepo<AppUser>();
             var team = await GetRepo<AppTeam>().FindAsync(x => x.Name == "Default");
-            var role = await GetRepo<AppRole>().FindAsync(x => EF.Functions.Like(x.Name, $"{ApplicationRoles.Contributor}"));
+            var role = await GetRepo<AppRole>()
+                .FindAsync(x => EF.Functions.Like(x.Name, $"{ApplicationRoles.Contributor}"));
             foreach (var usr in TestUsers)
             {
                 var names = usr.Split(" ", StringSplitOptions.RemoveEmptyEntries);
@@ -114,7 +122,7 @@ namespace DataTools
                 Console.WriteLine($" -- ${names[0]}");
                 if (ausr != null)
                 {
-                    ausr = new AppUser()
+                    ausr = new AppUser
                     {
                         UserId = names[0],
                         DisplayName = usr,
@@ -145,15 +153,16 @@ namespace DataTools
                     await usrRepo.UpdateAsync(ausr);
                     await Save();
                 }
-                await GetRepo<TeamUser>().CreateAsync(new TeamUser { AppTeamId = team.Id, AppUserId = ausr.Id });
+
+                await GetRepo<TeamUser>().CreateAsync(new TeamUser {AppTeamId = team.Id, AppUserId = ausr.Id});
                 await Save();
 
-                await GetRepo<UserRole>().CreateAsync(new UserRole { AppRoleId = role.Id, AppUserId = ausr.Id });
+                await GetRepo<UserRole>().CreateAsync(new UserRole {AppRoleId = role.Id, AppUserId = ausr.Id});
                 await Save();
-                Console.WriteLine($" -- ");
+                Console.WriteLine(" -- ");
             }
-
         }
+
         protected async Task<TK> CreateIfNotExists<TK>(TK entity) where TK : class, INamedEntity
         {
             var repo = _db.Repo<TK>();
@@ -164,23 +173,23 @@ namespace DataTools
 
         private async Task AddAppData(BoardsData data)
         {
-
             var roleRepo = GetRepo<AppRole>();
             foreach (ApplicationRoles role in Enum.GetValues(typeof(ApplicationRoles)))
             {
                 var entity = await CreateIfNotExists(new AppRole
                 {
                     Name = $"{role}",
-                    Code = $"{(int)role}",
+                    Code = $"{(int) role}",
                     Description = role.ToDesc(),
                     Locked = true,
                     IsSystem = true
                 });
             }
+
             await Save();
             var team = await CreateIfNotExists(new AppTeam
             {
-                Name = $"Default",
+                Name = "Default",
                 Description = "Default Team",
                 Locked = true,
                 IsSystem = true
@@ -188,10 +197,9 @@ namespace DataTools
             await Save();
 
 
-
-            var users = new string[]
+            var users = new[]
             {
-               "Administrator"
+                "Administrator"
             };
             var usrRepo = GetRepo<AppUser>();
             var tuRepo = GetRepo<TeamUser>();
@@ -199,13 +207,13 @@ namespace DataTools
             {
                 var ausr = await usrRepo.FindAsync(x => EF.Functions.Like(x.FirstName, name));
                 if (ausr != null) continue;
-                ausr = new AppUser()
+                ausr = new AppUser
                 {
                     UserId = name,
                     DisplayName = "Administrator",
                     Title = "Mr",
                     FirstName = name,
-                    LastName = $"User",
+                    LastName = "User",
                     MiddleName = "",
                     HomePhone = "0262426242",
                     FaxNumber = "0236598956",
@@ -219,7 +227,7 @@ namespace DataTools
                 };
                 await usrRepo.CreateAsync(ausr);
                 await Save();
-                await tuRepo.CreateAsync(new TeamUser { AppTeamId = team.Id, AppUserId = ausr.Id });
+                await tuRepo.CreateAsync(new TeamUser {AppTeamId = team.Id, AppUserId = ausr.Id});
                 await Save();
             }
 
@@ -229,10 +237,9 @@ namespace DataTools
             var suUserRole = await ruRepo.FindAsync(x => x.AppUserId == spUser.Id && x.AppRoleId == suRole.Id);
             if (suUserRole == null)
             {
-                await ruRepo.CreateAsync(new UserRole { AppRoleId = suRole.Id, AppUserId = spUser.Id });
+                await ruRepo.CreateAsync(new UserRole {AppRoleId = suRole.Id, AppUserId = spUser.Id});
                 await Save();
             }
-
         }
 
         private async Task ImportPortfolios(BoardsData data)
@@ -246,7 +253,7 @@ namespace DataTools
                 if (op != null) continue;
                 Trace($"Creating {id}");
 
-                op = new Portfolio()
+                op = new Portfolio
                 {
                     Name = value.Get("doca_name"),
                     Description = value.Get("doca_name"),
@@ -265,7 +272,6 @@ namespace DataTools
                     IsSystem = true
                 });
                 await Save();
-
             }
 
             Trace($"Importing Board ministers {data.Ministers.Count}");
@@ -278,8 +284,8 @@ namespace DataTools
                 var op = await mrepo.FindAsync(x => x.MigratedId == id);
                 if (op != null) continue;
                 Trace($"Creating {id}");
-                var names = value.Get("doca_name").Split(new char[] { ' ' }, StringSplitOptions.RemoveEmptyEntries);
-                op = new Minister()
+                var names = value.Get("doca_name").Split(new[] {' '}, StringSplitOptions.RemoveEmptyEntries);
+                op = new Minister
                 {
                     FirstName = names[0],
                     LastName = names[1],
@@ -295,32 +301,27 @@ namespace DataTools
                     var pf = await repo.FindAsync(x => x.MigratedId == rid.GetRefId());
                     if (pf != null)
                     {
-
                         var mt = await mtrepo.FindAsync(x => x.PortfolioId == pf.Id && x.MinisterId == op.Id);
                         if (mt == null)
                         {
-                            mt = new MinisterTerm() { MinisterId = op.Id, PortfolioId = pf.Id };
+                            mt = new MinisterTerm {MinisterId = op.Id, PortfolioId = pf.Id};
                             await mtrepo.CreateAsync(mt);
                             await Save();
                         }
                     }
                 }
+
                 await Save();
             }
-
-
         }
 
 
         private async Task ImportBoardAppointments(BoardsData data)
         {
-
-
             Trace($"Importing Board Appointments {data.Appointments.Count}");
             var repo = GetRepo<BoardAppointment>();
             foreach (var (key, value) in data.Appointments)
             {
-
                 var id = value.Get("new_appointmentid");
                 var op = await repo.FindAsync(x => x.MigratedId == id);
                 if (op != null) continue;
@@ -333,14 +334,9 @@ namespace DataTools
                 if (string.IsNullOrEmpty(rid)) continue;
 
                 if (string.IsNullOrEmpty(boardId))
-                {
                     bid = await GetBoardIdByRoleId(rid.GetRefId());
-                }
                 else
-                {
                     bid = await GetBoardId(boardId.GetRefId());
-                }
-
 
 
                 var brid = await GetBoardRoleId(rid.GetRefId());
@@ -358,16 +354,13 @@ namespace DataTools
                 var rem = value.Get("new_remuneration").ToDeci();
 
                 var name = value.Get("new_name");
-                if (string.IsNullOrEmpty(name))
-                {
-                    name = "N/A";
-                }
+                if (string.IsNullOrEmpty(name)) name = "N/A";
 
                 var ftEnum = value.Get("new_fulltimeparttime") == "true"
-                   ? FullTimeEnum.FullTime
-                   : FullTimeEnum.PartTime;
+                    ? FullTimeEnum.FullTime
+                    : FullTimeEnum.PartTime;
 
-                op = new BoardAppointment()
+                op = new BoardAppointment
                 {
                     Name = name,
                     BoardId = bid,
@@ -383,7 +376,7 @@ namespace DataTools
                     BriefNumber = value.Get("new_briefnumber"),
                     IsCurrent = value.Get("new_currentappointment") == "true",
                     IsExOfficio = value.Get("new_enddate") == "",
-                    IsFullTime = ftEnum,// value.Get("new_fulltimeparttime") == "true",
+                    IsFullTime = ftEnum, // value.Get("new_fulltimeparttime") == "true",
 
                     ActingInRole = value.Get("new_substantiveacting") == "true",
                     ExclGenderReport = value.Get("new_genderreportable") == "true",
@@ -393,14 +386,12 @@ namespace DataTools
                     PrevTerms = value.Get("new_numberoftermsserved").ToInt(),
                     IsSemiDiscretionary = value.Get("new_semidiscretionary") == "true",
                     Proposed = value.Get("new_proposed") == "true",
-                    AppointerId = aprid,
-
+                    AppointerId = aprid
                 };
                 op.Disabled = value.IsDisabled();
                 await repo.CreateAsync(op);
                 await Save();
             }
-
         }
 
         private async Task<long> GetBoardIdByRoleId(string roleId)
@@ -412,8 +403,6 @@ namespace DataTools
 
         private async Task ImportBoardRoles(BoardsData data)
         {
-
-
             Trace($"Importing Board roles {data.Roles.Count}");
             var repo = GetRepo<BoardRole>();
             foreach (var (key, value) in data.Roles)
@@ -440,7 +429,7 @@ namespace DataTools
                     ? FullTimeEnum.FullTime
                     : FullTimeEnum.PartTime;
 
-                op = new BoardRole()
+                op = new BoardRole
                 {
                     Name = value.Get("new_name"),
                     BoardId = bid,
@@ -455,7 +444,9 @@ namespace DataTools
                     IsExNominated = value.Get("new_semidiscretionary") == "true",
                     Term = value.Get("new_term").ToInt(),
 
-                    PositionRemunerated = value.Get("new_positionremunerated") == "Yes" ? YesNoOptionEnum.Yes : YesNoOptionEnum.No,
+                    PositionRemunerated = value.Get("new_positionremunerated") == "Yes"
+                        ? YesNoOptionEnum.Yes
+                        : YesNoOptionEnum.No,
                     PaAmount = rem.GetValueOrDefault(),
                     RemunerationMethodId = rmid.GetValueOrDefault(),
 
@@ -478,7 +469,6 @@ namespace DataTools
                     MinisterActionDate = value.Get("new_ministerialdecisionby").ToDate(),
 
 
-
                     LetterToPmDateType = value.Get("new_minlettertopm").ToDateState(),
                     LetterToPmDate = value.Get("new_minlettertopmdate").ToDate(),
 
@@ -495,12 +485,10 @@ namespace DataTools
 
 
                     ProcessStatus = value.Get(""),
-                    LeadTimeToAppoint = value.Get("new_leadtimetoappoint").ToInt(),
+                    LeadTimeToAppoint = value.Get("new_leadtimetoappoint").ToInt()
 
                     //MinSubDateType = value.Get(""),
                     //MinSubDate = value.Get(""),
-
-
                 };
                 op.Disabled = value.IsDisabled();
 
@@ -512,14 +500,13 @@ namespace DataTools
 
         private async Task ImportBoards(BoardsData data)
         {
-
             var pfr = GetRepo<Portfolio>();
 
             var atr = GetRepo<AppTeam>();
             var atm = await atr.FindAsync(x => x.Name == "Default");
             if (atm == null)
             {
-                atm = new AppTeam()
+                atm = new AppTeam
                 {
                     Name = "Default",
                     Description = "Default Team"
@@ -552,7 +539,7 @@ namespace DataTools
                     pf = await pfr.FindAsync(x => x.MigratedId == pfid);
                 }
 
-                op = new Board()
+                op = new Board
                 {
                     PortfolioId = pf.Id,
                     AppTeamId = atm.Id,
@@ -567,15 +554,12 @@ namespace DataTools
                     MigratedId = id,
 
 
-
                     MaximumTerms = value.Get("new_maximumterms").ToInt(),
                     OptimumMembers = value.Get("new_optimummembers").ToInt(),
                     MaximumMembers = value.Get("new_maximummembers").ToInt(),
                     MinimumMembers = value.Get("new_minimummembers").ToInt(),
                     QuorumRequired = value.Get("new_quorumrequired").ToInt().GetValueOrDefault(),
                     MaxServicePeriod = value.Get("new_maximumperiodofservice").ToInt(),
-
-
 
 
                     ReportingApproved = value.Get("new_approvalcheck") == "true" ? true : false,
@@ -587,7 +571,7 @@ namespace DataTools
                     BoardStatusId = v3.GetValueOrDefault(),
                     EstablishedByUnderId = v4.GetValueOrDefault(),
 
-                    AsstSecretaryPhone = value.Get("new_responsibleasphone"),
+                    AsstSecretaryPhone = value.Get("new_responsibleasphone")
                 };
 
                 var secId = await GetSec(value.Get("new_responsibleas"));
@@ -597,9 +581,7 @@ namespace DataTools
                 op.Disabled = value.IsDisabled();
                 await repo.CreateAsync(op);
                 await Save();
-
             }
-
         }
 
         private async Task ImportContacts(BoardsData data)
@@ -614,7 +596,7 @@ namespace DataTools
                 var name = value.Get("fullname");
                 if (string.IsNullOrEmpty(fn))
                 {
-                    var names = name.Split(new char[] { ' ' }, StringSplitOptions.RemoveEmptyEntries);
+                    var names = name.Split(new[] {' '}, StringSplitOptions.RemoveEmptyEntries);
                     fn = names[0];
                     ln = names.Length >= 1 ? names[1] : value.Get("lastname");
                 }
@@ -625,9 +607,10 @@ namespace DataTools
                 if (op != null) continue;
                 Trace($"Creating {fn} {ln} {value.Get("territorycode")}");
 
-                var gender = value.Get("gendercode") == "Female" ? GenderEnum.Female : value.Get("gendercode") == "Male" ? GenderEnum.Male : GenderEnum.Na;
+                var gender = value.Get("gendercode") == "Female" ? GenderEnum.Female :
+                    value.Get("gendercode") == "Male" ? GenderEnum.Male : GenderEnum.Na;
 
-                var at = new AddressType()
+                var at = new AddressType
                 {
                     Street = value.Get("address1_line1").Replace("\\r\\n", " "),
                     City = value.Get("address1_city"),
@@ -636,7 +619,7 @@ namespace DataTools
                     Country = "Australia"
                 };
 
-                op = new Appointee()
+                op = new Appointee
                 {
                     Title = value.Get("new_title"),
                     FirstName = $"{fn}",
@@ -656,7 +639,9 @@ namespace DataTools
                     IsRegional = GetRegionalEnum(value.Get("new_regionalmetro")),
                     IsAboriginal = GetYesNoEx(value.Get("new_culturalbackground")),
                     IsDisabled = GetYesNoEx(value.Get("new_disabilitystatus")),
-                    ExecutiveSearch = value.Get("new_identificationmethod") == "Executive Search"?YesNoEnum.Yes:YesNoEnum.No,
+                    ExecutiveSearch = value.Get("new_identificationmethod") == "Executive Search"
+                        ? YesNoEnum.Yes
+                        : YesNoEnum.No
                     //FaxNumber=value.Get("new_personalinterestdec")
                     //birthdate = value.Get("birthdate"),
                     //doca_type = value.Get("doca_type"),
@@ -665,17 +650,16 @@ namespace DataTools
                 op.Disabled = value.IsDisabled();
                 await repo.CreateAsync(op);
                 await Save();
-
             }
-
-
         }
+
         private RegionalEnum GetRegionalEnum(string value)
         {
             if (value == "Regional") return RegionalEnum.Regional;
             if (value == "Metro") return RegionalEnum.Metro;
             return RegionalEnum.Na;
         }
+
         private YesNoExEnum GetYesNoEx(string value)
         {
             if (value == "No") return YesNoExEnum.No;
@@ -737,19 +721,19 @@ namespace DataTools
 
         private async Task ImportSkills(BoardsData data)
         {
-            Trace($"Importing skills");
+            Trace("Importing skills");
             //--- insert skill types
             var okr = GetRepo<OptionKey>();
             var osr = GetRepo<OptionSet>();
-            var skop = await okr.FindAsync(x => EF.Functions.Like(x.Code, $"SkillType"));
+            var skop = await okr.FindAsync(x => EF.Functions.Like(x.Code, "SkillType"));
             if (skop == null)
             {
-                Trace($"Creating SkillType");
+                Trace("Creating SkillType");
                 skop = new OptionKey
                 {
-                    Name = $"SkillType",
-                    Code = $"SKILLTYPE",
-                    Description = $"Skill Type"
+                    Name = "SkillType",
+                    Code = "SKILLTYPE",
+                    Description = "Skill Type"
                 };
                 await okr.CreateAsync(skop);
                 await Save();
@@ -773,8 +757,13 @@ namespace DataTools
 
             //-- insert skills 
             var skr = GetRepo<Skill>();
-            var pfList = new string[] {"Board Experience", "Accounting/Finance","Business Management","Public Sector", "Community Sector", "Legal", "Governance/Risk/Assurance",
-                            "Marketing/Communications","Creativity/Cultural", "Project Management","Emergency Management/Disaster Recovery" };
+            var pfList = new[]
+            {
+                "Board Experience", "Accounting/Finance", "Business Management", "Public Sector", "Community Sector",
+                "Legal", "Governance/Risk/Assurance",
+                "Marketing/Communications", "Creativity/Cultural", "Project Management",
+                "Emergency Management/Disaster Recovery"
+            };
             foreach (var sk in pfList)
             {
                 var skv = await skr.FindAsync(x => x.SkillTypeId == sk1ov.Id && x.Name == sk);
@@ -806,7 +795,12 @@ namespace DataTools
                 await osr.CreateAsync(sk2ov);
                 await Save();
             }
-            var isList = new string[] { "Aviation", "Major Infrastructure", "Transport/Logistics", "Safety", "Environmental/Sustainability", "Regional/Remote", "Technology", "Engineering", "Communications", "Information Technology" };
+
+            var isList = new[]
+            {
+                "Aviation", "Major Infrastructure", "Transport/Logistics", "Safety", "Environmental/Sustainability",
+                "Regional/Remote", "Technology", "Engineering", "Communications", "Information Technology"
+            };
             foreach (var sk in isList)
             {
                 var skv = await skr.FindAsync(x => x.SkillTypeId == sk2ov.Id && x.Name == sk);
@@ -822,7 +816,6 @@ namespace DataTools
                     await Save();
                 }
             }
-
         }
 
         private async Task ImportUsers(BoardsData data)
@@ -831,22 +824,18 @@ namespace DataTools
             var repo = GetRepo<AppUser>();
 
             var team = await GetRepo<AppTeam>().FindAsync(x => x.Name == "Default");
-            team.ThrowIfNull($"Default team not found");
+            team.ThrowIfNull("Default team not found");
 
             var role = await GetRepo<AppRole>().FindAsync(x => x.Name == $"{ApplicationRoles.Contributor}");
-            role.ThrowIfNull($"contributer role not found");
+            role.ThrowIfNull("contributer role not found");
 
             foreach (var (key, value) in data.Users)
             {
-
                 var usn = value.Get("domainname");
                 if (string.IsNullOrEmpty(usn)) continue;
 
                 var userId = usn;
-                if (usn.Contains("\\"))
-                {
-                    userId = usn.Substring(usn.LastIndexOf("\\", StringComparison.Ordinal) + 1);
-                }
+                if (usn.Contains("\\")) userId = usn.Substring(usn.LastIndexOf("\\", StringComparison.Ordinal) + 1);
 
 
                 var fn = value.Get("firstname");
@@ -856,12 +845,12 @@ namespace DataTools
                 var op = await repo.FindAsync(x => x.UserId == userId);
                 if (op != null) continue;
 
-                var disabled = false;//value.Get("isdisabled") == "true" ? true : false;
+                var disabled = false; //value.Get("isdisabled") == "true" ? true : false;
 
                 DateTime? grantDate = disabled ? null : DateTime.Now;
 
                 Trace($"Creating {fn} {ln}");
-                op = new AppUser()
+                op = new AppUser
                 {
                     FirstName = $"{fn}",
                     LastName = ln,
@@ -906,9 +895,14 @@ namespace DataTools
                             .CreateAsync(new UserRole {AppRoleId = role.Id, AppUserId = op.Id});
                     await Save();
                 }
-
             }
+        }
 
+
+        public async Task StopAsync(CancellationToken cancellationToken)
+        {
+            Trace("Done");
+            await Task.Delay(0, cancellationToken);
         }
 
 
@@ -920,18 +914,21 @@ namespace DataTools
             var et = await repo.FindAsync(x => x.MigratedId == id);
             return et?.Id;
         }
+
         private async Task<long> GetBoardRoleId(string id)
         {
             var repo = GetRepo<BoardRole>();
             var et = await repo.FindAsync(x => x.MigratedId == id);
             return et.Id;
         }
+
         private async Task<long> GetBoardId(string id)
         {
             var repo = GetRepo<Board>();
             var et = await repo.FindAsync(x => x.MigratedId == id);
             return et.Id;
         }
+
         private async Task<long?> GetUserId(string id)
         {
             var repo = GetRepo<AppUser>();
@@ -943,7 +940,7 @@ namespace DataTools
         {
             var repo = GetRepo<OptionKey>();
             var et = await repo.FindAsync(x => x.Name == name);
-            if (et == null) throw new Exception($"unknown option key");
+            if (et == null) throw new Exception("unknown option key");
 
 
             var osr = GetRepo<OptionSet>();
@@ -955,10 +952,7 @@ namespace DataTools
             }
 
             var osv = await osr.FindAsync(x => x.OptionKeyId == et.Id && x.Label == label);
-            if (osv != null)
-            {
-                return osv.Id;
-            }
+            if (osv != null) return osv.Id;
 
             return null;
         }
@@ -966,7 +960,7 @@ namespace DataTools
         private async Task<long?> GetSec(string label)
         {
             if (string.IsNullOrEmpty(label)) return null;
-            var rx = label.Split(new char[] { ' ' }, StringSplitOptions.RemoveEmptyEntries);
+            var rx = label.Split(new[] {' '}, StringSplitOptions.RemoveEmptyEntries);
             var fn = rx[0];
             var ln = "";
             if (rx.Length > 0) ln = rx[1];
@@ -976,27 +970,18 @@ namespace DataTools
             var et = await repo.FindAsync(x => x.FirstName == fn && x.LastName == ln);
             if (et == null)
             {
-                et = new AssistantSecretary()
+                et = new AssistantSecretary
                 {
                     FirstName = fn,
                     LastName = ln
-
                 };
                 await repo.CreateAsync(et);
                 await Save();
-
             }
+
             return et.Id;
         }
 
-
         #endregion
-
-
-        public async Task StopAsync(CancellationToken cancellationToken)
-        {
-            Trace($"Done");
-            await Task.Delay(0, cancellationToken);
-        }
     }
 }

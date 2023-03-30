@@ -5,7 +5,6 @@ using Di.Qry.Schema.Types;
 
 namespace Boards.Services.Terms.Lists
 {
-
     public class PortfolioMinistersList : QrySchema
     {
         public override string SchemaName => "PortfolioMinisters";

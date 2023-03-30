@@ -25,7 +25,7 @@ namespace DI.Services.Maps
                 .ForMember(x => x.OptionKeyId, o => o.MapFrom(s => s.OptionId));
 
 
-            CreateMap<ActivityViewModel,Activity>();
+            CreateMap<ActivityViewModel, Activity>();
 
 
             CreateMap<UserViewModel, AppUser>();

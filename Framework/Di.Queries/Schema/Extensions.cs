@@ -18,7 +18,7 @@ namespace Di.Qry.Schema
             foreach (var colName in cols)
                 if (colName.Contains("|"))
                 {
-                    var cs = colName.Split(new[] { "|" }, StringSplitOptions.RemoveEmptyEntries);
+                    var cs = colName.Split(new[] {"|"}, StringSplitOptions.RemoveEmptyEntries);
                     table.Column(cs[0], cs[1]);
                 }
                 else
@@ -33,7 +33,7 @@ namespace Di.Qry.Schema
         {
             if (cols == null) return table;
             foreach (var colName in cols)
-              table.AddSearchColumn(colName);
+                table.AddSearchColumn(colName);
             return table;
         }
 
@@ -41,24 +41,23 @@ namespace Di.Qry.Schema
         {
             if (cols == null) return table;
             foreach (var colName in cols)
-                table.Column(colName, colName, colName, x =>
-                {
-                    x.Type = ColumnType.Hidden;
-                });
+                table.Column(colName, colName, colName, x => { x.Type = ColumnType.Hidden; });
 
             return table;
         }
+
         public static Table AddSearchColumn(this Table table, string colName)
         {
             if (colName.Contains("|"))
             {
-                var cs = colName.Split(new[] { "|" }, StringSplitOptions.RemoveEmptyEntries);
+                var cs = colName.Split(new[] {"|"}, StringSplitOptions.RemoveEmptyEntries);
                 table.AddSearchCol(cs[0], cs[1]);
             }
             else
             {
                 table.AddSearchCol(colName);
             }
+
             return table;
         }
 
@@ -123,7 +122,8 @@ namespace Di.Qry.Schema
             return table.AddQryField(key, QryFieldType.OptionSet, name, x => x.ReferenceSchema = refDataId);
         }
 
-        public static Table AddQryField(this Table table, string key, QryFieldType qryFieldType= QryFieldType.Text, string name = "",
+        public static Table AddQryField(this Table table, string key, QryFieldType qryFieldType = QryFieldType.Text,
+            string name = "",
             Action<QryField> configure = null)
         {
             var mf = new QryField(table.Alias, key, qryFieldType, name);
@@ -131,11 +131,11 @@ namespace Di.Qry.Schema
             table.QryFields.Add(mf);
             return table;
         }
-        
+
         public static Table InnerJoin(this Table table, string name, string alias, string from, string to,
             Action<Table> configure = null, string schemaName = "dbo")
         {
-            var qe = new Table(name, alias,"",schemaName);
+            var qe = new Table(name, alias, "", schemaName);
             configure?.Invoke(qe);
             return table.Join(qe, from, to);
         }
@@ -164,7 +164,7 @@ namespace Di.Qry.Schema
 
         public static Table Join(this Table table, string name, string alias, string from, string schemaName = "dbo")
         {
-            var link = new Table(name, alias,"", schemaName);
+            var link = new Table(name, alias, "", schemaName);
             var key = $"{table.Name}_{link.Name}";
             table.Links[key] = new Link(key)
             {

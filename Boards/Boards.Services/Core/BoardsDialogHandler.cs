@@ -1,16 +1,17 @@
-﻿using Boards.Domain;
+﻿using System.Threading.Tasks;
+using Boards.Domain;
 using DI.Domain.Core;
 using DI.Domain.Services;
 using DI.Forms.Requests;
 using DI.Services.Handlers;
 using Microsoft.Extensions.Logging;
-using System.Threading.Tasks;
 
 namespace Boards.Services.Core
 {
     public abstract class BoardsDialogHandler<T> : DialogHandlerBase<T> where T : class, IViewModel, new()
     {
         private readonly IBoardsContext _boardsContext;
+
         protected BoardsDialogHandler(ILoggerFactory logFactory, IBoardsContext boardsContext) : base(logFactory)
         {
             _boardsContext = boardsContext;
@@ -20,10 +21,12 @@ namespace Boards.Services.Core
         {
             await Task.Delay(0);
         }
+
         protected IRepository<TK> GetRepo<TK>() where TK : class, IEntity
         {
             return _boardsContext.Store.Repo<TK>();
         }
+
         protected async Task SaveAsync()
         {
             await _boardsContext.Store.SaveAsync();

@@ -54,6 +54,7 @@ namespace Di.Qry.Schema.Types
         public string Name { get; }
         public string Alias { get; }
     }
+
     public class FormKey
     {
         public FormKey(string name)
@@ -62,6 +63,7 @@ namespace Di.Qry.Schema.Types
             Create = $"create_{Key}";
             View = $"view_{Key}";
         }
+
         public string Key { get; }
         public string Create { get; }
         public string View { get; }

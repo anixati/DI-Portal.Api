@@ -15,13 +15,15 @@ namespace Boards.Infrastructure.Domain
         private readonly IBoardsContext _context;
         private readonly Lazy<IIdentity> _user;
         private List<long> _teams = null;
+
         public SecurityContext(IBoardsContext context, IIdentityProvider identityProvider)
         {
             _context = context;
-            _user= new Lazy<IIdentity>(identityProvider.GetIdentity);
+            _user = new Lazy<IIdentity>(identityProvider.GetIdentity);
         }
 
         public IIdentity User => _user.Value;
+
         public string GetUserId()
         {
             return User.UserId;
@@ -30,15 +32,6 @@ namespace Boards.Infrastructure.Domain
         public async Task<List<long>> GetTeamIds()
         {
             return _teams ??= await TeamIds();
-        }
-
-        private async Task<List<long>> TeamIds()
-        {
-            if (!User.AppUserId.HasValue) return new List<long>();
-            var repo = _context.Repo<TeamUser>();
-            var lst = await repo.GetListAsync(x => x.AppUserId == User.AppUserId.Value);
-            var teamUsers = lst.ToList();
-            return teamUsers.Any() ? teamUsers.Select(x => x.AppTeamId).ToList() : new List<long>();
         }
 
         public bool IsInRole(ApplicationRoles role)
@@ -64,6 +57,15 @@ namespace Boards.Infrastructure.Domain
         public bool IsSysAdmin()
         {
             return User.IsSysAdmin();
+        }
+
+        private async Task<List<long>> TeamIds()
+        {
+            if (!User.AppUserId.HasValue) return new List<long>();
+            var repo = _context.Repo<TeamUser>();
+            var lst = await repo.GetListAsync(x => x.AppUserId == User.AppUserId.Value);
+            var teamUsers = lst.ToList();
+            return teamUsers.Any() ? teamUsers.Select(x => x.AppTeamId).ToList() : new List<long>();
         }
     }
 }

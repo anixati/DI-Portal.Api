@@ -4,6 +4,5 @@ namespace Boards.Services.Core
 {
     public abstract class BoardForms : FormBuilder
     {
-
     }
 }

@@ -15,7 +15,7 @@ using MediatR;
 
 namespace DI.Services.Handlers
 {
-    public class ServiceContext : 
+    public class ServiceContext :
         IServiceContext
     {
         private readonly IIdentityProvider _identityProvider;
@@ -101,7 +101,7 @@ namespace DI.Services.Handlers
         {
             return await _mediator.Send(request, cancellationToken);
         }
-        
+
         #region Helpers
 
         private ViewResponse<TK> ConvertTo<T, TK>(EntityResponse<T> response)

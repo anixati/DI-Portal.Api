@@ -6,14 +6,16 @@ using Microsoft.Extensions.Logging;
 
 namespace DI.Services.Handlers
 {
-    public abstract class ActionHandlerBase<T> : ServiceBase where T:class,IActionHandler
+    public abstract class ActionHandlerBase<T> : ServiceBase where T : class, IActionHandler
     {
         private static readonly ConcurrentDictionary<string, Lazy<T>> _actions = new();
+
         protected ActionHandlerBase(IEnumerable<T> handlers, ILoggerFactory logFactory) : base(logFactory)
         {
             foreach (var fb in handlers)
                 _actions[$"{fb.SchemaKey.ToLower().Trim()}"] = new Lazy<T>(() => fb);
         }
+
         protected T GetHandler(string key)
         {
             if (string.IsNullOrEmpty(key))

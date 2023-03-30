@@ -1,15 +1,14 @@
-﻿using Di.Qry.Core;
-using Di.Qry.Providers;
-using Di.Qry.Schema.Types;
-using DI.Security;
-using SqlKata;
-using System;
+﻿using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Di.Qry.Core;
+using Di.Qry.Providers;
+using Di.Qry.Schema.Types;
 using DI.Queries;
-using static System.String;
+using DI.Security;
+using SqlKata;
 
 namespace Di.Qry.Schema
 {
@@ -109,7 +108,7 @@ namespace Di.Qry.Schema
 
         public async Task<IPagedContext> Compile(IQryRequest request, ISecurityContext securityContext)
         {
-            var rv = new PagedContext { PageInfo = request.PageInfo };
+            var rv = new PagedContext {PageInfo = request.PageInfo};
             var compiler = new LocalCompiler();
             var cols = GetQryColumns();
             if (!_fds.Any())
@@ -125,12 +124,11 @@ namespace Di.Qry.Schema
                 exQuery.Where(x => x.Where(ParentId, "=", request.EntityId.GetValueOrDefault()));
 
             //Filter by teamId
-            if (!string.IsNullOrEmpty(TeamId) && !securityContext.IsSysAdmin() )
+            if (!string.IsNullOrEmpty(TeamId) && !securityContext.IsSysAdmin())
             {
                 var teams = await securityContext.GetTeamIds();
                 if (teams.Any()) exQuery.Where(x => x.WhereIn(TeamId, teams));
-                else exQuery.Where(x => x.WhereIn(TeamId, new long[]{0}));
-
+                else exQuery.Where(x => x.WhereIn(TeamId, new long[] {0}));
             }
 
             if (request.CanSearch())
@@ -143,13 +141,12 @@ namespace Di.Qry.Schema
                 );
 
 
-
             //  exQuery = cols.Where(x => x.Searchable).Aggregate(exQuery,
             // (current, col) => current.OrWhereLike(col.SortCol, $"%{request.SearchStr}%"));
 
 
             var countQuery = exQuery.Clone();
-            var qry = countQuery.AsCount(new[] { $"{Table.PrimaryKey}" });
+            var qry = countQuery.AsCount(new[] {$"{Table.PrimaryKey}"});
             rv.CountQry = QryContext.Create("Count", compiler.Compile(qry));
 
             foreach (var si in GetSortColumns(request, cols))
@@ -174,10 +171,11 @@ namespace Di.Qry.Schema
             foreach (var si in sortList)
             {
                 var col = cols.FirstOrDefault(x =>
-                    Compare(x.Accessor, si.Id, StringComparison.OrdinalIgnoreCase) == 0);
+                    string.Compare(x.Accessor, si.Id, StringComparison.OrdinalIgnoreCase) == 0);
                 if (col != null)
                     rv.Add(new SortInfo(col.SortCol, si.Desc));
             }
+
             return rv;
         }
 
@@ -262,11 +260,9 @@ namespace Di.Qry.Schema
         private static void SetupQuery(Table table, Query sqlQry)
         {
             foreach (var qc in table.Columns)
-            {
                 if (qc.SelectType == SelectType.Raw)
                     sqlQry.SelectRaw(qc.ColName);
                 else sqlQry.Select(qc.ColName);
-            }
             if (!table.Links.Any()) return;
             foreach (var (_, link) in table.Links)
             {
@@ -316,7 +312,7 @@ namespace Di.Qry.Schema
         public Dictionary<string, IQryField> GetQryFields()
         {
             SetUpQryFields(Table);
-            return _fds.ToDictionary(x => x.Key, y => (IQryField)y.Value);
+            return _fds.ToDictionary(x => x.Key, y => (IQryField) y.Value);
         }
 
         private void SetUpQryFields(Table table)

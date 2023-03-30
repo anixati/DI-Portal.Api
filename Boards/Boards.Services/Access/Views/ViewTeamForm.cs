@@ -5,17 +5,13 @@ namespace Boards.Services.Access.Views
 {
     public class ViewTeamForm : BoardForms
     {
-        public override string FormName => $"view_appteam";
+        public override string FormName => "view_appteam";
+
         protected override void CreateSchema(FormSchema fs)
         {
             fs.AddTab("Team Details", UserDetails);
-            fs.AddSubGrid("Roles", "TeamRoleList", x =>
-            {
-                x.AddAction("manage", "teamrole", "Manage Roles");
-            });
-            fs.AddSubGrid("Users", "TeamUserList", x =>
-            {
-            });
+            fs.AddSubGrid("Roles", "TeamRoleList", x => { x.AddAction("manage", "teamrole", "Manage Roles"); });
+            fs.AddSubGrid("Users", "TeamUserList", x => { });
         }
 
         private void UserDetails(FormField field)

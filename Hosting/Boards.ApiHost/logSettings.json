@@ -13,14 +13,14 @@
         "Name": "File",
         "Args": {
           "path": "\\Logs\\log-api.log",
-          "outputTemplate": "{Timestamp:yyyy-MM-dd HH:mm:ss.fff zzz} [{Level}] [{SourceContext}] [{EventId}] {Message}{NewLine}{Exception}",
+          "outputTemplate":
+            "{Timestamp:yyyy-MM-dd HH:mm:ss.fff zzz} [{Level}] [{SourceContext}] [{EventId}] {Message}{NewLine}{Exception}",
           "rollOnFileSizeLimit": true,
           "fileSizeLimitBytes": 4194304,
           "retainedFileCountLimit": 10,
           "rollingInterval": "Day"
         }
       }
-      
     ]
   }
 }

@@ -8,9 +8,9 @@ using Microsoft.Extensions.Logging;
 
 namespace DI.Services.Handlers
 {
-    public class ChangeEntityHandler : ActionHandlerBase<IFormActionHandler>, IRequestHandler<EntityTypeRequest, EntityTypeResponse>
+    public class ChangeEntityHandler : ActionHandlerBase<IFormActionHandler>,
+        IRequestHandler<EntityTypeRequest, EntityTypeResponse>
     {
-
         public ChangeEntityHandler(IEnumerable<IFormActionHandler> handlers, ILoggerFactory loggerFactory)
             : base(handlers, loggerFactory)
         {
@@ -20,7 +20,7 @@ namespace DI.Services.Handlers
         {
             await Task.Delay(0);
             var handler = GetHandler(request.SchemaKey);
-            var result =  handler.GetEntityType(request);
+            var result = handler.GetEntityType(request);
             return result;
         }
     }

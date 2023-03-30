@@ -59,7 +59,6 @@ namespace DI.Domain.Services
 
         protected virtual void ConfigureModels(ModelBuilder builder)
         {
-
         }
 
         public override async Task<int> SaveChangesAsync(CancellationToken cancellationToken = new())
@@ -150,6 +149,7 @@ namespace DI.Domain.Services
                 if (user != null)
                     return user.GetKey();
             }
+
             return "System";
         }
 

@@ -1,16 +1,17 @@
-﻿using Boards.Domain;
+﻿using System.Threading.Tasks;
+using Boards.Domain;
 using DI.Domain.Users;
 using DI.Extensions;
 using DI.Security;
 using DI.Site;
-using System.Threading.Tasks;
 
 namespace Boards.Services.Client
 {
     public class SiteMapProvider : ISiteMapProvider
     {
-        private readonly IIdentity _user;
         private readonly IBoardsContext _boardsContext;
+        private readonly IIdentity _user;
+
         public SiteMapProvider(IIdentityProvider provider, IBoardsContext boardsContext)
         {
             _user = provider.GetIdentity();
@@ -22,16 +23,16 @@ namespace Boards.Services.Client
             var rv = new SiteMap
             {
                 Logo = "Boards",
-                Restricted = true,
+                Restricted = true
             };
-            if(_user== null) return rv;
+            if (_user == null) return rv;
 
             var usrRepo = _boardsContext.Repo<AppUser>();
-            if(!long.TryParse(_user.UserId,out var userId)) return rv;
+            if (!long.TryParse(_user.UserId, out var userId)) return rv;
 
             var user = await usrRepo.FindAsync(userId, false);
             if (user == null) return rv;
-            if(!user.AccessGranted.HasValue) return rv;
+            if (!user.AccessGranted.HasValue) return rv;
             if (!_user.HasRoles()) return rv;
             rv.Restricted = false;
             AddBoards(rv);
@@ -40,6 +41,7 @@ namespace Boards.Services.Client
                 AddReports(rv);
                 AddAdmin(rv);
             }
+
             return rv;
         }
 
@@ -85,6 +87,5 @@ namespace Boards.Services.Client
                 });
             rv.Navigation.Add(link);
         }
-
     }
 }

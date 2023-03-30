@@ -8,32 +8,31 @@ using Microsoft.Extensions.Logging;
 
 namespace DI.Services.Handlers
 {
-    public class FormSchemaHandler : ActionHandlerBase<IFormActionHandler>, IRequestHandler<FormSchemaRequest, FormSchemaResponse>
+    public class FormSchemaHandler : ActionHandlerBase<IFormActionHandler>,
+        IRequestHandler<FormSchemaRequest, FormSchemaResponse>
     {
         private readonly IFormProvider _provider;
 
-        public FormSchemaHandler(IFormProvider provider, IEnumerable<IFormActionHandler> handlers, ILoggerFactory loggerFactory)
+        public FormSchemaHandler(IFormProvider provider, IEnumerable<IFormActionHandler> handlers,
+            ILoggerFactory loggerFactory)
             : base(handlers, loggerFactory)
         {
             _provider = provider;
-
         }
 
         public async Task<FormSchemaResponse> Handle(FormSchemaRequest request, CancellationToken cancellationToken)
         {
             var response = new FormSchemaResponse();
             var handler = GetHandler(request.Name);
-            if (request.Type == ActionType.Create)//create 
+            if (request.Type == ActionType.Create) //create 
             {
-
                 response.Schema = _provider.GetSchema($"create_{request.Name}");
                 await handler.LoadOptions(response.Schema);
                 var rx = await handler.LoadCreateData(response.Schema, request.EntityId.GetValueOrDefault());
                 response.InitialValues = rx.InitialValues;
             }
-            else if (request.Type == ActionType.Manage)//manage 
+            else if (request.Type == ActionType.Manage) //manage 
             {
-
                 response.Schema = _provider.GetSchema($"manage_{request.Name}");
                 await handler.LoadOptions(response.Schema);
                 var rx = await handler.LoadSelectedData(response.Schema, request.EntityId.GetValueOrDefault());
@@ -48,6 +47,7 @@ namespace DI.Services.Handlers
                 response.InitialValues = rx.InitialValues;
                 response.HdrValues = rx.HdrValues;
             }
+
             return response;
         }
     }

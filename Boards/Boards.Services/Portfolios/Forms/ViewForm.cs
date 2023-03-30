@@ -1,5 +1,4 @@
 ﻿using Boards.Services.Core;
-using DI.Forms.Handlers;
 using DI.Forms.Types;
 
 namespace Boards.Services.Portfolios.Forms
@@ -7,17 +6,13 @@ namespace Boards.Services.Portfolios.Forms
     public class ViewForm : BoardForms
     {
         public override string FormName => Constants.Forms.Portfolio.View;
+
         protected override void CreateSchema(FormSchema fs)
         {
             fs.AddTab("Portfolio Details", AddPersonDetails);
-            fs.AddSubGrid("Boards", "PortfolioBoards", x =>
-            {
-               
-            });
-            fs.AddSubGrid("Ministers", "PortfolioMinisters", x =>
-            {
-                x.AddAction("create", Constants.Forms.MinisterTerm.Key, "Add Minister");
-            });
+            fs.AddSubGrid("Boards", "PortfolioBoards", x => { });
+            fs.AddSubGrid("Ministers", "PortfolioMinisters",
+                x => { x.AddAction("create", Constants.Forms.MinisterTerm.Key, "Add Minister"); });
             fs.AddDocGrid(Constants.Entities.Portfolio);
         }
 
@@ -39,9 +34,6 @@ namespace Boards.Services.Portfolios.Forms
 
         private void AddAddressDetails(FormField field)
         {
-
         }
-
-       
     }
 }

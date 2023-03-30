@@ -10,6 +10,7 @@ namespace Boards.Services.Access.Handlers
         public PermissionHandler(ILoggerFactory logFactory, IBoardsContext context) : base(logFactory, context)
         {
         }
+
         public override string SchemaKey => "permission";
     }
 }

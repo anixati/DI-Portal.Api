@@ -16,16 +16,19 @@ namespace DI.Forms.Requests
         public FormActionResult()
         {
             InitialValues = new Dictionary<string, string>();
-            HdrValues= new Dictionary<string, string>();
+            HdrValues = new Dictionary<string, string>();
         }
-        public FormActionResult(IEntity entity,string title=""):this()
+
+        public FormActionResult(IEntity entity, string title = "") : this()
         {
             Entity = new FormEntity(title, entity);
-        } 
+        }
+
         public FormEntity Entity { get; set; }
         public List<ValResult> ValResults { get; set; } = new();
         public IDictionary<string, string> InitialValues { get; set; }
         public IDictionary<string, string> HdrValues { get; set; }
+
         public void SetResult(IEntity entity, string title = "")
         {
             Entity = new FormEntity(title, entity);
@@ -35,8 +38,7 @@ namespace DI.Forms.Requests
         {
             InitialValues[key] = JsonConvert.SerializeObject(new
             {
-                value = value,
-                label = label
+                value, label
             });
         }
     }

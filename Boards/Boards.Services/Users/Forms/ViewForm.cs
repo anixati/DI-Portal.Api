@@ -7,15 +7,12 @@ namespace Boards.Services.Users.Forms
     public class ViewForm : BoardForms
     {
         public override string FormName => Constants.Forms.User.View;
+
         protected override void CreateSchema(FormSchema fs)
         {
             fs.AddTab("Personal Details", AddPersonDetails);
-            fs.AddSubGrid("Approved by Boards", "ApprovedUserBoards", x =>
-            {
-            });
-            fs.AddSubGrid("Resp. Officer Boards", "RespOfficerBoards", x =>
-            {
-            });
+            fs.AddSubGrid("Approved by Boards", "ApprovedUserBoards", x => { });
+            fs.AddSubGrid("Resp. Officer Boards", "RespOfficerBoards", x => { });
         }
 
         private void AddPersonDetails(FormField field)
@@ -33,7 +30,6 @@ namespace Boards.Services.Users.Forms
                 f.AddPhone("Mobile", "Mobile Number", false);
                 f.AddPhone("HomePhone", "Phone Number", false);
                 f.AddEmail("Email1", "Email", false);
-
             });
             field.AddDivider();
         }

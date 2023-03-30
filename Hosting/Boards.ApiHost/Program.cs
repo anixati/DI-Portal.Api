@@ -1,3 +1,8 @@
+using System;
+using System.IO;
+using System.Net;
+using System.Reflection;
+using System.Threading.Tasks;
 using Autofac.Extensions.DependencyInjection;
 using Boards.Services;
 using DI.Jobs;
@@ -6,11 +11,6 @@ using Microsoft.AspNetCore.Server.Kestrel.Core;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Hosting;
 using Serilog;
-using System;
-using System.IO;
-using System.Net;
-using System.Reflection;
-using System.Threading.Tasks;
 
 namespace Boards.ApiHost
 {
@@ -51,9 +51,10 @@ namespace Boards.ApiHost
             return Host.CreateDefaultBuilder(args)
                 .UseSerilog()
                 .UseServiceProviderFactory(new AutofacServiceProviderFactory())
-                .ConfigureServices((hc,services) => {
+                .ConfigureServices((hc, services) =>
+                {
                     var jobAssembly = typeof(BoardsServiceModule).Assembly;
-                    services.SetupJobs(hc.Configuration,jobAssembly.GetJobs);
+                    services.SetupJobs(hc.Configuration, jobAssembly.GetJobs);
                 })
                 .ConfigureAppConfiguration((hc, config) =>
                 {
@@ -61,8 +62,6 @@ namespace Boards.ApiHost
                 })
                 .ConfigureWebHostDefaults(webBuilder =>
                 {
-
-
 #if DEBUG
                     webBuilder.ConfigureKestrel(options =>
                     {
@@ -75,7 +74,6 @@ namespace Boards.ApiHost
 #endif
 
 
-
                     webBuilder.UseStartup<Startup>();
                 });
         }
@@ -86,7 +84,6 @@ namespace Boards.ApiHost
             var _config = new ConfigurationBuilder()
                 .SetBasePath(path)
                 .AddJsonFile("logSettings.json")
-                
                 .Build();
 
             Log.Logger = new LoggerConfiguration()

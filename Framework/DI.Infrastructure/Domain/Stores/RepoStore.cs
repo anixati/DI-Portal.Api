@@ -20,7 +20,7 @@ namespace DI.Domain.Stores
 
         public async Task<T> GetById(long id, bool includeAll = false)
         {
-            if(includeAll)
+            if (includeAll)
                 return await Active().IncludeAll().FirstOrDefaultAsync(x => x.Id == id);
             return await Active().FirstOrDefaultAsync(x => x.Id == id);
         }
@@ -110,7 +110,6 @@ namespace DI.Domain.Stores
 
         public async Task<T> UpdateAsync(T entity)
         {
-            
             var entry = Set.Update(entity);
             await DataStore.SaveAsync();
             return entry.Entity;

@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 
 namespace DI.Site
 {
@@ -13,6 +9,5 @@ namespace DI.Site
         public string Icon { get; set; }
         public List<NavLink> Navigation { get; set; } = new();
         public List<NavLink> Footer { get; set; } = new();
-
     }
 }

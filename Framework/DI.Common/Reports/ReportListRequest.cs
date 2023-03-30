@@ -7,9 +7,9 @@ namespace DI.Reports
     {
         public int? Id { get; set; }
     }
+
     public class ReportListResponse
     {
         public List<Report> Reports { get; set; }
     }
-  
 }

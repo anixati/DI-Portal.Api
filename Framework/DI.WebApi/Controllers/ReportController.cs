@@ -1,6 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.Threading.Tasks;
-using DI.Forms.Requests;
 using DI.Reports;
 using DI.Services.Core;
 using DI.WebApi.Core;
@@ -16,10 +15,11 @@ namespace DI.WebApi.Controllers
     [Authorize]
     public class ReportController : ServiceController
     {
-        public ReportController(ILoggerFactory loggerFactory, IServiceContext serviceContext) : base(loggerFactory, serviceContext)
+        public ReportController(ILoggerFactory loggerFactory, IServiceContext serviceContext) : base(loggerFactory,
+            serviceContext)
         {
         }
-        
+
         [HttpGet]
         public async Task<IActionResult> GetReports()
         {
@@ -28,11 +28,10 @@ namespace DI.WebApi.Controllers
         }
 
         [HttpGet("{id:int}")]
-        public async Task<IActionResult> GetCreateSchema([Required]int id)
+        public async Task<IActionResult> GetCreateSchema([Required] int id)
         {
-            var result = await ExecuteTask(async x => await x.Send(new ReportListRequest{Id=id}));
+            var result = await ExecuteTask(async x => await x.Send(new ReportListRequest {Id = id}));
             return result.ToResponse();
         }
     }
-
 }

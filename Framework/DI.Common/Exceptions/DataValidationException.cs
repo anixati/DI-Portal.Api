@@ -22,7 +22,6 @@ namespace DI.Exceptions
     {
         public AccessDeniedException(string msg) : base(msg)
         {
-            
         }
     }
 }

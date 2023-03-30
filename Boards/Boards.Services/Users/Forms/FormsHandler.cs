@@ -1,5 +1,4 @@
 ﻿using Boards.Domain;
-using Boards.Domain.Boards;
 using Boards.Services.Core;
 using DI.Domain.Users;
 using Microsoft.Extensions.Logging;
