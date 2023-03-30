@@ -49,4 +49,18 @@ namespace Boards.Services.BoardRoles.Lists
             return ("Name", false);
         }
     }
+
+    public class InActiveList : ActiveList
+    {
+        public override string SchemaName => "BoardInactiveRolesView";
+        public override string Title => "Inactive Roles";
+
+  
+        protected override void ConfigureQry(QryState qs)
+        {
+            qs.Where("Disabled", "=", "1");
+            qs.ParentId = "BoardId";
+        }
+
+    }
 }

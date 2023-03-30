@@ -70,4 +70,19 @@ namespace Boards.Services.Appointments.Lists
             return ("Name", false);
         }
     }
+
+
+    public class BoardInactiveAppointmentsList : BoardAppointmentsList
+    {
+        public override string SchemaName => "BoardInactiveAppointmentsView";
+        public override string Title => "Inactive Board Appointments";
+
+    
+        protected override void ConfigureQry(QryState qs)
+        {
+            qs.Where("Disabled", "=", "1");
+            qs.ParentId = "BoardId";
+        }
+        
+    }
 }

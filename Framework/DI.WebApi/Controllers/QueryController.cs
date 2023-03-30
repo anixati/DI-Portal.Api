@@ -14,7 +14,7 @@ using Microsoft.Extensions.Logging;
 namespace DI.WebApi.Controllers
 {
     [ApiVersionNeutral]
-    [Microsoft.AspNetCore.Components.Route("qry")]
+    [Route("qry")]
     [Authorize]
     public class QueryController : ServiceController
     {

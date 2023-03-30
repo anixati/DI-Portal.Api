@@ -2,6 +2,7 @@
 using Boards.Services.Core;
 using DI.Domain.Enums;
 using DI.Forms.Types;
+using System.Collections.Generic;
 
 namespace Boards.Services.Appointees.Forms
 {
@@ -13,7 +14,14 @@ namespace Boards.Services.Appointees.Forms
         {
             fs.AddTab("Personal Details", AddPersonDetails);
             fs.AddTab("Addresses", AddAddressDetails);
-            fs.AddSubGrid("Appointments", "AppointeeAppointments", x => { });
+            fs.AddSubGrid("Appointments",
+                new List<SelectItem>()
+                {
+                    new("AppointeeAppointments", "Active Appointments"),
+                    new("AppointeeInactiveAppointments", "Inactive Appointments"),
+                },
+
+                 x => { });
             fs.AddSubGrid("Skills", "AppointeeSkills",
                 x => { x.AddAction("manage", "appointeeskill", "Manage Skills"); });
             fs.AddDocGrid(Constants.Entities.Appointee);

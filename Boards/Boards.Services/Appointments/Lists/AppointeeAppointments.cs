@@ -8,7 +8,7 @@ namespace Boards.Services.Appointments.Lists
     public class AppointeeAppointments : QrySchema
     {
         public override string SchemaName => "AppointeeAppointments";
-        public override string Title => "Appointments";
+        public override string Title => "Active Appointments";
 
         protected override Table CreateEntity()
         {
@@ -69,5 +69,22 @@ namespace Boards.Services.Appointments.Lists
         {
             return ("Name", false);
         }
+    }
+
+
+
+    public class AppointeeInactiveAppointments : AppointeeAppointments
+    {
+        public override string SchemaName => "AppointeeInactiveAppointments";
+        public override string Title => "Inactive Appointments";
+
+     
+        protected override void ConfigureQry(QryState qs)
+        {
+            qs.Where("Disabled", "=", "1");
+            qs.ParentId = "AppointeeId";
+        }
+
+      
     }
 }

@@ -1,4 +1,5 @@
-﻿using Boards.Services.Client;
+﻿using System.Collections.Generic;
+using Boards.Services.Client;
 using Boards.Services.Core;
 using DI.Forms.Types;
 
@@ -11,9 +12,22 @@ namespace Boards.Services.Boards.Forms
         protected override void CreateSchema(FormSchema fs)
         {
             fs.AddTab("Board Details", BoardDetails);
-            fs.AddSubGrid("Roles", "BoardRolesView",
+
+            
+
+            fs.AddSubGrid("Roles", new List<SelectItem>()
+                {
+                    new("BoardRolesView", "Active Roles"),
+                    new("BoardInactiveRolesView", "Inactive Roles"),
+                },
                 x => { x.AddAction("create", Constants.Forms.BoardRole.Key, "New Role"); });
-            fs.AddSubGrid("Appointments", "BoardAppointmentsView", x => { });
+
+            fs.AddSubGrid("Appointments", new List<SelectItem>()
+            {
+                new("BoardAppointmentsView", "Active Appointments"),
+                new("BoardInactiveAppointmentsView", "Inactive Appointments"),
+            },
+               x => { });
             fs.AddDocGrid(Constants.Entities.Board);
         }
 

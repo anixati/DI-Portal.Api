@@ -1,4 +1,6 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
+using System.Collections.Generic;
 using System.Linq;
 
 namespace DI.Forms.Types
@@ -64,6 +66,26 @@ namespace DI.Forms.Types
                     FieldType = FormFieldType.SubGrid,
                     ViewId = viewId
                 };
+                var lst = new List<SelectItem>(){new SelectItem(viewId,"Active Items")};
+                field.Options = JsonConvert.SerializeObject(lst);
+                Configure(field);
+                if (f.Fields.All(x => x.Key != field.Key)) f.Fields.Add(field);
+            });
+            return fs;
+        }
+
+
+        public static FormSchema AddSubGrid(this FormSchema fs, string title, List<SelectItem> views,
+            Action<FormField> Configure)
+        {
+            fs.AddTab(title, f =>
+            {
+                var field = new FormField
+                {
+                    Layout = LayoutType.SubGrid,
+                    FieldType = FormFieldType.SubGrid,
+                };
+                field.Options = JsonConvert.SerializeObject(views);
                 Configure(field);
                 if (f.Fields.All(x => x.Key != field.Key)) f.Fields.Add(field);
             });
