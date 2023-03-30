@@ -12,15 +12,15 @@ namespace Boards.Services._Shared
 
             field.AddFieldGroup(f =>
             {
-                f.AddInput($"{prefix}.Unit", "Unit/No.", required);
-                f.AddInput($"{prefix}.Street", "Street Name", required);
-                f.AddInput($"{prefix}.City", "Suburb/City", required);
+                f.AddInput($"{prefix}.Unit", "Unit/No.", false);
+                f.AddInput($"{prefix}.Street", "Street Name", false);
+                f.AddInput($"{prefix}.City", "Suburb/City", false);
             });
             field.AddFieldGroup(f =>
             {
-                f.AddNumeric($"{prefix}.Postcode", "Postcode", required);
+                f.AddNumeric($"{prefix}.Postcode", "Postcode", false);
                 f.AddTextList($"{prefix}.State", "States", "State", required);
-                f.AddTextList($"{prefix}.Country", "Countries", "Country", required, "Australia");
+                f.AddTextList($"{prefix}.Country", "Countries", "Country", false, "Australia");
             });
         }
     }

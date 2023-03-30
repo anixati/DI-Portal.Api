@@ -24,7 +24,7 @@ namespace Boards.Services.Appointees.Forms
                  x => { });
             fs.AddSubGrid("Skills", "AppointeeSkills",
                 x => { x.AddAction("manage", "appointeeskill", "Manage Skills"); });
-            fs.AddDocGrid(Constants.Entities.Appointee);
+            //fs.AddDocGrid(Constants.Entities.Appointee);
         }
 
         private void AddAddressDetails(FormField field)

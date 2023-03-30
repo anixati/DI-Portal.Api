@@ -15,6 +15,7 @@ using FastMember;
 using MediatR;
 using Microsoft.AspNetCore.JsonPatch;
 using Microsoft.AspNetCore.JsonPatch.Operations;
+using static DI.Forms.Types.ValRule;
 
 namespace DI.Domain.Handlers.Generic
 {
@@ -53,7 +54,9 @@ namespace DI.Domain.Handlers.Generic
 
                 var mi = members.FirstOrDefault(x =>
                     string.Compare($"/{x.Name}", entKey, StringComparison.OrdinalIgnoreCase) == 0);
-                if (mi == null || op.value == null) continue;
+                if (mi == null) continue;
+                var nulType = Nullable.GetUnderlyingType(mi.Type);
+                if (op.value == null && nulType == null) continue;
 
                 if (mi.Type.IsClass && typeof(IEntity).IsAssignableFrom(mi.Type))
                 {
@@ -70,9 +73,21 @@ namespace DI.Domain.Handlers.Generic
                     else
                     {
                         var ov = op.value.ConvertToOption();
-                        if (ov == null) continue;
-                        if (!long.TryParse($"{ov.Value}", out var rs)) continue;
-                        patch.Operations.Add(new Operation("replace", $"/{idKey}", "", rs));
+
+                        if (ov == null)
+                        {
+                            var nulIdType = Nullable.GetUnderlyingType(idMemType.Type);
+                            if (nulIdType != null)
+                            {
+                                patch.Operations.Add(new Operation("replace", $"/{idKey}", "", null));
+                            }
+                        }
+                        else
+                        {
+                            if (!long.TryParse($"{ov.Value}", out var rs)) continue;
+                            patch.Operations.Add(new Operation("replace", $"/{idKey}", "", rs));
+                        }
+                        
                     }
                 }
                 else
@@ -90,7 +105,10 @@ namespace DI.Domain.Handlers.Generic
                     }
                     else
                     {
-                        op.value = MapValues(mi.Type, op.value);
+                        if (op.value == null && nulType != null)
+                            op.value = null;
+                        else
+                            op.value = MapValues(mi.Type, op.value);
                     }
 
                     patch.Operations.Add(op);
